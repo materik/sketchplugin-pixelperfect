@@ -1,0 +1,25 @@
+{
+  "author" : "Mattias Eriksson",
+  "commands" : [
+    {
+      "script" : "pixelperfect.js",
+      "name" : "Pixel Perfect",
+      "shortcut": "cmd l",
+      "handlers" : {
+        "run" : "onRun"
+      },
+      "identifier" : "pixelperfect"
+    }
+  ],
+  "menu" : {
+    "title" : "👾 Pixel Perfect",
+    "items" : [
+      "pixelperfect"
+    ]
+  },
+  "identifier" : "com.materikab.pixelperfect",
+  "version" : "1.0.0",
+  "description" : "",
+  "authorEmail" : "mattias@materikab.com",
+  "name" : "👾 Pixel Perfect"
+}
