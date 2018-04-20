@@ -1,11 +1,14 @@
 {
     "devDependencies": {
-        "mocha": "2.2.x"
+        "mocha": "3.x"
     },
     "engines": {
-        "node": "8.4.x"
+        "node": "9.11.x"
     },
     "scripts": {
         "test": "mocha test"
+    },
+    "dependencies": {
+        "rewire": "^4.0.0"
     }
 }

@@ -98,7 +98,7 @@ var heightOfParentGroup = function(layer) {
 }
 
 var resizeLayer = function(layer, doc) {
-    switch (layer.class().toString() + "") {
+    switch (String(layer.class().toString())) {
         case "MSSymbolMaster":
             if (doc) {
                 doc.actionsController().actionForID("MSResizeArtboardToFitAction").doPerformAction(nil);
@@ -115,6 +115,41 @@ var resizeLayer = function(layer, doc) {
     }
 }
 
+var selectLayers = function(layers) {
+    for (var i = 0; i < layers.length; i++) {
+        var layer = layers[i]
+        layer.select_byExpandingSelection(true, true)   
+    }
+}
+
+var deselectEverything = function(doc) {
+    doc.currentPage().select_byExpandingSelection(true, false)
+}
+
 Array.prototype.last = function() {
     return this[this.length - 1];
 };
+
+Array.prototype.include = function(callback) {
+    var filteredArray = []
+    for (var i = 0; i < this.length; i++) {
+      var value = this[i]
+      if (callback(value)) {
+        filteredArray.push(value)
+      }
+    }
+    return filteredArray
+}
+
+// -----------------------------------------------------------
+
+global.findLayerInGroup = findLayerInGroup
+global.setX = setX
+global.setY = setY
+global.setWidth = setWidth
+global.setHeight = setHeight
+global.maxWidth = maxWidth
+global.widthOfParentGroup = widthOfParentGroup
+global.maxHeight = maxHeight
+global.heightOfParentGroup = heightOfParentGroup
+global.resizeLayer = resizeLayer

@@ -1,6 +1,4 @@
 
-@import "./utils.js";
-
 function Properties(layer) {
     this.layer = layer
     this.properties = []
@@ -318,3 +316,9 @@ Padding.prototype.apply = function(layer) {
         setHeight(backgroundLayer, this.height(layer))   
     }
 }
+
+// -----------------------------------------------------------
+
+global.Properties = Properties
+global.Property = Property
+global.Padding = Padding

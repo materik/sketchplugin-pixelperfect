@@ -2,19 +2,29 @@
   "author" : "Mattias Eriksson",
   "commands" : [
     {
-      "script" : "pixelperfect.js",
-      "name" : "Pixel Perfect",
+      "script" : "index.js",
+      "name" : "Make selection pixel perfect",
       "shortcut": "cmd l",
       "handlers" : {
-        "run" : "onRun"
+        "run" : "makePixelPerfect"
       },
-      "identifier" : "pixelperfect"
-    }
+      "identifier" : "makePixelPerfect"
+    },
+    {
+      "script" : "index.js",
+      "name" : "Make everything pixel perfect",
+      "shortcut": "cmd alt shift l",
+      "handlers" : {
+        "run" : "makeEverythingPixelPerfect"
+      },
+      "identifier" : "makeEverythingPixelPerfect"
+    },
   ],
   "menu" : {
     "title" : "👾 Pixel Perfect",
     "items" : [
-      "pixelperfect"
+      "makePixelPerfect",
+      "makeEverythingPixelPerfect"
     ]
   },
   "identifier" : "com.materikab.pixelperfect",

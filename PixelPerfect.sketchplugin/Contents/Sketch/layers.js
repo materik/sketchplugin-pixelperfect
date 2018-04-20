@@ -1,7 +1,4 @@
 
-@import "./properties.js";
-@import "./utils.js";
-
 function Layers(layers) {
     this.layers = layers
 }
@@ -43,12 +40,12 @@ Layer.prototype.apply = function(doc) {
 
     this.roundToPixel()
 
-    switch (this.layer.class().toString() + "") {
+    switch (String(this.layer.class().toString())) {
         case "MSSymbolInstance":
             this.layer.resetSizeToMaster()
             break;
-        case "MSLayerGroup":
         case "MSArtboardGroup":
+        case "MSLayerGroup":
         case "MSSymbolMaster":
             this.sublayers.apply(doc)
             this.resize(doc)
@@ -102,3 +99,8 @@ Layer.prototype.roundToPixel = function() {
 Layer.prototype.frame = function() {
     return this.layer.frame()
 }
+
+// -----------------------------------------------------------
+
+global.Layers = Layers
+global.Layer = Layer
