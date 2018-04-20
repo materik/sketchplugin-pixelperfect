@@ -1,0 +1,11 @@
+{
+    "devDependencies": {
+        "mocha": "2.2.x"
+    },
+    "engines": {
+        "node": "8.4.x"
+    },
+    "scripts": {
+        "test": "mocha test"
+    }
+}
