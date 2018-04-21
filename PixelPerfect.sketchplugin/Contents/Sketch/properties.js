@@ -10,6 +10,10 @@ Properties.new = function(layer) {
     return new Properties(layer)
 }
 
+Properties.apply = function(layer) {
+    return Properties.new(layer).apply()
+}
+
 Properties.prototype._setup = function() {
     var padding = Padding.new()
     var name = this.layer.name().split("[").last().replace("]", "")
@@ -44,6 +48,7 @@ Properties.prototype.apply = function() {
     for (var i = 0; i < this.properties.length; i++) {
         var property = this.properties[i]
         property.apply()
+        resizeLayer(this.layer)
     }
 }
 
@@ -78,7 +83,7 @@ Property.prototype.isValid = function() {
 }
 
 Property.prototype.apply = function() {
-    print("Property: apply: " + this.toString())
+    logWithLayerLevel(this.layer, "~ Property: apply: " + this.toString(), 1)
 
     var frame = this.layer.frame()
     switch (this.property) {
@@ -313,7 +318,7 @@ Padding.prototype.apply = function(layer) {
         setX(backgroundLayer, this.x(layer))
         setY(backgroundLayer, this.y(layer))
         setWidth(backgroundLayer, this.width(layer))
-        setHeight(backgroundLayer, this.height(layer))   
+        setHeight(backgroundLayer, this.height(layer))
     }
 }
 

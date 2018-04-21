@@ -7,6 +7,10 @@ Layers.new = function(layers) {
     return new Layers(layers)
 }
 
+Layers.apply = function(layers) {
+    return Layers.new(layers).apply()
+}
+
 Layers.sub = function(layer) {
     if (layer.layers) {
         return Layers.new(layer.layers())
@@ -15,10 +19,13 @@ Layers.sub = function(layer) {
     }
 }
 
-Layers.prototype.apply = function(doc) {
+Layers.prototype.apply = function() {
     for (var i = 0; i < this.layers.count(); i++) {
-        Layer.new(this.layers.objectAtIndex(i)).apply(doc)
+        Layer.apply(this.layers.objectAtIndex(i))
     }
+    // for (var i = this.layers.count() - 1; i >= 0; i--) {
+    //     Layer.apply(this.layers.objectAtIndex(i))
+    // }
 }
 
 // -----------------------------------------------------------
@@ -33,22 +40,34 @@ Layer.new = function(layer) {
     return new Layer(layer)
 }
 
-Layer.prototype.apply = function(doc) {
+Layer.apply = function(layer) {
+    return Layer.new(layer).apply()
+}
+
+Layer.prototype.apply = function() {
     if (this.shouldIgnore()) {
         return
     }
+
+    logWithLayerLevel(this.layer, "Layer: apply: " + this.name())
 
     this.roundToPixel()
 
     switch (String(this.layer.class().toString())) {
         case "MSSymbolInstance":
+            var master = this.layer.symbolMaster()
+            if (master.parentPage() != null) {
+                print("\nSYMBOL\n{")
+                Layer.apply(master)
+                print("}\n")
+            }
             this.layer.resetSizeToMaster()
             break;
         case "MSArtboardGroup":
         case "MSLayerGroup":
         case "MSSymbolMaster":
-            this.sublayers.apply(doc)
-            this.resize(doc)
+            this.sublayers.apply()
+            this.resize()
             break;
         case "MSTextLayer":
             this.layer.setTextBehaviourSegmentIndex(0)
@@ -59,13 +78,10 @@ Layer.prototype.apply = function(doc) {
     }
 
     this.properties.apply()
-
-    this.resize(doc)
-    this.parent().resize(doc)
 }
 
-Layer.prototype.resize = function(doc) {
-    resizeLayer(this.layer, doc)
+Layer.prototype.resize = function() {
+    resizeLayer(this.layer)
 }
 
 Layer.prototype.parent = function() {
@@ -94,6 +110,10 @@ Layer.prototype.roundToPixel = function() {
     setY(this.layer, frame.y())
     setWidth(this.layer, frame.width())
     setHeight(this.layer, frame.height())
+}
+
+Layer.prototype.name = function() {
+    return this.layer.name()
 }
 
 Layer.prototype.frame = function() {

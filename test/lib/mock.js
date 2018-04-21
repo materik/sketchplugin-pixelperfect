@@ -49,6 +49,38 @@ MSLayer.prototype.select_byExpandingSelection = function(select, expand, _layer)
 
 // -----------------------------------------------------------
 
+function MSTextLayer() {
+    MSLayer.call(this)
+
+    this._autoFrame = CGRect.new()
+}
+
+MSTextLayer.new = function() {
+    return new MSTextLayer()
+}
+
+MSTextLayer.prototype = Object.create(MSLayer.prototype)
+
+MSTextLayer.prototype.class = function() {
+    return NSClass.new("MSTextLayer")
+}
+
+MSTextLayer.prototype.adjustFrameToFit = function() {
+    // Do nothing...
+}
+
+MSTextLayer.prototype.setTextBehaviourSegmentIndex = function() {
+    this.frame().setWidth(this._autoFrame.width())
+    this.frame().setHeight(this._autoFrame.height())
+}
+
+MSTextLayer.prototype._setAutoSize = function(width, height) {
+    this._autoFrame.setWidth(width)
+    this._autoFrame.setHeight(height)
+}
+
+// -----------------------------------------------------------
+
 function NSArray(objects) {
     this._objects = objects || []
 }
@@ -285,8 +317,75 @@ MSPage.prototype.class = function() {
 
 // -----------------------------------------------------------
 
+function MSArtboardGroup() {
+    MSLayerGroup.call(this)
+}
+
+MSArtboardGroup.new = function() {
+    return new MSArtboardGroup()
+}
+
+MSArtboardGroup.prototype = Object.create(MSLayerGroup.prototype)
+
+MSArtboardGroup.prototype.class = function() {
+    return NSClass.new("MSArtboardGroup")
+}
+
+// -----------------------------------------------------------
+
+function MSSymbolMaster() {
+    MSLayerGroup.call(this)
+}
+
+MSSymbolMaster.new = function() {
+    return new MSSymbolMaster()
+}
+
+MSSymbolMaster.prototype = Object.create(MSArtboardGroup.prototype)
+
+MSSymbolMaster.prototype.class = function() {
+    return NSClass.new("MSSymbolMaster")
+}
+
+MSSymbolMaster.prototype.parentPage = function() {
+    return "LocalSymbol"
+}
+
+// -----------------------------------------------------------
+
+function MSSymbolInstance(master) {
+    MSLayerGroup.call(this)
+
+    this._master = master
+}
+
+MSSymbolInstance.new = function(master) {
+    return new MSSymbolInstance(master)
+}
+
+MSSymbolInstance.prototype = Object.create(MSArtboardGroup.prototype)
+
+MSSymbolInstance.prototype.class = function() {
+    return NSClass.new("MSSymbolInstance")
+}
+
+MSSymbolInstance.prototype.symbolMaster = function() {
+    return this._master
+}
+
+MSSymbolInstance.prototype.resetSizeToMaster = function() {
+    this.frame().setWidth(this.symbolMaster().frame().width())
+    this.frame().setHeight(this.symbolMaster().frame().height())
+}
+
+// -----------------------------------------------------------
+
 global.print = function(msg) {
-    // console.log("print:", msg)
+    console.log("> PRINT:", msg)
+}
+
+global.log = function(msg) {
+    console.log("> LOG:", msg)
 }
 
 // -----------------------------------------------------------
@@ -301,6 +400,13 @@ global.createLayer = function(name, x, y, w, h) {
     return layer
 }
 
+global.createTextLayer = function(name, w, h) {
+    var layer = MSTextLayer.new()
+    layer.setName(name || "textLayer")
+    layer._setAutoSize(w || 0, h || 0)
+    return layer
+}
+
 global.createLayerGroup = function(name, x, y, w, h) {
     var group = MSLayerGroup.new()
     group.setName(name || "layerGroup")
@@ -309,6 +415,18 @@ global.createLayerGroup = function(name, x, y, w, h) {
     group.frame().setWidth(w || 1)
     group.frame().setHeight(h || 1)
     return group
+}
+
+global.createSymbolMaster = function(name) {
+    var master = MSSymbolMaster.new()
+    master.setName(name || "symbolMaster")
+    return master
+}
+
+global.createSymbolInstance = function(master, name) {
+    var instance = MSSymbolInstance.new(master)
+    instance.setName(name || master.name())
+    return instance
 }
 
 // -----------------------------------------------------------

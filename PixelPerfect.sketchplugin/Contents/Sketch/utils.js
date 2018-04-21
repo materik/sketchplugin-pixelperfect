@@ -14,7 +14,6 @@ var setX = function(layer, x) {
   var frame = layer.frame()
   if (frame.x() != x) {
     frame.setX(x)
-    resizeLayer(layer)
     return 1
   }
   return 0
@@ -25,7 +24,6 @@ var setY = function(layer, y) {
   var frame = layer.frame()
   if (frame.y() != y) {
     frame.setY(y)
-    resizeLayer(layer)
     return 1
   }
   return 0
@@ -36,7 +34,6 @@ var setWidth = function(layer, w) {
   var frame = layer.frame()
   if (frame.width() != w) {
     frame.setWidth(w)
-    resizeLayer(layer)
     return 1
   }
   return 0
@@ -47,7 +44,6 @@ var setHeight = function(layer, h) {
   var frame = layer.frame()
   if (frame.height() != h) {
     frame.setHeight(h)
-    resizeLayer(layer)
     return 1
   }
   return 0
@@ -97,12 +93,12 @@ var heightOfParentGroup = function(layer) {
     }
 }
 
-var resizeLayer = function(layer, doc) {
+var resizeLayer = function(layer) {
+    var frameBefore = frameToStringForLayer(layer)
+
     switch (String(layer.class().toString())) {
         case "MSSymbolMaster":
-            if (doc) {
-                doc.actionsController().actionForID("MSResizeArtboardToFitAction").doPerformAction(nil);
-            }
+            resizeMaster(layer)
             break;
         case "MSTextLayer":
             layer.adjustFrameToFit()
@@ -113,6 +109,37 @@ var resizeLayer = function(layer, doc) {
             }
             break;
     }
+
+    var frameAfter = frameToStringForLayer(layer)
+
+    logWithLayerLevel(layer, "+ resizeLayer: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
+}
+
+var resizeMaster = function(layer) {
+    var sublayers = layer.layers()
+    if (sublayers.count() == 0) {
+      return
+    }
+
+    var minX = 999999, minY = 999999
+    var maxWidth = 0, maxHeight = 0
+
+    for (var i = 0; i < sublayers.count(); i++) {
+        var sublayer = sublayers.objectAtIndex(i)
+        minX = Math.min(minX, sublayer.frame().x())
+        minY = Math.min(minY, sublayer.frame().y())
+        maxWidth = Math.max(maxWidth, sublayer.frame().x() + sublayer.frame().width())
+        maxHeight = Math.max(maxHeight, sublayer.frame().y() + sublayer.frame().height())
+    }
+
+    for (var i = 0; i < sublayers.count(); i++) {
+        var sublayer = sublayers.objectAtIndex(i)
+        sublayer.frame().setX(sublayer.frame().x() - minX)
+        sublayer.frame().setY(sublayer.frame().y() - minY)
+    }
+
+    layer.frame().setWidth(maxWidth - minX)
+    layer.frame().setHeight(maxHeight - minY)
 }
 
 var selectLayers = function(layers) {
@@ -125,6 +152,40 @@ var selectLayers = function(layers) {
 var deselectEverything = function(doc) {
     doc.currentPage().select_byExpandingSelection(true, false)
 }
+
+var repeatString = function(str, repeat) {
+    var repeatedString = ""
+    for (var i = 0; i < repeat; i++) {
+        repeatedString += str
+    }
+    return repeatedString
+}
+
+var layerLevel = function(layer) {
+    if (!layer.parentGroup) {
+        return 0
+    }
+
+    var level = 0
+    var parentGroup = layer.parentGroup()
+    while (parentGroup != null) {
+        parentGroup = parentGroup.parentGroup()
+        level += 1
+    }
+
+    return level
+}
+
+var logWithLayerLevel = function(layer, msg, addLevel) {
+    print(repeatString("  ", layerLevel(layer) - 1 + (addLevel || 0)) + msg)
+}
+
+var frameToStringForLayer = function(layer) {
+    var f = layer.frame()
+    return "{" + f.x() + "," + f.y() + "," + f.width() + "," + f.height() + "}"
+}
+
+// -----------------------------------------------------------
 
 Array.prototype.last = function() {
     return this[this.length - 1];
@@ -155,3 +216,4 @@ global.heightOfParentGroup = heightOfParentGroup
 global.resizeLayer = resizeLayer
 global.selectLayers = selectLayers
 global.deselectEverything = deselectEverything
+global.logWithLayerLevel = logWithLayerLevel
