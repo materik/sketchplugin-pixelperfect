@@ -153,3 +153,5 @@ global.widthOfParentGroup = widthOfParentGroup
 global.maxHeight = maxHeight
 global.heightOfParentGroup = heightOfParentGroup
 global.resizeLayer = resizeLayer
+global.selectLayers = selectLayers
+global.deselectEverything = deselectEverything

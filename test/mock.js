@@ -34,6 +34,63 @@ MSLayer.prototype.parentGroup = function() {
     return this._parentGroup
 }
 
+MSLayer.prototype.select_byExpandingSelection = function(select, expand, _layer) {
+    var layer = _layer || this
+    if (this.parentGroup()) {
+        this.parentGroup().select_byExpandingSelection(select, expand, layer)
+    } else if (this._selection && layer != this) {
+        if (expand) {
+            this._selection.push(layer)
+        } else {
+            this._selection = [layer]
+        }
+    }
+}
+
+// -----------------------------------------------------------
+
+function NSArray(objects) {
+    this._objects = objects || []
+}
+
+NSArray.new = function() {
+    return new NSArray()
+}
+
+NSArray.prototype.count = function() {
+    return this._objects.length
+}
+
+NSArray.prototype.objectAtIndex = function(index) {
+    return this._objects[index]
+}
+
+NSArray.prototype.sort = function(callback) {
+    return new NSArray(this._objects.sort(callback))
+}
+
+NSArray.prototype.include = function(callback) {
+    return new NSArray(this._objects.include(callback))
+}
+
+// -----------------------------------------------------------
+
+function NSMutableArray() {
+    NSArray.call(this)
+}
+
+NSMutableArray.prototype = Object.create(NSArray.prototype)
+
+NSMutableArray.new = function() {
+    return new NSMutableArray()
+}
+
+NSMutableArray.prototype.addObject = function(object) {
+    var objects = this._objects.reverse()
+    objects.push(object)
+    this._objects = objects.reverse()
+}
+
 // -----------------------------------------------------------
 
 function NSClass(string) {
@@ -125,15 +182,16 @@ CGRect.prototype.setHeight = function(height) {
 // -----------------------------------------------------------
 
 function MSLayerGroup() {
-    this._name = ""
-    this._frame = CGRect.new()
-    this._isVisible = true
+    MSLayer.call(this)
+
     this._layers = NSMutableArray.new()
 }
 
 MSLayerGroup.new = function() {
     return new MSLayerGroup()
 }
+
+MSLayerGroup.prototype = Object.create(MSLayer.prototype)
 
 MSLayerGroup.prototype.class = function() {
     return NSClass.new("MSLayerGroup")
@@ -168,8 +226,8 @@ MSLayerGroup.prototype.resizeToFitChildrenWithOption = function() {
     var minX = 999999, minY = 999999
     var maxWidth = 0, maxHeight = 0
 
-    for (var i = 0; i < this._layers.count(); i++) {
-        var layer = this._layers.objectAtIndex(i)
+    for (var i = 0; i < this.layers().count(); i++) {
+        var layer = this.layers().objectAtIndex(i)
         minX = Math.min(minX, layer.frame().x())
         minY = Math.min(minY, layer.frame().y())
         maxWidth = Math.max(maxWidth, layer.frame().x() + layer.frame().width())
@@ -178,8 +236,8 @@ MSLayerGroup.prototype.resizeToFitChildrenWithOption = function() {
 
     this.frame().set(0, 0, maxWidth - minX, maxHeight - minY)
 
-    for (var i = 0; i < this._layers.count(); i++) {
-        var layer = this._layers.objectAtIndex(i)
+    for (var i = 0; i < this.layers().count(); i++) {
+        var layer = this.layers().objectAtIndex(i)
         layer.frame().setX(layer.frame().x() - minX)
         layer.frame().setY(layer.frame().y() - minY)
     }
@@ -188,7 +246,7 @@ MSLayerGroup.prototype.resizeToFitChildrenWithOption = function() {
 // -----------------------------------------------------------
 
 function MSDocument() {
-
+    this._page = MSPage.new()
 }
 
 MSDocument.new = function() {
@@ -203,40 +261,26 @@ MSDocument.prototype.showMessage = function(msg) {
     // console.log("showMessage:", msg)
 }
 
-// -----------------------------------------------------------
-
-function NSArray() {
-    this._objects = []
-}
-
-NSArray.new = function() {
-    return new NSArray()
-}
-
-NSArray.prototype.count = function() {
-    return this._objects.length
-}
-
-NSArray.prototype.objectAtIndex = function(index) {
-    return this._objects[index]
+MSDocument.prototype.currentPage = function() {
+    return this._page
 }
 
 // -----------------------------------------------------------
 
-function NSMutableArray() {
-    this._objects = []
+function MSPage() {
+    MSLayerGroup.call(this)
+
+    this._selection = []
 }
 
-NSMutableArray.prototype = NSArray.prototype
-
-NSMutableArray.new = function() {
-    return new NSMutableArray()
+MSPage.new = function() {
+    return new MSPage()
 }
 
-NSMutableArray.prototype.addObject = function(object) {
-    var objects = this._objects.reverse()
-    objects.push(object)
-    this._objects = objects.reverse()
+MSPage.prototype = Object.create(MSLayerGroup.prototype)
+
+MSPage.prototype.class = function() {
+    return NSClass.new("MSPage")
 }
 
 // -----------------------------------------------------------
@@ -247,7 +291,30 @@ global.print = function(msg) {
 
 // -----------------------------------------------------------
 
+global.createLayer = function(name, x, y, w, h) {
+    var layer = MSLayer.new()
+    layer.setName(name || "layer")
+    layer.frame().setX(x || 0)
+    layer.frame().setY(y || 0)
+    layer.frame().setWidth(w || 1)
+    layer.frame().setHeight(h || 1)
+    return layer
+}
+
+global.createLayerGroup = function(name, x, y, w, h) {
+    var group = MSLayerGroup.new()
+    group.setName(name || "layerGroup")
+    group.frame().setX(x || 0)
+    group.frame().setY(y || 0)
+    group.frame().setWidth(w || 1)
+    group.frame().setHeight(h || 1)
+    return group
+}
+
+// -----------------------------------------------------------
+
 global.MSDocument = MSDocument
+global.MSPage = MSPage
 global.CGRect = CGRect
 global.MSLayer = MSLayer
 global.MSLayerGroup = MSLayerGroup

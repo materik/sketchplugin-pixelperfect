@@ -70,9 +70,9 @@ describe('properties', function() {
         assert.equal(properties.objectAtIndex(0).isValid(), true)
         assert.equal(properties.objectAtIndex(0).property, "padding")
         assert.equal(properties.objectAtIndex(0).value._top, 1)
-        assert.equal(properties.objectAtIndex(0).value._right, undefined)
-        assert.equal(properties.objectAtIndex(0).value._bottom, undefined)
-        assert.equal(properties.objectAtIndex(0).value._left, undefined)
+        assert.equal(properties.objectAtIndex(0).value._right)
+        assert.equal(properties.objectAtIndex(0).value._bottom)
+        assert.equal(properties.objectAtIndex(0).value._left)
         var layer = createLayer("Layer [1:2]")
         var properties = Properties.new(layer)
         assert.equal(properties.count(), 1)
@@ -80,8 +80,8 @@ describe('properties', function() {
         assert.equal(properties.objectAtIndex(0).property, "padding")
         assert.equal(properties.objectAtIndex(0).value._top, 1)
         assert.equal(properties.objectAtIndex(0).value._right, 2)
-        assert.equal(properties.objectAtIndex(0).value._bottom, undefined)
-        assert.equal(properties.objectAtIndex(0).value._left, undefined)
+        assert.equal(properties.objectAtIndex(0).value._bottom)
+        assert.equal(properties.objectAtIndex(0).value._left)
         var layer = createLayer("Layer [1:2:3]")
         var properties = Properties.new(layer)
         assert.equal(properties.count(), 1)
@@ -90,7 +90,7 @@ describe('properties', function() {
         assert.equal(properties.objectAtIndex(0).value._top, 1)
         assert.equal(properties.objectAtIndex(0).value._right, 2)
         assert.equal(properties.objectAtIndex(0).value._bottom, 3)
-        assert.equal(properties.objectAtIndex(0).value._left, undefined)
+        assert.equal(properties.objectAtIndex(0).value._left)
         var layer = createLayer("Layer [1:2:3:4]")
         var properties = Properties.new(layer)
         assert.equal(properties.count(), 1)
@@ -110,7 +110,7 @@ describe('property', function() {
         var property = new Property(createLayer("Hej"))
         assert.equal(property.isValid(), false)
         var property = Property.new(createLayer("Hej"))
-        assert.equal(property, undefined)
+        assert.equal(property)
     })
 
     it('width', function() {
@@ -341,11 +341,11 @@ describe('property', function() {
             property.apply()
             assert.equal(layer.frame().width(), 3)
             var group = createLayerGroup("", 5, 7, 9, 11)
-            group.insertLayer_afterLayerOrAtEnd(layer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer)
             property.apply()
             assert.equal(layer.frame().width(), 3)
             var otherLayer = createLayer("", 13, 15, 17, 19)
-            group.insertLayer_afterLayerOrAtEnd(otherLayer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(otherLayer)
             property.apply()
             assert.equal(layer.frame().width(), 9)
         })
@@ -377,11 +377,11 @@ describe('property', function() {
             property.apply()
             assert.equal(layer.frame().height(), 4)
             var group = createLayerGroup("", 5, 7, 9, 11)
-            group.insertLayer_afterLayerOrAtEnd(layer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer)
             property.apply()
             assert.equal(layer.frame().height(), 4)
             var otherLayer = createLayer("", 13, 15, 17, 19)
-            group.insertLayer_afterLayerOrAtEnd(otherLayer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(otherLayer)
             property.apply()
             assert.equal(layer.frame().height(), 10)
         })
@@ -390,8 +390,8 @@ describe('property', function() {
             var layer = createLayer("", 10, 11, 3, 4)
             var backgroundLayer = createLayer("bg", 5, 6, 7, 8)
             var group = createLayerGroup()
-            group.insertLayer_afterLayerOrAtEnd(layer, undefined)
-            group.insertLayer_afterLayerOrAtEnd(backgroundLayer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
             var padding = Padding.new()
             padding.add(1)
             padding.add(2)
@@ -413,8 +413,8 @@ describe('property', function() {
             var layer = createLayer("t1", 1, 2, 3, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
-            group.insertLayer_afterLayerOrAtEnd(layer, undefined)
-            group.insertLayer_afterLayerOrAtEnd(backgroundLayer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
             var property = Property.new(layer)
             property.apply()
             assert.equal(layer.frame().y(), 1)
@@ -424,8 +424,8 @@ describe('property', function() {
             var layer = createLayer("r2", 1, 2, 3, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
-            group.insertLayer_afterLayerOrAtEnd(layer, undefined)
-            group.insertLayer_afterLayerOrAtEnd(backgroundLayer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
             var property = Property.new(layer)
             property.apply()
             assert.equal(layer.frame().x(), 7)
@@ -435,8 +435,8 @@ describe('property', function() {
             var layer = createLayer("b3", 1, 2, 3, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
-            group.insertLayer_afterLayerOrAtEnd(layer, undefined)
-            group.insertLayer_afterLayerOrAtEnd(backgroundLayer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
             var property = Property.new(layer)
             property.apply()
             assert.equal(layer.frame().y(), 6)
@@ -446,8 +446,8 @@ describe('property', function() {
             var layer = createLayer("l4", 1, 2, 3, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
-            group.insertLayer_afterLayerOrAtEnd(layer, undefined)
-            group.insertLayer_afterLayerOrAtEnd(backgroundLayer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
             var property = Property.new(layer)
             property.apply()
             assert.equal(layer.frame().x(), 4)
@@ -457,8 +457,8 @@ describe('property', function() {
             var layer1 = createLayer("1", 1, 2, 3, 4)
             var layer2 = createLayer("2", 5, 6, 7, 8)
             var group = createLayerGroup("xt10")
-            group.insertLayer_afterLayerOrAtEnd(layer1, undefined)
-            group.insertLayer_afterLayerOrAtEnd(layer2, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
             var property = Property.new(group)
             property.apply()
             assert.equal(layer1.frame().x(), 0)
@@ -471,8 +471,8 @@ describe('property', function() {
             var layer1 = createLayer("1", 1, 2, 3, 4)
             var layer2 = createLayer("2", 5, 6, 7, 8)
             var group = createLayerGroup("x10")
-            group.insertLayer_afterLayerOrAtEnd(layer1, undefined)
-            group.insertLayer_afterLayerOrAtEnd(layer2, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
             var property = Property.new(group)
             property.apply()
             assert.equal(layer1.frame().x(), 0)
@@ -485,8 +485,8 @@ describe('property', function() {
             var layer1 = createLayer("1", 1, 2, 3, 4)
             var layer2 = createLayer("2", 5, 6, 7, 8)
             var group = createLayerGroup("xb10")
-            group.insertLayer_afterLayerOrAtEnd(layer1, undefined)
-            group.insertLayer_afterLayerOrAtEnd(layer2, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
             var property = Property.new(group)
             property.apply()
             assert.equal(layer1.frame().x(), 0)
@@ -499,8 +499,8 @@ describe('property', function() {
             var layer1 = createLayer("1", 1, 2, 3, 4)
             var layer2 = createLayer("2", 5, 6, 7, 8)
             var group = createLayerGroup("yl10")
-            group.insertLayer_afterLayerOrAtEnd(layer1, undefined)
-            group.insertLayer_afterLayerOrAtEnd(layer2, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
             var property = Property.new(group)
             property.apply()
             assert.equal(layer1.frame().x(), 0)
@@ -513,8 +513,8 @@ describe('property', function() {
             var layer1 = createLayer("1", 1, 2, 3, 4)
             var layer2 = createLayer("2", 5, 6, 7, 8)
             var group = createLayerGroup("y10")
-            group.insertLayer_afterLayerOrAtEnd(layer1, undefined)
-            group.insertLayer_afterLayerOrAtEnd(layer2, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
             var property = Property.new(group)
             property.apply()
             assert.equal(layer1.frame().x(), 2)
@@ -527,8 +527,8 @@ describe('property', function() {
             var layer1 = createLayer("1", 1, 2, 3, 4)
             var layer2 = createLayer("2", 5, 6, 7, 8)
             var group = createLayerGroup("yr10")
-            group.insertLayer_afterLayerOrAtEnd(layer1, undefined)
-            group.insertLayer_afterLayerOrAtEnd(layer2, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
             var property = Property.new(group)
             property.apply()
             assert.equal(layer1.frame().x(), 4)
@@ -541,8 +541,8 @@ describe('property', function() {
             var layer = createLayer("h", 1, 2, 5, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
-            group.insertLayer_afterLayerOrAtEnd(layer, undefined)
-            group.insertLayer_afterLayerOrAtEnd(backgroundLayer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
             var property = Property.new(layer)
             property.apply()
             assert.equal(layer.frame().x(), 4)
@@ -552,8 +552,8 @@ describe('property', function() {
             var layer = createLayer("v", 1, 2, 3, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
-            group.insertLayer_afterLayerOrAtEnd(layer, undefined)
-            group.insertLayer_afterLayerOrAtEnd(backgroundLayer, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
             var property = Property.new(layer)
             property.apply()
             assert.equal(layer.frame().y(), 5)
@@ -665,8 +665,8 @@ describe('layer', function() {
             var layer1 = createLayer("w100", 1, 2, 3, 4)
             var layer2 = createLayer("w50:h20", 5, 6, 7, 8)
             var group = createLayerGroup("x10")
-            group.insertLayer_afterLayerOrAtEnd(layer1, undefined)
-            group.insertLayer_afterLayerOrAtEnd(layer2, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
             var layer = Layer.new(group)
             layer.apply()
             assert.equal(layer1.frame().x(), 0)
@@ -682,8 +682,8 @@ describe('layer', function() {
             var layer1 = createLayer("r0:h4:v", 1, 2, 3, 8)
             var layer2 = createLayer("w100", 0, 0, 7, 8)
             var group = createLayerGroup()
-            group.insertLayer_afterLayerOrAtEnd(layer1, undefined)
-            group.insertLayer_afterLayerOrAtEnd(layer2, undefined)
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
             var layer = Layer.new(group)
             layer.apply()
             assert.equal(layer1.frame().x(), 97)
@@ -694,6 +694,10 @@ describe('layer', function() {
             assert.equal(layer2.frame().y(), 0)
             assert.equal(layer2.frame().width(), 100)
             assert.equal(layer2.frame().height(), 8)
+        })
+
+        it('shouldIgnore', function() {
+
         })
 
     })
@@ -717,37 +721,73 @@ describe('main', function() {
 
     it('makePixelPerfect', function() {
         var layer = createLayer("w100", 1, 2, 3, 4)
-        var document = MSDocument.new()
+        var doc = MSDocument.new()
         var selection = NSMutableArray.new()
         selection.addObject(layer)
-        var context = { selection, document }
+        var context = { selection, document: doc }
         makePixelPerfect(context)
         assert.equal(layer.frame().x(), 1)
         assert.equal(layer.frame().y(), 2)
         assert.equal(layer.frame().width(), 100)
         assert.equal(layer.frame().height(), 4)
     })
+
+    it('makeEverythingPixelPerfect', function() {
+        var layer1 = createLayer("w100", 1, 2, 3, 4)
+        var layer2 = createLayer("h200", 5, 6, 7, 8)
+        var doc = MSDocument.new()
+        doc.currentPage().insertLayer_afterLayerOrAtEnd(layer1)
+        doc.currentPage().insertLayer_afterLayerOrAtEnd(layer2)
+        var context = { document: doc }
+        makeEverythingPixelPerfect(context)
+        assert.equal(layer1.frame().x(), 0)
+        assert.equal(layer1.frame().y(), 0)
+        assert.equal(layer1.frame().width(), 100)
+        assert.equal(layer1.frame().height(), 4)
+        assert.equal(layer2.frame().x(), 4)
+        assert.equal(layer2.frame().y(), 4)
+        assert.equal(layer2.frame().width(), 7)
+        assert.equal(layer2.frame().height(), 200)
+    })
     
 })
 
-// -----------------------------------------------------------
+describe('main', function() {
 
-var createLayer = function(name, x, y, w, h) {
-    var layer = MSLayer.new()
-    layer.setName(name || "layer")
-    layer.frame().setX(x || 0)
-    layer.frame().setY(y || 0)
-    layer.frame().setWidth(w || 1)
-    layer.frame().setHeight(h || 1)
-    return layer
-}
+    it('findLayerInGroup', function() {
 
-var createLayerGroup = function(name, x, y, w, h) {
-    var group = MSLayerGroup.new()
-    group.setName(name || "layerGroup")
-    group.frame().setX(x || 0)
-    group.frame().setY(y || 0)
-    group.frame().setWidth(w || 1)
-    group.frame().setHeight(h || 1)
-    return group
-}
+    })
+
+    it('setX', function() {
+
+    })
+
+    it('setY', function() {
+
+    })
+
+    it('setWidth', function() {
+
+    })
+
+    it('setHeight', function() {
+
+    })
+
+    it('maxWidth', function() {
+
+    })
+
+    it('widthOfParentGroup', function() {
+
+    })
+
+    it('maxHeight', function() {
+
+    })
+
+    it('heightOfParentGroup', function() {
+
+    })
+
+})
