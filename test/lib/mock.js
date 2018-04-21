@@ -30,6 +30,10 @@ MSLayer.prototype.isVisible = function() {
     return this._isVisible
 }
 
+MSLayer.prototype.setIsVisible = function(isVisible) {
+    this._isVisible = isVisible
+}
+
 MSLayer.prototype.parentGroup = function() {
     return this._parentGroup
 }
@@ -398,6 +402,16 @@ global.createLayerGroup = function(name, x, y, w, h) {
     group.frame().setWidth(w || 1)
     group.frame().setHeight(h || 1)
     return group
+}
+
+global.createArtboard = function(name, x, y, w, h) {
+    var artboard = MSArtboardGroup.new()
+    artboard.setName(name || "artboard")
+    artboard.frame().setX(x || 0)
+    artboard.frame().setY(y || 0)
+    artboard.frame().setWidth(w || 1)
+    artboard.frame().setHeight(h || 1)
+    return artboard
 }
 
 global.createSymbolMaster = function(name) {

@@ -81,7 +81,17 @@ describe('utils', function() {
     })
 
     it('widthOfParentGroup', function() {
-        // TODO
+        var layer1 = createLayer("1", 0, 0, 50, 60)
+        var layer2 = createLayer("2", 0, 0, 100, 200)
+        assert.equal(widthOfParentGroup(layer1), 0)
+        var group = createLayerGroup()
+        group.insertLayer_afterLayerOrAtEnd(layer1)
+        group.insertLayer_afterLayerOrAtEnd(layer2)
+        assert.equal(widthOfParentGroup(layer1), 100)
+        var artboard = createArtboard("Arboard", 0, 0, 150, 300)
+        artboard.insertLayer_afterLayerOrAtEnd(layer1)
+        artboard.insertLayer_afterLayerOrAtEnd(layer2)
+        assert.equal(widthOfParentGroup(layer1), 150)
     })
 
     it('maxHeight', function() {
@@ -93,7 +103,17 @@ describe('utils', function() {
     })
 
     it('heightOfParentGroup', function() {
-        // TODO
+        var layer1 = createLayer("1", 0, 0, 50, 60)
+        var layer2 = createLayer("2", 0, 0, 100, 200)
+        assert.equal(heightOfParentGroup(layer1), 0)
+        var group = createLayerGroup()
+        group.insertLayer_afterLayerOrAtEnd(layer1)
+        group.insertLayer_afterLayerOrAtEnd(layer2)
+        assert.equal(heightOfParentGroup(layer1), 200)
+        var artboard = createArtboard("Arboard", 0, 0, 150, 300)
+        artboard.insertLayer_afterLayerOrAtEnd(layer1)
+        artboard.insertLayer_afterLayerOrAtEnd(layer2)
+        assert.equal(heightOfParentGroup(layer1), 300)
     })
 
 })

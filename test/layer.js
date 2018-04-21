@@ -34,8 +34,7 @@ describe('layer', function() {
             var group = createLayerGroup()
             group.insertLayer_afterLayerOrAtEnd(layer1)
             group.insertLayer_afterLayerOrAtEnd(layer2)
-            var layer = Layer.new(group)
-            layer.apply()
+            Layer.apply(group)
             assert.equal(layer1.frame().x(), 97)
             assert.equal(layer1.frame().y(), 2)
             assert.equal(layer1.frame().width(), 3)
@@ -47,7 +46,24 @@ describe('layer', function() {
         })
 
         it('shouldIgnore', function() {
-            // TODO
+            var layer = createLayer("w100 [Ignore]", 1, 2, 3, 4)
+            Layer.apply(layer)
+            assert.equal(layer.frame().width(), 3)
+        })
+
+        it('shouldIgnoreStack', function() {
+            var layer1 = createLayer("1", 1, 2, 3, 4)
+            var layer2 = createLayer("2", 5, 6, 7, 8)
+            layer2.setIsVisible(false)
+            var layer3 = createLayer("3", 9, 10, 11, 12)
+            var group = createLayerGroup("x10")
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
+            group.insertLayer_afterLayerOrAtEnd(layer3)
+            Layer.apply(group)
+            assert.equal(layer1.frame().x(), 0)
+            assert.equal(layer2.frame().x(), 4)
+            assert.equal(layer3.frame().x(), 13)
         })
 
     })
