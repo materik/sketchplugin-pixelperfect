@@ -85,8 +85,8 @@ function NSArray(objects) {
     this._objects = objects || []
 }
 
-NSArray.new = function() {
-    return new NSArray()
+NSArray.new = function(objects) {
+    return new NSArray(objects)
 }
 
 NSArray.prototype.count = function() {
@@ -255,24 +255,7 @@ MSLayerGroup.prototype.layers = function() {
 }
 
 MSLayerGroup.prototype.resizeToFitChildrenWithOption = function() {
-    var minX = 999999, minY = 999999
-    var maxWidth = 0, maxHeight = 0
-
-    for (var i = 0; i < this.layers().count(); i++) {
-        var layer = this.layers().objectAtIndex(i)
-        minX = Math.min(minX, layer.frame().x())
-        minY = Math.min(minY, layer.frame().y())
-        maxWidth = Math.max(maxWidth, layer.frame().x() + layer.frame().width())
-        maxHeight = Math.max(maxHeight, layer.frame().y() + layer.frame().height())
-    }
-
-    this.frame().set(0, 0, maxWidth - minX, maxHeight - minY)
-
-    for (var i = 0; i < this.layers().count(); i++) {
-        var layer = this.layers().objectAtIndex(i)
-        layer.frame().setX(layer.frame().x() - minX)
-        layer.frame().setY(layer.frame().y() - minY)
-    }
+    resizeMaster(this)
 }
 
 // -----------------------------------------------------------

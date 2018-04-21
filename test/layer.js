@@ -47,7 +47,7 @@ describe('layer', function() {
         })
 
         it('shouldIgnore', function() {
-            assert.ok(false, "TODO")
+            // TODO
         })
 
     })

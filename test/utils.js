@@ -21,35 +21,79 @@ describe('utils', function() {
     })
 
     it('setX', function() {
-        assert.ok(false, "TODO")
+        var layer = createLayer()
+        assert.equal(layer.frame().x(), 0)
+        setX(layer, 10)
+        assert.equal(layer.frame().x(), 10)
+        setX(layer, -10)
+        assert.equal(layer.frame().x(), -10)
+        setX(layer, 0)
+        assert.equal(layer.frame().x(), 0)
+        setX(layer, 0.5)
+        assert.equal(layer.frame().x(), 1)
     })
 
     it('setY', function() {
-        assert.ok(false, "TODO")
+        var layer = createLayer()
+        assert.equal(layer.frame().y(), 0)
+        setY(layer, 10)
+        assert.equal(layer.frame().y(), 10)
+        setY(layer, -10)
+        assert.equal(layer.frame().y(), -10)
+        setY(layer, 0)
+        assert.equal(layer.frame().y(), 0)
+        setY(layer, 0.5)
+        assert.equal(layer.frame().y(), 1)
     })
 
     it('setWidth', function() {
-        assert.ok(false, "TODO")
+        var layer = createLayer()
+        assert.equal(layer.frame().width(), 1)
+        setWidth(layer, 10)
+        assert.equal(layer.frame().width(), 10)
+        setWidth(layer, -10)
+        assert.equal(layer.frame().width(), 10)
+        setWidth(layer, 0)
+        assert.equal(layer.frame().width(), 10)
+        setWidth(layer, 0.5)
+        assert.equal(layer.frame().width(), 1)
     })
 
     it('setHeight', function() {
-        assert.ok(false, "TODO")
+        var layer = createLayer()
+        assert.equal(layer.frame().height(), 1)
+        setHeight(layer, 10)
+        assert.equal(layer.frame().height(), 10)
+        setHeight(layer, -10)
+        assert.equal(layer.frame().height(), 10)
+        setHeight(layer, 0)
+        assert.equal(layer.frame().height(), 10)
+        setHeight(layer, 0.5)
+        assert.equal(layer.frame().height(), 1)
     })
 
     it('maxWidth', function() {
-        assert.ok(false, "TODO")
+        var layer1 = createLayer("1", 0, 0, 50, 60)
+        var layer2 = createLayer("2", 0, 0, 100, 200)
+        assert.equal(maxWidth(NSArray.new([layer1, layer2])), 100)
+        var layer2 = createLayer("w100%", 0, 0, 100, 200)
+        assert.equal(maxWidth(NSArray.new([layer1, layer2])), 50)
     })
 
     it('widthOfParentGroup', function() {
-        assert.ok(false, "TODO")
+        // TODO
     })
 
     it('maxHeight', function() {
-        assert.ok(false, "TODO")
+        var layer1 = createLayer("1", 0, 0, 50, 60)
+        var layer2 = createLayer("2", 0, 0, 100, 200)
+        assert.equal(maxHeight(NSArray.new([layer1, layer2])), 200)
+        var layer2 = createLayer("h100%", 0, 0, 100, 200)
+        assert.equal(maxHeight(NSArray.new([layer1, layer2])), 60)
     })
 
     it('heightOfParentGroup', function() {
-        assert.ok(false, "TODO")
+        // TODO
     })
 
 })
