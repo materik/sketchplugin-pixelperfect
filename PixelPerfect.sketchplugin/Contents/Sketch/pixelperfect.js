@@ -3,6 +3,7 @@ var makePixelPerfect = function(context) {
     var doc = context.document;
     var layers = context.selection
 
+    /* istanbul ignore if  */
     if (layers.count() == 0) {
         doc.showMessage("✋ You need to select something in order to make it pixel perfect")
     } else {
@@ -15,6 +16,7 @@ var makeEverythingPixelPerfect = function(context) {
     var doc = context.document;
     var layers = doc.currentPage().layers()
 
+    /* istanbul ignore if  */
     if (layers.count() == 0) {
         doc.showMessage("✋ There are no layers to make pixel perfect in this page")
     } else {

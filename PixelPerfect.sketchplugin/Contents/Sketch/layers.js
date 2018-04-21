@@ -23,9 +23,6 @@ Layers.prototype.apply = function() {
     for (var i = 0; i < this.layers.count(); i++) {
         Layer.apply(this.layers.objectAtIndex(i))
     }
-    // for (var i = this.layers.count() - 1; i >= 0; i--) {
-    //     Layer.apply(this.layers.objectAtIndex(i))
-    // }
 }
 
 // -----------------------------------------------------------
@@ -82,18 +79,6 @@ Layer.prototype.apply = function() {
 
 Layer.prototype.resize = function() {
     resizeLayer(this.layer)
-}
-
-Layer.prototype.parent = function() {
-    if (this.layer.parentGroup && this.layer.parentGroup()) {
-        return Layer.new(this.layer.parentGroup())   
-    } else {
-        return {
-            resize: function() {
-                // Do nothing...
-            },
-        }
-    }
 }
 
 Layer.prototype.shouldIgnore = function() {

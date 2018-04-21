@@ -10,10 +10,6 @@ Properties.new = function(layer) {
     return new Properties(layer)
 }
 
-Properties.apply = function(layer) {
-    return Properties.new(layer).apply()
-}
-
 Properties.prototype._setup = function() {
     var padding = Padding.new()
     var name = this.layer.name().split("[").last().replace("]", "")
@@ -68,7 +64,7 @@ Property.new = function(layer, str, value) {
 }
 
 Property.prototype.toString = function() {
-    return this.layer.name() + "." + this.property + ": " + (this.value.toString ? this.value.toString() : this.value)
+    return this.layer.name() + "." + this.property + ": " + this.value.toString()
 }
 
 Property.prototype.isValid = function() {
@@ -150,6 +146,7 @@ Property.prototype.apply = function() {
         case "center-vertically":
             setY(this.layer, (heightOfParentGroup(this.layer) - frame.height()) / 2)
             break;
+        /* istanbul ignore next */
         default:
             print("~ ERROR: invalid property: " + this.property)
             break;

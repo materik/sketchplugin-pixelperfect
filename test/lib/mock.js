@@ -322,6 +322,8 @@ MSArtboardGroup.prototype.class = function() {
 
 function MSSymbolMaster() {
     MSLayerGroup.call(this)
+
+    this._parentGroup = "LocalSymbol"
 }
 
 MSSymbolMaster.new = function() {
@@ -335,7 +337,11 @@ MSSymbolMaster.prototype.class = function() {
 }
 
 MSSymbolMaster.prototype.parentPage = function() {
-    return "LocalSymbol"
+    return this._parentGroup
+}
+
+MSSymbolMaster.prototype._setParentPage = function(parentPage) {
+    this._parentGroup = parentPage
 }
 
 // -----------------------------------------------------------
@@ -414,15 +420,23 @@ global.createArtboard = function(name, x, y, w, h) {
     return artboard
 }
 
-global.createSymbolMaster = function(name) {
+global.createSymbolMaster = function(name, x, y, w, h) {
     var master = MSSymbolMaster.new()
     master.setName(name || "symbolMaster")
+    master.frame().setX(x || 0)
+    master.frame().setY(y || 0)
+    master.frame().setWidth(w || 1)
+    master.frame().setHeight(h || 1)
     return master
 }
 
-global.createSymbolInstance = function(master, name) {
+global.createSymbolInstance = function(master, name, x, y, w, h) {
     var instance = MSSymbolInstance.new(master)
     instance.setName(name || master.name())
+    instance.frame().setX(x || 0)
+    instance.frame().setY(y || 0)
+    instance.frame().setWidth(w || 1)
+    instance.frame().setHeight(h || 1)
     return instance
 }
 

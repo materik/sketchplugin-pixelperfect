@@ -142,17 +142,6 @@ var resizeMaster = function(layer) {
     layer.frame().setHeight(maxHeight - minY)
 }
 
-var selectLayers = function(layers) {
-    for (var i = 0; i < layers.length; i++) {
-        var layer = layers[i]
-        layer.select_byExpandingSelection(true, true)   
-    }
-}
-
-var deselectEverything = function(doc) {
-    doc.currentPage().select_byExpandingSelection(true, false)
-}
-
 var repeatString = function(str, repeat) {
     var repeatedString = ""
     for (var i = 0; i < repeat; i++) {
@@ -162,18 +151,10 @@ var repeatString = function(str, repeat) {
 }
 
 var layerLevel = function(layer) {
-    if (!layer.parentGroup) {
-        return 0
+    if (layer && layer.parentGroup) {
+        return layerLevel(layer.parentGroup()) + 1
     }
-
-    var level = 0
-    var parentGroup = layer.parentGroup()
-    while (parentGroup != null) {
-        parentGroup = parentGroup.parentGroup()
-        level += 1
-    }
-
-    return level
+    return 0
 }
 
 var logWithLayerLevel = function(layer, msg, addLevel) {
@@ -191,17 +172,6 @@ Array.prototype.last = function() {
     return this[this.length - 1];
 };
 
-Array.prototype.include = function(callback) {
-    var filteredArray = []
-    for (var i = 0; i < this.length; i++) {
-      var value = this[i]
-      if (callback(value)) {
-        filteredArray.push(value)
-      }
-    }
-    return filteredArray
-}
-
 // -----------------------------------------------------------
 
 global.findLayerInGroup = findLayerInGroup
@@ -215,6 +185,4 @@ global.maxHeight = maxHeight
 global.heightOfParentGroup = heightOfParentGroup
 global.resizeLayer = resizeLayer
 global.resizeMaster = resizeMaster
-global.selectLayers = selectLayers
-global.deselectEverything = deselectEverything
 global.logWithLayerLevel = logWithLayerLevel

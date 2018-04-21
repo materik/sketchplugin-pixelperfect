@@ -356,6 +356,16 @@ describe('property', function() {
             assert.equal(layer.frame().x(), 4)
         })
 
+        it('stack-error', function() {
+            var layer = createLayer("xt10", 1, 2, 3, 4)
+            var property = Property.new(layer)
+            property.apply()
+            assert.equal(layer.frame().x(), 1)
+            assert.equal(layer.frame().y(), 2)
+            assert.equal(layer.frame().width(), 3)
+            assert.equal(layer.frame().height(), 4)
+        })
+
         it('stack-horizontally-top', function() {
             var layer1 = createLayer("1", 1, 2, 3, 4)
             var layer2 = createLayer("2", 5, 6, 7, 8)
