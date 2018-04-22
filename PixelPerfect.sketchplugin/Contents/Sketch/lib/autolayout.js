@@ -2,7 +2,7 @@
 var recursivelyFindLayersWithAutoLayoutApplied = function(layers) {
     for (var i = 0; i < layers.count(); i++) {
         var layer = layers.objectAtIndex(i)
-        if (hasLayerAutoLayout(layer)) {
+        if (isAutoLayoutAppliedToLayer(layer)) {
             return layer
         }
         if (layer.layers) {
@@ -14,18 +14,42 @@ var recursivelyFindLayersWithAutoLayoutApplied = function(layers) {
     }
 }
 
-var hasLayerAutoLayout = function(layer) {
+var isAutoLayoutAppliedToLayer = function(layer) {
     var d1 = layer.userInfo()
     if (d1) {
         var d2 = d1['com.animaapp.stc-sketch-plugin']
         if (d2) {
             var d3 = d2['kModelPropertiesKey']
             if (d3) {
-                return d3['constraints'] != undefined
-            } else {
-                return d2['kViewTypeKey'] != undefined
+                var d4 = d3['constraints']
+                if (d4) {
+                    for (var i = 0; i < constraintsKeys.length; i++) {
+                        if (d4.allKeys().includes(constraintsKeys[i])) {
+                            return true
+                        }
+                    }
+                }
             }
+            return d2['kViewTypeKey'] != undefined
         } 
     }
     return false
 }
+
+// -----------------------------------------------------------
+
+global.recursivelyFindLayersWithAutoLayoutApplied = recursivelyFindLayersWithAutoLayoutApplied
+global.isAutoLayoutAppliedToLayer = isAutoLayoutAppliedToLayer
+
+// -----------------------------------------------------------
+
+var constraintsKeys = [
+    "top",
+    "right",
+    "bottom",
+    "left",
+    "width",
+    "height",
+    "centerHorizontally",
+    "centerVertically",
+]

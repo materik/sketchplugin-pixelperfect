@@ -4,6 +4,7 @@ function MSLayer() {
     this._frame = CGRect.new()
     this._isVisible = true
     this._parentGroup = null
+    this._userInfo = {}
 }
 
 MSLayer.new = function() {
@@ -49,6 +50,14 @@ MSLayer.prototype.select_byExpandingSelection = function(select, expand, _layer)
             this._selection = [layer]
         }
     }
+}
+
+MSLayer.prototype.userInfo = function() {
+    return this._userInfo
+}
+
+MSLayer.prototype._setUserInfo = function(userInfo) {
+    this._userInfo = userInfo
 }
 
 // -----------------------------------------------------------
@@ -393,6 +402,12 @@ global.print = function(msg) {
 
 global.log = function(msg) {
     console.log("> LOG:", msg)
+}
+
+// -----------------------------------------------------------
+
+Object.prototype.allKeys = function() {
+    return Object.keys(this)
 }
 
 // -----------------------------------------------------------
