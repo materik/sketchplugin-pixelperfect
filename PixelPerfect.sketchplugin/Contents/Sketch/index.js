@@ -1,7 +1,7 @@
 
 var global = {};
 
-@import "./layers.js";
-@import "./pixelperfect.js";
-@import "./properties.js";
-@import "./utils.js";
+@import "./lib/layers.js";
+@import "./lib/main.js";
+@import "./lib/properties.js";
+@import "./lib/utils.js";

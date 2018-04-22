@@ -1,10 +1,10 @@
 
 var assert = require('assert');
 
-require('../PixelPerfect.sketchplugin/Contents/Sketch/layers.js');
-require('../PixelPerfect.sketchplugin/Contents/Sketch/pixelperfect.js');
-require('../PixelPerfect.sketchplugin/Contents/Sketch/properties.js');
-require('../PixelPerfect.sketchplugin/Contents/Sketch/utils.js');
+require('../PixelPerfect.sketchplugin/Contents/Sketch/lib/layers.js');
+require('../PixelPerfect.sketchplugin/Contents/Sketch/lib/main.js');
+require('../PixelPerfect.sketchplugin/Contents/Sketch/lib/properties.js');
+require('../PixelPerfect.sketchplugin/Contents/Sketch/lib/utils.js');
 require('./lib/mock');
 
 describe('bugs', function() {

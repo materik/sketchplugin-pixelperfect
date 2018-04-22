@@ -19,12 +19,21 @@
       },
       "identifier" : "makeEverythingPixelPerfect"
     },
+    {
+      "script" : "index.js",
+      "name" : "Find layers with AutoLayout applied",
+      "handlers" : {
+        "run" : "findLayersWithAutoLayoutApplied"
+      },
+      "identifier" : "findLayersWithAutoLayoutApplied"
+    },
   ],
   "menu" : {
     "title" : "👾 Pixel Perfect",
     "items" : [
       "makePixelPerfect",
-      "makeEverythingPixelPerfect"
+      "makeEverythingPixelPerfect",
+      "findLayersWithAutoLayoutApplied"
     ]
   },
   "identifier" : "com.materikab.pixelperfect",

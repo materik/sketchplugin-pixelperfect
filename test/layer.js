@@ -1,10 +1,10 @@
 
 var assert = require('assert');
 
-require('../PixelPerfect.sketchplugin/Contents/Sketch/layers.js');
-require('../PixelPerfect.sketchplugin/Contents/Sketch/pixelperfect.js');
-require('../PixelPerfect.sketchplugin/Contents/Sketch/properties.js');
-require('../PixelPerfect.sketchplugin/Contents/Sketch/utils.js');
+require('../PixelPerfect.sketchplugin/Contents/Sketch/lib/layers.js');
+require('../PixelPerfect.sketchplugin/Contents/Sketch/lib/main.js');
+require('../PixelPerfect.sketchplugin/Contents/Sketch/lib/properties.js');
+require('../PixelPerfect.sketchplugin/Contents/Sketch/lib/utils.js');
 require('./lib/mock');
 
 describe('layer', function() {
@@ -129,6 +129,18 @@ describe('layer', function() {
             assert.equal(instance.frame().y(), 2)
             assert.equal(instance.frame().width(), 7)
             assert.equal(instance.frame().height(), 8)
+        })
+
+        it('100% of 100% width', function() {
+            // TODO
+        })
+
+        it('100% of 100% height', function() {
+            // TODO
+        })
+
+        it('size master once', function() {
+            // TODO
         })
 
     })
