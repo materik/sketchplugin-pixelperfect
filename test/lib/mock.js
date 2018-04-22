@@ -411,7 +411,7 @@ global.log = function(msg) {
 // -----------------------------------------------------------
 
 Object.prototype.allKeys = function() {
-    return Object.keys(this)
+    return NSArray.new(Object.keys(this))
 }
 
 // -----------------------------------------------------------

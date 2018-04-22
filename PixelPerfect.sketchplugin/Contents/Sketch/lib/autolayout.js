@@ -23,8 +23,10 @@ var isAutoLayoutAppliedToLayer = function(layer) {
             if (d3) {
                 var d4 = d3['constraints']
                 if (d4) {
-                    for (var i = 0; i < constraintsKeys.length; i++) {
-                        if (d4.allKeys().includes(constraintsKeys[i])) {
+                    var keys = d4.allKeys()
+                    for (var i = 0; i < keys.count(); i++) {
+                        var key = String(keys.objectAtIndex(i))
+                        if (constraintsKeys.includes(key)) {
                             return true
                         }
                     }
