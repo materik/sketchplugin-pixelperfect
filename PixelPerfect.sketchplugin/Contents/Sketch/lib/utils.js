@@ -66,6 +66,8 @@ var widthOfParentGroup = function(layer) {
         return 0
     } else if (parentGroup.class().toString().isEqualTo("MSArtboardGroup")) {
         return parentGroup.frame().width()
+    } else if (parentGroup.name().match(/.*w\d+%.*/)) {
+        return widthOfParentGroup(parentGroup)
     } else {
         return maxWidth(parentGroup.layers())
     }
@@ -88,6 +90,8 @@ var heightOfParentGroup = function(layer) {
         return 0
     } else if (parentGroup.class().toString().isEqualTo("MSArtboardGroup")) {
         return parentGroup.frame().height()
+    } else if (parentGroup.name().match(/.*h\d+%.*/)) {
+        return heightOfParentGroup(parentGroup)
     } else {
         return maxHeight(parentGroup.layers())
     }

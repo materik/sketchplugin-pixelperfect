@@ -259,6 +259,9 @@ MSLayerGroup.prototype.layers = function() {
 }
 
 MSLayerGroup.prototype.resizeToFitChildrenWithOption = function() {
+    if (this.class().toString().isEqualTo("MSArtboardGroup")) {
+        return
+    }
     resizeMaster(this)
 }
 
