@@ -3,7 +3,7 @@ var findLayerInGroup = function(layerName, group) {
   var layers = group.layers();
   for (var i = 0; i < layers.count(); i++) {
     var layer = layers.objectAtIndex(i);
-    if (layer.name().toLowerCase() == layerName.toLowerCase()) {
+    if (layer.name().toLowerCase().match(layerName.toLowerCase())) {
       return layer;
     }
   }

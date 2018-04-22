@@ -5,6 +5,13 @@ function MSLayer() {
     this._isVisible = true
     this._parentGroup = null
     this._userInfo = {}
+
+    this._hasFixedWidth = false
+    this._hasFixedHeight = false
+    this._hasFixedTop = false
+    this._hasFixedRight = false
+    this._hasFixedBottom = false
+    this._hasFixedLeft = false
 }
 
 MSLayer.new = function() {
@@ -58,6 +65,63 @@ MSLayer.prototype.userInfo = function() {
 
 MSLayer.prototype._setUserInfo = function(userInfo) {
     this._userInfo = userInfo
+}
+
+MSLayer.prototype.resetConstraints = function() {
+    this._hasFixedWidth = false
+    this._hasFixedHeight = false
+    this._hasFixedTop = false
+    this._hasFixedRight = false
+    this._hasFixedBottom = false
+    this._hasFixedLeft = false
+}
+
+MSLayer.prototype.hasFixedWidth = function() {
+    return this._hasFixedWidth
+}
+
+MSLayer.prototype.setHasFixedWidth = function(hasFixedWidth) {
+    this._hasFixedWidth = hasFixedWidth
+}
+
+MSLayer.prototype.hasFixedHeight = function() {
+    return this._hasFixedHeight
+}
+
+MSLayer.prototype.setHasFixedHeight = function(hasFixedHeight) {
+    this._hasFixedHeight = hasFixedHeight
+}
+
+MSLayer.prototype.hasFixedTop = function() {
+    return this._hasFixedTop
+}
+
+MSLayer.prototype.setHasFixedTop = function(hasFixedTop) {
+    this._hasFixedTop = hasFixedTop
+}
+
+MSLayer.prototype.hasFixedRight = function() {
+    return this._hasFixedRight
+}
+
+MSLayer.prototype.setHasFixedRight = function(hasFixedRight) {
+    this._hasFixedRight = hasFixedRight
+}
+
+MSLayer.prototype.hasFixedBottom = function() {
+    return this._hasFixedBottom
+}
+
+MSLayer.prototype.setHasFixedBottom = function(hasFixedBottom) {
+    this._hasFixedBottom = hasFixedBottom
+}
+
+MSLayer.prototype.hasFixedLeft = function() {
+    return this._hasFixedLeft
+}
+
+MSLayer.prototype.setHasFixedLeft = function(hasFixedLeft) {
+    this._hasFixedLeft = hasFixedLeft
 }
 
 // -----------------------------------------------------------

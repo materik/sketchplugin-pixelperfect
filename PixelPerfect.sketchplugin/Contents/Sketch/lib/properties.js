@@ -41,11 +41,23 @@ Properties.prototype.objectAtIndex = function(index) {
 }
 
 Properties.prototype.apply = function() {
+    Constraints.apply(this.layer, this)
+
     for (var i = 0; i < this.properties.length; i++) {
         var property = this.properties[i]
         property.apply()
         resizeLayer(this.layer)
     }
+}
+
+Properties.prototype.includes = function(_property) {
+    for (var i = 0; i < this.properties.length; i++) {
+        var property = this.properties[i]
+        if (property.property == _property) {
+            return true
+        }
+    }
+    return false
 }
 
 // -----------------------------------------------------------
@@ -68,14 +80,18 @@ Property.prototype.toString = function() {
 }
 
 Property.prototype.isValid = function() {
-    if (this.property == "padding") {
+    if (this.property == undefined) {
+        return false
+    } else if (this.property == "padding") {
         return this.value && this.value.isValid && this.value.isValid()
+    } else if (this.property.match("margin")) {
+        return true
     } else if (this.property == "center-horizontally") {
         return true
     } else if (this.property == "center-vertically") {
         return true
     }
-    return this.property != undefined && this.property != "" && !isNaN(this.value)
+    return this.property != "" && !isNaN(this.value)
 }
 
 Property.prototype.apply = function() {
@@ -110,17 +126,21 @@ Property.prototype.apply = function() {
         case "padding":
             this.value.apply(this.layer)
             break;
+        case "margin":
+            setX(this.layer, 0)
+            setY(this.layer, 0)
+            break;
         case "margin-top":
-            setY(this.layer, this.value)
+            setY(this.layer, this.value || 0)
             break;
         case "margin-right":
-            setX(this.layer, widthOfParentGroup(this.layer) - frame.width() - this.value)
+            setX(this.layer, widthOfParentGroup(this.layer) - frame.width() - (this.value || 0))
             break;
         case "margin-bottom":
-            setY(this.layer, heightOfParentGroup(this.layer) - frame.height() - this.value)
+            setY(this.layer, heightOfParentGroup(this.layer) - frame.height() - (this.value || 0))
             break;
         case "margin-left":
-            setX(this.layer, this.value)
+            setX(this.layer, this.value || 0)
             break;
         case "stack-horizontally-top":
             this.stack(true, -1)
@@ -198,45 +218,47 @@ Property.prototype.stack = function(horizontally, alignment) {
 Property._extractProperty = function(str) {
     if (str.match(/^w\d+$/)) {
         return "width"
-    } else if (str.match(/^w\+\d+$/)) {
+    } else if (str.match(/^w\+\d+$/i)) {
         return "width-addition"
-    } else if (str.match(/^w\-\d+$/)) {
+    } else if (str.match(/^w\-\d+$/i)) {
         return "width-subtraction"
-    } else if (str.match(/^w\d+%$/)) {
+    } else if (str.match(/^w\d+%$/i)) {
         return "width-percentage"
-    } else if (str.match(/^h\d+$/)) {
+    } else if (str.match(/^h\d+$/i)) {
         return "height"
-    } else if (str.match(/^h\+\d+$/)) {
+    } else if (str.match(/^h\+\d+$/i)) {
         return "height-addition"
-    } else if (str.match(/^h\-\d+$/)) {
+    } else if (str.match(/^h\-\d+$/i)) {
         return "height-subtraction"
-    } else if (str.match(/^h\d+%$/)) {
+    } else if (str.match(/^h\d+%$/i)) {
         return "height-percentage"
-    } else if (str.match(/^padding$/)) {
+    } else if (str.match(/^padding$/i)) {
         return "padding"
-    } else if (str.match(/^(t|mt)\d+$/)) {
+    } else if (str.match(/^(bg|trbl)$/i)) {
+        return "margin"
+    } else if (str.match(/^(t|mt)\d*$/i)) {
         return "margin-top"
-    } else if (str.match(/^(r|mr)\d+$/)) {
+    } else if (str.match(/^(r|mr)\d*$/i)) {
         return "margin-right"
-    } else if (str.match(/^(b|mb)\d+$/)) {
+    } else if (str.match(/^(b|mb)\d*$/i)) {
         return "margin-bottom"
-    } else if (str.match(/^(l|ml)\d+$/)) {
+    } else if (str.match(/^(l|ml)\d*$/i)) {
         return "margin-left"
-    } else if (str.match(/^(xt|ht)\d+$/)) {
+    } else if (str.match(/^(xt|ht)\d+$/i)) {
         return "stack-horizontally-top"
-    } else if (str.match(/^(x|hc)\d+$/)) {
+    } else if (str.match(/^(x|hc)\d+$/i)) {
         return "stack-horizontally-center"
-    } else if (str.match(/^(xb|hb)\d+$/)) {
+    } else if (str.match(/^(xb|hb)\d+$/i)) {
         return "stack-horizontally-bottom"
-    } else if (str.match(/^(yl|vl)\d+$/)) {
+    } else if (str.match(/^(yl|vl)\d+$/i)) {
         return "stack-vertically-left"
-    } else if (str.match(/^(y|vc)\d+$/)) {
+    } else if (str.match(/^(y|vc)\d+$/i)) {
         return "stack-vertically-center"
-    } else if (str.match(/^(yr|vr)\d+$/)) {
+    } else if (str.match(/^(yr|vr)\d+$/i)) {
         return "stack-vertically-right"
-    } else if (str.match(/^h$/)) {
+    } else if (str.match(/^h$/i)) {
         return "center-horizontally"
-    } else if (str.match(/^v$/)) {
+    } else if (str.match(/^v$/i)) {
         return "center-vertically"
     } else {
         // Do nothing...

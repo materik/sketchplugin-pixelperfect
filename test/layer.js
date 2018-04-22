@@ -40,7 +40,7 @@ describe('layer', function() {
         })
 
         it('margin-top', function() {
-            var layer1 = createLayer("t0:h4:h", 1, 2, 3, 8)
+            var layer1 = createLayer("t:h4:h", 1, 2, 3, 8)
             var layer2 = createLayer("w100", 0, 0, 7, 8)
             var artboard = createArtboard("artboard", 0, 0, 200, 100)
             artboard.insertLayer_afterLayerOrAtEnd(layer1)
