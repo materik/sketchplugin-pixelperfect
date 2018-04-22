@@ -166,6 +166,8 @@ function CGRect() {
     this._y = 0
     this._width = 0
     this._height = 0
+
+    this._nbrOfChanges = 0
 }
 
 CGRect.new = function() {
@@ -185,6 +187,7 @@ CGRect.prototype.x = function() {
 
 CGRect.prototype.setX = function(x) {
     this._x = x
+    this._nbrOfChanges += 1
 }
 
 CGRect.prototype.y = function() {
@@ -193,6 +196,7 @@ CGRect.prototype.y = function() {
 
 CGRect.prototype.setY = function(y) {
     this._y = y
+    this._nbrOfChanges += 1
 }
 
 CGRect.prototype.width = function() {
@@ -201,7 +205,8 @@ CGRect.prototype.width = function() {
 
 CGRect.prototype.setWidth = function(width) {
     if (width > 0) {
-        this._width = width   
+        this._width = width
+        this._nbrOfChanges += 1   
     }
 }
 
@@ -211,7 +216,8 @@ CGRect.prototype.height = function() {
 
 CGRect.prototype.setHeight = function(height) {
     if (height > 0) {
-        this._height = height   
+        this._height = height
+        this._nbrOfChanges += 1
     }
 }
 
@@ -326,6 +332,7 @@ MSArtboardGroup.prototype.class = function() {
 function MSSymbolMaster() {
     MSLayerGroup.call(this)
 
+    this._symbolID = Date.now().toString()
     this._parentGroup = "LocalSymbol"
 }
 
@@ -337,6 +344,10 @@ MSSymbolMaster.prototype = Object.create(MSArtboardGroup.prototype)
 
 MSSymbolMaster.prototype.class = function() {
     return NSClass.new("MSSymbolMaster")
+}
+
+MSSymbolMaster.prototype.symbolID = function() {
+    return this._symbolID
 }
 
 MSSymbolMaster.prototype.parentPage = function() {

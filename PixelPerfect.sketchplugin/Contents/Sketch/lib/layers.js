@@ -52,12 +52,7 @@ Layer.prototype.apply = function() {
 
     switch (String(this.layer.class().toString())) {
         case "MSSymbolInstance":
-            var master = this.layer.symbolMaster()
-            if (master.parentPage() != null) {
-                print("\nSYMBOL\n{")
-                Layer.apply(master)
-                print("}\n")
-            }
+            SymbolMasters.sharedInstance.apply(this.layer.symbolMaster())
             this.layer.resetSizeToMaster()
             break;
         case "MSArtboardGroup":
@@ -103,6 +98,36 @@ Layer.prototype.name = function() {
 
 Layer.prototype.frame = function() {
     return this.layer.frame()
+}
+
+// -----------------------------------------------------------
+
+function SymbolMasters() {
+    this._ids = []
+}
+
+SymbolMasters.sharedInstance = new SymbolMasters()
+
+SymbolMasters.prototype.add = function(master) {
+    this._ids.push(master.symbolID())
+}
+
+SymbolMasters.prototype.contains = function(master) {
+    return this._ids.includes(master.symbolID())
+}
+
+SymbolMasters.prototype.apply = function(master) {
+    if (master.parentPage() == null) {
+        logWithLayerLevel(master, "/ master is not local: " + master.name(), 1)
+    } else if (this.contains(master)) {
+        logWithLayerLevel(master, "/ master already applied: " + master.name(), 1)
+    } else {
+        print("\nSYMBOL\n{")
+        Layer.apply(master)
+        print("}\n")
+
+        this.add(master)
+    }
 }
 
 // -----------------------------------------------------------

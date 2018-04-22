@@ -242,7 +242,21 @@ describe('layer', function() {
         })
 
         it('size master once', function() {
-            // TODO
+            var layer = createLayer("w100")
+            var master = createSymbolMaster()
+            master.insertLayer_afterLayerOrAtEnd(layer)
+            var instance1 = createSymbolInstance(master, "Instance1")
+            var instance2 = createSymbolInstance(master, "Instance2")
+            var instance3 = createSymbolInstance(master, "Instance3")
+            var instance4 = createSymbolInstance(master, "Instance4")
+            var group = createLayerGroup()
+            group.insertLayer_afterLayerOrAtEnd(instance1)
+            group.insertLayer_afterLayerOrAtEnd(instance2)
+            group.insertLayer_afterLayerOrAtEnd(instance3)
+            group.insertLayer_afterLayerOrAtEnd(instance4)
+            Layer.apply(group)
+            // 4 (initial) + 1 (size width) + 2 (resize master)
+            assert.equal(layer.frame()._nbrOfChanges, 7)
         })
 
     })
