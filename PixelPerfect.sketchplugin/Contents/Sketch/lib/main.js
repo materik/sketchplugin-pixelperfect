@@ -25,7 +25,7 @@ var makeEverythingPixelPerfect = function(context) {
     }
 }
 
-var findALayerWithAutoLayoutApplied = function(context) {
+var findLayersWithAutoLayoutApplied = function(context) {
     var doc = context.document
     var layers = doc.currentPage().layers()
 
@@ -33,7 +33,7 @@ var findALayerWithAutoLayoutApplied = function(context) {
     if (layers.count() == 0) {
         doc.showMessage("✋ There are no layers in this page")
     } else {
-        var layer = _findALayerWithAutoLayoutApplied(layers)
+        var layer = recursivelyFindLayersWithAutoLayoutApplied(layers)
         if (layer) {
             print(layer.userInfo())
             layer.select_byExpandingSelection(true, false)
@@ -46,39 +46,6 @@ var findALayerWithAutoLayoutApplied = function(context) {
 
 // -----------------------------------------------------------
 
-var _findALayerWithAutoLayoutApplied = function(layers) {
-    for (var i = 0; i < layers.count(); i++) {
-        var layer = layers.objectAtIndex(i)
-        if (hasLayerAutoLayout(layer)) {
-            return layer
-        }
-        if (layer.layers) {
-            var sublayer = _findALayerWithAutoLayoutApplied(layer.layers())
-            if (sublayer) {
-                return sublayer
-            }
-        }
-    }
-}
-
-var hasLayerAutoLayout = function(layer) {
-    var d1 = layer.userInfo()
-    if (d1) {
-        var d2 = d1['com.animaapp.stc-sketch-plugin']
-        if (d2) {
-            var d3 = d2['kModelPropertiesKey']
-            if (d3) {
-                return d3['constraints'] != undefined
-            } else {
-                return d2['kViewTypeKey'] != undefined
-            }
-        } 
-    }
-    return false
-}
-
-// -----------------------------------------------------------
-
 global.makePixelPerfect = makePixelPerfect
 global.makeEverythingPixelPerfect = makeEverythingPixelPerfect
-global.findALayerWithAutoLayoutApplied = findALayerWithAutoLayoutApplied
+global.findLayersWithAutoLayoutApplied = findLayersWithAutoLayoutApplied
