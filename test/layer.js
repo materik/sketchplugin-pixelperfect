@@ -249,8 +249,8 @@ describe('layer', function() {
             group.insertLayer_afterLayerOrAtEnd(instance3)
             group.insertLayer_afterLayerOrAtEnd(instance4)
             Layer.apply(group)
-            // 4 (initial) + 1 (size width) + 2 (resize master)
-            assert.equal(layer.frame()._nbrOfChanges, 7)
+            // 4 (initial) + 1 (size width)
+            assert.equal(layer.frame()._nbrOfChanges, 5)
         })
 
     })

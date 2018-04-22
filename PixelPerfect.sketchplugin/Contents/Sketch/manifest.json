@@ -3,21 +3,12 @@
   "commands" : [
     {
       "script" : "index.js",
-      "name" : "Make selection pixel perfect",
+      "name" : "Make layers pixel perfect",
       "shortcut": "cmd l",
       "handlers" : {
         "run" : "makePixelPerfect"
       },
       "identifier" : "makePixelPerfect"
-    },
-    {
-      "script" : "index.js",
-      "name" : "Make everything pixel perfect",
-      "shortcut": "cmd alt shift l",
-      "handlers" : {
-        "run" : "makeEverythingPixelPerfect"
-      },
-      "identifier" : "makeEverythingPixelPerfect"
     },
     {
       "script" : "index.js",
@@ -33,7 +24,6 @@
     "title" : "👾 Pixel Perfect",
     "items" : [
       "makePixelPerfect",
-      "makeEverythingPixelPerfect",
       "findLayersWithAutoLayoutApplied"
     ]
   },

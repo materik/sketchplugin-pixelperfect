@@ -3,11 +3,34 @@ require('./lib')
 
 describe('autoLayout', function() {
 
+    it('recursivelyFindLayersWithAutoLayoutApplied', function() {
+        var layer1 = createExampleLayerWithAutoLayout(examples.false, 0)
+        layer1.setName("false")
+        var layer2 = createExampleLayerWithAutoLayout(examples.true, 0)
+        layer2.setName("true")
+        var group = createLayerGroup()
+        group.insertLayer_afterLayerOrAtEnd(layer1)
+        var layer = recursivelyFindLayersWithAutoLayoutApplied(NSArray.new([group]))
+        assert.equal(layer, undefined)
+        group.insertLayer_afterLayerOrAtEnd(layer2)
+        var layer = recursivelyFindLayersWithAutoLayoutApplied(NSArray.new([group]))
+        assert.equal(layer.name(), "true")
+    })
+
     it('isAutoLayoutAppliedToLayer', function() {
         assert.equal(isAutoLayoutAppliedToExampleLayer(examples.true, 0), true)
         assert.equal(isAutoLayoutAppliedToExampleLayer(examples.true, 1), true)
         assert.equal(isAutoLayoutAppliedToExampleLayer(examples.true, 2), true)
+        assert.equal(isAutoLayoutAppliedToExampleLayer(examples.true, 3), true)
         assert.equal(isAutoLayoutAppliedToExampleLayer(examples.false, 0), false)
+        assert.equal(isAutoLayoutAppliedToExampleLayer(examples.false, 1), false)
+    })
+
+    it('isAutoLayoutAppliedToLayer empty', function() {
+        var layer = createLayer()
+        assert.equal(isAutoLayoutAppliedToLayer(layer), false)
+        layer._setUserInfo(undefined)
+        assert.equal(isAutoLayoutAppliedToLayer(layer), false)
     })
 
 })
@@ -35,6 +58,12 @@ var examples = {
                     spacing: 16,
                     type: 1,
                 },
+                kViewTypeKey: "ADModelStackView",
+            },
+        },
+
+        {
+           "com.animaapp.stc-sketch-plugin": {
                 kViewTypeKey: "ADModelStackView",
             },
         },
@@ -104,6 +133,18 @@ var examples = {
                         scaleFactor: 1,
                     },
                 },
+            },
+        },
+
+        {
+           "com.animaapp.stc-sketch-plugin": {
+                kModelPropertiesKey: {
+                    align: 0,
+                    isCollapsing: 1,
+                    spacing: 16,
+                    type: 1,
+                },
+                kViewTypeKey: "",
             },
         },
     ],

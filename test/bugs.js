@@ -84,4 +84,33 @@ describe('bugs', function() {
         }
     })
 
+    it('height 100% does not work with other properties', function() {
+        var master = createSymbolMaster("master", 0, 0, 500, 400)
+        var artboard = createArtboard("Artboard", 0, 0, 1690, 965)
+        var group = createLayerGroup("r0:t0:h100%", 20, 30)
+        var layer = createSymbolInstance(master, "t100:l0:h972:w100%")
+        var instance = createSymbolInstance(master, "bg:l0:t0:h100%")
+
+        group.insertLayer_afterLayerOrAtEnd(layer)
+        group.insertLayer_afterLayerOrAtEnd(instance)
+        artboard.insertLayer_afterLayerOrAtEnd(group)
+
+        for (var i = 0; i < 2; i++) {
+            Layer.apply(artboard)
+
+            assert.equal(instance.frame().x(), 0)
+            assert.equal(instance.frame().y(), 0)
+            assert.equal(instance.frame().width(), 500)
+            assert.equal(instance.frame().height(), 965)
+            assert.equal(layer.frame().x(), 0)
+            assert.equal(layer.frame().y(), 100)
+            assert.equal(layer.frame().width(), 500)
+            assert.equal(layer.frame().height(), 972)
+            assert.equal(group.frame().x(), 1190)
+            assert.equal(group.frame().y(), 0)
+            assert.equal(group.frame().width(), 500)
+            assert.equal(group.frame().height(), 1072)
+        }
+    })
+
 })

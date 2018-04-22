@@ -138,13 +138,15 @@ var resizeMaster = function(layer) {
 
     for (var i = 0; i < sublayers.count(); i++) {
         var sublayer = sublayers.objectAtIndex(i)
-        sublayer.frame().setX(sublayer.frame().x() - minX)
-        sublayer.frame().setY(sublayer.frame().y() - minY)
+        setX(sublayer, sublayer.frame().x() - minX)
+        setY(sublayer, sublayer.frame().y() - minY)
     }
 
-    layer.frame().setWidth(maxWidth - minX)
-    layer.frame().setHeight(maxHeight - minY)
+    setWidth(layer, maxWidth - minX)
+    setHeight(layer, maxHeight - minY)
 }
+
+// -----------------------------------------------------------
 
 var repeatString = function(str, repeat) {
     var repeatedString = ""
@@ -190,3 +192,4 @@ global.heightOfParentGroup = heightOfParentGroup
 global.resizeLayer = resizeLayer
 global.resizeMaster = resizeMaster
 global.logWithLayerLevel = logWithLayerLevel
+global.frameToStringForLayer = frameToStringForLayer

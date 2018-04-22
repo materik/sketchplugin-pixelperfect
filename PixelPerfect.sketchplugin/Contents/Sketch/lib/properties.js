@@ -79,7 +79,7 @@ Property.prototype.isValid = function() {
 }
 
 Property.prototype.apply = function() {
-    logWithLayerLevel(this.layer, "~ Property: apply: " + this.toString(), 1)
+    var frameBefore = frameToStringForLayer(this.layer)
 
     var frame = this.layer.frame()
     switch (this.property) {
@@ -151,6 +151,10 @@ Property.prototype.apply = function() {
             print("~ ERROR: invalid property: " + this.property)
             break;
     }
+
+    var frameAfter = frameToStringForLayer(this.layer)
+
+    logWithLayerLevel(this.layer, "~ Property: apply: " + this.toString() + " " + frameBefore + " -> " + frameAfter, 1)
 }
 
 Property.prototype.stack = function(horizontally, alignment) {

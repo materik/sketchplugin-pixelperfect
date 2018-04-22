@@ -23,7 +23,7 @@ describe('main', function() {
         doc.currentPage().insertLayer_afterLayerOrAtEnd(layer1)
         doc.currentPage().insertLayer_afterLayerOrAtEnd(layer2)
         var context = { document: doc }
-        makeEverythingPixelPerfect(context)
+        makePixelPerfect(context)
         assert.equal(layer1.frame().x(), 1)
         assert.equal(layer1.frame().y(), 2)
         assert.equal(layer1.frame().width(), 100)
@@ -35,7 +35,18 @@ describe('main', function() {
     })
 
     it('findLayersWithAutoLayoutApplied', function() {
-        // TODO
+        var layer1 = createLayer("false")
+        var layer2 = createLayer("true")
+        layer2._setUserInfo({"com.animaapp.stc-sketch-plugin": {kViewTypeKey: "ADModelStackView"}})
+        var doc = MSDocument.new()
+        doc.currentPage().insertLayer_afterLayerOrAtEnd(layer1)
+        var context = { document: doc }
+        findLayersWithAutoLayoutApplied(context)
+        assert.equal(doc.currentPage().selection().length, 0)
+        doc.currentPage().insertLayer_afterLayerOrAtEnd(layer2)
+        findLayersWithAutoLayoutApplied(context)
+        assert.equal(doc.currentPage().selection().length, 1)
+        assert.equal(doc.currentPage().selection()[0].name(), "true")
     })
     
 })

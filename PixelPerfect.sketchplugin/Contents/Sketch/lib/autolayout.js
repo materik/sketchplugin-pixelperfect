@@ -30,7 +30,7 @@ var isAutoLayoutAppliedToLayer = function(layer) {
                     }
                 }
             }
-            return d2['kViewTypeKey'] != undefined
+            return d2['kViewTypeKey'] != undefined && d2['kViewTypeKey'] != ""
         } 
     }
     return false

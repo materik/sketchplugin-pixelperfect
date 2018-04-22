@@ -320,6 +320,10 @@ MSPage.prototype.class = function() {
     return NSClass.new("MSPage")
 }
 
+MSPage.prototype.selection = function() {
+    return this._selection
+}
+
 // -----------------------------------------------------------
 
 function MSArtboardGroup() {
