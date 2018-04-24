@@ -13,7 +13,10 @@ var setX = function(layer, x) {
   x = Math.round(x)
   var frame = layer.frame()
   if (frame.x() != x) {
+    var frameBefore = frameToStringForLayer(layer)
     frame.setX(x)
+    var frameAfter = frameToStringForLayer(layer)
+    logWithLayerLevel(layer, "> setX: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
     return 1
   }
   return 0
@@ -23,7 +26,10 @@ var setY = function(layer, y) {
   y = Math.round(y)
   var frame = layer.frame()
   if (frame.y() != y) {
+    var frameBefore = frameToStringForLayer(layer)
     frame.setY(y)
+    var frameAfter = frameToStringForLayer(layer)
+    logWithLayerLevel(layer, "> setY: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
     return 1
   }
   return 0
@@ -33,7 +39,10 @@ var setWidth = function(layer, w) {
   w = Math.round(w)
   var frame = layer.frame()
   if (frame.width() != w) {
+    var frameBefore = frameToStringForLayer(layer)
     frame.setWidth(w)
+    var frameAfter = frameToStringForLayer(layer)
+    logWithLayerLevel(layer, "> setWidth: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
     return 1
   }
   return 0
@@ -43,7 +52,10 @@ var setHeight = function(layer, h) {
   h = Math.round(h)
   var frame = layer.frame()
   if (frame.height() != h) {
+    var frameBefore = frameToStringForLayer(layer)
     frame.setHeight(h)
+    var frameAfter = frameToStringForLayer(layer)
+    logWithLayerLevel(layer, "> setHeight: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
     return 1
   }
   return 0
@@ -105,7 +117,9 @@ var resizeLayer = function(layer) {
             resizeMaster(layer)
             break;
         case "MSTextLayer":
-            layer.adjustFrameToFit()
+            if (!layer.name().match(/.*h\d+.*/)) {
+              layer.adjustFrameToFit() 
+            }
             break;
         default:
             if (layer.resizeToFitChildrenWithOption) {
@@ -177,6 +191,11 @@ var frameToStringForLayer = function(layer) {
 Array.prototype.last = function() {
     return this[this.length - 1];
 };
+
+Math.roundWithPrecision = function(value, precision) {
+  var factor = Math.pow(10, precision || 0);
+  return Math.round(value * factor) / factor;
+}
 
 // -----------------------------------------------------------
 

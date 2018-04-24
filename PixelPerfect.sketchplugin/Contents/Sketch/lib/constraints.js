@@ -4,16 +4,20 @@ function Constraints(layer, properties) {
 
     this.hasFixedTop = properties.includes('margin-top') ||
         properties.includes('padding') ||
-        properties.includes('margin');
+        properties.includes('margin') ||
+        properties.includes('height-percentage');
     this.hasFixedRight = properties.includes('margin-right') ||
         properties.includes('padding') ||
-        properties.includes('margin');
+        properties.includes('margin') ||
+        properties.includes('width-percentage');
     this.hasFixedBottom = properties.includes('margin-bottom') || 
         properties.includes('padding') ||
-        properties.includes('margin');
+        properties.includes('margin') ||
+        properties.includes('height-percentage');
     this.hasFixedLeft = properties.includes('margin-left') || 
         properties.includes('padding') ||
-        properties.includes('margin');
+        properties.includes('margin' ||
+        properties.includes('width-percentage'));
 
     this.hasFixedWidth = !(this.hasFixedRight && this.hasFixedLeft);
     this.hasFixedHeight = !(this.hasFixedTop && this.hasFixedBottom);
