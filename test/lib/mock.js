@@ -143,7 +143,7 @@ MSTextLayer.prototype.class = function() {
 }
 
 MSTextLayer.prototype.adjustFrameToFit = function() {
-    // Do nothing...
+    this.frame().setHeight(this._autoFrame.height())
 }
 
 MSTextLayer.prototype.setTextBehaviourSegmentIndex = function() {

@@ -253,6 +253,21 @@ describe('layer', function() {
             assert.equal(layer.frame()._nbrOfChanges, 5)
         })
 
+        it('textLayer', function() {
+            var textLayer = createTextLayer("", 231, 48)
+            Layer.apply(textLayer)
+            assert.equal(textLayer.frame().width(), 231)
+            assert.equal(textLayer.frame().height(), 48) 
+            var textLayer = createTextLayer("w436", 231, 48)
+            Layer.apply(textLayer)
+            assert.equal(textLayer.frame().width(), 436)
+            assert.equal(textLayer.frame().height(), 48) 
+            var textLayer = createTextLayer("h60", 231, 48)
+            Layer.apply(textLayer)
+            assert.equal(textLayer.frame().width(), 231)
+            assert.equal(textLayer.frame().height(), 60) 
+        })
+
     })
 
     it('roundToPixel', function() {

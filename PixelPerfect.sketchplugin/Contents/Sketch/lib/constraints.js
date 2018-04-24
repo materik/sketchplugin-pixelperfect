@@ -16,8 +16,8 @@ function Constraints(layer, properties) {
         properties.includes('height-percentage');
     this.hasFixedLeft = properties.includes('margin-left') || 
         properties.includes('padding') ||
-        properties.includes('margin' ||
-        properties.includes('width-percentage'));
+        properties.includes('margin') ||
+        properties.includes('width-percentage');
 
     this.hasFixedWidth = !(this.hasFixedRight && this.hasFixedLeft);
     this.hasFixedHeight = !(this.hasFixedTop && this.hasFixedBottom);

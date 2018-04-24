@@ -5,14 +5,14 @@ var recursivelyFindLayersWithDimensionsNotDividableBy8 = function(layers) {
         if (!isLayerComparible(layer)) {
             continue
         }
-        if (!isLayersDimensionsDividableBy8(layer)) {
-            return layer
-        }
         if (layer.layers) {
             var sublayer = recursivelyFindLayersWithDimensionsNotDividableBy8(layer.layers())
             if (sublayer) {
                 return sublayer
             }
+        }
+        if (!isLayersDimensionsDividableBy8(layer)) {
+            return layer
         }
     }
 }
@@ -30,12 +30,12 @@ var isLayersDimensionsDividableBy8 = function(layer) {
         return true
     } else if (layer.class().toString().isEqualTo("MSArtboardGroup") ||
         layer.class().toString().isEqualTo("MSSymbolMaster")) {
-        return isDividableBy4(frame.width()) &&
+        return isDividableBy8(frame.width()) &&
             isDividableBy4(frame.height())
     } else {
         return isDividableBy4(frame.x()) &&
             isDividableBy4(frame.y()) &&
-            isDividableBy4(frame.width()) &&
+            isDividableBy8(frame.width()) &&
             isDividableBy4(frame.height())
     }
 }
