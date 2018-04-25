@@ -47,6 +47,8 @@ var createExampleLayerWithAutoLayout = function(example, index) {
     return layer
 }
 
+// -----------------------------------------------------------
+
 var examples = {
 
     true: [

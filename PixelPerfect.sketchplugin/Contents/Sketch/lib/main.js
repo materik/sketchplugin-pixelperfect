@@ -8,7 +8,7 @@ var makePixelPerfect = function(context) {
         doc.showMessage("✋ There are no layers in this page")
     } else {
         Layers.apply(layers)
-        doc.showMessage("🎉 Your design is now pixel perfect")
+        doc.showMessage("👾 Your design is now pixel perfect")
     }
 }
 
@@ -25,7 +25,7 @@ var findLayersWithAutoLayoutApplied = function(context) {
             layer.select_byExpandingSelection(true, false)
             doc.showMessage("🧐 Found a layer")
         } else {
-            doc.showMessage("🎉 There are no layers with Auto Layout applied")
+            doc.showMessage("👾 There are no layers with Auto Layout applied")
         }
     }
 }
@@ -43,7 +43,7 @@ var findLayersWithDimensionsNotDividableBy8 = function(context) {
             layer.select_byExpandingSelection(true, false)
             doc.showMessage("🧐 Found a layer: " + frameToStringForLayer(layer))
         } else {
-            doc.showMessage("🎉 There are no layers not dividable by 8")
+            doc.showMessage("👾 There are no layers not dividable by 8")
         }
     }
 }

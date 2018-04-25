@@ -130,6 +130,7 @@ function MSTextLayer() {
     MSLayer.call(this)
 
     this._autoFrame = CGRect.new()
+    this._verticalAlignment = 0 
 }
 
 MSTextLayer.new = function() {
@@ -149,6 +150,14 @@ MSTextLayer.prototype.adjustFrameToFit = function() {
 MSTextLayer.prototype.setTextBehaviourSegmentIndex = function() {
     this.frame().setWidth(this._autoFrame.width())
     this.frame().setHeight(this._autoFrame.height())
+}
+
+MSTextLayer.prototype.verticalAlignment = function() {
+    return this._verticalAlignment
+}
+
+MSTextLayer.prototype.setVerticalAlignment = function(verticalAlignment) {
+    this._verticalAlignment = verticalAlignment
 }
 
 MSTextLayer.prototype._setAutoSize = function(width, height) {

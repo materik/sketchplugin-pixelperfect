@@ -117,8 +117,10 @@ var resizeLayer = function(layer) {
             resizeMaster(layer)
             break;
         case "MSTextLayer":
-            if (!layer.name().match(/.*h\d+.*/)) {
-              layer.adjustFrameToFit() 
+            if (layer.name().match(/.*h\d+.*/)) {
+                layer.setVerticalAlignment(1)
+            } else {
+                layer.adjustFrameToFit() 
             }
             break;
         default:

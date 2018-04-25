@@ -163,8 +163,20 @@ Property.prototype.apply = function() {
         case "center-horizontally":
             setX(this.layer, (widthOfParentGroup(this.layer) - frame.width()) / 2)
             break;
+        case "center-horizontally-addition":
+            setX(this.layer, (widthOfParentGroup(this.layer) - frame.width()) / 2 + this.value)
+            break;
+        case "center-horizontally-subtraction":
+            setX(this.layer, (widthOfParentGroup(this.layer) - frame.width()) / 2 - this.value)
+            break;
         case "center-vertically":
             setY(this.layer, (heightOfParentGroup(this.layer) - frame.height()) / 2)
+            break;
+        case "center-vertically-addition":
+            setY(this.layer, (heightOfParentGroup(this.layer) - frame.height()) / 2 + this.value)
+            break;
+        case "center-vertically-subtraction":
+            setY(this.layer, (heightOfParentGroup(this.layer) - frame.height()) / 2 - this.value)
             break;
         /* istanbul ignore next */
         default:
@@ -256,10 +268,18 @@ Property._extractProperty = function(str) {
         return "stack-vertically-center"
     } else if (str.match(/^(yr|vr)\d+$/i)) {
         return "stack-vertically-right"
-    } else if (str.match(/^h$/i)) {
+    } else if (str.match(/^(h|c|ch)$/i)) {
         return "center-horizontally"
-    } else if (str.match(/^v$/i)) {
+    } else if (str.match(/^(h|c|ch)\+\d+$/i)) {
+        return "center-horizontally-addition"
+    } else if (str.match(/^(h|c|ch)\-\d+$/i)) {
+        return "center-horizontally-subtraction"
+    } else if (str.match(/^(v|m|cv)$/i)) {
         return "center-vertically"
+    } else if (str.match(/^(v|m|cv)\+\d+$/i)) {
+        return "center-vertically-addition"
+    } else if (str.match(/^(v|m|cv)\-\d+$/i)) {
+        return "center-vertically-subtraction"
     } else {
         // Do nothing...
     }

@@ -186,17 +186,45 @@ describe('property', function() {
     })
 
     it('center-horizontally', function() {
-        var property = Property.new(createLayer("h"))
+        var property = Property.new(createLayer("c"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "center-horizontally")
         assert.ok(isNaN(property.value))
     })
 
+    it('center-horizontally-addition', function() {
+        var property = Property.new(createLayer("c+16"))
+        assert.equal(property.isValid(), true)
+        assert.equal(property.property, "center-horizontally-addition")
+        assert.equal(property.value, 16)
+    })
+
+    it('center-horizontally-subtraction', function() {
+        var property = Property.new(createLayer("c-16"))
+        assert.equal(property.isValid(), true)
+        assert.equal(property.property, "center-horizontally-subtraction")
+        assert.equal(property.value, 16)
+    })
+
     it('center-vertically', function() {
-        var property = Property.new(createLayer("v"))
+        var property = Property.new(createLayer("m"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "center-vertically")
         assert.ok(isNaN(property.value))
+    })
+
+    it('center-vertically-addition', function() {
+        var property = Property.new(createLayer("m+16"))
+        assert.equal(property.isValid(), true)
+        assert.equal(property.property, "center-vertically-addition")
+        assert.equal(property.value, 16)
+    })
+
+    it('center-vertically-subtraction', function() {
+        var property = Property.new(createLayer("m-16"))
+        assert.equal(property.isValid(), true)
+        assert.equal(property.property, "center-vertically-subtraction")
+        assert.equal(property.value, 16)
     })
 
     describe('apply', function() {
@@ -445,7 +473,7 @@ describe('property', function() {
         })
 
         it('center-horizontally', function() {
-            var layer = createLayer("h", 1, 2, 5, 4)
+            var layer = createLayer("c", 1, 2, 5, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
             group.insertLayer_afterLayerOrAtEnd(layer)
@@ -455,8 +483,30 @@ describe('property', function() {
             assert.equal(layer.frame().x(), 4)
         })
 
+        it('center-horizontally-addition', function() {
+            var layer = createLayer("c+2", 1, 2, 5, 4)
+            var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
+            var group = createLayerGroup()
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
+            var property = Property.new(layer)
+            property.apply()
+            assert.equal(layer.frame().x(), 6)
+        })
+
+        it('center-horizontally-subtraction', function() {
+            var layer = createLayer("c-2", 1, 2, 5, 4)
+            var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
+            var group = createLayerGroup()
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
+            var property = Property.new(layer)
+            property.apply()
+            assert.equal(layer.frame().x(), 2)
+        })
+
         it('center-vertically', function() {
-            var layer = createLayer("v", 1, 2, 3, 4)
+            var layer = createLayer("m", 1, 2, 3, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
             group.insertLayer_afterLayerOrAtEnd(layer)
@@ -464,6 +514,28 @@ describe('property', function() {
             var property = Property.new(layer)
             property.apply()
             assert.equal(layer.frame().y(), 5)
+        })
+
+        it('center-vertically-addition', function() {
+            var layer = createLayer("m+2", 1, 2, 5, 4)
+            var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
+            var group = createLayerGroup()
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
+            var property = Property.new(layer)
+            property.apply()
+            assert.equal(layer.frame().y(), 7)
+        })
+
+        it('center-vertically-subtraction', function() {
+            var layer = createLayer("m-2", 1, 2, 5, 4)
+            var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
+            var group = createLayerGroup()
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
+            var property = Property.new(layer)
+            property.apply()
+            assert.equal(layer.frame().y(), 3)
         })
 
     })
