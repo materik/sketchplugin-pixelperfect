@@ -2,14 +2,14 @@
 var recursivelyFindLayersWithDimensionsNotDividableBy8 = function(layers) {
     for (var i = 0; i < layers.count(); i++) {
         var layer = layers.objectAtIndex(i)
-        if (!isLayerComparible(layer)) {
-            continue
-        }
         if (layer.layers) {
             var sublayer = recursivelyFindLayersWithDimensionsNotDividableBy8(layer.layers())
             if (sublayer) {
                 return sublayer
             }
+        }
+        if (!isLayerComparible(layer)) {
+            continue
         }
         if (!isLayersDimensionsDividable(layer)) {
             return layer

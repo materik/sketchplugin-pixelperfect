@@ -48,5 +48,19 @@ describe('main', function() {
         assert.equal(doc.currentPage().selection().length, 1)
         assert.equal(doc.currentPage().selection()[0].name(), "true")
     })
+
+    it('findLayersWithDimensionsNotDividableBy8', function() {
+        var layer1 = createLayer("false")
+        var layer2 = createLayer("true", 0, 0, 7, 4)
+        var doc = MSDocument.new()
+        doc.currentPage().insertLayer_afterLayerOrAtEnd(layer1)
+        var context = { document: doc }
+        findLayersWithDimensionsNotDividableBy8(context)
+        assert.equal(doc.currentPage().selection().length, 0)
+        doc.currentPage().insertLayer_afterLayerOrAtEnd(layer2)
+        findLayersWithDimensionsNotDividableBy8(context)
+        assert.equal(doc.currentPage().selection().length, 1)
+        assert.equal(doc.currentPage().selection()[0].name(), "true")
+    })
     
 })

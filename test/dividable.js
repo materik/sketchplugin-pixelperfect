@@ -33,6 +33,30 @@ describe('dividable', function() {
             assert.notEqual(testLayerByFrame(28, 24, 64, 30), undefined)
         })
 
+        it('sublayers', function() {
+            var layer1 = createLayer("1")
+            var layer2 = createLayer("2")
+            var group = createLayerGroup()
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
+            assert.equal(testLayer(group), undefined)
+            layer2.frame().setWidth(3)
+            assert.notEqual(testLayer(group), undefined)
+            assert.equal(testLayer(group).name(), "2")
+        })
+
+        it('artboard', function() {
+            assert.equal(testArtboardByFrame(1, 1, 8, 4), undefined)
+            assert.notEqual(testArtboardByFrame(1, 1, 7, 4), undefined)
+            assert.notEqual(testArtboardByFrame(1, 1, 8, 3), undefined)
+        })
+
+        it('symbol master', function() {
+            assert.equal(testSymbolMasterByFrame(1, 1, 8, 4), undefined)
+            assert.notEqual(testSymbolMasterByFrame(1, 1, 7, 4), undefined)
+            assert.notEqual(testSymbolMasterByFrame(1, 1, 8, 3), undefined)
+        })
+
         it('ignore text layer', function() {
             assert.equal(testTextLayerByFrame(1, 2, 3, 4), undefined)
         })
@@ -61,6 +85,14 @@ var testLayerByFrame = function(x, y, width, height) {
 
 var testTextLayerByFrame = function(x, y, width, height) {
     return testLayer(createTextLayer("", x, y, width, height))
+}
+
+var testArtboardByFrame = function(x, y, width, height) {
+    return testLayer(createArtboard("", x, y, width, height))
+}
+
+var testSymbolMasterByFrame = function(x, y, width, height) {
+    return testLayer(createSymbolMaster("", x, y, width, height))
 }
 
 var testLayer = function(layer) {

@@ -368,7 +368,7 @@ MSDocument.prototype.class = function() {
 }
 
 MSDocument.prototype.showMessage = function(msg) {
-    // console.log("showMessage:", msg)
+    console.log("> SHOW MESSAGE:", msg)
 }
 
 MSDocument.prototype.currentPage = function() {

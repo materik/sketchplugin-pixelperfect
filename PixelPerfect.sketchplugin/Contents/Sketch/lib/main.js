@@ -63,3 +63,4 @@ var selection = function(context) {
 
 global.makePixelPerfect = makePixelPerfect
 global.findLayersWithAutoLayoutApplied = findLayersWithAutoLayoutApplied
+global.findLayersWithDimensionsNotDividableBy8 = findLayersWithDimensionsNotDividableBy8
