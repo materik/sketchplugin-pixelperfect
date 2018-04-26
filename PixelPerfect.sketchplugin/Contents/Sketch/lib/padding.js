@@ -6,30 +6,13 @@ function Padding(top, right, bottom, left) {
     this._left = left
 }
 
+// Static
+
 Padding.new = function(top, right, bottom, left) {
     return new Padding(top, right, bottom, left)
 }
 
-Padding.prototype.toString = function() {
-    return this._top + ":" + this._right + ":" + this._bottom + ":" + this._left
-}
-
-Padding.prototype.add = function(value) {
-    value = parseInt(value)
-    if (this._top == undefined) {
-        this._top = value
-    } else if (this._right == undefined) {
-        this._right = value
-    } else if (this._bottom == undefined) {
-        this._bottom = value
-    } else if (this._left == undefined) {
-        this._left = value
-    }
-}
-
-Padding.prototype.isValid = function() {
-    return this._top != undefined
-}
+// Getter
 
 Padding.prototype.top = function() {
     return this._top || 0
@@ -63,6 +46,16 @@ Padding.prototype.height = function(layer) {
     return layer.frame().height() + this.top() + this.bottom()
 }
 
+Padding.prototype.isValid = function() {
+    return this._top != undefined
+}
+
+Padding.prototype.toString = function() {
+    return this._top + ":" + this._right + ":" + this._bottom + ":" + this._left
+}
+
+// Action
+
 Padding.prototype.apply = function(layer) {
     var parentGroup = layer.parentGroup()
     if (parentGroup) {
@@ -73,6 +66,19 @@ Padding.prototype.apply = function(layer) {
             setWidth(backgroundLayer, this.width(layer))
             setHeight(backgroundLayer, this.height(layer))
         }
+    }
+}
+
+Padding.prototype.add = function(value) {
+    value = parseInt(value)
+    if (this._top == undefined) {
+        this._top = value
+    } else if (this._right == undefined) {
+        this._right = value
+    } else if (this._bottom == undefined) {
+        this._bottom = value
+    } else if (this._left == undefined) {
+        this._left = value
     }
 }
 

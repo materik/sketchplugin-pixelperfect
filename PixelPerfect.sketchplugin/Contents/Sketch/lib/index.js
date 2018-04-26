@@ -7,7 +7,7 @@ var makePixelPerfect = function(context) {
     if (layers.count() == 0) {
         doc.showMessage("✋ There are no layers in this page")
     } else {
-        Layers.apply(layers)
+        Components.apply(layers)
         doc.showMessage("👾 Your design is now pixel perfect")
     }
 }

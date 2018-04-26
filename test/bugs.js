@@ -31,7 +31,7 @@ describe('bugs', function() {
         symbol2.insertLayer_afterLayerOrAtEnd(group2)
 
         for (var i = 0; i < 2; i++) {
-            Layer.apply(symbol2)
+            Component.apply(symbol2)
 
             assert.equal(symbol1.frame().width(), 145)
             assert.equal(symbol1.frame().height(), 63)
@@ -51,7 +51,7 @@ describe('bugs', function() {
         group.insertLayer_afterLayerOrAtEnd(bg)
 
         for (var i = 0; i < 2; i++) {
-            Layer.apply(group)
+            Component.apply(group)
 
             assert.equal(group.frame().width(), 500)
             assert.equal(group.frame().height(), 112) 
@@ -77,7 +77,7 @@ describe('bugs', function() {
         symbol.insertLayer_afterLayerOrAtEnd(group)
 
         for (var i = 0; i < 2; i++) {
-            Layer.apply(symbol)
+            Component.apply(symbol)
 
             assert.equal(symbol.frame().width(), 360)
             assert.equal(symbol.frame().height(), 64) 
@@ -96,7 +96,7 @@ describe('bugs', function() {
         artboard.insertLayer_afterLayerOrAtEnd(group)
 
         for (var i = 0; i < 2; i++) {
-            Layer.apply(artboard)
+            Component.apply(artboard)
 
             assert.equal(instance.frame().x(), 0)
             assert.equal(instance.frame().y(), 0)
@@ -122,7 +122,7 @@ describe('bugs', function() {
         artboard.insertLayer_afterLayerOrAtEnd(layer2)
 
         for (var i = 0; i < 2; i++) {
-            Layer.apply(artboard)
+            Component.apply(artboard)
 
             assert.equal(artboard.frame().width(), 1680)
             assert.equal(artboard.frame().height(), 960)
@@ -131,7 +131,7 @@ describe('bugs', function() {
         layer1.setName("w2000:h960")
 
         for (var i = 0; i < 2; i++) {
-            Layer.apply(artboard)
+            Component.apply(artboard)
 
             assert.equal(artboard.frame().width(), 1680)
             assert.equal(artboard.frame().height(), 1024)

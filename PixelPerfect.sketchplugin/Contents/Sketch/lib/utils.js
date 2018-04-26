@@ -1,4 +1,6 @@
 
+// Getter
+
 var findLayerInGroup = function(layerName, group) {
   var layers = group.layers();
   for (var i = 0; i < layers.count(); i++) {
@@ -7,58 +9,6 @@ var findLayerInGroup = function(layerName, group) {
       return layer;
     }
   }
-}
-
-var setX = function(layer, x) {
-  x = Math.round(x)
-  var frame = layer.frame()
-  if (frame.x() != x) {
-    var frameBefore = frameToStringForLayer(layer)
-    frame.setX(x)
-    var frameAfter = frameToStringForLayer(layer)
-    logWithLayerLevel(layer, "> setX: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
-    return 1
-  }
-  return 0
-}
-
-var setY = function(layer, y) {
-  y = Math.round(y)
-  var frame = layer.frame()
-  if (frame.y() != y) {
-    var frameBefore = frameToStringForLayer(layer)
-    frame.setY(y)
-    var frameAfter = frameToStringForLayer(layer)
-    logWithLayerLevel(layer, "> setY: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
-    return 1
-  }
-  return 0
-}
-
-var setWidth = function(layer, w) {
-  w = Math.round(w)
-  var frame = layer.frame()
-  if (frame.width() != w) {
-    var frameBefore = frameToStringForLayer(layer)
-    frame.setWidth(w)
-    var frameAfter = frameToStringForLayer(layer)
-    logWithLayerLevel(layer, "> setWidth: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
-    return 1
-  }
-  return 0
-}
-
-var setHeight = function(layer, h) {
-    h = Math.round(h)
-    var frame = layer.frame()
-    if (frame.height() != h) {
-        var frameBefore = frameToStringForLayer(layer)
-        frame.setHeight(h)
-        var frameAfter = frameToStringForLayer(layer)
-        logWithLayerLevel(layer, "> setHeight: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
-        return 1
-    }
-    return 0
 }
 
 var maxWidth = function(layers) {
@@ -134,6 +84,62 @@ var heightOfParentGroup = function(layer, full) {
         return maxHeight(parentGroup.layers())
     }
 }
+
+// Setter
+
+var setX = function(layer, x) {
+  x = Math.round(x)
+  var frame = layer.frame()
+  if (frame.x() != x) {
+    var frameBefore = frameToStringForLayer(layer)
+    frame.setX(x)
+    var frameAfter = frameToStringForLayer(layer)
+    logWithLayerLevel(layer, "> setX: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
+    return 1
+  }
+  return 0
+}
+
+var setY = function(layer, y) {
+  y = Math.round(y)
+  var frame = layer.frame()
+  if (frame.y() != y) {
+    var frameBefore = frameToStringForLayer(layer)
+    frame.setY(y)
+    var frameAfter = frameToStringForLayer(layer)
+    logWithLayerLevel(layer, "> setY: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
+    return 1
+  }
+  return 0
+}
+
+var setWidth = function(layer, w) {
+  w = Math.round(w)
+  var frame = layer.frame()
+  if (frame.width() != w) {
+    var frameBefore = frameToStringForLayer(layer)
+    frame.setWidth(w)
+    var frameAfter = frameToStringForLayer(layer)
+    logWithLayerLevel(layer, "> setWidth: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
+    return 1
+  }
+  return 0
+}
+
+var setHeight = function(layer, h) {
+    h = Math.round(h)
+    var frame = layer.frame()
+    if (frame.height() != h) {
+        var frameBefore = frameToStringForLayer(layer)
+        frame.setHeight(h)
+        var frameAfter = frameToStringForLayer(layer)
+        logWithLayerLevel(layer, "> setHeight: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
+        return 1
+    }
+    return 0
+}
+
+// Action
 
 var resizeLayer = function(layer) {
     var frameBefore = frameToStringForLayer(layer)
@@ -234,16 +240,21 @@ Math.roundWithPrecision = function(value, precision) {
 // -----------------------------------------------------------
 
 global.findLayerInGroup = findLayerInGroup
+global.maxWidth = maxWidth
+global.maxRight = maxRight
+global.widthOfParentGroup = widthOfParentGroup
+global.maxHeight = maxHeight
+global.maxBottom = maxBottom
+global.heightOfParentGroup = heightOfParentGroup
+
 global.setX = setX
 global.setY = setY
 global.setWidth = setWidth
 global.setHeight = setHeight
-global.maxWidth = maxWidth
-global.selection = selection
-global.widthOfParentGroup = widthOfParentGroup
-global.maxHeight = maxHeight
-global.heightOfParentGroup = heightOfParentGroup
+
 global.resizeLayer = resizeLayer
 global.sizeToFit = sizeToFit
+
+global.selection = selection
 global.logWithLayerLevel = logWithLayerLevel
 global.frameToStringForLayer = frameToStringForLayer

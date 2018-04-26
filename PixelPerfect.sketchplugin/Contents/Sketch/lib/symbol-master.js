@@ -3,15 +3,21 @@ function SymbolMaster() {
     this._ids = []
 }
 
+// Static
+
 SymbolMaster.sharedInstance = new SymbolMaster()
 
-SymbolMaster.prototype.add = function(master) {
-    this._ids.push(master.symbolID())
+// Getter
+
+SymbolMaster.prototype.ids = function() {
+    return this._ids
 }
 
 SymbolMaster.prototype.contains = function(master) {
-    return this._ids.includes(master.symbolID())
+    return this.ids().includes(master.symbolID())
 }
+
+// Action
 
 SymbolMaster.prototype.apply = function(master) {
     if (master.parentPage() == null) {
@@ -20,11 +26,15 @@ SymbolMaster.prototype.apply = function(master) {
         logWithLayerLevel(master, "/ master already applied: " + master.name(), 1)
     } else {
         print("\nSYMBOL\n{")
-        Layer.apply(master)
+        Component.apply(master)
         print("}\n")
 
         this.add(master)
     }
+}
+
+SymbolMaster.prototype.add = function(master) {
+    this.ids().push(master.symbolID())
 }
 
 // -----------------------------------------------------------
