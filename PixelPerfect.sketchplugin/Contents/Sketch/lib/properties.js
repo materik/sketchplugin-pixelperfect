@@ -114,6 +114,9 @@ Property.prototype.apply = function() {
         case "width-percentage-full":
             setWidth(this.layer, this.value / 100 * widthOfParentGroup(this.layer, true))
             break;
+        case "width-min":
+            setWidth(this.layer, frame.width() < this.value ? this.value : frame.width())
+            break;
         case "height":
             setHeight(this.layer, this.value)
             break;
@@ -125,6 +128,9 @@ Property.prototype.apply = function() {
             break;
         case "height-percentage-full":
             setHeight(this.layer, this.value / 100 * heightOfParentGroup(this.layer, true))
+            break;
+        case "height-min":
+            setHeight(this.layer, frame.height() < this.value ? this.value : frame.height())
             break;
         case "padding":
             this.value.apply(this.layer)
@@ -227,6 +233,8 @@ Property._extractProperty = function(str) {
         return "width-percentage"
     } else if (str.match(/^w\d+%%$/i)) {
         return "width-percentage-full"
+    } else if (str.match(/^w\>\d+$/i)) {
+        return "width-min"
     } else if (str.match(/^h\d+$/i)) {
         return "height"
     } else if (str.match(/^h(\+|\-)\d+$/i)) {
@@ -235,6 +243,8 @@ Property._extractProperty = function(str) {
         return "height-percentage"
     } else if (str.match(/^h\d+%%/i)) {
         return "height-percentage-full"
+    } else if (str.match(/^h\>\d+$/i)) {
+        return "height-min"
     } else if (str.match(/^padding$/i)) {
         return "padding"
     } else if (str.match(/^(bg|trbl)$/i)) {
