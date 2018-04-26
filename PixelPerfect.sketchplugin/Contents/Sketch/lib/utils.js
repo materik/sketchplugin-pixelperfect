@@ -76,7 +76,7 @@ var maxRight = function(layers) {
     var right = 0
     for (var i = 0; i < layers.count(); i++) {
         var layer = layers.objectAtIndex(i)
-        if (!layer.name().match(/.*w\d+%.*/)) {
+        if (!layer.name().match(/.*(\bw\d+%|\br(?![^\d])).*/)) {
             right = Math.max(right, layer.frame().x() + layer.frame().width())
         }
     }
@@ -113,7 +113,7 @@ var maxBottom = function(layers) {
     var bottom = 0
     for (var i = 0; i < layers.count(); i++) {
         var layer = layers.objectAtIndex(i)
-        if (!layer.name().match(/.*h\d+%.*/)) {
+        if (!layer.name().match(/.*(\bh\d+%|\bb(?![^\d])).*/)) {
             bottom = Math.max(bottom, layer.frame().y() + layer.frame().height())
         }
     }

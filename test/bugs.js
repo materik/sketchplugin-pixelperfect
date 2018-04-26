@@ -113,4 +113,29 @@ describe('bugs', function() {
         }
     })
 
+    it('padding on artboard doesnt comply to min height', function() {
+        var artboard = createArtboard("Artboard [0:0:64:0:w1680:h>960]", 0, 0, 1690, 965)
+        var layer1 = createLayer("w100:h100%")
+        var layer2 = createLayer("w64:h64:r32:b32")
+
+        artboard.insertLayer_afterLayerOrAtEnd(layer1)
+        artboard.insertLayer_afterLayerOrAtEnd(layer2)
+
+        for (var i = 0; i < 2; i++) {
+            Layer.apply(artboard)
+
+            assert.equal(artboard.frame().width(), 1680)
+            assert.equal(artboard.frame().height(), 960)
+        }
+
+        layer1.setName("w2000:h960")
+
+        for (var i = 0; i < 2; i++) {
+            Layer.apply(artboard)
+
+            assert.equal(artboard.frame().width(), 1680)
+            assert.equal(artboard.frame().height(), 1024)
+        }
+    })
+
 })
