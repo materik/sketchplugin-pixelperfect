@@ -174,14 +174,14 @@ describe('property', function() {
         assert.equal(property.value(), -10)
     })
 
-    it('stack-horizontally-center', function() {
+    it('stack-horizontally-middle', function() {
         var property = Property.new(createLayer("x20"))
         assert.equal(property.isValid(), true)
-        assert.equal(property.key(), "stack-horizontally-center")
+        assert.equal(property.key(), "stack-horizontally-middle")
         assert.equal(property.value(), 20)
-        var property = Property.new(createLayer("hc-20"))
+        var property = Property.new(createLayer("hm-20"))
         assert.equal(property.isValid(), true)
-        assert.equal(property.key(), "stack-horizontally-center")
+        assert.equal(property.key(), "stack-horizontally-middle")
         assert.equal(property.value(), -20)
     })
 
@@ -480,6 +480,13 @@ describe('property', function() {
             assert.equal(layer.frame().y(), 2)
             assert.equal(layer.frame().width(), 3)
             assert.equal(layer.frame().height(), 4)
+            var layer = createLayer("yl10", 1, 2, 3, 4)
+            var property = Property.new(layer)
+            property.apply()
+            assert.equal(layer.frame().x(), 1)
+            assert.equal(layer.frame().y(), 2)
+            assert.equal(layer.frame().width(), 3)
+            assert.equal(layer.frame().height(), 4)
         })
 
         it('stack-horizontally-top', function() {
@@ -496,7 +503,7 @@ describe('property', function() {
             assert.equal(layer2.frame().y(), 0)
         })
 
-        it('stack-horizontally-center', function() {
+        it('stack-horizontally-middle', function() {
             var layer1 = createLayer("1", 1, 2, 3, 4)
             var layer2 = createLayer("2", 5, 6, 7, 8)
             var group = createLayerGroup("x10")

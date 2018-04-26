@@ -1,8 +1,11 @@
 
-function Property(layer, key, value) {
+function Property(layer, raw, value) {
     this._layer = layer
-    this._key = Property._extractProperty(key || layer.name())
-    this._value = value || Property._extractValue(key || layer.name())
+    this._raw = raw || layer.name()
+    this._key = undefined
+    this._value = value
+
+    this._setup()
 }
 
 // Static
@@ -104,22 +107,23 @@ Property.prototype.apply = function() {
             setX(this.layer(), this.value() || 0)
             break;
         case "stack-horizontally-top":
-            this.stack(true, -1)
+            this.stackHorizontally(Alignment.top())
             break;
-        case "stack-horizontally-center":
-            this.stack(true, 0)
+        case "stack-horizontally-middle":
+log(1)
+            this.stackHorizontally(Alignment.middle())
             break;
         case "stack-horizontally-bottom":
-            this.stack(true, 1)
+            this.stackHorizontally(Alignment.bottom())
             break;
         case "stack-vertically-left":
-            this.stack(false, -1)
+            this.stackVertically(Alignment.left())
             break;
         case "stack-vertically-center":
-            this.stack(false, 0)
+            this.stackVertically(Alignment.center())
             break;
         case "stack-vertically-right":
-            this.stack(false, 1)
+            this.stackVertically(Alignment.right())
             break;
         case "center-horizontally":
             setX(this.layer(), (widthOfParentGroup(this.layer()) - frame.width()) / 2 + (this.value() || 0))
@@ -138,102 +142,140 @@ Property.prototype.apply = function() {
     logWithLayerLevel(this.layer(), "~ Property: apply: " + this.toString() + " " + frameBefore + " -> " + frameAfter, 1)
 }
 
-Property.prototype.stack = function(horizontally, alignment) {
+Property.prototype.stackHorizontally = function(alignment) {
     if (!this.layer().layers) {
         return
     }
 
     var sublayers = this.layer().layers()
-    var dx = 0
-    var d = horizontally ? maxHeight(sublayers) : maxWidth(sublayers)
+    var h = maxHeight(sublayers)
+
+    var x = 0
     for (var k = sublayers.count() - 1; k >= 0; k--) {
         var sublayer = sublayers.objectAtIndex(k)
-        if (!sublayer.isVisible()) {
-            continue;
-        }
+        if (sublayer.isVisible()) {
+            alignment.align(sublayer, h)
+            setX(sublayer, x)
 
-        var frame = sublayer.frame()
-        var dy = 0
-        switch (alignment) {
-            case -1:
-                dy = 0
-                break;
-            case 0:
-                dy = (d - (horizontally ? frame.height() : frame.width())) / 2
-                break;
-            case 1:
-                dy = (d - (horizontally ? frame.height() : frame.width()))
-                break;
-        }
+log(sublayer.frame())
 
-        if (horizontally) {
-            setX(sublayer, dx); setY(sublayer, dy)
-        } else {
-            setX(sublayer, dy); setY(sublayer, dx)
+            x += sublayer.frame().width() + this.value()
         }
+    }
+}
 
-        dx += (horizontally ? frame.width() : frame.height()) + this.value()
+Property.prototype.stackVertically = function(alignment) {
+    if (!this.layer().layers) {
+        return
+    }
+
+    var sublayers = this.layer().layers()
+    var w = maxWidth(sublayers)
+
+    var y = 0
+    for (var k = sublayers.count() - 1; k >= 0; k--) {
+        var sublayer = sublayers.objectAtIndex(k)
+        if (sublayer.isVisible()) {
+            alignment.align(sublayer, w)
+            setY(sublayer, y)
+            
+            y += sublayer.frame().height() + this.value()
+        }
     }
 }
 
 // Private
 
-Property._extractProperty = function(key) {
-    if (key.match(/^w\d+$/)) {
-        return "width"
-    } else if (key.match(/^w(\+|\-)\d+$/i)) {
-        return "width-addition"
-    } else if (key.match(/^w\d+%$/i)) {
-        return "width-percentage"
-    } else if (key.match(/^w\d+%%$/i)) {
-        return "width-percentage-full"
-    } else if (key.match(/^w\>\d+$/i)) {
-        return "width-min"
-    } else if (key.match(/^h\d+$/i)) {
-        return "height"
-    } else if (key.match(/^h(\+|\-)\d+$/i)) {
-        return "height-addition"
-    } else if (key.match(/^h\d+%$/i)) {
-        return "height-percentage"
-    } else if (key.match(/^h\d+%%/i)) {
-        return "height-percentage-full"
-    } else if (key.match(/^h\>\d+$/i)) {
-        return "height-min"
-    } else if (key.match(/^padding$/i)) {
-        return "padding"
-    } else if (key.match(/^(bg|trbl)$/i)) {
-        return "margin"
-    } else if (key.match(/^(t|mt)\-?\d*$/i)) {
-        return "margin-top"
-    } else if (key.match(/^(r|mr)\-?\d*$/i)) {
-        return "margin-right"
-    } else if (key.match(/^(b|mb)\-?\d*$/i)) {
-        return "margin-bottom"
-    } else if (key.match(/^(l|ml)\-?\d*$/i)) {
-        return "margin-left"
-    } else if (key.match(/^(xt|ht)\-?\d+$/i)) {
-        return "stack-horizontally-top"
-    } else if (key.match(/^(x|hc)\-?\d+$/i)) {
-        return "stack-horizontally-center"
-    } else if (key.match(/^(xb|hb)\-?\d+$/i)) {
-        return "stack-horizontally-bottom"
-    } else if (key.match(/^(yl|vl)\-?\d+$/i)) {
-        return "stack-vertically-left"
-    } else if (key.match(/^(y|vc)\-?\d+$/i)) {
-        return "stack-vertically-center"
-    } else if (key.match(/^(yr|vr)\-?\d+$/i)) {
-        return "stack-vertically-right"
-    } else if (key.match(/^(h|c|ch)(\+|\-)?\d*$/i)) {
-        return "center-horizontally"
-    } else if (key.match(/^(v|m|cv)(\+|\-)?\d*$/i)) {
-        return "center-vertically"
-    } else {
-        // Do nothing...
+Property.prototype._setup = function() {
+    for (var key in PROPERTY_MAP) {
+        var re = new RegExp("^" + key + "$", 'i')
+        if (re.test(this._raw)) {
+            this._key = PROPERTY_MAP[key]
+            break;
+        }
+    }
+
+    this._value = this._value || parseInt(this._raw.replace(/[^\-\d]/g, ""))
+}
+
+// -----------------------------------------------------------
+
+function Alignment(rawValue) {
+    this._rawValue = rawValue
+}
+
+// Static
+
+Alignment.new = function(rawValue) {
+    return new Alignment(rawValue)
+}
+
+Alignment.top = function() { return Alignment.new("top") }
+Alignment.middle = function() { return Alignment.new("middle") }
+Alignment.bottom = function() { return Alignment.new("bottom") }
+Alignment.left = function() { return Alignment.new("left") }
+Alignment.center = function() { return Alignment.new("center") }
+Alignment.right = function() { return Alignment.new("right") }
+
+// Getter
+
+Alignment.prototype.rawValue = function() {
+    return this._rawValue
+}
+
+// Action
+
+Alignment.prototype.align = function(layer, d) {
+    var frame = layer.frame()
+    switch (this.rawValue()) {
+        case "top":
+            setY(layer, 0);
+            break;
+        case "middle":
+            setY(layer, (d - frame.height()) / 2);
+            break;
+        case "bottom":
+            setY(layer, d - frame.height());
+            break;
+        case "left":
+            setX(layer, 0);
+            break;
+        case "center":
+            setX(layer, (d - frame.width()) / 2);
+            break;
+        case "right":
+            setX(layer, d - frame.width());
+            break;
     }
 }
 
-Property._extractValue = function(key) {
-    return parseInt(key.replace(/[^\-\d]/g, ""))
+// -----------------------------------------------------------
+
+var PROPERTY_MAP = {
+    "w\\d+":                    "width",
+    "w(\\+|\\-)\\d+":           "width-addition",
+    "w\\d+%":                   "width-percentage",
+    "w\\d+%%":                  "width-percentage-full",
+    "w\\>\\d+":                 "width-min",
+    "h\\d+":                    "height",
+    "h(\\+|\\-)\\d+":           "height-addition",
+    "h\\d+%":                   "height-percentage",
+    "h\\d+%%":                  "height-percentage-full",
+    "h\\>\\d+":                 "height-min",
+    "padding":                  "padding",
+    "(bg|trbl)":                "margin",
+    "(t|mt)\\-?\\d*":           "margin-top",
+    "(r|mr)\\-?\\d*":           "margin-right",
+    "(b|mb)\\-?\\d*":           "margin-bottom",
+    "(l|ml)\\-?\\d*":           "margin-left",
+    "(xt|ht)\\-?\\d+":          "stack-horizontally-top",
+    "(x|hm)\\-?\\d+":           "stack-horizontally-middle",
+    "(xb|hb)\\-?\\d+":          "stack-horizontally-bottom",
+    "(yl|vl)\\-?\\d+":          "stack-vertically-left",
+    "(y|vc)\\-?\\d+":           "stack-vertically-center",
+    "(yr|vr)\\-?\\d+":          "stack-vertically-right",
+    "(h|c|ch)(\\+|\\-)?\\d*":   "center-horizontally",
+    "(v|m|cv)(\\+|\\-)?\\d*":   "center-vertically",
 }
 
 // -----------------------------------------------------------

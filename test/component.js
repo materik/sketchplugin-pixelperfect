@@ -74,6 +74,11 @@ describe('component', function() {
             assert.equal(layer1.frame().x(), 0)
             assert.equal(layer2.frame().x(), 4)
             assert.equal(layer3.frame().x(), 13)
+            group.setName("y10")
+            Component.apply(group)
+            assert.equal(layer1.frame().y(), 0)
+            assert.equal(layer2.frame().y(), 4)
+            assert.equal(layer3.frame().y(), 14)
         })
 
         it('localSymbol', function() {
