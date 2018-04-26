@@ -14,15 +14,4 @@ var makePixelPerfect = function(context) {
 
 // -----------------------------------------------------------
 
-var selection = function(context) {
-    var layers = context.selection;
-    if (layers && layers.count() > 0) {
-        return layers
-    } else {
-        return context.document.currentPage().layers()
-    }
-}
-
-// -----------------------------------------------------------
-
 global.makePixelPerfect = makePixelPerfect

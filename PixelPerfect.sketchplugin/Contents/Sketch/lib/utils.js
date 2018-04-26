@@ -187,6 +187,15 @@ var sizeToFit = function(layer, padding) {
 
 // -----------------------------------------------------------
 
+var selection = function(context) {
+    var layers = context.selection;
+    if (layers && layers.count() > 0) {
+        return layers
+    } else {
+        return context.document.currentPage().layers()
+    }
+}
+
 var repeatString = function(str, repeat) {
     var repeatedString = ""
     for (var i = 0; i < repeat; i++) {
@@ -230,6 +239,7 @@ global.setY = setY
 global.setWidth = setWidth
 global.setHeight = setHeight
 global.maxWidth = maxWidth
+global.selection = selection
 global.widthOfParentGroup = widthOfParentGroup
 global.maxHeight = maxHeight
 global.heightOfParentGroup = heightOfParentGroup
