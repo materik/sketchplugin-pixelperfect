@@ -268,6 +268,36 @@ describe('layer', function() {
             assert.equal(textLayer.frame().height(), 60) 
         })
 
+        it('resize artboard', function() {
+            var layer = createArtboard("Artboard", 1, 2, 3, 4)
+            Layer.apply(layer)
+            assert.equal(layer.frame().width(), 3)
+            layer.setName("Artboard [w100]")
+            Layer.apply(layer)
+            assert.equal(layer.frame().width(), 100)
+        })
+
+        it('resize artboard with padding', function() {
+            var layer = createLayer("", 1, 2, 3, 4)
+            var artboard = createArtboard("Artboard", 0, 0, 10, 20)
+            artboard.insertLayer_afterLayerOrAtEnd(layer)
+            Layer.apply(artboard)
+            assert.equal(layer.frame().x(), 1)
+            assert.equal(layer.frame().y(), 2)
+            assert.equal(layer.frame().width(), 3)
+            assert.equal(layer.frame().height(), 4)
+            assert.equal(artboard.frame().width(), 10)
+            assert.equal(artboard.frame().height(), 20)
+            artboard.setName("Artboard [1:2:3:4]")
+            Layer.apply(artboard)
+            assert.equal(layer.frame().x(), 4)
+            assert.equal(layer.frame().y(), 1)
+            assert.equal(layer.frame().width(), 3)
+            assert.equal(layer.frame().height(), 4)
+            assert.equal(artboard.frame().width(), 9)
+            assert.equal(artboard.frame().height(), 8)
+        })
+
     })
 
     it('roundToPixel', function() {
@@ -281,6 +311,28 @@ describe('layer', function() {
         assert.equal(layer.frame().y(), 2)
         assert.equal(layer.frame().width(), 3)
         assert.equal(layer.frame().height(), 5)
+    })
+
+    it('shouldIgnore', function() {
+        var layer = createLayer("")
+        assert.equal(Layer.new(layer).shouldIgnore(), false)
+        layer.setIsVisible(false)
+        assert.equal(Layer.new(layer).shouldIgnore(), true)
+        layer.setIsVisible(true)
+        assert.equal(Layer.new(layer).shouldIgnore(), false)
+        layer.setName("Artboard [Ignore]")
+        assert.equal(Layer.new(layer).shouldIgnore(), true)
+    })
+
+    it('shouldResizeArtboard', function() {
+        var layer = createLayer("Artboard")
+        assert.equal(Layer.new(layer).shouldResizeArtboard(), false)
+        layer.setName("Artboard [w100]")
+        assert.equal(Layer.new(layer).shouldResizeArtboard(), false)
+        var layer = createArtboard("Artboard")
+        assert.equal(Layer.new(layer).shouldResizeArtboard(), false)
+        layer.setName("Artboard [w100]")
+        assert.equal(Layer.new(layer).shouldResizeArtboard(), true)
     })
 
 })

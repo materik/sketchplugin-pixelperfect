@@ -74,10 +74,19 @@ Layer.prototype.apply = function() {
 
 Layer.prototype.resize = function() {
     resizeLayer(this.layer)
+
+    if (this.shouldResizeArtboard()) {
+        var property = this.properties.find("padding")
+        sizeToFit(this.layer, property && property.value)
+    }
 }
 
 Layer.prototype.shouldIgnore = function() {
-    return !this.isVisible() || this.layer.name().match(/.*\[Ignore\].*/)
+    return !this.isVisible() || (this.name().match(/.*\[ignore\].*/i) != null)
+}
+
+Layer.prototype.shouldResizeArtboard = function() {
+    return this.layer.class().toString().isEqualTo("MSArtboardGroup") && this.name().match(/.*\[.*\].*/i) != null
 }
 
 Layer.prototype.isVisible = function() {

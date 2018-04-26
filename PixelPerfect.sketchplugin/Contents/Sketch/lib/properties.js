@@ -50,14 +50,17 @@ Properties.prototype.apply = function() {
     }
 }
 
-Properties.prototype.includes = function(_property) {
+Properties.prototype.includes = function(property) {
+    return this.find(property) != undefined
+}
+
+Properties.prototype.find = function(_property) {
     for (var i = 0; i < this.properties.length; i++) {
         var property = this.properties[i]
         if (property.property == _property) {
-            return true
+            return property
         }
     }
-    return false
 }
 
 // -----------------------------------------------------------
@@ -271,15 +274,15 @@ Property._extractValue = function(str) {
 
 // -----------------------------------------------------------
 
-function Padding() {
-    this._top = undefined
-    this._right = undefined
-    this._bottom = undefined
-    this._left = undefined
+function Padding(top, right, bottom, left) {
+    this._top = top
+    this._right = right
+    this._bottom = bottom
+    this._left = left
 }
 
-Padding.new = function() {
-    return new Padding()
+Padding.new = function(top, right, bottom, left) {
+    return new Padding(top, right, bottom, left)
 }
 
 Padding.prototype.toString = function() {
@@ -336,12 +339,15 @@ Padding.prototype.height = function(layer) {
 }
 
 Padding.prototype.apply = function(layer) {
-    var backgroundLayer = findLayerInGroup("bg", layer.parentGroup())
-    if (backgroundLayer) {
-        setX(backgroundLayer, this.x(layer))
-        setY(backgroundLayer, this.y(layer))
-        setWidth(backgroundLayer, this.width(layer))
-        setHeight(backgroundLayer, this.height(layer))
+    var parentGroup = layer.parentGroup()
+    if (parentGroup) {
+        var backgroundLayer = findLayerInGroup("bg", parentGroup)
+        if (backgroundLayer) {
+            setX(backgroundLayer, this.x(layer))
+            setY(backgroundLayer, this.y(layer))
+            setWidth(backgroundLayer, this.width(layer))
+            setHeight(backgroundLayer, this.height(layer))
+        }
     }
 }
 

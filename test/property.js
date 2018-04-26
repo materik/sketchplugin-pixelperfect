@@ -313,7 +313,6 @@ describe('property', function() {
             var group = createLayerGroup("", 5, 7, 9, 11)
             group.insertLayer_afterLayerOrAtEnd(layer)
             property.apply()
-            log(widthOfParentGroup(layer))
             assert.equal(layer.frame().width(), 5)
             var otherLayer = createLayer("", 13, 15, 17, 19)
             group.insertLayer_afterLayerOrAtEnd(otherLayer)
@@ -355,6 +354,21 @@ describe('property', function() {
             group.insertLayer_afterLayerOrAtEnd(otherLayer)
             property.apply()
             assert.equal(layer.frame().height(), 10)
+        })
+
+        it('width-percentage-full', function() {
+            var layer = createLayer("h50%%", 1, 2, 3, 4)
+            var property = Property.new(layer)
+            property.apply()
+            assert.equal(layer.frame().height(), 4)
+            var group = createLayerGroup("", 5, 7, 9, 11)
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            property.apply()
+            assert.equal(layer.frame().height(), 6)
+            var otherLayer = createLayer("", 13, 15, 17, 19)
+            group.insertLayer_afterLayerOrAtEnd(otherLayer)
+            property.apply()
+            assert.equal(layer.frame().height(), 6)
         })
 
         it('padding', function() {

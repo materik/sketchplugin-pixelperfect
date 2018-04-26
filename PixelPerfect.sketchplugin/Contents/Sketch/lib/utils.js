@@ -49,16 +49,16 @@ var setWidth = function(layer, w) {
 }
 
 var setHeight = function(layer, h) {
-  h = Math.round(h)
-  var frame = layer.frame()
-  if (frame.height() != h) {
-    var frameBefore = frameToStringForLayer(layer)
-    frame.setHeight(h)
-    var frameAfter = frameToStringForLayer(layer)
-    logWithLayerLevel(layer, "> setHeight: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
-    return 1
-  }
-  return 0
+    h = Math.round(h)
+    var frame = layer.frame()
+    if (frame.height() != h) {
+        var frameBefore = frameToStringForLayer(layer)
+        frame.setHeight(h)
+        var frameAfter = frameToStringForLayer(layer)
+        logWithLayerLevel(layer, "> setHeight: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
+        return 1
+    }
+    return 0
 }
 
 var maxWidth = function(layers) {
@@ -70,6 +70,17 @@ var maxWidth = function(layers) {
         }
     }
     return width
+}
+
+var maxRight = function(layers) {
+    var right = 0
+    for (var i = 0; i < layers.count(); i++) {
+        var layer = layers.objectAtIndex(i)
+        if (!layer.name().match(/.*w\d+%.*/)) {
+            right = Math.max(right, layer.frame().x() + layer.frame().width())
+        }
+    }
+    return right
 }
 
 var widthOfParentGroup = function(layer, full) {
@@ -98,6 +109,17 @@ var maxHeight = function(layers) {
     return height
 }
 
+var maxBottom = function(layers) {
+    var bottom = 0
+    for (var i = 0; i < layers.count(); i++) {
+        var layer = layers.objectAtIndex(i)
+        if (!layer.name().match(/.*h\d+%.*/)) {
+            bottom = Math.max(bottom, layer.frame().y() + layer.frame().height())
+        }
+    }
+    return bottom
+}
+
 var heightOfParentGroup = function(layer, full) {
     var parentGroup = layer.parentGroup()
     if (parentGroup == null) {
@@ -118,7 +140,7 @@ var resizeLayer = function(layer) {
 
     switch (String(layer.class().toString())) {
         case "MSSymbolMaster":
-            resizeMaster(layer)
+            sizeToFit(layer)
             break;
         case "MSTextLayer":
             if (layer.name().match(/.*h\d+.*/)) {
@@ -139,31 +161,28 @@ var resizeLayer = function(layer) {
     logWithLayerLevel(layer, "+ resizeLayer: " + layer.name() + " " + frameBefore + " -> " + frameAfter, 1)
 }
 
-var resizeMaster = function(layer) {
+var sizeToFit = function(layer, padding) {
     var sublayers = layer.layers()
     if (sublayers.count() == 0) {
       return
     }
 
     var minX = 999999, minY = 999999
-    var maxWidth = 0, maxHeight = 0
-
     for (var i = 0; i < sublayers.count(); i++) {
         var sublayer = sublayers.objectAtIndex(i)
         minX = Math.min(minX, sublayer.frame().x())
         minY = Math.min(minY, sublayer.frame().y())
-        maxWidth = Math.max(maxWidth, sublayer.frame().x() + sublayer.frame().width())
-        maxHeight = Math.max(maxHeight, sublayer.frame().y() + sublayer.frame().height())
     }
 
+    padding = padding || new Padding()
     for (var i = 0; i < sublayers.count(); i++) {
         var sublayer = sublayers.objectAtIndex(i)
-        setX(sublayer, sublayer.frame().x() - minX)
-        setY(sublayer, sublayer.frame().y() - minY)
+        setX(sublayer, sublayer.frame().x() - minX + padding.left())
+        setY(sublayer, sublayer.frame().y() - minY + padding.top())
     }
 
-    setWidth(layer, maxWidth - minX)
-    setHeight(layer, maxHeight - minY)
+    setWidth(layer, maxRight(sublayers) + padding.right())
+    setHeight(layer, maxBottom(sublayers) + padding.bottom())
 }
 
 // -----------------------------------------------------------
@@ -215,6 +234,6 @@ global.widthOfParentGroup = widthOfParentGroup
 global.maxHeight = maxHeight
 global.heightOfParentGroup = heightOfParentGroup
 global.resizeLayer = resizeLayer
-global.resizeMaster = resizeMaster
+global.sizeToFit = sizeToFit
 global.logWithLayerLevel = logWithLayerLevel
 global.frameToStringForLayer = frameToStringForLayer
