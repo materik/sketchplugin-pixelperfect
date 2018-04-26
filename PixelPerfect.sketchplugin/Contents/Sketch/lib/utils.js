@@ -65,14 +65,14 @@ var maxWidth = function(layers) {
     var width = 0
     for (var i = 0; i < layers.count(); i++) {
         var layer = layers.objectAtIndex(i)
-        if (!layer.name().match(/.*w\d+%.*/)) {
+        if (!layer.name().match(/.*w\d+%(?!%).*/)) {
             width = Math.max(width, layer.frame().width())
         }
     }
     return width
 }
 
-var widthOfParentGroup = function(layer) {
+var widthOfParentGroup = function(layer, full) {
     var parentGroup = layer.parentGroup()
     if (parentGroup == null) {
         return 0
@@ -80,6 +80,8 @@ var widthOfParentGroup = function(layer) {
         return parentGroup.frame().width()
     } else if (parentGroup.name().match(/.*w\d+%.*/)) {
         return widthOfParentGroup(parentGroup)
+    } else if (full) {
+        return widthOfParentGroup(parentGroup) || parentGroup.frame().width()
     } else {
         return maxWidth(parentGroup.layers())
     }
@@ -89,14 +91,14 @@ var maxHeight = function(layers) {
     var height = 0
     for (var i = 0; i < layers.count(); i++) {
         var layer = layers.objectAtIndex(i)
-        if (!layer.name().match(/.*h\d+%.*/)) {
+        if (!layer.name().match(/.*h\d+%(?!%).*/)) {
             height = Math.max(height, layer.frame().height())
         }
     }
     return height
 }
 
-var heightOfParentGroup = function(layer) {
+var heightOfParentGroup = function(layer, full) {
     var parentGroup = layer.parentGroup()
     if (parentGroup == null) {
         return 0
@@ -104,6 +106,8 @@ var heightOfParentGroup = function(layer) {
         return parentGroup.frame().height()
     } else if (parentGroup.name().match(/.*h\d+%.*/)) {
         return heightOfParentGroup(parentGroup)
+    } else if (full) {
+        return heightOfParentGroup(parentGroup) || parentGroup.frame().height()
     } else {
         return maxHeight(parentGroup.layers())
     }

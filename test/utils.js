@@ -72,6 +72,8 @@ describe('utils', function() {
         assert.equal(maxWidth(NSArray.new([layer1, layer2])), 100)
         var layer2 = createLayer("w100%", 0, 0, 100, 200)
         assert.equal(maxWidth(NSArray.new([layer1, layer2])), 50)
+        var layer2 = createLayer("w100%%", 0, 0, 100, 200)
+        assert.equal(maxWidth(NSArray.new([layer1, layer2])), 100)
     })
 
     it('widthOfParentGroup', function() {
@@ -94,6 +96,8 @@ describe('utils', function() {
         assert.equal(maxHeight(NSArray.new([layer1, layer2])), 200)
         var layer2 = createLayer("h100%", 0, 0, 100, 200)
         assert.equal(maxHeight(NSArray.new([layer1, layer2])), 60)
+        var layer2 = createLayer("h100%%", 0, 0, 100, 200)
+        assert.equal(maxHeight(NSArray.new([layer1, layer2])), 200)
     })
 
     it('heightOfParentGroup', function() {

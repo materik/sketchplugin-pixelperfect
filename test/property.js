@@ -38,6 +38,13 @@ describe('property', function() {
         assert.equal(property.value, 50)
     })
 
+    it('width-percentage-full', function() {
+        var property = Property.new(createLayer("w50%%"))
+        assert.equal(property.isValid(), true)
+        assert.equal(property.property, "width-percentage-full")
+        assert.equal(property.value, 50)
+    })
+
     it('height', function() {
         var property = Property.new(createLayer("h100"))
         assert.equal(property.isValid(), true)
@@ -63,6 +70,13 @@ describe('property', function() {
         var property = Property.new(createLayer("h50%"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "height-percentage")
+        assert.equal(property.value, 50)
+    })
+
+    it('height-percentage-full', function() {
+        var property = Property.new(createLayer("h50%%"))
+        assert.equal(property.isValid(), true)
+        assert.equal(property.property, "height-percentage-full")
         assert.equal(property.value, 50)
     })
 
@@ -289,6 +303,22 @@ describe('property', function() {
             group.insertLayer_afterLayerOrAtEnd(otherLayer)
             property.apply()
             assert.equal(layer.frame().width(), 9)
+        })
+
+        it('width-percentage-full', function() {
+            var layer = createLayer("w50%%", 1, 2, 3, 4)
+            var property = Property.new(layer)
+            property.apply()
+            assert.equal(layer.frame().width(), 3)
+            var group = createLayerGroup("", 5, 7, 9, 11)
+            group.insertLayer_afterLayerOrAtEnd(layer)
+            property.apply()
+            log(widthOfParentGroup(layer))
+            assert.equal(layer.frame().width(), 5)
+            var otherLayer = createLayer("", 13, 15, 17, 19)
+            group.insertLayer_afterLayerOrAtEnd(otherLayer)
+            property.apply()
+            assert.equal(layer.frame().width(), 5)
         })
 
         it('height', function() {
