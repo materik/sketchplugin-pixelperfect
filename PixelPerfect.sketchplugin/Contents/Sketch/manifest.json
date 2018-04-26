@@ -9,32 +9,12 @@
         "run" : "makePixelPerfect"
       },
       "identifier" : "makePixelPerfect"
-    },
-    {
-      "script" : "index.js",
-      "name" : "Find layers with AutoLayout applied",
-      "shortcut": "cmd alt l",
-      "handlers" : {
-        "run" : "findLayersWithAutoLayoutApplied"
-      },
-      "identifier" : "findLayersWithAutoLayoutApplied"
-    },
-    {
-      "script" : "index.js",
-      "name" : "Find layers not dividable by 8",
-      "shortcut": "cmd ctrl l",
-      "handlers" : {
-        "run" : "findLayersWithDimensionsNotDividableBy8"
-      },
-      "identifier" : "findLayersWithDimensionsNotDividableBy8"
-    },
+    }
   ],
   "menu" : {
     "title" : "👾 Pixel Perfect",
     "items" : [
-      "makePixelPerfect",
-      "findLayersWithAutoLayoutApplied",
-      "findLayersWithDimensionsNotDividableBy8"
+      "makePixelPerfect"
     ]
   },
   "identifier" : "com.materikab.pixelperfect",
