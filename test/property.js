@@ -27,8 +27,8 @@ describe('property', function() {
     it('width-subtraction', function() {
         var property = Property.new(createLayer("w-300"))
         assert.equal(property.isValid(), true)
-        assert.equal(property.property, "width-subtraction")
-        assert.equal(property.value, 300)
+        assert.equal(property.property, "width-addition")
+        assert.equal(property.value, -300)
     })
 
     it('width-percentage', function() {
@@ -55,8 +55,8 @@ describe('property', function() {
     it('height-subtraction', function() {
         var property = Property.new(createLayer("h-300"))
         assert.equal(property.isValid(), true)
-        assert.equal(property.property, "height-subtraction")
-        assert.equal(property.value, 300)
+        assert.equal(property.property, "height-addition")
+        assert.equal(property.value, -300)
     })
 
     it('height-percentage', function() {
@@ -80,6 +80,10 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "margin-top")
         assert.equal(property.value, 100)
+        var property = Property.new(createLayer("t-100"))
+        assert.equal(property.isValid(), true)
+        assert.equal(property.property, "margin-top")
+        assert.equal(property.value, -100)
         var property = Property.new(createLayer("mt100"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "margin-top")
@@ -91,6 +95,10 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "margin-right")
         assert.equal(property.value, 200)
+        var property = Property.new(createLayer("r-200"))
+        assert.equal(property.isValid(), true)
+        assert.equal(property.property, "margin-right")
+        assert.equal(property.value, -200)
         var property = Property.new(createLayer("mr200"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "margin-right")
@@ -102,6 +110,10 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "margin-bottom")
         assert.equal(property.value, 300)
+        var property = Property.new(createLayer("b-300"))
+        assert.equal(property.isValid(), true)
+        assert.equal(property.property, "margin-bottom")
+        assert.equal(property.value, -300)
         var property = Property.new(createLayer("mb300"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "margin-bottom")
@@ -113,6 +125,10 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "margin-left")
         assert.equal(property.value, 400)
+        var property = Property.new(createLayer("l-400"))
+        assert.equal(property.isValid(), true)
+        assert.equal(property.property, "margin-left")
+        assert.equal(property.value, -400)
         var property = Property.new(createLayer("ml400"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "margin-left")
@@ -124,10 +140,10 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-horizontally-top")
         assert.equal(property.value, 10)
-        var property = Property.new(createLayer("ht10"))
+        var property = Property.new(createLayer("ht-10"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-horizontally-top")
-        assert.equal(property.value, 10)
+        assert.equal(property.value, -10)
     })
 
     it('stack-horizontally-center', function() {
@@ -135,10 +151,10 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-horizontally-center")
         assert.equal(property.value, 20)
-        var property = Property.new(createLayer("hc20"))
+        var property = Property.new(createLayer("hc-20"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-horizontally-center")
-        assert.equal(property.value, 20)
+        assert.equal(property.value, -20)
     })
 
     it('stack-horizontally-bottom', function() {
@@ -146,10 +162,10 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-horizontally-bottom")
         assert.equal(property.value, 30)
-        var property = Property.new(createLayer("hb30"))
+        var property = Property.new(createLayer("hb-30"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-horizontally-bottom")
-        assert.equal(property.value, 30)
+        assert.equal(property.value, -30)
     })
 
     it('stack-vertically-left', function() {
@@ -157,10 +173,10 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-vertically-left")
         assert.equal(property.value, 10)
-        var property = Property.new(createLayer("vl10"))
+        var property = Property.new(createLayer("vl-10"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-vertically-left")
-        assert.equal(property.value, 10)
+        assert.equal(property.value, -10)
     })
 
     it('stack-vertically-center', function() {
@@ -168,10 +184,10 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-vertically-center")
         assert.equal(property.value, 20)
-        var property = Property.new(createLayer("vc20"))
+        var property = Property.new(createLayer("vc-20"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-vertically-center")
-        assert.equal(property.value, 20)
+        assert.equal(property.value, -20)
     })
 
     it('stack-vertically-right', function() {
@@ -179,10 +195,10 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-vertically-right")
         assert.equal(property.value, 30)
-        var property = Property.new(createLayer("vr30"))
+        var property = Property.new(createLayer("vr-30"))
         assert.equal(property.isValid(), true)
         assert.equal(property.property, "stack-vertically-right")
-        assert.equal(property.value, 30)
+        assert.equal(property.value, -30)
     })
 
     it('center-horizontally', function() {
@@ -195,15 +211,15 @@ describe('property', function() {
     it('center-horizontally-addition', function() {
         var property = Property.new(createLayer("c+16"))
         assert.equal(property.isValid(), true)
-        assert.equal(property.property, "center-horizontally-addition")
+        assert.equal(property.property, "center-horizontally")
         assert.equal(property.value, 16)
     })
 
     it('center-horizontally-subtraction', function() {
         var property = Property.new(createLayer("c-16"))
         assert.equal(property.isValid(), true)
-        assert.equal(property.property, "center-horizontally-subtraction")
-        assert.equal(property.value, 16)
+        assert.equal(property.property, "center-horizontally")
+        assert.equal(property.value, -16)
     })
 
     it('center-vertically', function() {
@@ -216,15 +232,15 @@ describe('property', function() {
     it('center-vertically-addition', function() {
         var property = Property.new(createLayer("m+16"))
         assert.equal(property.isValid(), true)
-        assert.equal(property.property, "center-vertically-addition")
+        assert.equal(property.property, "center-vertically")
         assert.equal(property.value, 16)
     })
 
     it('center-vertically-subtraction', function() {
         var property = Property.new(createLayer("m-16"))
         assert.equal(property.isValid(), true)
-        assert.equal(property.property, "center-vertically-subtraction")
-        assert.equal(property.value, 16)
+        assert.equal(property.property, "center-vertically")
+        assert.equal(property.value, -16)
     })
 
     describe('apply', function() {

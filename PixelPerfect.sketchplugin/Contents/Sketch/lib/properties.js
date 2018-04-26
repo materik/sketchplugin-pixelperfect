@@ -105,9 +105,6 @@ Property.prototype.apply = function() {
         case "width-addition":
             setWidth(this.layer, frame.width() + this.value)
             break;
-        case "width-subtraction":
-            setWidth(this.layer, frame.width() - this.value)
-            break;
         case "width-percentage":
             setWidth(this.layer, this.value / 100 * widthOfParentGroup(this.layer))
             break;
@@ -116,9 +113,6 @@ Property.prototype.apply = function() {
             break;
         case "height-addition":
             setHeight(this.layer, frame.height() + this.value)
-            break;
-        case "height-subtraction":
-            setHeight(this.layer, frame.height() - this.value)
             break;
         case "height-percentage":
             setHeight(this.layer, this.value / 100 * heightOfParentGroup(this.layer))
@@ -161,22 +155,10 @@ Property.prototype.apply = function() {
             this.stack(false, 1)
             break;
         case "center-horizontally":
-            setX(this.layer, (widthOfParentGroup(this.layer) - frame.width()) / 2)
-            break;
-        case "center-horizontally-addition":
-            setX(this.layer, (widthOfParentGroup(this.layer) - frame.width()) / 2 + this.value)
-            break;
-        case "center-horizontally-subtraction":
-            setX(this.layer, (widthOfParentGroup(this.layer) - frame.width()) / 2 - this.value)
+            setX(this.layer, (widthOfParentGroup(this.layer) - frame.width()) / 2 + (this.value || 0))
             break;
         case "center-vertically":
-            setY(this.layer, (heightOfParentGroup(this.layer) - frame.height()) / 2)
-            break;
-        case "center-vertically-addition":
-            setY(this.layer, (heightOfParentGroup(this.layer) - frame.height()) / 2 + this.value)
-            break;
-        case "center-vertically-subtraction":
-            setY(this.layer, (heightOfParentGroup(this.layer) - frame.height()) / 2 - this.value)
+            setY(this.layer, (heightOfParentGroup(this.layer) - frame.height()) / 2 + (this.value || 0))
             break;
         /* istanbul ignore next */
         default:
@@ -230,63 +212,51 @@ Property.prototype.stack = function(horizontally, alignment) {
 Property._extractProperty = function(str) {
     if (str.match(/^w\d+$/)) {
         return "width"
-    } else if (str.match(/^w\+\d+$/i)) {
+    } else if (str.match(/^w(\+|\-)\d+$/i)) {
         return "width-addition"
-    } else if (str.match(/^w\-\d+$/i)) {
-        return "width-subtraction"
     } else if (str.match(/^w\d+%$/i)) {
         return "width-percentage"
     } else if (str.match(/^h\d+$/i)) {
         return "height"
-    } else if (str.match(/^h\+\d+$/i)) {
+    } else if (str.match(/^h(\+|\-)\d+$/i)) {
         return "height-addition"
-    } else if (str.match(/^h\-\d+$/i)) {
-        return "height-subtraction"
     } else if (str.match(/^h\d+%$/i)) {
         return "height-percentage"
     } else if (str.match(/^padding$/i)) {
         return "padding"
     } else if (str.match(/^(bg|trbl)$/i)) {
         return "margin"
-    } else if (str.match(/^(t|mt)\d*$/i)) {
+    } else if (str.match(/^(t|mt)\-?\d*$/i)) {
         return "margin-top"
-    } else if (str.match(/^(r|mr)\d*$/i)) {
+    } else if (str.match(/^(r|mr)\-?\d*$/i)) {
         return "margin-right"
-    } else if (str.match(/^(b|mb)\d*$/i)) {
+    } else if (str.match(/^(b|mb)\-?\d*$/i)) {
         return "margin-bottom"
-    } else if (str.match(/^(l|ml)\d*$/i)) {
+    } else if (str.match(/^(l|ml)\-?\d*$/i)) {
         return "margin-left"
-    } else if (str.match(/^(xt|ht)\d+$/i)) {
+    } else if (str.match(/^(xt|ht)\-?\d+$/i)) {
         return "stack-horizontally-top"
-    } else if (str.match(/^(x|hc)\d+$/i)) {
+    } else if (str.match(/^(x|hc)\-?\d+$/i)) {
         return "stack-horizontally-center"
-    } else if (str.match(/^(xb|hb)\d+$/i)) {
+    } else if (str.match(/^(xb|hb)\-?\d+$/i)) {
         return "stack-horizontally-bottom"
-    } else if (str.match(/^(yl|vl)\d+$/i)) {
+    } else if (str.match(/^(yl|vl)\-?\d+$/i)) {
         return "stack-vertically-left"
-    } else if (str.match(/^(y|vc)\d+$/i)) {
+    } else if (str.match(/^(y|vc)\-?\d+$/i)) {
         return "stack-vertically-center"
-    } else if (str.match(/^(yr|vr)\d+$/i)) {
+    } else if (str.match(/^(yr|vr)\-?\d+$/i)) {
         return "stack-vertically-right"
-    } else if (str.match(/^(h|c|ch)$/i)) {
+    } else if (str.match(/^(h|c|ch)(\+|\-)?\d*$/i)) {
         return "center-horizontally"
-    } else if (str.match(/^(h|c|ch)\+\d+$/i)) {
-        return "center-horizontally-addition"
-    } else if (str.match(/^(h|c|ch)\-\d+$/i)) {
-        return "center-horizontally-subtraction"
-    } else if (str.match(/^(v|m|cv)$/i)) {
+    } else if (str.match(/^(v|m|cv)(\+|\-)?\d*$/i)) {
         return "center-vertically"
-    } else if (str.match(/^(v|m|cv)\+\d+$/i)) {
-        return "center-vertically-addition"
-    } else if (str.match(/^(v|m|cv)\-\d+$/i)) {
-        return "center-vertically-subtraction"
     } else {
         // Do nothing...
     }
 }
 
 Property._extractValue = function(str) {
-    return parseInt(str.replace(/[^\d]/g, ""))
+    return parseInt(str.replace(/[^\-\d]/g, ""))
 }
 
 // -----------------------------------------------------------
