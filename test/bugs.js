@@ -156,4 +156,32 @@ describe('bugs', function() {
         assert.equal(backgroundLayer.frame().y(), 0)
     })
 
+    it('master will squish the background if going from too large to normal size', function() {
+        var master = createSymbolMaster("master", 0, 0, 304, 292)
+        var group = createLayerGroup("trbl", 0, 0, 304, 292)
+        var padding = createLayerGroup("24:16:8", 16, 70, 272, 168)
+        var backgroundLayer = createLayer("bg", 0, 0, 304, 292)
+        var layer = createLayer("", 0, 0, 272, 168)
+
+        master.insertLayer_afterLayerOrAtEnd(group)
+        group.insertLayer_afterLayerOrAtEnd(padding)
+        group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
+        padding.insertLayer_afterLayerOrAtEnd(layer)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(master)
+
+            assert.equal(master.frame().width(), 304)
+            assert.equal(master.frame().height(), 200)
+            assert.equal(group.frame().width(), 304)
+            assert.equal(group.frame().height(), 200)
+            assert.equal(padding.frame().width(), 272)
+            assert.equal(padding.frame().height(), 168)
+            assert.equal(backgroundLayer.frame().width(), 304)
+            assert.equal(backgroundLayer.frame().height(), 200)
+            assert.equal(layer.frame().width(), 272)
+            assert.equal(layer.frame().height(), 168)
+        }
+    })
+
 })

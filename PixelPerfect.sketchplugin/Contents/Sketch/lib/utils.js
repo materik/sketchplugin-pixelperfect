@@ -191,6 +191,7 @@ var sizeToFit = function(layer, padding) {
       return
     }
 
+    var constraints = []
     var minX = minLeft(sublayers)
     var minY = minTop(sublayers)
 
@@ -199,10 +200,18 @@ var sizeToFit = function(layer, padding) {
         var sublayer = sublayers.objectAtIndex(i)
         setX(sublayer, sublayer.frame().x() - minX + padding.left())
         setY(sublayer, sublayer.frame().y() - minY + padding.top())
+
+        var constraint = Constraints.new(sublayer)
+        constraint.lockInPlace()
+        constraints.push(constraint)
     }
 
     setWidth(layer, maxRight(sublayers) + padding.right())
     setHeight(layer, maxBottom(sublayers) + padding.bottom())
+
+    for (var i = 0; i < constraints.length; i++) {
+        constraints[i].apply()
+    }
 }
 
 // -----------------------------------------------------------

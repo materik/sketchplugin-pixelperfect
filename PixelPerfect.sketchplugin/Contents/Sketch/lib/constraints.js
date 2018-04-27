@@ -2,25 +2,34 @@
 function Constraints(layer, properties) {
     this._layer = layer
 
-    this._hasFixedTop = properties.includes('margin-top') ||
-        properties.includes('padding') ||
-        properties.includes('margin') ||
-        properties.includes('height-percentage');
-    this._hasFixedRight = properties.includes('margin-right') ||
-        properties.includes('padding') ||
-        properties.includes('margin') ||
-        properties.includes('width-percentage');
-    this._hasFixedBottom = properties.includes('margin-bottom') || 
-        properties.includes('padding') ||
-        properties.includes('margin') ||
-        properties.includes('height-percentage');
-    this._hasFixedLeft = properties.includes('margin-left') || 
-        properties.includes('padding') ||
-        properties.includes('margin') ||
-        properties.includes('width-percentage');
+    if (properties) {
+        this._hasFixedTop = properties.includes('margin-top') ||
+            properties.includes('padding') ||
+            properties.includes('margin') ||
+            properties.includes('height-percentage');
+        this._hasFixedRight = properties.includes('margin-right') ||
+            properties.includes('padding') ||
+            properties.includes('margin') ||
+            properties.includes('width-percentage');
+        this._hasFixedBottom = properties.includes('margin-bottom') ||
+            properties.includes('padding') ||
+            properties.includes('margin') ||
+            properties.includes('height-percentage');
+        this._hasFixedLeft = properties.includes('margin-left') ||
+            properties.includes('padding') ||
+            properties.includes('margin') ||
+            properties.includes('width-percentage');
 
-    this._hasFixedWidth = !(this._hasFixedRight && this._hasFixedLeft);
-    this._hasFixedHeight = !(this._hasFixedTop && this._hasFixedBottom);
+        this._hasFixedWidth = !(this._hasFixedRight && this._hasFixedLeft);
+        this._hasFixedHeight = !(this._hasFixedTop && this._hasFixedBottom);
+    } else {
+        this._hasFixedWidth = layer.hasFixedWidth()
+        this._hasFixedHeight = layer.hasFixedHeight()
+        this._hasFixedTop = layer.hasFixedTop()
+        this._hasFixedRight = layer.hasFixedRight()
+        this._hasFixedBottom = layer.hasFixedBottom()
+        this._hasFixedLeft = layer.hasFixedLeft()
+    }
 }
 
 // Static
@@ -83,6 +92,16 @@ Constraints.prototype.apply = function() {
     this.layer().setHasFixedRight(this.hasFixedRight())
     this.layer().setHasFixedBottom(this.hasFixedBottom())
     this.layer().setHasFixedLeft(this.hasFixedLeft())
+}
+
+Constraints.prototype.lockInPlace = function() {
+    logWithLayerLevel(this.layer(), "^ Constraints: lockInPlace", 1)
+
+    this.layer().resetConstraints()
+    this.layer().setHasFixedWidth(true)
+    this.layer().setHasFixedHeight(true)
+    this.layer().setHasFixedTop(true)
+    this.layer().setHasFixedLeft(true)
 }
 
 // -----------------------------------------------------------
