@@ -184,4 +184,57 @@ describe('bugs', function() {
         }
     })
 
+    it('the wrong height is set by on master by ltb layer', function() {
+        var master = createSymbolMaster("master", 0, 0, 496, 176)
+        var group = createLayerGroup("l:t:b:v", 0, 0, 72, 192)
+        var layer1 = createLayer("", 0, 0, 72, 192)
+        var layer2 = createLayer("l32:v:y0:t16", 32, 16, 464, 160)
+
+        master.insertLayer_afterLayerOrAtEnd(group)
+        master.insertLayer_afterLayerOrAtEnd(layer2)
+        group.insertLayer_afterLayerOrAtEnd(layer1)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(master)
+
+            assert.equal(master.frame().width(), 496)
+            assert.equal(master.frame().height(), 192)
+        }
+    })
+
+    it('layer doesnt comply to artboard with layed out to the right', function() {
+        var artboard = createArtboard("Desktop/MVP/02 [0:0:64:0:w1680:h>960]", 0, 0, 1680, 500)
+        var layer1 = createLayer("l128:t112", 0, 0, 1024, 792)
+        var layer2 = createLayer("h100%:t:r:b", 1712, 0, 496, 500)
+        var layer3 = createLayer("l:t", 0, 0, 10, 10)
+
+        artboard.insertLayer_afterLayerOrAtEnd(layer1)
+        artboard.insertLayer_afterLayerOrAtEnd(layer2)
+        artboard.insertLayer_afterLayerOrAtEnd(layer3)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(artboard)
+
+            assert.equal(artboard.frame().width(), 1680)
+            assert.equal(artboard.frame().height(), 968)
+            assert.equal(layer1.frame().x(), 128)
+            assert.equal(layer1.frame().y(), 112)
+            assert.equal(layer1.frame().width(), 1024)
+            assert.equal(layer1.frame().height(), 792)
+            assert.equal(layer2.frame().x(), 1184)
+            assert.equal(layer2.frame().y(), 0)
+            assert.equal(layer2.frame().width(), 496)
+
+            // NOTE(materik):
+            // * in real sketch the layers conforms to the first size of the artboard
+            //   and then sizes with the resize. This is difficult to mock why
+            //   the other iteration is the right size here in the test
+            if (i == 0) {
+                assert.equal(layer2.frame().height(), 500)   
+            } else {
+                assert.equal(layer2.frame().height(), 968)
+            }
+        }
+    })
+
 })

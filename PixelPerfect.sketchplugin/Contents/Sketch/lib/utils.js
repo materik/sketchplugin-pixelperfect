@@ -31,11 +31,11 @@ var minLeft = function(layers) {
     return left
 }
 
-var maxRight = function(layers) {
+var maxRight = function(layers, isArtboard) {
     var right = 0
     for (var i = 0; i < layers.count(); i++) {
         var layer = layers.objectAtIndex(i)
-        if (!layer.name().match(/.*(\bw\d+%|\br(?![^\d:])).*/)) {
+        if (!layer.name().match(isArtboard ? /.*(\bw\d+%|\br(?![^\d:])).*/ : /.*\bw\d+%.*/)) {
             right = Math.max(right, layer.frame().x() + layer.frame().width())
         }
     }
@@ -77,11 +77,11 @@ var minTop = function(layers) {
     return top
 }
 
-var maxBottom = function(layers) {
+var maxBottom = function(layers, isArtboard) {
     var bottom = 0
     for (var i = 0; i < layers.count(); i++) {
         var layer = layers.objectAtIndex(i)
-        if (!layer.name().match(/.*(\bh\d+%|\bb(?![^\d:])).*/)) {
+        if (!layer.name().match(isArtboard ? /.*(\bh\d+%|\bb(?![^\d:])).*/ : /.*\bh\d+%.*/)) {
             bottom = Math.max(bottom, layer.frame().y() + layer.frame().height())
         }
     }
@@ -191,6 +191,7 @@ var sizeToFit = function(layer, padding) {
       return
     }
 
+    var isArtboard = layer.class().toString().isEqualTo("MSArtboardGroup")
     var constraints = []
     var minX = minLeft(sublayers)
     var minY = minTop(sublayers)
@@ -201,13 +202,15 @@ var sizeToFit = function(layer, padding) {
         setX(sublayer, sublayer.frame().x() - minX + padding.left())
         setY(sublayer, sublayer.frame().y() - minY + padding.top())
 
-        var constraint = Constraints.new(sublayer)
-        constraint.lockInPlace()
-        constraints.push(constraint)
+        if (!isArtboard) {
+            var constraint = Constraints.new(sublayer)
+            constraint.lockInPlace()
+            constraints.push(constraint)
+        }
     }
 
-    setWidth(layer, maxRight(sublayers) + padding.right())
-    setHeight(layer, maxBottom(sublayers) + padding.bottom())
+    setWidth(layer, maxRight(sublayers, isArtboard) + padding.right())
+    setHeight(layer, maxBottom(sublayers, isArtboard) + padding.bottom())
 
     for (var i = 0; i < constraints.length; i++) {
         constraints[i].apply()
