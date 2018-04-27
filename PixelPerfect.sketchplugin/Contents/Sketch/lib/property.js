@@ -156,8 +156,6 @@ Property.prototype.stackHorizontally = function(alignment) {
             alignment.align(sublayer, h)
             setX(sublayer, x)
 
-log(sublayer.frame())
-
             x += sublayer.frame().width() + this.value()
         }
     }

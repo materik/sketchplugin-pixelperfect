@@ -9,12 +9,22 @@
         "run" : "makePixelPerfect"
       },
       "identifier" : "makePixelPerfect"
+    },
+    {
+      "script" : "index.js",
+      "name" : "Make every layer pixel perfect",
+      "shortcut": "cmd ctrl l",
+      "handlers" : {
+        "run" : "makeEverythingPixelPerfect"
+      },
+      "identifier" : "makeEverythingPixelPerfect"
     }
   ],
   "menu" : {
     "title" : "👾 Pixel Perfect",
     "items" : [
-      "makePixelPerfect"
+      "makePixelPerfect",
+      "makeEverythingPixelPerfect"
     ]
   },
   "identifier" : "com.materikab.pixelperfect",

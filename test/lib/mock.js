@@ -193,14 +193,14 @@ NSArray.prototype.include = function(callback) {
 
 // -----------------------------------------------------------
 
-function NSMutableArray() {
-    NSArray.call(this)
+function NSMutableArray(objects) {
+    NSArray.call(this, objects)
 }
 
 NSMutableArray.prototype = Object.create(NSArray.prototype)
 
-NSMutableArray.new = function() {
-    return new NSMutableArray()
+NSMutableArray.new = function(objects) {
+    return new NSMutableArray(objects)
 }
 
 NSMutableArray.prototype.addObject = function(object) {
@@ -356,7 +356,9 @@ MSLayerGroup.prototype.resizeToFitChildrenWithOption = function() {
 // -----------------------------------------------------------
 
 function MSDocument() {
-    this._page = MSPage.new()
+    this._currentPage = MSPage.new()
+
+    this._pages = NSMutableArray.new([this._currentPage])
 }
 
 MSDocument.new = function() {
@@ -372,7 +374,19 @@ MSDocument.prototype.showMessage = function(msg) {
 }
 
 MSDocument.prototype.currentPage = function() {
-    return this._page
+    return this._currentPage
+}
+
+MSDocument.prototype.setCurrentPage = function(page) {
+    this._currentPage = page
+}
+
+MSDocument.prototype.pages = function() {
+    return this._pages
+}
+
+MSDocument.prototype.addPage = function(page) {
+    this._pages.addObject(page)
 }
 
 // -----------------------------------------------------------

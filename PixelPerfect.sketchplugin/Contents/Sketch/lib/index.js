@@ -12,6 +12,27 @@ var makePixelPerfect = function(context) {
     }
 }
 
+var makeEverythingPixelPerfect = function(context) {
+    var doc = context.document;
+    var pages = doc.pages()
+
+    var nbrOfPages = 0
+    for (var i = 0; i < pages.count(); i++) {
+        var page = pages.objectAtIndex(i)
+        if (!page.name().match(/.*\[ignore\].*/i)) {
+            doc.setCurrentPage(page)
+            page.select_byExpandingSelection(true, false)
+            print("\nPAGE: " + page.name() + "\n")
+            makePixelPerfect(context)
+
+            nbrOfPages += 1
+        }
+    }
+
+    doc.showMessage("👾 " + nbrOfPages + " pages of your design is now pixel perfect")
+}
+
 // -----------------------------------------------------------
 
 global.makePixelPerfect = makePixelPerfect
+global.makeEverythingPixelPerfect = makeEverythingPixelPerfect
