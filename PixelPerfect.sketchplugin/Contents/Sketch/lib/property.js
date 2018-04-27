@@ -10,8 +10,8 @@ function Property(layer, raw, value) {
 
 // Static
 
-Property.new = function(layer, key, value) {
-    var property = new Property(layer, key, value)
+Property.new = function(layer, raw, value) {
+    var property = new Property(layer, raw, value)
     if (property.isValid()) {
         return property
     }
@@ -110,7 +110,6 @@ Property.prototype.apply = function() {
             this.stackHorizontally(Alignment.top())
             break;
         case "stack-horizontally-middle":
-log(1)
             this.stackHorizontally(Alignment.middle())
             break;
         case "stack-horizontally-bottom":
@@ -252,30 +251,30 @@ Alignment.prototype.align = function(layer, d) {
 // -----------------------------------------------------------
 
 var PROPERTY_MAP = {
-    "w\\d+":                    "width",
-    "w(\\+|\\-)\\d+":           "width-addition",
-    "w\\d+%":                   "width-percentage",
-    "w\\d+%%":                  "width-percentage-full",
-    "w\\>\\d+":                 "width-min",
-    "h\\d+":                    "height",
-    "h(\\+|\\-)\\d+":           "height-addition",
-    "h\\d+%":                   "height-percentage",
-    "h\\d+%%":                  "height-percentage-full",
-    "h\\>\\d+":                 "height-min",
-    "padding":                  "padding",
-    "(bg|trbl)":                "margin",
-    "(t|mt)\\-?\\d*":           "margin-top",
-    "(r|mr)\\-?\\d*":           "margin-right",
-    "(b|mb)\\-?\\d*":           "margin-bottom",
-    "(l|ml)\\-?\\d*":           "margin-left",
-    "(xt|ht)\\-?\\d+":          "stack-horizontally-top",
-    "(x|hm)\\-?\\d+":           "stack-horizontally-middle",
-    "(xb|hb)\\-?\\d+":          "stack-horizontally-bottom",
-    "(yl|vl)\\-?\\d+":          "stack-vertically-left",
-    "(y|vc)\\-?\\d+":           "stack-vertically-center",
-    "(yr|vr)\\-?\\d+":          "stack-vertically-right",
-    "(h|c|ch)(\\+|\\-)?\\d*":   "center-horizontally",
-    "(v|m|cv)(\\+|\\-)?\\d*":   "center-vertically",
+    "(w)\\d+":              "width",
+    "(w)(\\+|\\-)\\d+":     "width-addition",
+    "(w)\\d+%":             "width-percentage",
+    "(w)\\d+%%":            "width-percentage-full",
+    "(w)\\>\\d+":           "width-min",
+    "(h)\\d+":              "height",
+    "(h)(\\+|\\-)\\d+":     "height-addition",
+    "(h)\\d+%":             "height-percentage",
+    "(h)\\d+%%":            "height-percentage-full",
+    "(h)\\>\\d+":           "height-min",
+    "padding":              "padding",
+    "(bg|trbl|m)":          "margin",
+    "(t|mt)\\-?\\d*":       "margin-top",
+    "(r|mr)\\-?\\d*":       "margin-right",
+    "(b|mb)\\-?\\d*":       "margin-bottom",
+    "(l|ml)\\-?\\d*":       "margin-left",
+    "(xt)\\-?\\d+":         "stack-horizontally-top",
+    "(x)\\-?\\d+":          "stack-horizontally-middle",
+    "(xb)\\-?\\d+":         "stack-horizontally-bottom",
+    "(yl)\\-?\\d+":         "stack-vertically-left",
+    "(y)\\-?\\d+":          "stack-vertically-center",
+    "(yr)\\-?\\d+":         "stack-vertically-right",
+    "(h|c)(\\+|\\-)?\\d*":  "center-horizontally",
+    "(v)(\\+|\\-)?\\d*":    "center-vertically",
 }
 
 // -----------------------------------------------------------

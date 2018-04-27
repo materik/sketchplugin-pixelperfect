@@ -22,11 +22,20 @@ var maxWidth = function(layers) {
     return width
 }
 
+var minLeft = function(layers) {
+    var left = 999999
+    for (var i = 0; i < layers.count(); i++) {
+        var layer = layers.objectAtIndex(i)
+        left = Math.min(left, layer.frame().x())
+    }
+    return left
+}
+
 var maxRight = function(layers) {
     var right = 0
     for (var i = 0; i < layers.count(); i++) {
         var layer = layers.objectAtIndex(i)
-        if (!layer.name().match(/.*(\bw\d+%|\br(?![^\d])).*/)) {
+        if (!layer.name().match(/.*(\bw\d+%|\br(?![^\d:])).*/)) {
             right = Math.max(right, layer.frame().x() + layer.frame().width())
         }
     }
@@ -59,11 +68,20 @@ var maxHeight = function(layers) {
     return height
 }
 
+var minTop = function(layers) {
+    var top = 999999
+    for (var i = 0; i < layers.count(); i++) {
+        var layer = layers.objectAtIndex(i)
+        top = Math.min(top, layer.frame().y())
+    }
+    return top
+}
+
 var maxBottom = function(layers) {
     var bottom = 0
     for (var i = 0; i < layers.count(); i++) {
         var layer = layers.objectAtIndex(i)
-        if (!layer.name().match(/.*(\bh\d+%|\bb(?![^\d])).*/)) {
+        if (!layer.name().match(/.*(\bh\d+%|\bb(?![^\d:])).*/)) {
             bottom = Math.max(bottom, layer.frame().y() + layer.frame().height())
         }
     }
@@ -173,12 +191,8 @@ var sizeToFit = function(layer, padding) {
       return
     }
 
-    var minX = 999999, minY = 999999
-    for (var i = 0; i < sublayers.count(); i++) {
-        var sublayer = sublayers.objectAtIndex(i)
-        minX = Math.min(minX, sublayer.frame().x())
-        minY = Math.min(minY, sublayer.frame().y())
-    }
+    var minX = minLeft(sublayers)
+    var minY = minTop(sublayers)
 
     padding = padding || new Padding()
     for (var i = 0; i < sublayers.count(); i++) {
@@ -241,9 +255,11 @@ Math.roundWithPrecision = function(value, precision) {
 
 global.findLayerInGroup = findLayerInGroup
 global.maxWidth = maxWidth
+global.minLeft = minLeft
 global.maxRight = maxRight
 global.widthOfParentGroup = widthOfParentGroup
 global.maxHeight = maxHeight
+global.minTop = minTop
 global.maxBottom = maxBottom
 global.heightOfParentGroup = heightOfParentGroup
 

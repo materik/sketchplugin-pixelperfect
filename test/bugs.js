@@ -138,4 +138,22 @@ describe('bugs', function() {
         }
     })
 
+    it('center-vertically does not work if the there are two layers with the same height', function() {
+        var layer = createLayer("r:v", 1, 2, 3, 13)
+        var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
+        var group = createLayerGroup()
+        group.insertLayer_afterLayerOrAtEnd(layer)
+        group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
+        Component.apply(layer)
+        assert.equal(layer.frame().x(), 9)
+        assert.equal(layer.frame().y(), 0)
+        assert.equal(backgroundLayer.frame().x(), 10)
+        assert.equal(backgroundLayer.frame().y(), 11)
+        Component.apply(group)
+        assert.equal(layer.frame().x(), 9)
+        assert.equal(layer.frame().y(), 0)
+        assert.equal(backgroundLayer.frame().x(), 0)
+        assert.equal(backgroundLayer.frame().y(), 0)
+    })
+
 })

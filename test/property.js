@@ -168,7 +168,7 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-horizontally-top")
         assert.equal(property.value(), 10)
-        var property = Property.new(createLayer("ht-10"))
+        var property = Property.new(createLayer("xt-10"))
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-horizontally-top")
         assert.equal(property.value(), -10)
@@ -179,7 +179,7 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-horizontally-middle")
         assert.equal(property.value(), 20)
-        var property = Property.new(createLayer("hm-20"))
+        var property = Property.new(createLayer("x-20"))
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-horizontally-middle")
         assert.equal(property.value(), -20)
@@ -190,7 +190,7 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-horizontally-bottom")
         assert.equal(property.value(), 30)
-        var property = Property.new(createLayer("hb-30"))
+        var property = Property.new(createLayer("xb-30"))
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-horizontally-bottom")
         assert.equal(property.value(), -30)
@@ -201,7 +201,7 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-vertically-left")
         assert.equal(property.value(), 10)
-        var property = Property.new(createLayer("vl-10"))
+        var property = Property.new(createLayer("yl-10"))
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-vertically-left")
         assert.equal(property.value(), -10)
@@ -212,7 +212,7 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-vertically-center")
         assert.equal(property.value(), 20)
-        var property = Property.new(createLayer("vc-20"))
+        var property = Property.new(createLayer("y-20"))
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-vertically-center")
         assert.equal(property.value(), -20)
@@ -223,7 +223,7 @@ describe('property', function() {
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-vertically-right")
         assert.equal(property.value(), 30)
-        var property = Property.new(createLayer("vr-30"))
+        var property = Property.new(createLayer("yr-30"))
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "stack-vertically-right")
         assert.equal(property.value(), -30)
@@ -251,21 +251,21 @@ describe('property', function() {
     })
 
     it('center-vertically', function() {
-        var property = Property.new(createLayer("m"))
+        var property = Property.new(createLayer("v"))
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "center-vertically")
         assert.ok(isNaN(property.value()))
     })
 
     it('center-vertically-addition', function() {
-        var property = Property.new(createLayer("m+16"))
+        var property = Property.new(createLayer("v+16"))
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "center-vertically")
         assert.equal(property.value(), 16)
     })
 
     it('center-vertically-subtraction', function() {
-        var property = Property.new(createLayer("m-16"))
+        var property = Property.new(createLayer("v-16"))
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "center-vertically")
         assert.equal(property.value(), -16)
@@ -607,7 +607,7 @@ describe('property', function() {
         })
 
         it('center-vertically', function() {
-            var layer = createLayer("m", 1, 2, 3, 4)
+            var layer = createLayer("v", 1, 2, 3, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
             group.insertLayer_afterLayerOrAtEnd(layer)
@@ -618,7 +618,7 @@ describe('property', function() {
         })
 
         it('center-vertically-addition', function() {
-            var layer = createLayer("m+2", 1, 2, 5, 4)
+            var layer = createLayer("v+2", 1, 2, 5, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
             group.insertLayer_afterLayerOrAtEnd(layer)
@@ -629,7 +629,7 @@ describe('property', function() {
         })
 
         it('center-vertically-subtraction', function() {
-            var layer = createLayer("m-2", 1, 2, 5, 4)
+            var layer = createLayer("v-2", 1, 2, 5, 4)
             var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
             var group = createLayerGroup()
             group.insertLayer_afterLayerOrAtEnd(layer)
