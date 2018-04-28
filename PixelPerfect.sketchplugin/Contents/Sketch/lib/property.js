@@ -1,7 +1,7 @@
 
-function Property(layer, raw, value) {
-    this._layer = layer
-    this._raw = raw || layer.name()
+function Property(component, raw, value) {
+    this._component = component
+    this._raw = raw || component.name()
     this._key = undefined
     this._value = value
 
@@ -10,8 +10,8 @@ function Property(layer, raw, value) {
 
 // Static
 
-Property.new = function(layer, raw, value) {
-    var property = new Property(layer, raw, value)
+Property.new = function(component, raw, value) {
+    var property = new Property(component, raw, value)
     if (property.isValid()) {
         return property
     }
@@ -19,8 +19,8 @@ Property.new = function(layer, raw, value) {
 
 // Gettter
 
-Property.prototype.layer = function() {
-    return this._layer
+Property.prototype.component = function() {
+    return this._component
 }
 
 Property.prototype.key = function() {
@@ -32,7 +32,7 @@ Property.prototype.value = function() {
 }
 
 Property.prototype.toString = function() {
-    return this.layer().name() + "." + this.key() + ": " + this.value().toString()
+    return this.component().name() + "." + this.key() + ": " + this.value().toString()
 }
 
 Property.prototype.isValid = function() {
@@ -53,58 +53,58 @@ Property.prototype.isValid = function() {
 // Action
 
 Property.prototype.apply = function() {
-    var frameBefore = frameToStringForLayer(this.layer())
+    var frameBefore = this.component().frameToString()
 
-    var frame = this.layer().frame()
+    var frame = this.component().frame()
     switch (this.key()) {
         case "width":
-            setWidth(this.layer(), this.value())
+            this.component().setWidth(this.value())
             break;
         case "width-addition":
-            setWidth(this.layer(), frame.width() + this.value())
+            this.component().setWidth(frame.width() + this.value())
             break;
         case "width-percentage":
-            setWidth(this.layer(), this.value() / 100 * widthOfParentGroup(this.layer()))
+            this.component().setWidth(this.value() / 100 * this.component().widthOfParent())
             break;
         case "width-percentage-full":
-            setWidth(this.layer(), this.value() / 100 * widthOfParentGroup(this.layer(), true))
+            this.component().setWidth(this.value() / 100 * this.component().widthOfParent(true))
             break;
         case "width-min":
-            setWidth(this.layer(), frame.width() < this.value() ? this.value() : frame.width())
+            this.component().setWidth(frame.width() < this.value() ? this.value() : frame.width())
             break;
         case "height":
-            setHeight(this.layer(), this.value())
+            this.component().setHeight(this.value())
             break;
         case "height-addition":
-            setHeight(this.layer(), frame.height() + this.value())
+            this.component().setHeight(frame.height() + this.value())
             break;
         case "height-percentage":
-            setHeight(this.layer(), this.value() / 100 * heightOfParentGroup(this.layer()))
+            this.component().setHeight(this.value() / 100 * this.component().heightOfParent())
             break;
         case "height-percentage-full":
-            setHeight(this.layer(), this.value() / 100 * heightOfParentGroup(this.layer(), true))
+            this.component().setHeight(this.value() / 100 * this.component().heightOfParent(true))
             break;
         case "height-min":
-            setHeight(this.layer(), frame.height() < this.value() ? this.value() : frame.height())
+            this.component().setHeight(frame.height() < this.value() ? this.value() : frame.height())
             break;
         case "padding":
-            this.value().apply(this.layer())
+            this.value().apply(this.component())
             break;
         case "margin":
-            setX(this.layer(), 0)
-            setY(this.layer(), 0)
+            this.component().setX(0)
+            this.component().setY(0)
             break;
         case "margin-top":
-            setY(this.layer(), this.value() || 0)
+            this.component().setY(this.value() || 0)
             break;
         case "margin-right":
-            setX(this.layer(), widthOfParentGroup(this.layer()) - frame.width() - (this.value() || 0))
+            this.component().setX(this.component().widthOfParent() - frame.width() - (this.value() || 0))
             break;
         case "margin-bottom":
-            setY(this.layer(), heightOfParentGroup(this.layer()) - frame.height() - (this.value() || 0))
+            this.component().setY(this.component().heightOfParent() - frame.height() - (this.value() || 0))
             break;
         case "margin-left":
-            setX(this.layer(), this.value() || 0)
+            this.component().setX(this.value() || 0)
             break;
         case "stack-horizontally-top":
             this.stackHorizontally(Alignment.top())
@@ -125,10 +125,10 @@ Property.prototype.apply = function() {
             this.stackVertically(Alignment.right())
             break;
         case "center-horizontally":
-            setX(this.layer(), (widthOfParentGroup(this.layer()) - frame.width()) / 2 + (this.value() || 0))
+            this.component().setX((this.component().widthOfParent() - frame.width()) / 2 + (this.value() || 0))
             break;
         case "center-vertically":
-            setY(this.layer(), (heightOfParentGroup(this.layer()) - frame.height()) / 2 + (this.value() || 0))
+            this.component().setY((this.component().heightOfParent() - frame.height()) / 2 + (this.value() || 0))
             break;
         /* istanbul ignore next */
         default:
@@ -136,47 +136,39 @@ Property.prototype.apply = function() {
             break;
     }
 
-    var frameAfter = frameToStringForLayer(this.layer())
+    var frameAfter = this.component().frameToString()
 
-    logWithLayerLevel(this.layer(), "~ Property: apply: " + this.toString() + " " + frameBefore + " -> " + frameAfter, 1)
+    this.component().debug("~ Property: apply: " + this.toString() + " " + frameBefore + " -> " + frameAfter, 1)
 }
 
 Property.prototype.stackHorizontally = function(alignment) {
-    if (!this.layer().layers) {
-        return
-    }
-
-    var sublayers = this.layer().layers()
-    var h = maxHeight(sublayers)
+    var components = this.component().components()
+    var h = components.maxHeight()
 
     var x = 0
-    for (var k = sublayers.count() - 1; k >= 0; k--) {
-        var sublayer = sublayers.objectAtIndex(k)
-        if (sublayer.isVisible()) {
-            alignment.align(sublayer, h)
-            setX(sublayer, x)
+    for (var k = components.count() - 1; k >= 0; k--) {
+        var component = components.objectAtIndex(k)
+        if (component.isVisible()) {
+            alignment.align(component, h)
+            component.setX(x)
 
-            x += sublayer.frame().width() + this.value()
+            x += component.frame().width() + this.value()
         }
     }
 }
 
 Property.prototype.stackVertically = function(alignment) {
-    if (!this.layer().layers) {
-        return
-    }
-
-    var sublayers = this.layer().layers()
-    var w = maxWidth(sublayers)
+    var components = this.component().components()
+    var w = components.maxWidth()
 
     var y = 0
-    for (var k = sublayers.count() - 1; k >= 0; k--) {
-        var sublayer = sublayers.objectAtIndex(k)
-        if (sublayer.isVisible()) {
-            alignment.align(sublayer, w)
-            setY(sublayer, y)
+    for (var k = components.count() - 1; k >= 0; k--) {
+        var component = components.objectAtIndex(k)
+        if (component.isVisible()) {
+            alignment.align(component, w)
+            component.setY(y)
             
-            y += sublayer.frame().height() + this.value()
+            y += component.frame().height() + this.value()
         }
     }
 }
@@ -222,26 +214,26 @@ Alignment.prototype.rawValue = function() {
 
 // Action
 
-Alignment.prototype.align = function(layer, d) {
-    var frame = layer.frame()
+Alignment.prototype.align = function(component, d) {
+    var frame = component.frame()
     switch (this.rawValue()) {
         case "top":
-            setY(layer, 0);
+            component.setY(0);
             break;
         case "middle":
-            setY(layer, (d - frame.height()) / 2);
+            component.setY((d - frame.height()) / 2);
             break;
         case "bottom":
-            setY(layer, d - frame.height());
+            component.setY(d - frame.height());
             break;
         case "left":
-            setX(layer, 0);
+            component.setX(0);
             break;
         case "center":
-            setX(layer, (d - frame.width()) / 2);
+            component.setX((d - frame.width()) / 2);
             break;
         case "right":
-            setX(layer, d - frame.width());
+            component.setX(d - frame.width());
             break;
     }
 }

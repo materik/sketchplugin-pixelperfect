@@ -350,7 +350,7 @@ MSLayerGroup.prototype.resizeToFitChildrenWithOption = function() {
     if (this.class().toString().isEqualTo("MSArtboardGroup")) {
         return
     }
-    sizeToFit(this)
+    Component.new(this).sizeToFit()
 }
 
 // -----------------------------------------------------------

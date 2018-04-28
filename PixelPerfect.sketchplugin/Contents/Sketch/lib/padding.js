@@ -30,20 +30,20 @@ Padding.prototype.left = function() {
     return this._left != undefined ? this._left : this.right()
 }
 
-Padding.prototype.x = function(layer) {
-    return layer.frame().x() - this.left()
+Padding.prototype.x = function(component) {
+    return component.frame().x() - this.left()
 }
 
-Padding.prototype.y = function(layer) {
-    return layer.frame().y() - this.top()
+Padding.prototype.y = function(component) {
+    return component.frame().y() - this.top()
 }
 
-Padding.prototype.width = function(layer) {
-    return layer.frame().width() + this.left() + this.right()
+Padding.prototype.width = function(component) {
+    return component.frame().width() + this.left() + this.right()
 }
 
-Padding.prototype.height = function(layer) {
-    return layer.frame().height() + this.top() + this.bottom()
+Padding.prototype.height = function(component) {
+    return component.frame().height() + this.top() + this.bottom()
 }
 
 Padding.prototype.isValid = function() {
@@ -56,15 +56,15 @@ Padding.prototype.toString = function() {
 
 // Action
 
-Padding.prototype.apply = function(layer) {
-    var parentGroup = layer.parentGroup()
-    if (parentGroup) {
-        var backgroundLayer = findLayerInGroup("bg", parentGroup)
-        if (backgroundLayer) {
-            setX(backgroundLayer, this.x(layer))
-            setY(backgroundLayer, this.y(layer))
-            setWidth(backgroundLayer, this.width(layer))
-            setHeight(backgroundLayer, this.height(layer))
+Padding.prototype.apply = function(component) {
+    var parent = component.parent()
+    if (parent) {
+        var background = parent.components().find("bg")
+        if (background) {
+            background.setX(this.x(component))
+            background.setY(this.y(component))
+            background.setWidth(this.width(component))
+            background.setHeight(this.height(component))
         }
     }
 }

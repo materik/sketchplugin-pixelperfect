@@ -1,75 +1,38 @@
 
-function Constraints(layer, properties) {
+function Constraints(layer) {
     this._layer = layer
-
-    if (properties) {
-        this._hasFixedTop = properties.includes('margin-top') ||
-            properties.includes('padding') ||
-            properties.includes('margin') ||
-            properties.includes('height-percentage');
-        this._hasFixedRight = properties.includes('margin-right') ||
-            properties.includes('padding') ||
-            properties.includes('margin') ||
-            properties.includes('width-percentage');
-        this._hasFixedBottom = properties.includes('margin-bottom') ||
-            properties.includes('padding') ||
-            properties.includes('margin') ||
-            properties.includes('height-percentage');
-        this._hasFixedLeft = properties.includes('margin-left') ||
-            properties.includes('padding') ||
-            properties.includes('margin') ||
-            properties.includes('width-percentage');
-
-        this._hasFixedWidth = !(this._hasFixedRight && this._hasFixedLeft);
-        this._hasFixedHeight = !(this._hasFixedTop && this._hasFixedBottom);
-    } else {
-        this._hasFixedWidth = layer.hasFixedWidth()
-        this._hasFixedHeight = layer.hasFixedHeight()
-        this._hasFixedTop = layer.hasFixedTop()
-        this._hasFixedRight = layer.hasFixedRight()
-        this._hasFixedBottom = layer.hasFixedBottom()
-        this._hasFixedLeft = layer.hasFixedLeft()
-    }
 }
 
 // Static
 
-Constraints.new = function(layer, properties) {
-    return new Constraints(layer, properties)
-}
-
-Constraints.apply = function(layer, properties) {
-    Constraints.new(layer, properties).apply()
+Constraints.new = function(layer) {
+    return new Constraints(layer)
 }
 
 // Getter
 
-Constraints.prototype.layer = function() {
-    return this._layer
-}
-
 Constraints.prototype.hasFixedWidth = function() {
-    return this._hasFixedWidth
+    return this._layer.hasFixedWidth()
 }
 
 Constraints.prototype.hasFixedHeight = function() {
-    return this._hasFixedHeight
+    return this._layer.hasFixedHeight()
 }
 
 Constraints.prototype.hasFixedTop = function() {
-    return this._hasFixedTop
+    return this._layer.hasFixedTop()
 }
 
 Constraints.prototype.hasFixedRight = function() {
-    return this._hasFixedRight
+    return this._layer.hasFixedRight()
 }
 
 Constraints.prototype.hasFixedBottom = function() {
-    return this._hasFixedBottom
+    return this._layer.hasFixedBottom()
 }
 
 Constraints.prototype.hasFixedLeft = function() {
-    return this._hasFixedLeft
+    return this._layer.hasFixedLeft()
 }
 
 Constraints.prototype.toString = function() {
@@ -80,28 +43,109 @@ Constraints.prototype.toString = function() {
     "}"
 }
 
-// Action
+// Setter
 
-Constraints.prototype.apply = function() {
-    logWithLayerLevel(this.layer(), "^ Constraints: apply: " + this.toString(), 1)
-
-    this.layer().resetConstraints()
-    this.layer().setHasFixedWidth(this.hasFixedWidth())
-    this.layer().setHasFixedHeight(this.hasFixedHeight())
-    this.layer().setHasFixedTop(this.hasFixedTop())
-    this.layer().setHasFixedRight(this.hasFixedRight())
-    this.layer().setHasFixedBottom(this.hasFixedBottom())
-    this.layer().setHasFixedLeft(this.hasFixedLeft())
+Constraints.prototype.setHasFixedWidth = function(hasFixed) {
+    this._layer.setHasFixedWidth(hasFixed)
 }
 
-Constraints.prototype.lockInPlace = function() {
-    logWithLayerLevel(this.layer(), "^ Constraints: lockInPlace", 1)
+Constraints.prototype.setHasFixedHeight = function(hasFixed) {
+    this._layer.setHasFixedHeight(hasFixed)
+}
 
-    this.layer().resetConstraints()
-    this.layer().setHasFixedWidth(true)
-    this.layer().setHasFixedHeight(true)
-    this.layer().setHasFixedTop(true)
-    this.layer().setHasFixedLeft(true)
+Constraints.prototype.setHasFixedTop = function(hasFixed) {
+    this._layer.setHasFixedTop(hasFixed)
+}
+
+Constraints.prototype.setHasFixedRight = function(hasFixed) {
+    this._layer.setHasFixedRight(hasFixed)
+}
+
+Constraints.prototype.setHasFixedBottom = function(hasFixed) {
+    this._layer.setHasFixedBottom(hasFixed)
+}
+
+Constraints.prototype.setHasFixedLeft = function(hasFixed) {
+    this._layer.setHasFixedLeft(hasFixed)
+}
+
+// Action
+
+Constraints.prototype.apply = function(properties) {
+    /* istanbul ignore if  */
+    if (!properties) {
+        return;
+    }
+
+    this.reset()
+    this.setHasFixedTop(
+        properties.includes('margin-top') ||
+        properties.includes('padding') ||
+        properties.includes('margin') ||
+        properties.includes('height-percentage')
+    );
+    this.setHasFixedRight(
+        properties.includes('margin-right') ||
+        properties.includes('padding') ||
+        properties.includes('margin') ||
+        properties.includes('width-percentage')
+    );
+    this.setHasFixedBottom(
+        properties.includes('margin-bottom') ||
+        properties.includes('padding') ||
+        properties.includes('margin') ||
+        properties.includes('height-percentage')
+    );
+    this.setHasFixedLeft(
+        properties.includes('margin-left') ||
+        properties.includes('padding') ||
+        properties.includes('margin') ||
+        properties.includes('width-percentage')
+    );
+    this.setHasFixedWidth(!(this.hasFixedRight() && this.hasFixedLeft()));
+    this.setHasFixedHeight(!(this.hasFixedTop() && this.hasFixedBottom()));
+
+    Component.new(this._layer).debug("^ Constraints: apply: " + this.toString(), 1)
+}
+
+Constraints.prototype.reset = function() {
+    this._layer.resetConstraints()
+}
+
+Constraints.prototype.lock = function() {
+    Component.new(this._layer).debug("^ Constraints: lock", 1)
+
+    this._lockedHasFixedWidth = this.hasFixedWidth()
+    this._lockedHasFixedHeight = this.hasFixedHeight()
+    this._lockedHasFixedTop = this.hasFixedTop()
+    this._lockedHasFixedRight = this.hasFixedRight()
+    this._lockedHasFixedBottom = this.hasFixedBottom()
+    this._lockedHasFixedLeft = this.hasFixedLeft()
+
+    this.reset()
+    this.setHasFixedWidth(true)
+    this.setHasFixedHeight(true)
+    this.setHasFixedTop(true)
+    this.setHasFixedLeft(true)
+}
+
+Constraints.prototype.unlock = function() {
+    Component.new(this._layer).debug("^ Constraints: unlock", 1)
+
+    this.reset()
+    this.setHasFixedWidth(this._lockedHasFixedWidth)
+    this.setHasFixedHeight(this._lockedHasFixedHeight)
+    this.setHasFixedTop(this._lockedHasFixedTop)
+    this.setHasFixedRight(this._lockedHasFixedRight)
+    this.setHasFixedBottom(this._lockedHasFixedBottom)
+    this.setHasFixedLeft(this._lockedHasFixedLeft)
+
+    this._lockedHasFixedWidth = undefined
+    this._lockedHasFixedHeight = undefined
+    this._lockedHasFixedTop = undefined
+    this._lockedHasFixedRight = undefined
+    this._lockedHasFixedBottom = undefined
+    this._lockedHasFixedLeft = undefined
 }
 
 // -----------------------------------------------------------

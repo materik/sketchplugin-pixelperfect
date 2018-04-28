@@ -13,28 +13,28 @@ SymbolMaster.prototype.ids = function() {
     return this._ids
 }
 
-SymbolMaster.prototype.contains = function(master) {
-    return this.ids().includes(master.symbolID())
+SymbolMaster.prototype.contains = function(component) {
+    return this.ids().includes(component.id())
 }
 
 // Action
 
-SymbolMaster.prototype.apply = function(master) {
-    if (master.parentPage() == null) {
-        logWithLayerLevel(master, "/ master is not local: " + master.name(), 1)
-    } else if (this.contains(master)) {
-        logWithLayerLevel(master, "/ master already applied: " + master.name(), 1)
+SymbolMaster.prototype.apply = function(component) {
+    if (component.page() == null) {
+        component.debug("/ master is not local: " + component.name(), 1)
+    } else if (this.contains(component)) {
+        component.debug("/ master already applied: " + component.name(), 1)
     } else {
         print("\nSYMBOL\n{")
-        Component.apply(master)
+        component.apply()
         print("}\n")
 
-        this.add(master)
+        this.add(component)
     }
 }
 
-SymbolMaster.prototype.add = function(master) {
-    this.ids().push(master.symbolID())
+SymbolMaster.prototype.add = function(component) {
+    this.ids().push(component.id())
 }
 
 // -----------------------------------------------------------

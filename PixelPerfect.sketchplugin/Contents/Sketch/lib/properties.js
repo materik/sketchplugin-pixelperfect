@@ -1,6 +1,6 @@
 
-function Properties(layer) {
-    this._layer = layer
+function Properties(component) {
+    this._component = component
     this._items = []
 
     this._setup()
@@ -8,26 +8,22 @@ function Properties(layer) {
 
 // Static
 
-Properties.new = function(layer) {
-    return new Properties(layer)
+Properties.new = function(component) {
+    return new Properties(component)
 }
 
 // Getter
 
-Properties.prototype.layer = function() {
-    return this._layer
-}
-
-Properties.prototype.items = function() {
-    return this._items
-}
-
-Properties.prototype.objectAtIndex = function(index) {
-    return this.items()[index]
+Properties.prototype.component = function() {
+    return this._component
 }
 
 Properties.prototype.count = function() {
-    return this.items().length
+    return this._items.length
+}
+
+Properties.prototype.objectAtIndex = function(index) {
+    return this._items[index]
 }
 
 Properties.prototype.find = function(key) {
@@ -46,20 +42,18 @@ Properties.prototype.includes = function(key) {
 // Action
 
 Properties.prototype.apply = function() {
-    Constraints.apply(this.layer(), this)
+    this.component().constraints().apply(this)
 
     for (var i = 0; i < this.count(); i++) {
-        var property = this.objectAtIndex(i)
-        property.apply()
-
-        resizeLayer(this.layer())
+        this.objectAtIndex(i).apply()
+        this.component().resize()
     }
 }
 
 Properties.prototype.add = function(key, value) {
-    var property = Property.new(this.layer(), key, value)
+    var property = Property.new(this.component(), key, value)
     if (property) {
-        this.items().push(property)   
+        this._items.push(property)
     }
 }
 
@@ -67,7 +61,7 @@ Properties.prototype.add = function(key, value) {
 
 Properties.prototype._setup = function() {
     var padding = Padding.new()
-    var name = this.layer().name().split("[").last().replace("]", "")
+    var name = this.component().name().split("[").last().replace("]", "")
     var split = name.split(":")
     for (var i = 0; i < split.length; i++) {
         var key = split[i]
@@ -77,6 +71,7 @@ Properties.prototype._setup = function() {
             this.add(key)
         }
     }
+    
     this.add("padding", padding)
 }
 
