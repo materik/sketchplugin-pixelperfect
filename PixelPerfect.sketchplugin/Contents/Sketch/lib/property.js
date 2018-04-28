@@ -53,58 +53,58 @@ Property.prototype.isValid = function() {
 // Action
 
 Property.prototype.apply = function() {
-    var frameBefore = this.component().frameToString()
+    var frameBefore = this.component().frame().toString()
 
     var frame = this.component().frame()
     switch (this.key()) {
         case "width":
-            this.component().setWidth(this.value())
+            frame.setWidth(this.value())
             break;
         case "width-addition":
-            this.component().setWidth(frame.width() + this.value())
+            frame.setWidth(frame.width() + this.value())
             break;
         case "width-percentage":
-            this.component().setWidth(this.value() / 100 * this.component().widthOfParent())
+            frame.setWidth(this.value() / 100 * this.component().widthOfParent())
             break;
         case "width-percentage-full":
-            this.component().setWidth(this.value() / 100 * this.component().widthOfParent(true))
+            frame.setWidth(this.value() / 100 * this.component().widthOfParent(true))
             break;
         case "width-min":
-            this.component().setWidth(frame.width() < this.value() ? this.value() : frame.width())
+            frame.setWidth(frame.width() < this.value() ? this.value() : frame.width())
             break;
         case "height":
-            this.component().setHeight(this.value())
+            frame.setHeight(this.value())
             break;
         case "height-addition":
-            this.component().setHeight(frame.height() + this.value())
+            frame.setHeight(frame.height() + this.value())
             break;
         case "height-percentage":
-            this.component().setHeight(this.value() / 100 * this.component().heightOfParent())
+            frame.setHeight(this.value() / 100 * this.component().heightOfParent())
             break;
         case "height-percentage-full":
-            this.component().setHeight(this.value() / 100 * this.component().heightOfParent(true))
+            frame.setHeight(this.value() / 100 * this.component().heightOfParent(true))
             break;
         case "height-min":
-            this.component().setHeight(frame.height() < this.value() ? this.value() : frame.height())
+            frame.setHeight(frame.height() < this.value() ? this.value() : frame.height())
             break;
         case "padding":
             this.value().apply(this.component())
             break;
         case "margin":
-            this.component().setX(0)
-            this.component().setY(0)
+            frame.setX(0)
+            frame.setY(0)
             break;
         case "margin-top":
-            this.component().setY(this.value() || 0)
+            frame.setY(this.value() || 0)
             break;
         case "margin-right":
-            this.component().setX(this.component().widthOfParent() - frame.width() - (this.value() || 0))
+            frame.setX(this.component().widthOfParent() - frame.width() - (this.value() || 0))
             break;
         case "margin-bottom":
-            this.component().setY(this.component().heightOfParent() - frame.height() - (this.value() || 0))
+            frame.setY(this.component().heightOfParent() - frame.height() - (this.value() || 0))
             break;
         case "margin-left":
-            this.component().setX(this.value() || 0)
+            frame.setX(this.value() || 0)
             break;
         case "stack-horizontally-top":
             this.stackHorizontally(Alignment.top())
@@ -125,10 +125,10 @@ Property.prototype.apply = function() {
             this.stackVertically(Alignment.right())
             break;
         case "center-horizontally":
-            this.component().setX((this.component().widthOfParent() - frame.width()) / 2 + (this.value() || 0))
+            frame.setX((this.component().widthOfParent() - frame.width()) / 2 + (this.value() || 0))
             break;
         case "center-vertically":
-            this.component().setY((this.component().heightOfParent() - frame.height()) / 2 + (this.value() || 0))
+            frame.setY((this.component().heightOfParent() - frame.height()) / 2 + (this.value() || 0))
             break;
         /* istanbul ignore next */
         default:
@@ -136,7 +136,7 @@ Property.prototype.apply = function() {
             break;
     }
 
-    var frameAfter = this.component().frameToString()
+    var frameAfter = this.component().frame().toString()
 
     this.component().debug("~ Property: apply: " + this.toString() + " " + frameBefore + " -> " + frameAfter, 1)
 }
@@ -150,7 +150,7 @@ Property.prototype.stackHorizontally = function(alignment) {
         var component = components.objectAtIndex(k)
         if (component.isVisible()) {
             alignment.align(component, h)
-            component.setX(x)
+            component.frame().setX(x)
 
             x += component.frame().width() + this.value()
         }
@@ -166,7 +166,7 @@ Property.prototype.stackVertically = function(alignment) {
         var component = components.objectAtIndex(k)
         if (component.isVisible()) {
             alignment.align(component, w)
-            component.setY(y)
+            component.frame().setY(y)
             
             y += component.frame().height() + this.value()
         }
@@ -218,22 +218,22 @@ Alignment.prototype.align = function(component, d) {
     var frame = component.frame()
     switch (this.rawValue()) {
         case "top":
-            component.setY(0);
+            frame.setY(0);
             break;
         case "middle":
-            component.setY((d - frame.height()) / 2);
+            frame.setY((d - frame.height()) / 2);
             break;
         case "bottom":
-            component.setY(d - frame.height());
+            frame.setY(d - frame.height());
             break;
         case "left":
-            component.setX(0);
+            frame.setX(0);
             break;
         case "center":
-            component.setX((d - frame.width()) / 2);
+            frame.setX((d - frame.width()) / 2);
             break;
         case "right":
-            component.setX(d - frame.width());
+            frame.setX(d - frame.width());
             break;
     }
 }

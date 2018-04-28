@@ -61,10 +61,10 @@ Padding.prototype.apply = function(component) {
     if (parent) {
         var background = parent.components().find("bg")
         if (background) {
-            background.setX(this.x(component))
-            background.setY(this.y(component))
-            background.setWidth(this.width(component))
-            background.setHeight(this.height(component))
+            background.frame().setX(this.x(component))
+            background.frame().setY(this.y(component))
+            background.frame().setWidth(this.width(component))
+            background.frame().setHeight(this.height(component))
         }
     }
 }

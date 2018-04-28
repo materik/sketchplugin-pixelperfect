@@ -4,6 +4,7 @@ var global = {};
 @import "./lib/component.js";
 @import "./lib/components.js";
 @import "./lib/constraints.js";
+@import "./lib/frame.js";
 @import "./lib/index.js";
 @import "./lib/padding.js";
 @import "./lib/properties.js";
