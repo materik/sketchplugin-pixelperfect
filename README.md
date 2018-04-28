@@ -1,6 +1,6 @@
 # 👾 Pixel Perfect [![Build Status](https://travis-ci.org/materik/sketchplugin-pixelperfect.svg?branch=master)](https://travis-ci.org/materik/sketchplugin-pixelperfect) [![Coverage Status](https://coveralls.io/repos/github/materik/sketchplugin-pixelperfect/badge.svg?branch=master)](https://coveralls.io/github/materik/sketchplugin-pixelperfect?branch=master)
 
-Plugin for Sketch that layouts and sizes your layers automatically based on the layer name.
+Plugin for Sketch that layouts and sizes your layers automatically based on the layer names.
 
 ## Install
 
@@ -27,16 +27,6 @@ You run the `PixelPerfect` script by key shortcut `⌘L` or by going to `Plugin`
 * If you haven't selected any layers, however, all layers, artboards and symbols on the current page will be affected by the script.
 
 You can also go through your entire Sketch file and apply the script to every layer. Do this by key shortcut `^⌘L` by going to `Plugin` in the menu bar. Depending on your Sketch file size, this might take some time.
-
-## Examples
-
-To give an idea how to use `PixelPerfect`, following are examples of valid layer names:
-
-* `w100:h200`
-* `w20:w+30:h100%:t:r`
-* `Group [32:32:x10]`
-
-For details of what these names would mean for the layer, see the properties section below.
 
 ## Properties
 
@@ -109,3 +99,7 @@ Symbol masters will resize itself to fit the content within, artboards will not.
 #### Order of execution
 
 The script will go downwards and up in the layer list and takes care of sublayers before applying properties to itself. Properties are applied from left to right except padding, which is always done last. Be aware of the ordering to get your expected behaviour.
+
+#### Text layers
+
+Will always be set to fixed after resizing it to fit it's content.

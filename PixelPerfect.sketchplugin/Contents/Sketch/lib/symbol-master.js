@@ -20,7 +20,6 @@ SymbolMaster.prototype.contains = function(component) {
 // Action
 
 SymbolMaster.prototype.apply = function(component) {
-    log(component)
     if (component.page() == null) {
         component.debug("/ master is not local: " + component.name(), 1)
     } else if (this.contains(component)) {

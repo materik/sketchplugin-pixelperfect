@@ -187,8 +187,18 @@ Component.prototype.sizeToFit = function(padding) {
     padding = padding || new Padding()
     for (var i = 0; i < this.components().count(); i++) {
         var component = this.components().objectAtIndex(i)
-        component.frame().setX(component.frame().x() - minX + padding.left())
-        component.frame().setY(component.frame().y() - minY + padding.top())
+
+        if (component.properties().includes("margin-right") && component.properties().excludes("margin-left")) {
+            component.frame().setX(component.frame().x() - padding.right())
+        } else {
+            component.frame().setX(component.frame().x() - minX + padding.left())   
+        }
+
+        if (component.properties().includes("margin-bottom") && component.properties().excludes("margin-top")) {
+            component.frame().setY(component.frame().y() - padding.bottom())
+        } else {
+            component.frame().setY(component.frame().y() - minY + padding.top())   
+        }
 
         if (!this.isArtboard()) {
             component.constraints().lock()

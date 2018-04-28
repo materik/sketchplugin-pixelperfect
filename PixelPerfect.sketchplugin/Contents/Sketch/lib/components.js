@@ -44,7 +44,7 @@ Components.prototype.maxWidth = function() {
     var width = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (!component.name().match(MAX_WIDTH_IGNORE)) {
+        if (component.properties().excludes("width-percentage")) {
             width = Math.max(width, component.frame().width())
         }
     }
@@ -64,7 +64,8 @@ Components.prototype.maxRight = function(isArtboard) {
     var right = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (!component.name().match(isArtboard ? MAX_RIGHT_IGNORE_ARTBOARD : MAX_RIGHT_IGNORE)) {
+        var extraCondition = (isArtboard ? component.properties().excludes("margin-right") : true)
+        if (component.properties().excludes("width-percentage") && extraCondition) {
             right = Math.max(right, component.frame().right())
         }
     }
@@ -75,7 +76,7 @@ Components.prototype.maxHeight = function() {
     var height = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (!component.name().match(MAX_HEIGHT_IGNORE)) {
+        if (component.properties().excludes("height-percentage")) {
             height = Math.max(height, component.frame().height())
         }
     }
@@ -95,7 +96,8 @@ Components.prototype.maxBottom = function(isArtboard) {
     var bottom = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (!component.name().match(isArtboard ? MAX_BOTTOM_IGNORE_ARTBOARD : MAX_BOTTOM_IGNORE)) {
+        var extraCondition = (isArtboard ? component.properties().excludes("margin-bottom") : true)
+        if (component.properties().excludes("height-percentage") && extraCondition) {
             bottom = Math.max(bottom, component.frame().bottom())
         }
     }
@@ -109,15 +111,6 @@ Components.prototype.apply = function() {
         this.objectAtIndex(i).apply()
     }
 }
-
-// -----------------------------------------------------------
-
-var MAX_BOTTOM_IGNORE = /.*\bh\d+%.*/
-var MAX_BOTTOM_IGNORE_ARTBOARD = /.*(\bh\d+%|\bb(?![^\d:])).*/
-var MAX_HEIGHT_IGNORE = /.*h\d+%(?!%).*/
-var MAX_RIGHT_IGNORE = /.*\bw\d+%.*/
-var MAX_RIGHT_IGNORE_ARTBOARD = /.*(\bw\d+%|\br(?![^\d:])).*/
-var MAX_WIDTH_IGNORE = /.*w\d+%(?!%).*/
 
 // -----------------------------------------------------------
 

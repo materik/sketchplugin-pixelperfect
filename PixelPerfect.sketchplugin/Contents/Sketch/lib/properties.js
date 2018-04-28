@@ -39,6 +39,10 @@ Properties.prototype.includes = function(key) {
     return this.find(key) != undefined
 }
 
+Properties.prototype.excludes = function(key) {
+    return this.find(key) == undefined
+}
+
 // Action
 
 Properties.prototype.apply = function() {

@@ -237,4 +237,86 @@ describe('bugs', function() {
         }
     })
 
+    it('layer set to bottom right doesnt follow with the artboard resizing', function() {
+        var master = createSymbolMaster("Master", 0, 0, 120, 187)
+        var masterLayer = createLayer("w100:h100:t:b", 0, 0, 120, 120)
+        var artboard = createArtboard("Artboard [32:32:w500:h>300]", 0, 0, 500, 500)
+        var instance = createSymbolInstance(master, "Symbol [h200:l:t]", 96, 56, 188, 128)
+        var group = createLayerGroup("y20:b:r", 166, 184, 245, 177)
+        var layer1 = createLayer("Red [w20:h50]", 0, 117, 60, 60)
+        var layer2 = createLayer("Green [w50:h20]", 185, 0, 60, 60)
+
+        master.insertLayer_afterLayerOrAtEnd(masterLayer)
+        artboard.insertLayer_afterLayerOrAtEnd(instance)
+        artboard.insertLayer_afterLayerOrAtEnd(group)
+        group.insertLayer_afterLayerOrAtEnd(layer1)
+        group.insertLayer_afterLayerOrAtEnd(layer2)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(artboard)
+
+            assert.equal(master.frame().width(), 100)
+            assert.equal(master.frame().height(), 100)
+
+            assert.equal(masterLayer.frame().x(), 0)
+            assert.equal(masterLayer.frame().y(), 0)
+            assert.equal(masterLayer.frame().width(), 100)
+            assert.equal(masterLayer.frame().height(), 100)
+            assert.equal(masterLayer.hasFixedWidth(), true)
+            assert.equal(masterLayer.hasFixedHeight(), false)
+            assert.equal(masterLayer.hasFixedTop(), true)
+            assert.equal(masterLayer.hasFixedRight(), false)
+            assert.equal(masterLayer.hasFixedBottom(), true)
+            assert.equal(masterLayer.hasFixedLeft(), false)
+
+            assert.equal(artboard.frame().width(), 500)
+            assert.equal(artboard.frame().height(), 300)
+
+            assert.equal(instance.frame().x(), 32)
+            assert.equal(instance.frame().y(), 32)
+            assert.equal(instance.frame().width(), 100)
+            assert.equal(instance.frame().height(), 200)
+            assert.equal(instance.hasFixedWidth(), true)
+            assert.equal(instance.hasFixedHeight(), true)
+            assert.equal(instance.hasFixedTop(), true)
+            assert.equal(instance.hasFixedRight(), false)
+            assert.equal(instance.hasFixedBottom(), false)
+            assert.equal(instance.hasFixedLeft(), true)
+
+            assert.equal(group.frame().x(), 418)
+            assert.equal(group.frame().width(), 50)
+            assert.equal(group.frame().height(), 90)
+            assert.equal(group.hasFixedWidth(), true)
+            assert.equal(group.hasFixedHeight(), true)
+            assert.equal(group.hasFixedTop(), false)
+            assert.equal(group.hasFixedRight(), true)
+            assert.equal(group.hasFixedBottom(), true)
+            assert.equal(group.hasFixedLeft(), false)
+
+            assert.equal(layer1.frame().x(), 15)
+            assert.equal(layer1.frame().y(), 0)
+            assert.equal(layer1.frame().width(), 20)
+            assert.equal(layer1.frame().height(), 50)
+            assert.equal(layer1.hasFixedWidth(), true)
+            assert.equal(layer1.hasFixedHeight(), true)
+
+            assert.equal(layer2.frame().x(), 0)
+            assert.equal(layer2.frame().y(), 70)
+            assert.equal(layer2.frame().width(), 50)
+            assert.equal(layer2.frame().height(), 20)
+            assert.equal(layer2.hasFixedWidth(), true)
+            assert.equal(layer2.hasFixedHeight(), true)
+
+            // NOTE(materik):
+            // * in real sketch the layers conforms to the first size of the artboard
+            //   and then sizes with the resize. This is difficult to mock why
+            //   the other iteration is the right size here in the test
+            if (i == 0) {
+                assert.equal(group.frame().y(), 378)
+            } else {
+                assert.equal(group.frame().y(), 178)
+            }
+        }
+    })
+
 })
