@@ -14,12 +14,13 @@ SymbolMaster.prototype.ids = function() {
 }
 
 SymbolMaster.prototype.contains = function(component) {
-    return this.ids().includes(component.id())
+    return this.ids().includes(component.symbolID())
 }
 
 // Action
 
 SymbolMaster.prototype.apply = function(component) {
+    log(component)
     if (component.page() == null) {
         component.debug("/ master is not local: " + component.name(), 1)
     } else if (this.contains(component)) {
@@ -34,7 +35,7 @@ SymbolMaster.prototype.apply = function(component) {
 }
 
 SymbolMaster.prototype.add = function(component) {
-    this.ids().push(component.id())
+    this.ids().push(component.symbolID())
 }
 
 // -----------------------------------------------------------

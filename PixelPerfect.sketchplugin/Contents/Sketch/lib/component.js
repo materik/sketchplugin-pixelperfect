@@ -19,13 +19,6 @@ Component.apply = function(layer) {
 
 // Getter
 
-Component.prototype.id = function() {
-    /* istanbul ignore else */
-    if (this._layer.symbolID) {
-        return this._layer.symbolID()
-    }
-}
-
 Component.prototype.components = function() {
     if (!this._components) {
         this._components = Components.sub(this._layer)
@@ -57,6 +50,13 @@ Component.prototype.frame = function() {
 
 Component.prototype.page = function() {
     return this._layer.parentPage()
+}
+
+Component.prototype.symbolID = function() {
+    /* istanbul ignore else */
+    if (this._layer.symbolID) {
+        return this._layer.symbolID()
+    }
 }
 
 Component.prototype.master = function() {
