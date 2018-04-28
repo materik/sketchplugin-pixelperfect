@@ -2,6 +2,24 @@
 
 Plugin for Sketch that layouts and sizes your layers automatically based on the layer names.
 
+<table>
+  <tr></tr>
+  <tr>
+    <td><b>Layers</b></td>
+    <td><b>Before</b></td>
+  </tr>
+  <tr>
+    <td rowspan="3"><img src="resources/layers.png" /></td>
+    <td><img src="resources/before.png" /></td>
+  </tr>
+  <tr>
+    <td><b>After ⌘L</b></td>
+  </tr>
+  <tr>
+    <td><img src="resources/after.png" /></td>
+  </tr>
+</table>
+
 ## Install
 
 Download the zip-file and double click on the `.sketchplugin` file.
