@@ -1,6 +1,7 @@
 
 var global = {};
 
+@import "./settings.js";
 @import "./lib/component.js";
 @import "./lib/components.js";
 @import "./lib/constraints.js";

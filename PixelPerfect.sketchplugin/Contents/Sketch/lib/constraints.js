@@ -36,11 +36,11 @@ Constraints.prototype.hasFixedLeft = function() {
 }
 
 Constraints.prototype.toString = function() {
-    return "{" + 
+    return "<{" + 
         this.hasFixedWidth() + "," + this.hasFixedHeight() + "," +
         this.hasFixedTop() + "," + this.hasFixedRight() + "," +
         this.hasFixedBottom() + "," + this.hasFixedLeft() +
-    "}"
+    "}>"
 }
 
 // Setter
@@ -105,7 +105,7 @@ Constraints.prototype.apply = function(properties) {
     this.setHasFixedWidth(!(this.hasFixedRight() && this.hasFixedLeft()));
     this.setHasFixedHeight(!(this.hasFixedTop() && this.hasFixedBottom()));
 
-    Component.new(this._layer).debug("^ Constraints: apply: " + this.toString(), 1)
+    Component.new(this._layer).debug("^ Constraints: apply: <" + this._layer.name() + "> " + this.toString(), 1)
 }
 
 Constraints.prototype.reset = function() {
@@ -113,7 +113,7 @@ Constraints.prototype.reset = function() {
 }
 
 Constraints.prototype.lock = function() {
-    Component.new(this._layer).debug("^ Constraints: lock", 1)
+    Component.new(this._layer).debug("^ Constraints: lock <" + this._layer.name() + ">", 1)
 
     this._lockedHasFixedWidth = this.hasFixedWidth()
     this._lockedHasFixedHeight = this.hasFixedHeight()
@@ -130,7 +130,7 @@ Constraints.prototype.lock = function() {
 }
 
 Constraints.prototype.unlock = function() {
-    Component.new(this._layer).debug("^ Constraints: unlock", 1)
+    Component.new(this._layer).debug("^ Constraints: unlock <" + this._layer.name() + ">", 1)
 
     this.reset()
     this.setHasFixedWidth(this._lockedHasFixedWidth)

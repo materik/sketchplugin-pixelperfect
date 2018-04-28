@@ -350,7 +350,10 @@ MSLayerGroup.prototype.resizeToFitChildrenWithOption = function() {
     if (this.class().toString().isEqualTo("MSArtboardGroup")) {
         return
     }
+
+    console.log("{\n! MOCK : resizeToFitChildrenWithOption")
     Component.new(this).sizeToFit()
+    console.log("}")
 }
 
 // -----------------------------------------------------------
@@ -492,7 +495,7 @@ global.print = function(msg) {
 }
 
 global.log = function(msg) {
-    console.log("> LOG:", msg)
+    console.log("> LOG  :", msg)
 }
 
 // -----------------------------------------------------------

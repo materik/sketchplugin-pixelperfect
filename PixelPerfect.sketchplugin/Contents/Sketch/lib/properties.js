@@ -49,6 +49,8 @@ Properties.prototype.apply = function() {
     this.component().constraints().apply(this)
 
     for (var i = 0; i < this.count(); i++) {
+        this.component().debug("~ Properties: apply: <" + this.component().name() + "> <" + this.component().class() + ">", 1)
+
         this.objectAtIndex(i).apply()
         this.component().resize()
     }
@@ -63,13 +65,19 @@ Properties.prototype.add = function(key, value) {
 
 // Private
 
+Properties.prototype._raw = function() {
+    var name = this.component().name()
+    var split = name.split(PROPERTIES_RE)
+    var properties = (split.length == 1 ? split.even() : split.odd()).join(PROPERTIES_SEP)
+    return properties.split(PROPERTIES_SEP)
+}
+
 Properties.prototype._setup = function() {
     var padding = Padding.new()
-    var name = this.component().name().split("[").last().replace("]", "")
-    var split = name.split(":")
-    for (var i = 0; i < split.length; i++) {
-        var key = split[i]
-        if (key.match(/^\d+$/)) {
+    var raw = this._raw()
+    for (var i = 0; i < raw.length; i++) {
+        var key = raw[i]
+        if (PROPERTY_PADDING_RE.test(key)) {
             padding.add(key)
         } else {
             this.add(key)

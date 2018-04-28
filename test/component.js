@@ -304,41 +304,6 @@ describe('component', function() {
 
     })
 
-    it('roundToPixel', function() {
-        var component = Component.new(createLayer("", 1.1, 2.2, 3.3, 4.5))
-        assert.equal(component.frame().x(), 1.1)
-        assert.equal(component.frame().y(), 2.2)
-        assert.equal(component.frame().width(), 3.3)
-        assert.equal(component.frame().height(), 4.5)
-        component.roundToPixel()
-        assert.equal(component.frame().x(), 1)
-        assert.equal(component.frame().y(), 2)
-        assert.equal(component.frame().width(), 3)
-        assert.equal(component.frame().height(), 5)
-    })
-
-    it('shouldIgnore', function() {
-        var layer = createLayer("")
-        assert.equal(Component.new(layer).shouldIgnore(), false)
-        layer.setIsVisible(false)
-        assert.equal(Component.new(layer).shouldIgnore(), true)
-        layer.setIsVisible(true)
-        assert.equal(Component.new(layer).shouldIgnore(), false)
-        layer.setName("Artboard [Ignore]")
-        assert.equal(Component.new(layer).shouldIgnore(), true)
-    })
-
-    it('shouldResizeArtboard', function() {
-        var layer = createLayer("Artboard")
-        assert.equal(Component.new(layer).shouldResizeArtboard(), false)
-        layer.setName("Artboard [w100]")
-        assert.equal(Component.new(layer).shouldResizeArtboard(), false)
-        var layer = createArtboard("Artboard")
-        assert.equal(Component.new(layer).shouldResizeArtboard(), false)
-        layer.setName("Artboard [w100]")
-        assert.equal(Component.new(layer).shouldResizeArtboard(), true)
-    })
-
     describe('setter', function() {
 
         it('setX', function() {
@@ -491,6 +456,47 @@ describe('component', function() {
             assert.equal(group.frame().height(), 250)
         })
 
+    })
+
+    it('roundToPixel', function() {
+        var component = Component.new(createLayer("", 1.1, 2.2, 3.3, 4.5))
+        assert.equal(component.frame().x(), 1.1)
+        assert.equal(component.frame().y(), 2.2)
+        assert.equal(component.frame().width(), 3.3)
+        assert.equal(component.frame().height(), 4.5)
+        component.roundToPixel()
+        assert.equal(component.frame().x(), 1)
+        assert.equal(component.frame().y(), 2)
+        assert.equal(component.frame().width(), 3)
+        assert.equal(component.frame().height(), 5)
+    })
+
+    it('shouldIgnore', function() {
+        var layer = createLayer("")
+        assert.equal(Component.new(layer).shouldIgnore(), false)
+        layer.setIsVisible(false)
+        assert.equal(Component.new(layer).shouldIgnore(), true)
+        layer.setIsVisible(true)
+        assert.equal(Component.new(layer).shouldIgnore(), false)
+        layer.setName("Artboard [Ignore]")
+        assert.equal(Component.new(layer).shouldIgnore(), true)
+    })
+
+    it('shouldResizeArtboard', function() {
+        var layer = createLayer("Layer")
+        assert.equal(Component.new(layer).shouldResizeArtboard(), false)
+        layer.setName("Layer [w100]")
+        assert.equal(Component.new(layer).shouldResizeArtboard(), false)
+        var layer = createArtboard("Artboard")
+        assert.equal(Component.new(layer).shouldResizeArtboard(), false)
+        layer.setName("Artboard [w100]")
+        assert.equal(Component.new(layer).shouldResizeArtboard(), true)
+        layer.setName("w100")
+        assert.equal(Component.new(layer).shouldResizeArtboard(), false)
+        layer.setName("Artboard [32:32:w500:h>300]")
+        var component = Component.new(layer)
+        assert.equal(component.shouldResizeArtboard(), true)
+        assert.equal(component.shouldResizeArtboard(), true)
     })
 
 })

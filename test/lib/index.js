@@ -1,6 +1,7 @@
 
 global.assert = require('assert');
 
+require('../../PixelPerfect.sketchplugin/Contents/Sketch/settings.js');
 require('../../PixelPerfect.sketchplugin/Contents/Sketch/lib/component.js');
 require('../../PixelPerfect.sketchplugin/Contents/Sketch/lib/components.js');
 require('../../PixelPerfect.sketchplugin/Contents/Sketch/lib/constraints.js');

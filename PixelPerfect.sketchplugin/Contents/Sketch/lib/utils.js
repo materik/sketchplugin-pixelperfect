@@ -14,9 +14,37 @@ var debug = function(component, msg, addLevel) {
 
 // -----------------------------------------------------------
 
+Array.prototype.first = function() {
+    if (this.length > 0) {
+        return this[0];   
+    }
+}
+
 Array.prototype.last = function() {
-    return this[this.length - 1];
-};
+    if (this.length > 0) {
+        return this[this.length - 1];   
+    }
+}
+
+Array.prototype.even = function() {
+    var even = []
+    for (var i = 0; i < this.length; i += 2) {
+        even.push(this[i])
+    }
+    return even
+}
+
+Array.prototype.odd = function() {
+    var odd = []
+    for (var i = 1; i < this.length; i += 2) {
+        odd.push(this[i])
+    }
+    return odd
+}
+
+String.prototype.contains = function(str) {
+    return this.indexOf(str) >= 0
+}
 
 Math.roundWithPrecision = function(value, precision) {
   var factor = this.pow(10, precision || 0);

@@ -96,4 +96,15 @@ describe('properties', function() {
         assert.equal(properties.objectAtIndex(0).value()._left, 4)
     })
 
+    it('_raw', function() {
+        var properties = Properties.new(createLayer("Component [1]"))
+        assert.deepEqual(properties._raw(), ["1"])
+        var properties = Properties.new(createLayer("Component [w100:h100]"))
+        assert.deepEqual(properties._raw(), ["w100", "h100"])
+        var properties = Properties.new(createLayer("bg:w100:h100:xt100"))
+        assert.deepEqual(properties._raw(), ["bg", "w100", "h100", "xt100"])
+        var properties = Properties.new(createLayer("Component [w100:h100] [xt100]"))
+        assert.deepEqual(properties._raw(), ["w100", "h100", "xt100"])
+    })
+
 })

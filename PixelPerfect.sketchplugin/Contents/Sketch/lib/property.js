@@ -32,7 +32,7 @@ Property.prototype.value = function() {
 }
 
 Property.prototype.toString = function() {
-    return this.component().name() + "." + this.key() + ": " + this.value().toString()
+    return "<" + this.component().name() + ">.<" + this.key() + ">:<" + this.value().toString() + ">"
 }
 
 Property.prototype.isValid = function() {
@@ -40,7 +40,7 @@ Property.prototype.isValid = function() {
         return false
     } else if (this.key() == "padding") {
         return this.value() && this.value().isValid && this.value().isValid()
-    } else if (this.key().match("margin")) {
+    } else if (this.key().contains("margin")) {
         return true
     } else if (this.key() == "center-horizontally") {
         return true
@@ -132,13 +132,13 @@ Property.prototype.apply = function() {
             break;
         /* istanbul ignore next */
         default:
-            print("~ ERROR: invalid property: " + this.key())
+            this.component().debug("~ ERROR: invalid property: " + this.key(), 2)
             break;
     }
 
     var frameAfter = this.component().frame().toString()
 
-    this.component().debug("~ Property: apply: " + this.toString() + " " + frameBefore + " -> " + frameAfter, 1)
+    this.component().debug("~ Property: apply: " + this.toString() + " " + frameBefore + " -> " + frameAfter, 2)
 }
 
 Property.prototype.stackHorizontally = function(alignment) {
@@ -236,35 +236,6 @@ Alignment.prototype.align = function(component, d) {
             frame.setX(d - frame.width());
             break;
     }
-}
-
-// -----------------------------------------------------------
-
-var PROPERTY_MAP = {
-    "(w)\\d+":              "width",
-    "(w)(\\+|\\-)\\d+":     "width-addition",
-    "(w)\\d+%":             "width-percentage",
-    "(w)\\d+%%":            "width-percentage-full",
-    "(w)\\>\\d+":           "width-min",
-    "(h)\\d+":              "height",
-    "(h)(\\+|\\-)\\d+":     "height-addition",
-    "(h)\\d+%":             "height-percentage",
-    "(h)\\d+%%":            "height-percentage-full",
-    "(h)\\>\\d+":           "height-min",
-    "padding":              "padding",
-    "(bg|trbl|m)":          "margin",
-    "(t|mt)\\-?\\d*":       "margin-top",
-    "(r|mr)\\-?\\d*":       "margin-right",
-    "(b|mb)\\-?\\d*":       "margin-bottom",
-    "(l|ml)\\-?\\d*":       "margin-left",
-    "(xt)\\-?\\d+":         "stack-horizontally-top",
-    "(x)\\-?\\d+":          "stack-horizontally-middle",
-    "(xb)\\-?\\d+":         "stack-horizontally-bottom",
-    "(yl)\\-?\\d+":         "stack-vertically-left",
-    "(y)\\-?\\d+":          "stack-vertically-center",
-    "(yr)\\-?\\d+":         "stack-vertically-right",
-    "(h|c)(\\+|\\-)?\\d*":  "center-horizontally",
-    "(v)(\\+|\\-)?\\d*":    "center-vertically",
 }
 
 // -----------------------------------------------------------

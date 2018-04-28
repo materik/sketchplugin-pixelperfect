@@ -48,6 +48,10 @@ Component.prototype.frame = function() {
     return this._frame
 }
 
+Component.prototype.class = function() {
+    return String(this._layer.class().toString())
+}
+
 Component.prototype.page = function() {
     return this._layer.parentPage()
 }
@@ -71,15 +75,15 @@ Component.prototype.isVisible = function() {
 }
 
 Component.prototype.isArtboard = function() {
-    return this._layer.class().toString().isEqualTo("MSArtboardGroup")
+    return this.class() == "MSArtboardGroup"
 }
 
 Component.prototype.shouldIgnore = function() {
-    return !this.isVisible() || (this.name().match(/.*\[ignore\].*/i) != null)
+    return !this.isVisible() || IGNORE_RE.test(this.name())
 }
 
 Component.prototype.shouldResizeArtboard = function() {
-    return this.isArtboard() && this.name().match(/.*\[.*\].*/i) != null
+    return this.isArtboard() && PROPERTIES_RE.test(this.name())
 }
 
 Component.prototype.parent = function() {
@@ -97,7 +101,7 @@ Component.prototype.widthOfParent = function(forceIteration) {
         return 0
     } else if (parent.isArtboard()) {
         return parent.frame().width()
-    } else if (forceIteration || parent.name().match(/.*w\d+%.*/)) {
+    } else if (forceIteration || parent.properties().includes("width-percentage")) {
         return parent.widthOfParent(forceIteration) || parent.frame().width()
     } else {
         return parent.components().maxWidth()
@@ -110,7 +114,7 @@ Component.prototype.heightOfParent = function(forceIteration) {
         return 0
     } else if (parent.isArtboard()) {
         return parent.frame().height()
-    } else if (forceIteration || parent.name().match(/.*h\d+%.*/)) {
+    } else if (forceIteration || parent.properties().includes("height-percentage")) {
         return parent.heightOfParent(forceIteration) || parent.frame().height()
     } else {
         return parent.components().maxHeight()
@@ -128,7 +132,7 @@ Component.prototype.apply = function() {
 
     this.roundToPixel()
 
-    switch (String(this._layer.class().toString())) {
+    switch (this.class()) {
         case "MSSymbolInstance":
             SymbolMaster.sharedInstance.apply(this.master())
             this._layer.resetSizeToMaster()
@@ -138,7 +142,7 @@ Component.prototype.apply = function() {
         case "MSSymbolMaster":
             this.components().apply()
             this.resize()
-
+            
             if (this.shouldResizeArtboard()) {
                 var property = this.properties().find("padding")
                 this.sizeToFit(property && property.value())
@@ -156,12 +160,14 @@ Component.prototype.apply = function() {
 }
 
 Component.prototype.resize = function() {
-    switch (String(this._layer.class().toString())) {
+    this.debug("& Component: resize: <" + this.name() + "> <" + this.class() + ">", 1)
+
+    switch (this.class()) {
         case "MSSymbolMaster":
             this.sizeToFit()
             break;
         case "MSTextLayer":
-            if (this.name().match(/.*h\d+.*/)) {
+            if (this.properties().includes("height")) {
                 this._layer.setVerticalAlignment(1)
             } else {
                 this._layer.adjustFrameToFit() 
@@ -180,6 +186,8 @@ Component.prototype.sizeToFit = function(padding) {
         return
     }
 
+    this.debug("& Component: sizeToFit: <" + this.name() + "> <" + this.class() + ">", 1)
+
     var constraints = []
     var minX = this.components().minLeft()
     var minY = this.components().minTop()
@@ -187,6 +195,8 @@ Component.prototype.sizeToFit = function(padding) {
     padding = padding || new Padding()
     for (var i = 0; i < this.components().count(); i++) {
         var component = this.components().objectAtIndex(i)
+
+        var frameBefore = this.frame().toString()
 
         if (component.properties().includes("margin-right") && component.properties().excludes("margin-left")) {
             component.frame().setX(component.frame().x() - padding.right())
@@ -199,6 +209,10 @@ Component.prototype.sizeToFit = function(padding) {
         } else {
             component.frame().setY(component.frame().y() - minY + padding.top())   
         }
+
+        var frameAfter = this.frame().toString()
+
+        this.debug("& Component: sizeToFit: <" + component.name() + "> " + frameBefore + " -> " + frameAfter, 2)
 
         if (!this.isArtboard()) {
             component.constraints().lock()
