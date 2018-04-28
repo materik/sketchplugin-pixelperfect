@@ -91,31 +91,27 @@ Component.prototype.parent = function() {
     }
 }
 
-Component.prototype.widthOfParent = function(full) {
+Component.prototype.widthOfParent = function(forceIteration) {
     var parent = this.parent()
     if (parent == undefined) {
         return 0
     } else if (parent.isArtboard()) {
         return parent.frame().width()
-    } else if (parent.name().match(/.*w\d+%.*/)) {
-        return parent.widthOfParent()
-    } else if (full) {
-        return parent.widthOfParent() || parent.frame().width()
+    } else if (forceIteration || parent.name().match(/.*w\d+%.*/)) {
+        return parent.widthOfParent(forceIteration) || parent.frame().width()
     } else {
         return parent.components().maxWidth()
     }
 }
 
-Component.prototype.heightOfParent = function(full) {
+Component.prototype.heightOfParent = function(forceIteration) {
     var parent = this.parent()
     if (!parent) {
         return 0
     } else if (parent.isArtboard()) {
         return parent.frame().height()
-    } else if (parent.name().match(/.*h\d+%.*/)) {
-        return parent.heightOfParent()
-    } else if (full) {
-        return parent.heightOfParent() || parent.frame().height()
+    } else if (forceIteration || parent.name().match(/.*h\d+%.*/)) {
+        return parent.heightOfParent(forceIteration) || parent.frame().height()
     } else {
         return parent.components().maxHeight()
     }
