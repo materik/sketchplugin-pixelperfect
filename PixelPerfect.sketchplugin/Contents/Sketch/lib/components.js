@@ -44,7 +44,7 @@ Components.prototype.maxWidth = function() {
     var width = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (!component.name().match(/.*w\d+%(?!%).*/)) {
+        if (!component.name().match(MAX_WIDTH_IGNORE)) {
             width = Math.max(width, component.frame().width())
         }
     }
@@ -55,7 +55,7 @@ Components.prototype.minLeft = function() {
     var left = 999999
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        left = Math.min(left, component.frame().x())
+        left = Math.min(left, component.frame().left())
     }
     return left
 }
@@ -64,8 +64,8 @@ Components.prototype.maxRight = function(isArtboard) {
     var right = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (!component.name().match(isArtboard ? /.*(\bw\d+%|\br(?![^\d:])).*/ : /.*\bw\d+%.*/)) {
-            right = Math.max(right, component.frame().x() + component.frame().width())
+        if (!component.name().match(isArtboard ? MAX_RIGHT_IGNORE_ARTBOARD : MAX_RIGHT_IGNORE)) {
+            right = Math.max(right, component.frame().right())
         }
     }
     return right
@@ -75,7 +75,7 @@ Components.prototype.maxHeight = function() {
     var height = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (!component.name().match(/.*h\d+%(?!%).*/)) {
+        if (!component.name().match(MAX_HEIGHT_IGNORE)) {
             height = Math.max(height, component.frame().height())
         }
     }
@@ -86,7 +86,7 @@ Components.prototype.minTop = function() {
     var top = 999999
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        top = Math.min(top, component.frame().y())
+        top = Math.min(top, component.frame().top())
     }
     return top
 }
@@ -95,8 +95,8 @@ Components.prototype.maxBottom = function(isArtboard) {
     var bottom = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (!component.name().match(isArtboard ? /.*(\bh\d+%|\bb(?![^\d:])).*/ : /.*\bh\d+%.*/)) {
-            bottom = Math.max(bottom, component.frame().y() + component.frame().height())
+        if (!component.name().match(isArtboard ? MAX_BOTTOM_IGNORE_ARTBOARD : MAX_BOTTOM_IGNORE)) {
+            bottom = Math.max(bottom, component.frame().bottom())
         }
     }
     return bottom
@@ -109,6 +109,15 @@ Components.prototype.apply = function() {
         this.objectAtIndex(i).apply()
     }
 }
+
+// -----------------------------------------------------------
+
+var MAX_BOTTOM_IGNORE = /.*\bh\d+%.*/
+var MAX_BOTTOM_IGNORE_ARTBOARD = /.*(\bh\d+%|\bb(?![^\d:])).*/
+var MAX_HEIGHT_IGNORE = /.*h\d+%(?!%).*/
+var MAX_RIGHT_IGNORE = /.*\bw\d+%.*/
+var MAX_RIGHT_IGNORE_ARTBOARD = /.*(\bw\d+%|\br(?![^\d:])).*/
+var MAX_WIDTH_IGNORE = /.*w\d+%(?!%).*/
 
 // -----------------------------------------------------------
 

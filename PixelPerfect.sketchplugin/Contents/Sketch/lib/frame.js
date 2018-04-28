@@ -34,6 +34,22 @@ Frame.prototype.height = function() {
     return this._layer.frame().height()
 }
 
+Frame.prototype.top = function() {
+    return this.y()
+}
+
+Frame.prototype.right = function() {
+    return this.x() + this.width()
+}
+
+Frame.prototype.bottom = function() {
+    return this.y() + this.height()
+}
+
+Frame.prototype.left = function() {
+    return this.x()
+}
+
 // Setter
 
 Frame.prototype.setX = function(x) {
