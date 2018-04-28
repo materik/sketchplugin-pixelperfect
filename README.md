@@ -10,9 +10,11 @@ Download the zip-file and double click on the `.sketchplugin` file.
 
 By naming your layers with the formatting described below, your layers will take on certain properties depending on that name. These properties can be separated by `:` and can be contained, in the name, by putting them in brackets.
 
-You run the `PixelPerfect` script by key shortcut `⌘L` or going to `Plugin` in the menu bar.
+You run the `PixelPerfect` script by key shortcut `⌘L` or by going to `Plugin` in the menu bar.
 * If you have layers selected, the script will only apply to that selection, the sublayers contained within it and, if their are any symbol instances, their masters will be resized and layed out as well. Instances will also be resized to the same size as the master.
 * If you haven't selected any layers, however, all layers, artboards and symbols on the current page will be affected by the script.
+
+You can also go through your entire Sketch file and apply the script to every layer. Do this by key shortcut `^⌘L` by going to `Plugin` in the menu bar. Depending on your Sketch file size, this might take some time.
 
 If you don't want the script to apply to a certain layer, add `[ignore]` to the name.
 
@@ -30,39 +32,35 @@ For details of what these names would mean for the layer, see the properties sec
 
 #### `width`
 
-*TODO:* Add explaination
+##### Static
 
-#### `width-addition`
+Set the layer width in pixels.
 
-*TODO:* Add explaination
+*Examples:* `w100`, `w20`
 
-#### `width-subtraction`
+##### Addition or Subtraction
 
-*TODO:* Add explaination
+Add or subtract pixels to the width of the layer. This property works best together with a static width property or to add or subtract width to a symbol instance.
 
-#### `width-percentage`
+*Examples:* `w+100`, `w20:w-10`
 
-*TODO:* Add explaination
+##### Percentage
 
-#### `width-min`
+Set width relative the layer group width. If the layer group is also specified with a width percentage this will take into consider it's layer group width. If you specify two `%` the width will be set to the master or the artboard containing the layer independent of how many layer groups it's in.
 
-*TODO:* Add explaination
+*Examples:* `w100%`, `w50%%`
+
+##### Min
+
+Defined a minimum width in pixels for a layer group. If the sublayers within the group are less then the width it will increase the group size to the specified value, if greater than that it affects nothing.
+
+*Examples:* `w>100`
 
 #### `height`
 
-*TODO:* Add explaination
+See `width`. Works exactly the same but with `h` as the property index.
 
-#### `height-addition`
-
-*TODO:* Add explaination
-
-#### `height-percentage`
-
-*TODO:* Add explaination
-
-#### `height-min`
-
-*TODO:* Add explaination
+*Examples:* `h100`, `h100:h+10`, `h100%`, `h>100`
 
 #### `padding`
 
