@@ -1,32 +1,16 @@
-# 👾 Pixel Perfect [![Build Status](https://travis-ci.org/materik/sketchplugin-pixelperfect.svg?branch=master)](https://travis-ci.org/materik/sketchplugin-pixelperfect) [![Coverage Status](https://coveralls.io/repos/github/materik/sketchplugin-pixelperfect/badge.svg?branch=master)](https://coveralls.io/github/materik/sketchplugin-pixelperfect?branch=master)
+![](resources/logo.png)
 
-Plugin for Sketch that layouts and sizes your layers automatically based on the layer names.
+[![Build Status](https://travis-ci.org/materik/sketchplugin-pixelperfect.svg?branch=master)](https://travis-ci.org/materik/sketchplugin-pixelperfect) [![Coverage Status](https://coveralls.io/repos/github/materik/sketchplugin-pixelperfect/badge.svg?branch=master)](https://coveralls.io/github/materik/sketchplugin-pixelperfect?branch=master)
+
+Plugin for handling layouts and sizing of layers automatically in Sketch based on the layer names. I call it Pixel Perfect 👾!
 
 ## Install
 
-Download the zip-file and double click on the `.sketchplugin` file.
+Download the zip-file and double click on the `.sketchplugin` file to install.
 
-## Usage
+## Example
 
-#### Naming
-
-By naming your layers with the formatting described below, your layers will take on certain properties depending on that name. These properties can be separated by `:` and can be contained, in the name, by putting them in brackets.
-
-#### Ignore
-
-If you don't want the script to apply to a certain layer, add `[ignore]` to the name.
-
-#### Constraints
-
-Depending on the properties you have given a layer, constraints will be set as see fit. In short, margins and paddings will affect top, right, bottom, and left constraints while width and height will affect those constraints.
-
-#### Execution
-
-You run the `PixelPerfect` script by key shortcut `⌘L` or by going to `Plugin` in the menu bar.
-* If you have layers selected, the script will only apply to that selection, the sublayers contained within it and, if their are any symbol instances, their masters will be resized and layed out as well. Instances will also be resized to the same size as the master.
-* If you haven't selected any layers, however, all layers, artboards and symbols on the current page will be affected by the script.
-
-You can also go through your entire Sketch file and apply the script to every layer. Do this by key shortcut `^⌘L` by going to `Plugin` in the menu bar. Depending on your Sketch file size, this might take some time.
+Notice the naming of the layers to the left. Now select the artboard and execute `%L`. See the result of the script below.
 
 <table>
   <tr></tr>
@@ -35,18 +19,29 @@ You can also go through your entire Sketch file and apply the script to every la
     <td><b>Before</b></td>
   </tr>
   <tr>
-    <td rowspan="3"><img src="resources/layers.png" /></td>
+    <td rowspan="3" valign="top"><img src="resources/layers.png" /></td>
     <td><img src="resources/before.png" /></td>
   </tr>
   <tr>
-    <td><b>After ⌘L</b></td>
+    <td><b>After</b></td>
   </tr>
   <tr>
     <td><img src="resources/after.png" /></td>
   </tr>
 </table>
 
+## Usage
+
+The script will go through all layers and sublayers to layout and size. It will also resize symbols to original size and even go inside the symbols themselves to make them pixel perfect too.
+
+There are three ways to execute the script:
+* `⌘L` with selection: only the selected layers and it's sublayers will be fixed.
+* `⌘L` without selection: all layers and sublayers on the current page will be fixed.
+* `^⌘L`: all layers and sublayers in the entire Sketch file will be fixed.
+
 ## Properties
+
+By naming your layers with the formatting described below, your layers will take on certain properties depending on that name. These properties can be separated by `:` and can be contained, in the name, by putting them in brackets.
 
 ### `width`
 
@@ -82,7 +77,7 @@ See `width`. Works exactly the same but with `h` as the property index.
 
 ### `padding`
 
-Inspired by `Dynamic Button` and css, padding doesn't have a property index but instead solo numbers will be regarded as padding. Padding only works if it's together with a layer named `bg` (case-insensitive) which will be the layer affected by the padding.
+Inspired by `Dynamic Button` and css, padding doesn't have a property index but instead solo numbers will be regarded as padding. Padding only works if it's together with a layer named `bg` (case-insensitive) which will be the layer affected by the padding. The numbers will be regarded in the order of `top`, `right`, `bottom` and `left`.
 
 **Examples:** `32:24:32:24`, `32:24`, `w100:32:24`
 
@@ -124,8 +119,16 @@ Symbol masters will resize itself to fit the content within, artboards will not.
 
 #### Order of execution
 
-The script will go downwards and up in the layer list and takes care of sublayers before applying properties to itself. Properties are applied from left to right except padding, which is always done last. Be aware of the ordering to get your expected behaviour.
+The script goes from the bottom layer up and takes care of sublayers before applying properties to itself. Properties are applied from left to right except padding, which is always done last. Be aware of the ordering to get your expected behaviour.
 
 #### Text layers
 
-Will always be set to fixed after resizing it to fit it's content.
+Will always be set to fixed size after resizing it to fit it's content.
+
+#### Ignore
+
+If you don't want the script to apply to a certain layer, add `[ignore]` to the name.
+
+#### Constraints
+
+Depending on the properties you have given a layer, constraints will be set as see fit. In short, margins and paddings will affect top, right, bottom, and left constraints while width and height will affect those constraints.
