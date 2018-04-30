@@ -46,12 +46,12 @@ Properties.prototype.excludes = function(key) {
 // Action
 
 Properties.prototype.apply = function() {
+    this.component().debug("~ Properties: apply: <" + this.component().name() + "> <" + this.component().class() + ">", 1)
     this.component().constraints().apply(this)
 
     for (var i = 0; i < this.count(); i++) {
-        this.component().debug("~ Properties: apply: <" + this.component().name() + "> <" + this.component().class() + ">", 1)
-
-        this.objectAtIndex(i).apply()
+        var property = this.objectAtIndex(i)
+        property.apply()
         this.component().resize()
     }
 }

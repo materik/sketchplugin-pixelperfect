@@ -95,7 +95,7 @@ Stacks layers horizontally within a layer group. The order in the layer is the o
 
 ### `stack-vertically`
 
-Stacks layers vertically within a layer group. The order in the layer is the order they will be stacked. The property indexes are; `yl` for left aligned, `y` for center and `yr` for right aligned. The number following the index will account for the distance between the stacked objects.
+See `stack-horizontally`. Works exactly the same but with `yl` for left aligned, `y` for center and `yr` for right aligned as the property index.
 
 **Examples:** `yl10`, `y-20`, `yr30`
 

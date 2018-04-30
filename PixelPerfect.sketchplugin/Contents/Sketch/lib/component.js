@@ -160,7 +160,7 @@ Component.prototype.apply = function() {
 }
 
 Component.prototype.resize = function() {
-    this.debug("& Component: resize: <" + this.name() + "> <" + this.class() + ">", 1)
+    this.debug("& Component: resize: <" + this.name() + "> <" + this.class() + ">", 2)
 
     switch (this.class()) {
         case "MSSymbolMaster":

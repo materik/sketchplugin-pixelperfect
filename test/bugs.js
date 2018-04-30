@@ -319,4 +319,42 @@ describe('bugs', function() {
         }
     })
 
+    // NOTE(materik):
+    // * the following test failes due to height and width percentage are applied before the other layers
+    //   in a group changes their size why it may been wrong. My theory is that if I change so that components always
+    //   applies these properties last it will work. This isn't such a big deal right now because if you run the script
+    //   twice and it will work as expected.
+    // it('symbol master height isnt right if the background is 100% and the size of the content change', function() {
+    //     var master = createSymbolMaster("Master", 0, 0, 218, 270)
+    //     var group = createLayerGroup("trbl", 0, 0, 344, 405)
+    //     var layer1 = createLayer("t90:l:w100:h90", 0, 90, 344, 315)
+    //     var layer2 = createLayer("h100%:h+90:h+90:w100%", 0, 0, 218, 270)
+
+    //     master.insertLayer_afterLayerOrAtEnd(group)
+    //     group.insertLayer_afterLayerOrAtEnd(layer1)
+    //     group.insertLayer_afterLayerOrAtEnd(layer2)
+
+    //     for (var i = 0; i < 2; i++) {
+    //         Component.apply(master)
+
+    //         assert.equal(master.frame().width(), 100)
+    //         assert.equal(master.frame().height(), 270)
+
+    //         assert.equal(group.frame().x(), 0)
+    //         assert.equal(group.frame().y(), 0)
+    //         assert.equal(group.frame().width(), 100)
+    //         assert.equal(group.frame().height(), 270)
+
+    //         assert.equal(layer1.frame().x(), 0)
+    //         assert.equal(layer1.frame().y(), 90)
+    //         assert.equal(layer1.frame().width(), 100)
+    //         assert.equal(layer1.frame().height(), 90)
+
+    //         assert.equal(layer2.frame().x(), 0)
+    //         assert.equal(layer2.frame().y(), 0)
+    //         assert.equal(layer2.frame().width(), 100)
+    //         assert.equal(layer2.frame().height(), 270)
+    //     }
+    // })
+
 })
