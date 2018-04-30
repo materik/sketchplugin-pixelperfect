@@ -324,6 +324,7 @@ describe('bugs', function() {
     //   in a group changes their size why it may been wrong. My theory is that if I change so that components always
     //   applies these properties last it will work. This isn't such a big deal right now because if you run the script
     //   twice and it will work as expected.
+    
     // it('symbol master height isnt right if the background is 100% and the size of the content change', function() {
     //     var master = createSymbolMaster("Master", 0, 0, 218, 270)
     //     var group = createLayerGroup("trbl", 0, 0, 344, 405)
