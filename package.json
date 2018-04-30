@@ -1,14 +1,23 @@
 {
+    "author": {
+        "name": "Mattias Eriksson",
+        "email": "mattias@materikab.com"
+    },
+    "description": "Plugin for handling layouts and sizing of layers automatically in Sketch based on the layer names.",
     "devDependencies": {
         "coveralls": "^3.0.0",
-        "mocha": "3.x",
+        "edit-json-file": "^1.0.8",
+        "mocha": "^3.x",
         "nyc": "^11.7.1"
     },
     "engines": {
         "node": "9.11.x"
     },
+    "name": "pixelperfect",
     "scripts": {
         "coverage": "nyc report --reporter=text-lcov | coveralls",
-        "test": "nyc --reporter=html --reporter=text mocha test"
-    }
+        "test": "nyc --reporter=html --reporter=text mocha test",
+        "update-metadata": "./scripts/update-metadata.js"
+    },
+    "version": "1.0.0"
 }

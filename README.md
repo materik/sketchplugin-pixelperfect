@@ -1,8 +1,11 @@
 ![](resources/logo.png)
 
-[![Build Status](https://travis-ci.org/materik/sketchplugin-pixelperfect.svg?branch=master)](https://travis-ci.org/materik/sketchplugin-pixelperfect) [![Coverage Status](https://coveralls.io/repos/github/materik/sketchplugin-pixelperfect/badge.svg?branch=master)](https://coveralls.io/github/materik/sketchplugin-pixelperfect?branch=master)
+[![Contact](https://img.shields.io/badge/contact-@thematerik-blue.svg)](http://twitter.com/thematerik)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/materik/sketchplugin-pixelperfect)
+[![Build Status](https://travis-ci.org/materik/sketchplugin-pixelperfect.svg?branch=master)](https://travis-ci.org/materik/sketchplugin-pixelperfect?style=flat-square)
+[![Coverage Status](https://coveralls.io/repos/github/materik/sketchplugin-pixelperfect/badge.svg?branch=master&style=flat-square)](https://coveralls.io/github/materik/sketchplugin-pixelperfect?branch=master)
 
-Plugin for handling layouts and sizing of layers automatically in Sketch based on the layer names. I call it Pixel Perfect 👾!
+<!-- Description --> Plugin for handling layouts and sizing of layers automatically in Sketch based on the layer names. <!-- EOL --> I call it Pixel Perfect 👾!
 
 ## Install
 
