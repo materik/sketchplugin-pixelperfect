@@ -347,13 +347,32 @@ MSLayerGroup.prototype.layers = function() {
 }
 
 MSLayerGroup.prototype.resizeToFitChildrenWithOption = function() {
-    if (this.class().toString().isEqualTo("MSArtboardGroup")) {
+    if (this.class().toString().isEqualTo("MSArtboardGroup") || this.layers().count() == 0) {
         return
     }
 
-    console.log("{\n! MOCK : resizeToFitChildrenWithOption")
-    Component.new(this).sizeToFit()
-    console.log("}")
+    var layers = this.layers()
+    var minTop = 999999
+    var maxRight = 0
+    var maxBottom = 0
+    var minLeft = 999999
+
+    for (var i = 0; i < layers.count(); i++) {
+        var layer = layers.objectAtIndex(i)
+        var minTop = Math.min(minTop, layer.frame().y())
+        var maxRight = Math.max(maxRight, layer.frame().x() + layer.frame().width())
+        var maxBottom = Math.max(maxBottom, layer.frame().y() + layer.frame().height())
+        var minLeft = Math.min(minLeft, layer.frame().x())
+    }
+
+    for (var i = 0; i < layers.count(); i++) {
+        var layer = layers.objectAtIndex(i)
+        layer.frame().setX(layer.frame().x() - minLeft)
+        layer.frame().setY(layer.frame().y() - minTop)
+    }
+
+    this.frame().setWidth(maxRight - minLeft)
+    this.frame().setHeight(maxBottom - minTop)
 }
 
 // -----------------------------------------------------------
