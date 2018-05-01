@@ -108,7 +108,17 @@ Components.prototype.maxBottom = function(isArtboard) {
 
 Components.prototype.apply = function() {
     for (var i = 0; i < this.count(); i++) {
-        this.objectAtIndex(i).apply()
+        var component = this.objectAtIndex(i)
+        if (component.properties().excludes('width-percentage') && component.properties().excludes('height-percentage')) {
+            component.apply()
+        }
+    }
+
+    for (var i = 0; i < this.count(); i++) {
+        var component = this.objectAtIndex(i)
+        if (component.properties().includes('width-percentage') || component.properties().includes('height-percentage')) {
+            component.apply()
+        }
     }
 }
 
