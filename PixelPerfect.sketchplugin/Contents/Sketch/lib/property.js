@@ -99,12 +99,12 @@ Property.prototype.apply = function() {
             break;
         case "margin-right":
             var left = this.component().minLeftInParent(true)
-            var widthOfParent = this.component().widthOfParent() // FIXME: ignore self works in some cases but not all
+            var widthOfParent = this.component().widthOfParent(false, true)
             frame.setX(left + widthOfParent - frame.width() - (this.value() || 0))
             break;
         case "margin-bottom":
             var top = this.component().minTopInParent(true)
-            var heightOfParent = this.component().heightOfParent() // FIXME: ignore self works in some cases but not all
+            var heightOfParent = this.component().heightOfParent(false, true)
             frame.setY(top + heightOfParent - frame.height() - (this.value() || 0))
             break;
         case "margin-left":
@@ -130,13 +130,13 @@ Property.prototype.apply = function() {
             break;
         case "center-horizontally":
             var left = this.component().minLeftInParent(true)
-            var widthOfParent = this.component().widthOfParent() // FIXME: ignore self works in some cases but not all
-            frame.setX(left + (this.component().widthOfParent(false, false) - frame.width()) / 2 + (this.value() || 0))
+            var widthOfParent = this.component().widthOfParent(false, true)
+            frame.setX(left + (widthOfParent - frame.width()) / 2 + (this.value() || 0))
             break;
         case "center-vertically":
             var top = this.component().minTopInParent(true)
-            var heightOfParent = this.component().heightOfParent() // FIXME: ignore self works in some cases but not all
-            frame.setY(top + (this.component().heightOfParent(false, false) - frame.height()) / 2 + (this.value() || 0))
+            var heightOfParent = this.component().heightOfParent(false, true)
+            frame.setY(top + (heightOfParent - frame.height()) / 2 + (this.value() || 0))
             break;
         /* istanbul ignore next */
         default:
