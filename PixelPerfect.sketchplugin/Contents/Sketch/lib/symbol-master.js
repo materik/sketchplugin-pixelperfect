@@ -14,7 +14,7 @@ SymbolMaster.prototype.ids = function() {
 }
 
 SymbolMaster.prototype.contains = function(component) {
-    return this.ids().includes(component.symbolID())
+    return this.ids().includes(component.objectID())
 }
 
 // Action
@@ -34,7 +34,7 @@ SymbolMaster.prototype.apply = function(component) {
 }
 
 SymbolMaster.prototype.add = function(component) {
-    this.ids().push(component.symbolID())
+    this.ids().push(component.objectID())
 }
 
 // -----------------------------------------------------------

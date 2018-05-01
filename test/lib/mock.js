@@ -12,6 +12,8 @@ function MSLayer() {
     this._hasFixedRight = false
     this._hasFixedBottom = false
     this._hasFixedLeft = false
+
+    this._objectID = Date.now().toString()
 }
 
 MSLayer.new = function() {
@@ -122,6 +124,10 @@ MSLayer.prototype.hasFixedLeft = function() {
 
 MSLayer.prototype.setHasFixedLeft = function(hasFixedLeft) {
     this._hasFixedLeft = hasFixedLeft
+}
+
+MSLayer.prototype.objectID = function() {
+    return this._name || this._objectID
 }
 
 // -----------------------------------------------------------

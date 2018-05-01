@@ -98,10 +98,14 @@ Property.prototype.apply = function() {
             frame.setY(this.value() || 0)
             break;
         case "margin-right":
-            frame.setX(this.component().widthOfParent() - frame.width() - (this.value() || 0))
+            var left = this.component().minLeftInParent(true)
+            var widthOfParent = this.component().widthOfParent() // FIXME: ignore self works in some cases but not all
+            frame.setX(left + widthOfParent - frame.width() - (this.value() || 0))
             break;
         case "margin-bottom":
-            frame.setY(this.component().heightOfParent() - frame.height() - (this.value() || 0))
+            var top = this.component().minTopInParent(true)
+            var heightOfParent = this.component().heightOfParent() // FIXME: ignore self works in some cases but not all
+            frame.setY(top + heightOfParent - frame.height() - (this.value() || 0))
             break;
         case "margin-left":
             frame.setX(this.value() || 0)
@@ -125,10 +129,14 @@ Property.prototype.apply = function() {
             this.stackVertically(Alignment.right())
             break;
         case "center-horizontally":
-            frame.setX((this.component().widthOfParent() - frame.width()) / 2 + (this.value() || 0))
+            var left = this.component().minLeftInParent(true)
+            var widthOfParent = this.component().widthOfParent() // FIXME: ignore self works in some cases but not all
+            frame.setX(left + (this.component().widthOfParent(false, false) - frame.width()) / 2 + (this.value() || 0))
             break;
         case "center-vertically":
-            frame.setY((this.component().heightOfParent() - frame.height()) / 2 + (this.value() || 0))
+            var top = this.component().minTopInParent(true)
+            var heightOfParent = this.component().heightOfParent() // FIXME: ignore self works in some cases but not all
+            frame.setY(top + (this.component().heightOfParent(false, false) - frame.height()) / 2 + (this.value() || 0))
             break;
         /* istanbul ignore next */
         default:

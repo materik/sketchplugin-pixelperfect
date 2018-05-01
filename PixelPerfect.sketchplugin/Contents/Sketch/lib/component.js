@@ -56,10 +56,11 @@ Component.prototype.page = function() {
     return this._layer.parentPage()
 }
 
-Component.prototype.symbolID = function() {
-    /* istanbul ignore else */
+Component.prototype.objectID = function() {
     if (this._layer.symbolID) {
         return this._layer.symbolID()
+    } else {
+        return this._layer.objectID()
     }
 }
 
@@ -95,29 +96,51 @@ Component.prototype.parent = function() {
     }
 }
 
-Component.prototype.widthOfParent = function(forceIteration) {
+Component.prototype.minLeftInParent = function(ignoreSelf) {
+    var parent = this.parent()
+    if (parent == undefined) {
+        return 0
+    } else if (parent.isArtboard()) {
+        return 0
+    } else {
+        return parent.components().minLeft(ignoreSelf ? this.objectID() : undefined)
+    }
+}
+
+Component.prototype.minTopInParent = function(ignoreSelf) {
+    var parent = this.parent()
+    if (parent == undefined) {
+        return 0
+    } else if (parent.isArtboard()) {
+        return 0
+    } else {
+        return parent.components().minTop(ignoreSelf ? this.objectID() : undefined)
+    }
+}
+
+Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
     var parent = this.parent()
     if (parent == undefined) {
         return 0
     } else if (parent.isArtboard()) {
         return parent.frame().width()
     } else if (forceIteration || parent.properties().includes("width-percentage")) {
-        return parent.widthOfParent(forceIteration) || parent.frame().width()
+        return parent.widthOfParent(forceIteration, ignoreSelf) || parent.frame().width()
     } else {
-        return parent.components().maxWidth()
+        return parent.components().maxWidth(ignoreSelf ? this.objectID() : undefined)
     }
 }
 
-Component.prototype.heightOfParent = function(forceIteration) {
+Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
     var parent = this.parent()
     if (!parent) {
         return 0
     } else if (parent.isArtboard()) {
         return parent.frame().height()
     } else if (forceIteration || parent.properties().includes("height-percentage")) {
-        return parent.heightOfParent(forceIteration) || parent.frame().height()
+        return parent.heightOfParent(forceIteration, ignoreSelf) || parent.frame().height()
     } else {
-        return parent.components().maxHeight()
+        return parent.components().maxHeight(ignoreSelf ? this.objectID() : undefined)
     }
 }
 
@@ -129,7 +152,6 @@ Component.prototype.apply = function() {
     }
 
     this.debug("Component: apply: " + this.name())
-
     this.roundToPixel()
 
     switch (this.class()) {

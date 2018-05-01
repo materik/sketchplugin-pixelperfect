@@ -145,8 +145,8 @@ describe('bugs', function() {
         group.insertLayer_afterLayerOrAtEnd(layer)
         group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
         Component.apply(layer)
-        assert.equal(layer.frame().x(), 9)
-        assert.equal(layer.frame().y(), 0)
+        assert.equal(layer.frame().x(), 19)
+        assert.equal(layer.frame().y(), 11)
         assert.equal(backgroundLayer.frame().x(), 10)
         assert.equal(backgroundLayer.frame().y(), 11)
         Component.apply(group)
@@ -349,6 +349,101 @@ describe('bugs', function() {
             assert.equal(layer2.frame().y(), 0)
             assert.equal(layer2.frame().width(), 100)
             assert.equal(layer2.frame().height(), 270)
+        }
+    })
+
+    it('cannot set margin right or bottom if that is bigger than the other layers', function() {
+        var layer = createLayer("r:v", 1, 2, 28, 13)
+        var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
+        var group = createLayerGroup()
+        group.insertLayer_afterLayerOrAtEnd(layer)
+        group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(group)
+
+            assert.equal(layer.frame().x(), 0)
+            assert.equal(layer.frame().y(), 0)
+            assert.equal(backgroundLayer.frame().x(), 0) // FIXME: should really be 16
+            assert.equal(backgroundLayer.frame().y(), 0)
+        }
+    })
+
+    it('cannot set vertically if that is bigger than the other layers', function() {
+        var layer = createLayer("r:v", 1, 2, 3, 19)
+        var backgroundLayer = createLayer("bg", 10, 11, 12, 13)
+        var group = createLayerGroup()
+        group.insertLayer_afterLayerOrAtEnd(layer)
+        group.insertLayer_afterLayerOrAtEnd(backgroundLayer)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(group)
+
+            assert.equal(layer.frame().x(), 9)
+            assert.equal(layer.frame().y(), 0)
+            assert.equal(backgroundLayer.frame().x(), 0)
+            assert.equal(backgroundLayer.frame().y(), 0) // FIXME: should really be 3
+        }
+    })
+
+    it('cannot seem to keep the right margin when 100% heigh is applied and many sublayers', function() {
+        var master = createSymbolMaster("Master", 0, 0, 300, 123)
+        var group1 = createLayerGroup("t:r:b:x32:h100%:v", 136, 0, 164, 123)
+        var layer1 = createLayer("w20:h20", 0, 51, 20, 20)
+        var group2 = createLayerGroup("h100%:t:b", 52, 0, 112, 123)
+        var layer2 = createLayer("Product Icon [w48:h48:h:v]", 38, 32, 48, 48)
+        var layer3 = createLayer("Product Color [w112:h100%:t:b:r]", 0, 0, 112, 123)
+        var layer4 = createLayer("w100%:h100%", 0, 0, 112, 123)
+        var layer5 = createLayer("l:t:w300:h123", 0, 0, 300, 123)
+
+        master.insertLayer_afterLayerOrAtEnd(group1)
+        master.insertLayer_afterLayerOrAtEnd(layer5)
+        group1.insertLayer_afterLayerOrAtEnd(layer1)
+        group1.insertLayer_afterLayerOrAtEnd(group2)
+        group2.insertLayer_afterLayerOrAtEnd(layer2)
+        group2.insertLayer_afterLayerOrAtEnd(layer3)
+        group2.insertLayer_afterLayerOrAtEnd(layer4)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(master)
+
+            assert.equal(master.frame().width(), 300)
+            assert.equal(master.frame().height(), 123)
+
+            assert.equal(group1.frame().x(), 136)
+            assert.equal(group1.frame().y(), 0)
+            assert.equal(group1.frame().width(), 164)
+            assert.equal(group1.frame().height(), 123)
+
+            assert.equal(layer1.frame().x(), 0)
+            assert.equal(layer1.frame().y(), 51)
+            assert.equal(layer1.frame().width(), 20)
+            assert.equal(layer1.frame().height(), 20)
+
+            assert.equal(group2.frame().x(), 52)
+            assert.equal(group2.frame().y(), 0)
+            assert.equal(group2.frame().width(), 112)
+            assert.equal(group2.frame().height(), 123)
+
+            assert.equal(layer2.frame().x(), 32)
+            assert.equal(layer2.frame().y(), 38)
+            assert.equal(layer2.frame().width(), 48)
+            assert.equal(layer2.frame().height(), 48)
+
+            assert.equal(layer3.frame().x(), 0)
+            assert.equal(layer3.frame().y(), 0)
+            assert.equal(layer3.frame().width(), 112)
+            assert.equal(layer3.frame().height(), 123)
+
+            assert.equal(layer4.frame().x(), 0)
+            assert.equal(layer4.frame().y(), 0)
+            assert.equal(layer4.frame().width(), 112)
+            assert.equal(layer4.frame().height(), 123)
+
+            assert.equal(layer5.frame().x(), 0)
+            assert.equal(layer5.frame().y(), 0)
+            assert.equal(layer5.frame().width(), 300)
+            assert.equal(layer5.frame().height(), 123)
         }
     })
 

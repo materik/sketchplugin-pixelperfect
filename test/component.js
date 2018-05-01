@@ -362,6 +362,37 @@ describe('component', function() {
 
     describe('getter', function() {
 
+        it('minLeftInParent', function() {
+            var layer1 = createLayer("1", 5, 0, 50, 60)
+            var layer2 = createLayer("2", 10, 0, 100, 200)
+            assert.equal(Component.new(layer1).minLeftInParent(), 0)
+            var group = createLayerGroup()
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            assert.equal(Component.new(layer1).minLeftInParent(), 5)
+            assert.equal(Component.new(layer1).minLeftInParent(true), 0)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
+            assert.equal(Component.new(layer1).minLeftInParent(), 5)
+            assert.equal(Component.new(layer1).minLeftInParent(true), 10)
+            assert.equal(Component.new(layer2).minLeftInParent(), 5)
+            assert.equal(Component.new(layer2).minLeftInParent(true), 5)
+        })
+
+        it('minTopInParent', function() {
+            var layer1 = createLayer("1", 0, 5, 50, 60)
+            var layer2 = createLayer("2", 0, 10, 100, 200)
+            assert.equal(Component.new(layer1).minTopInParent(), 0)
+            var group = createLayerGroup()
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            group.insertLayer_afterLayerOrAtEnd(layer1)
+            assert.equal(Component.new(layer1).minTopInParent(), 5)
+            assert.equal(Component.new(layer1).minTopInParent(true), 0)
+            group.insertLayer_afterLayerOrAtEnd(layer2)
+            assert.equal(Component.new(layer1).minTopInParent(), 5)
+            assert.equal(Component.new(layer1).minTopInParent(true), 10)
+            assert.equal(Component.new(layer2).minTopInParent(), 5)
+            assert.equal(Component.new(layer2).minTopInParent(true), 5)
+        })
+
         it('widthOfParent', function() {
             var layer1 = createLayer("1", 0, 0, 50, 60)
             var layer2 = createLayer("2", 0, 0, 100, 200)
@@ -370,6 +401,9 @@ describe('component', function() {
             group.insertLayer_afterLayerOrAtEnd(layer1)
             group.insertLayer_afterLayerOrAtEnd(layer2)
             assert.equal(Component.new(layer1).widthOfParent(), 100)
+            assert.equal(Component.new(layer1).widthOfParent(false, true), 100)
+            assert.equal(Component.new(layer2).widthOfParent(), 100)
+            assert.equal(Component.new(layer2).widthOfParent(false, true), 50)
             var artboard = createArtboard("Arboard", 0, 0, 150, 300)
             artboard.insertLayer_afterLayerOrAtEnd(layer1)
             artboard.insertLayer_afterLayerOrAtEnd(layer2)
@@ -396,6 +430,9 @@ describe('component', function() {
             group.insertLayer_afterLayerOrAtEnd(layer1)
             group.insertLayer_afterLayerOrAtEnd(layer2)
             assert.equal(Component.new(layer1).heightOfParent(), 200)
+            assert.equal(Component.new(layer1).heightOfParent(false, true), 200)
+            assert.equal(Component.new(layer2).heightOfParent(), 200)
+            assert.equal(Component.new(layer2).heightOfParent(false, true), 60)
             var artboard = createArtboard("Arboard", 0, 0, 150, 300)
             artboard.insertLayer_afterLayerOrAtEnd(layer1)
             artboard.insertLayer_afterLayerOrAtEnd(layer2)
