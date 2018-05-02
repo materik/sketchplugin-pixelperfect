@@ -447,4 +447,46 @@ describe('bugs', function() {
         }
     })
 
+    it('when two layers are fixed to oppisite sides of an artboard it gets larger and larger', function() {
+        var master = createArtboard("Artboard", 0, 0, 164, 80)
+        var layer1 = createLayer("r32:v", 92, 20, 40, 40)
+        var layer2 = createLayer("l0:h", 0, 0, 164, 80)
+
+        master.insertLayer_afterLayerOrAtEnd(layer1)
+        master.insertLayer_afterLayerOrAtEnd(layer2)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(master)
+
+            assert.equal(master.frame().width(), 164)
+            assert.equal(master.frame().height(), 80)
+
+            assert.equal(layer1.frame().x(), 92)
+            assert.equal(layer1.frame().y(), 20)
+            assert.equal(layer1.frame().width(), 40)
+            assert.equal(layer1.frame().height(), 40)
+
+            assert.equal(layer2.frame().x(), 0)
+            assert.equal(layer2.frame().y(), 0)
+            assert.equal(layer2.frame().width(), 164)
+            assert.equal(layer2.frame().height(), 80)
+        }
+    })
+
+    it('margin right bottom shouldnt be affected of artboard padding', function() {
+        var artboard = createArtboard("0:32:32:0:w300:h300", 0, 0, 300, 300)
+        var layer = createLayer("r32:b32", 236, 204, 32, 32)
+
+        artboard.insertLayer_afterLayerOrAtEnd(layer)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(artboard)
+
+            assert.equal(layer.frame().x(), 204)
+            assert.equal(layer.frame().y(), 204)
+            assert.equal(layer.frame().width(), 32)
+            assert.equal(layer.frame().height(), 32)
+        }
+    })
+
 })

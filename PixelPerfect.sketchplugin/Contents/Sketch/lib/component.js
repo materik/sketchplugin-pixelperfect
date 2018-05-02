@@ -84,7 +84,7 @@ Component.prototype.shouldIgnore = function() {
 }
 
 Component.prototype.shouldResizeArtboard = function() {
-    return this.isArtboard() && PROPERTIES_RE.test(this.name())
+    return this.isArtboard() && this.properties().count() > 0
 }
 
 Component.prototype.parent = function() {

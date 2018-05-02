@@ -529,7 +529,7 @@ describe('component', function() {
         layer.setName("Artboard [w100]")
         assert.equal(Component.new(layer).shouldResizeArtboard(), true)
         layer.setName("w100")
-        assert.equal(Component.new(layer).shouldResizeArtboard(), false)
+        assert.equal(Component.new(layer).shouldResizeArtboard(), true)
         layer.setName("Artboard [32:32:w500:h>300]")
         var component = Component.new(layer)
         assert.equal(component.shouldResizeArtboard(), true)
