@@ -17,12 +17,8 @@ GroupComponent.prototype.apply = function() {
     var self = this
     Component.prototype.apply.call(this, function() {
         self.components().apply()
-        self.resize()
+        self.sizeToFit()
     })
-}
-
-GroupComponent.prototype.resize = function() {
-    this.sizeToFit()
 }
 
 GroupComponent.prototype.sizeToFit = function() {

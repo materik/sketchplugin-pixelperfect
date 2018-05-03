@@ -17,12 +17,12 @@ SymbolInstanceComponent.prototype.apply = function() {
     var self = this
     Component.prototype.apply.call(this, function() {
         self.master().apply()
-        self._layer.resetSizeToMaster()
+        self.sizeToMaster()
     })
 }
 
-SymbolInstanceComponent.prototype.sizeToFit = function() {
-    
+SymbolInstanceComponent.prototype.sizeToMaster = function() {
+    this._layer.resetSizeToMaster()
 }
 
 // -----------------------------------------------------------

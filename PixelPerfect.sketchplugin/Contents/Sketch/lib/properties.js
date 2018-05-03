@@ -52,7 +52,7 @@ Properties.prototype.apply = function() {
     for (var i = 0; i < this.count(); i++) {
         var property = this.objectAtIndex(i)
         property.apply()
-        this.component().resize()
+        this.component().sizeToFit()
     }
 }
 

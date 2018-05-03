@@ -28,12 +28,8 @@ SymbolMasterComponent.prototype.apply = function() {
     var self = this
     Component.prototype.apply.call(this, function() {
         self.components().apply()
-        self.resize()
+        self.sizeToFit()
     })
-}
-
-SymbolMasterComponent.prototype.resize = function() {
-    this.sizeToFit()
 }
 
 SymbolMasterComponent.prototype.sizeToFit = function() {
@@ -62,7 +58,7 @@ SymbolMasterComponent.prototype.sizeToFit = function() {
 
         var frameAfter = this.frame().toString()
 
-        this.debug("& SymbolMasterComponent: sizeToFit: <" + component.name() + "> " + frameBefore + " -> " + frameAfter, 2)
+        this.debug("& SymbolMasterComponent: sizeToFit:" + frameBefore + " -> " + frameAfter, 2)
 
         component.constraints().lock()
         constraints.push(component.constraints())

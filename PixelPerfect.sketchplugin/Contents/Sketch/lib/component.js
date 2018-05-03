@@ -164,10 +164,6 @@ Component.prototype.apply = function(classSpecificApply) {
     this.properties().apply()
 }
 
-Component.prototype.resize = function() {
-    // Do nothing...
-}
-
 Component.prototype.sizeToFit = function() {
     // Do nothing...
 }

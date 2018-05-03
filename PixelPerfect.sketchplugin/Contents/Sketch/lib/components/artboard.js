@@ -17,15 +17,15 @@ ArtboardComponent.prototype.apply = function() {
     var self = this
     Component.prototype.apply.call(this, function() {
         self.components().apply()
-        self.sizeToFit()
+        self.applyPadding()
     })
 }
 
-ArtboardComponent.prototype.resize = function() {
+ArtboardComponent.prototype.sizeToFit = function() {
     // Do nothing...
 }
 
-ArtboardComponent.prototype.sizeToFit = function() {
+ArtboardComponent.prototype.applyPadding = function() {
     if (this.properties().excludes("padding")) {
         return;
     }
@@ -33,7 +33,7 @@ ArtboardComponent.prototype.sizeToFit = function() {
     var property = this.properties().find("padding")
     var padding = property.value()
 
-    this.debug("& ArtboardComponent: sizeToFit:", 1)
+    this.debug("& ArtboardComponent: applyPadding:", 1)
 
     var minX = this.components().minLeft()
     var minY = this.components().minTop()
@@ -57,7 +57,7 @@ ArtboardComponent.prototype.sizeToFit = function() {
 
         var frameAfter = this.frame().toString()
 
-        this.debug("& ArtboardComponent: sizeToFit:" + frameBefore + " -> " + frameAfter, 2)
+        this.debug("& ArtboardComponent: applyPadding:" + frameBefore + " -> " + frameAfter, 2)
     }
 
     this.frame().setWidth(this.components().maxRight(true) + padding.right())

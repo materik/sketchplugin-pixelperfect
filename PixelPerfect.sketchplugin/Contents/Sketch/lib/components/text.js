@@ -21,16 +21,12 @@ TextComponent.prototype.apply = function() {
     })
 }
 
-TextComponent.prototype.resize = function() {
+TextComponent.prototype.sizeToFit = function() {
     if (this.properties().includes("height")) {
         this._layer.setVerticalAlignment(1)
     } else {
         this._layer.adjustFrameToFit() 
     }
-}
-
-TextComponent.prototype.sizeToFit = function() {
-    // Do nothing...
 }
 
 // -----------------------------------------------------------
