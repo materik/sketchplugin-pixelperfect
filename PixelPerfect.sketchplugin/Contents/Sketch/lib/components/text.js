@@ -36,7 +36,7 @@ TextComponent.prototype.resize = function() {
 }
 
 TextComponent.prototype.sizeToFit = function() {
-    
+    // Do nothing...
 }
 
 // -----------------------------------------------------------

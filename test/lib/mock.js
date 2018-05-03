@@ -460,7 +460,7 @@ MSArtboardGroup.prototype.class = function() {
 function MSSymbolMaster() {
     MSLayerGroup.call(this)
 
-    this._symbolID = Date.now().toString()
+    this._symbolID = Date.now().toString() + Math.floor(Math.random() * Math.floor(1000));
     this._parentPage = "LocalSymbol"
 }
 

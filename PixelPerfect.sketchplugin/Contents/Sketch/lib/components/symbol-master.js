@@ -13,6 +13,10 @@ SymbolMasterComponent.new = function(layer) {
 
 // Getter
 
+SymbolMasterComponent.prototype.objectID = function() {
+    return this._layer.symbolID()
+}
+
 SymbolMasterComponent.prototype.shouldApply = function() {
     return Component.prototype.shouldApply.call(this) &&
         SymbolMasterStore.sharedInstance.shouldApply(this)

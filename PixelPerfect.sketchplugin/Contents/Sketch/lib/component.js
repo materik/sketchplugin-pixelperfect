@@ -13,12 +13,14 @@ Component.new = function(layer) {
     switch (String(layer.class().toString())) {
         case "MSArtboardGroup":
             return new ArtboardComponent(layer)
+        case "MSLayerGroup":
+            return new GroupComponent(layer)
+        case "MSSymbolInstance":
+            return new SymbolInstanceComponent(layer)
         case "MSSymbolMaster":
             return new SymbolMasterComponent(layer)
         case "MSTextLayer":
             return new TextComponent(layer)
-        case "MSSymbolInstance":
-            return new SymbolInstanceComponent(layer)
         default:
             return new Component(layer)
     }
@@ -68,11 +70,7 @@ Component.prototype.page = function() {
 }
 
 Component.prototype.objectID = function() {
-    if (this._layer.symbolID) {
-        return this._layer.symbolID()
-    } else {
-        return this._layer.objectID()
-    }
+    return this._layer.objectID()
 }
 
 Component.prototype.master = function() {
@@ -160,25 +158,11 @@ Component.prototype.apply = function() {
 
     this.debug("Component: apply:")
     this.roundToPixel()
-
-    switch (this.class()) {
-        case "MSLayerGroup":
-            this.components().apply()
-            this.resize()
-            break;
-        default:
-            break;
-    }
-
     this.properties().apply()
 }
 
 Component.prototype.resize = function() {
-    this.debug("& Component: resize:", 1)
-
-    if (this._layer.resizeToFitChildrenWithOption) {
-        this._layer.resizeToFitChildrenWithOption(1);
-    }
+    // Do nothing...
 }
 
 Component.prototype.sizeToFit = function() {
