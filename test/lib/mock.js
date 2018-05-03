@@ -461,7 +461,7 @@ function MSSymbolMaster() {
     MSLayerGroup.call(this)
 
     this._symbolID = Date.now().toString()
-    this._parentGroup = "LocalSymbol"
+    this._parentPage = "LocalSymbol"
 }
 
 MSSymbolMaster.new = function() {
@@ -479,11 +479,11 @@ MSSymbolMaster.prototype.symbolID = function() {
 }
 
 MSSymbolMaster.prototype.parentPage = function() {
-    return this._parentGroup
+    return this._parentPage
 }
 
 MSSymbolMaster.prototype._setParentPage = function(parentPage) {
-    this._parentGroup = parentPage
+    this._parentPage = parentPage
 }
 
 // -----------------------------------------------------------

@@ -10,7 +10,18 @@ function Component(layer) {
 // Static
 
 Component.new = function(layer) {
-    return new Component(layer)
+    switch (String(layer.class().toString())) {
+        case "MSArtboardGroup":
+            return new ArtboardComponent(layer)
+        case "MSSymbolMaster":
+            return new SymbolMasterComponent(layer)
+        case "MSTextLayer":
+            return new TextComponent(layer)
+        case "MSSymbolInstance":
+            return new SymbolInstanceComponent(layer)
+        default:
+            return new Component(layer)
+    }
 }
 
 Component.apply = function(layer) {
@@ -79,12 +90,8 @@ Component.prototype.isArtboard = function() {
     return this.class() == "MSArtboardGroup"
 }
 
-Component.prototype.shouldIgnore = function() {
-    return !this.isVisible() || IGNORE_RE.test(this.name())
-}
-
-Component.prototype.shouldResizeArtboard = function() {
-    return this.isArtboard() && this.properties().count() > 0
+Component.prototype.shouldApply = function() {
+    return this.isVisible() && !IGNORE_RE.test(this.name())
 }
 
 Component.prototype.parent = function() {
@@ -147,32 +154,17 @@ Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
 // Action
 
 Component.prototype.apply = function() {
-    if (this.shouldIgnore()) {
-        return
+    if (!this.shouldApply()) {
+        return;
     }
 
-    this.debug("Component: apply: " + this.name())
+    this.debug("Component: apply:")
     this.roundToPixel()
 
     switch (this.class()) {
-        case "MSSymbolInstance":
-            SymbolMaster.sharedInstance.apply(this.master())
-            this._layer.resetSizeToMaster()
-            break;
-        case "MSArtboardGroup":
         case "MSLayerGroup":
-        case "MSSymbolMaster":
             this.components().apply()
             this.resize()
-            
-            if (this.shouldResizeArtboard()) {
-                var property = this.properties().find("padding")
-                this.sizeToFit(property && property.value())
-            }
-            break;
-        case "MSTextLayer":
-            this._layer.setTextBehaviourSegmentIndex(0)
-            this._layer.setTextBehaviourSegmentIndex(1)
             break;
         default:
             break;
@@ -182,72 +174,15 @@ Component.prototype.apply = function() {
 }
 
 Component.prototype.resize = function() {
-    this.debug("& Component: resize: <" + this.name() + "> <" + this.class() + ">", 2)
+    this.debug("& Component: resize:", 1)
 
-    switch (this.class()) {
-        case "MSSymbolMaster":
-            this.sizeToFit()
-            break;
-        case "MSTextLayer":
-            if (this.properties().includes("height")) {
-                this._layer.setVerticalAlignment(1)
-            } else {
-                this._layer.adjustFrameToFit() 
-            }
-            break;
-        default:
-            if (this._layer.resizeToFitChildrenWithOption) {
-                this._layer.resizeToFitChildrenWithOption(1);
-            }
-            break;
+    if (this._layer.resizeToFitChildrenWithOption) {
+        this._layer.resizeToFitChildrenWithOption(1);
     }
 }
 
-Component.prototype.sizeToFit = function(padding) {
-    if (this.components().count() == 0) {
-        return
-    }
-
-    this.debug("& Component: sizeToFit: <" + this.name() + "> <" + this.class() + ">", 1)
-
-    var constraints = []
-    var minX = this.components().minLeft()
-    var minY = this.components().minTop()
-
-    padding = padding || new Padding()
-    for (var i = 0; i < this.components().count(); i++) {
-        var component = this.components().objectAtIndex(i)
-
-        var frameBefore = this.frame().toString()
-
-        if (component.properties().includes("margin-right") && component.properties().excludes("margin-left")) {
-            component.frame().setX(component.frame().x() - padding.right())
-        } else {
-            component.frame().setX(component.frame().x() - minX + padding.left())   
-        }
-
-        if (component.properties().includes("margin-bottom") && component.properties().excludes("margin-top")) {
-            component.frame().setY(component.frame().y() - padding.bottom())
-        } else {
-            component.frame().setY(component.frame().y() - minY + padding.top())   
-        }
-
-        var frameAfter = this.frame().toString()
-
-        this.debug("& Component: sizeToFit: <" + component.name() + "> " + frameBefore + " -> " + frameAfter, 2)
-
-        if (!this.isArtboard()) {
-            component.constraints().lock()
-            constraints.push(component.constraints())
-        }
-    }
-
-    this.frame().setWidth(this.components().maxRight(this.isArtboard()) + padding.right())
-    this.frame().setHeight(this.components().maxBottom(this.isArtboard()) + padding.bottom())
-
-    for (var i = 0; i < constraints.length; i++) {
-        constraints[i].unlock()
-    }
+Component.prototype.sizeToFit = function() {
+    // Do nothing...
 }
 
 Component.prototype.roundToPixel = function() {
@@ -258,7 +193,7 @@ Component.prototype.roundToPixel = function() {
 }
 
 Component.prototype.debug = function(msg, addLevel) {
-    debug(this, msg, addLevel)
+    debug(this, msg + " <" + this.name() + "> <" + this.class() + ">", addLevel)
 }
 
 // -----------------------------------------------------------

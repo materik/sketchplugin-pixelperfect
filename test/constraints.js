@@ -123,6 +123,7 @@ describe('constraints', function() {
     it('symbol instance', function() {
         var master = createSymbolMaster()
         var instance = createSymbolInstance(master)
+        log(instance)
         Component.apply(instance)
         assert.equal(instance.hasFixedWidth(), true)
         assert.equal(instance.hasFixedHeight(), true)
