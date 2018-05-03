@@ -151,7 +151,7 @@ Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
 
 // Action
 
-Component.prototype.apply = function(classSpecificApply) {
+Component.prototype.apply = function(typeSpecificApply) {
     if (!this.shouldApply()) {
         return;
     }
@@ -159,7 +159,7 @@ Component.prototype.apply = function(classSpecificApply) {
     this.debug("Component: apply:")
     this.roundToPixel()
 
-    classSpecificApply && classSpecificApply()
+    typeSpecificApply && typeSpecificApply()
 
     this.properties().apply()
 }

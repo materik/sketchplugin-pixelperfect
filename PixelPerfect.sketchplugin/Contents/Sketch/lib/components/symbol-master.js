@@ -58,7 +58,7 @@ SymbolMasterComponent.prototype.sizeToFit = function() {
 
         var frameAfter = this.frame().toString()
 
-        this.debug("& SymbolMasterComponent: sizeToFit:" + frameBefore + " -> " + frameAfter, 2)
+        this.debug("& SymbolMasterComponent: sizeToFit: " + frameBefore + " -> " + frameAfter, 2)
 
         component.constraints().lock()
         constraints.push(component.constraints())

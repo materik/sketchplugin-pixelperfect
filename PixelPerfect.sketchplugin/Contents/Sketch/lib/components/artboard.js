@@ -41,7 +41,7 @@ ArtboardComponent.prototype.applyPadding = function() {
     for (var i = 0; i < this.components().count(); i++) {
         var component = this.components().objectAtIndex(i)
 
-        var frameBefore = this.frame().toString()
+        var frameBefore = component.frame().toString()
 
         if (component.properties().includes("margin-right") && component.properties().excludes("margin-left")) {
             component.frame().setX(component.frame().x() - padding.right())
@@ -55,9 +55,9 @@ ArtboardComponent.prototype.applyPadding = function() {
             component.frame().setY(component.frame().y() - minY + padding.top())   
         }
 
-        var frameAfter = this.frame().toString()
+        var frameAfter = component.frame().toString()
 
-        this.debug("& ArtboardComponent: applyPadding:" + frameBefore + " -> " + frameAfter, 2)
+        component.debug("& ArtboardComponent: applyPadding: " + frameBefore + " -> " + frameAfter, 2)
     }
 
     this.frame().setWidth(this.components().maxRight(true) + padding.right())

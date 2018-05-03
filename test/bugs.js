@@ -489,4 +489,59 @@ describe('bugs', function() {
         }
     })
 
+    it('cannot adjust a layer to the left if background is layer than the artboard', function() {
+        var artboard = createArtboard("Desktop/Login/1 [0:0:64:0:w1680:h>960]", 0, 0, 1680, 960)
+        var layer1 = createLayer("w100%:t:l", 0, 0, 1680, 100)
+        var layer2 = createLayer("bg:h100%:v:h", 0, 0, 1707, 960)
+
+        artboard.insertLayer_afterLayerOrAtEnd(layer1)
+        artboard.insertLayer_afterLayerOrAtEnd(layer2)
+
+        // NOTE(materik):
+        // * might expect layer1 to have x=0 and layer2 to have x=-13 but due to the padding set on the
+        //   artboard this is actually expected. See test below
+        for (var i = 0; i < 2; i++) {
+            Component.apply(artboard)
+
+            assert.equal(artboard.frame().width(), 1680)
+            assert.equal(artboard.frame().height(), 960)
+
+            assert.equal(layer1.frame().x(), 13)
+            assert.equal(layer1.frame().y(), 0)
+            assert.equal(layer1.frame().width(), 1680)
+            assert.equal(layer1.frame().height(), 100)
+
+            assert.equal(layer2.frame().x(), 0)
+            assert.equal(layer2.frame().y(), 0)
+            assert.equal(layer2.frame().width(), 1707)
+            assert.equal(layer2.frame().height(), 960)
+        }
+    })
+
+    it('cannot adjust a layer to the left if background is layer than the artboard (without padding)', function() {
+        var artboard = createArtboard("Desktop/Login/1 [w1680:h>960]", 0, 0, 1680, 960)
+        var layer1 = createLayer("w100%:t:l", 0, 0, 1680, 100)
+        var layer2 = createLayer("bg:h100%:v:h", 0, 0, 1707, 960)
+
+        artboard.insertLayer_afterLayerOrAtEnd(layer1)
+        artboard.insertLayer_afterLayerOrAtEnd(layer2)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(artboard)
+
+            assert.equal(artboard.frame().width(), 1680)
+            assert.equal(artboard.frame().height(), 960)
+
+            assert.equal(layer1.frame().x(), 0)
+            assert.equal(layer1.frame().y(), 0)
+            assert.equal(layer1.frame().width(), 1680)
+            assert.equal(layer1.frame().height(), 100)
+
+            assert.equal(layer2.frame().x(), -13)
+            assert.equal(layer2.frame().y(), 0)
+            assert.equal(layer2.frame().width(), 1707)
+            assert.equal(layer2.frame().height(), 960)
+        }
+    })
+
 })

@@ -21,6 +21,10 @@ SymbolInstanceComponent.prototype.apply = function() {
     })
 }
 
+SymbolInstanceComponent.prototype.sizeToFit = function() {
+    // Do nothing...
+}
+
 SymbolInstanceComponent.prototype.sizeToMaster = function() {
     this._layer.resetSizeToMaster()
 }
