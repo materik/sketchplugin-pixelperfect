@@ -46,7 +46,7 @@ Properties.prototype.excludes = function(key) {
 // Action
 
 Properties.prototype.apply = function() {
-    this.component().debug("~ Properties: apply: <" + this.component().name() + "> <" + this.component().class() + ">", 1)
+    this.component().debug("~ Properties: apply:", 1)
     this.component().constraints().apply(this)
 
     for (var i = 0; i < this.count(); i++) {

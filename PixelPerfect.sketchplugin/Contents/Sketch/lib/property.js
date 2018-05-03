@@ -32,7 +32,7 @@ Property.prototype.value = function() {
 }
 
 Property.prototype.toString = function() {
-    return "<" + this.component().name() + ">.<" + this.key() + ">:<" + this.value().toString() + ">"
+    return "<" + this.key() + ">:<" + this.value().toString() + ">"
 }
 
 Property.prototype.isValid = function() {
@@ -146,7 +146,7 @@ Property.prototype.apply = function() {
 
     var frameAfter = this.component().frame().toString()
 
-    this.component().debug("~ Property: apply: " + this.toString() + " " + frameBefore + " -> " + frameAfter, 2)
+    this.component().debug("~ Property: apply: " + this.toString() + " <" + frameBefore + "> -> <" + frameAfter + ">", 2)
 }
 
 Property.prototype.stackHorizontally = function(alignment) {
