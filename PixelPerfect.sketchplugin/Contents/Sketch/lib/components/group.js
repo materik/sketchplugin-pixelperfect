@@ -14,17 +14,11 @@ GroupComponent.new = function(layer) {
 // Action
 
 GroupComponent.prototype.apply = function() {
-    if (!this.shouldApply()) {
-        return;
-    }
-
-    this.debug("GroupComponent: apply:")
-    this.roundToPixel()
-
-    this.components().apply()
-    this.resize()
-
-    this.properties().apply()
+    var self = this
+    Component.prototype.apply.call(this, function() {
+        self.components().apply()
+        self.resize()
+    })
 }
 
 GroupComponent.prototype.resize = function() {

@@ -14,17 +14,11 @@ SymbolInstanceComponent.new = function(layer) {
 // Action
 
 SymbolInstanceComponent.prototype.apply = function() {
-    if (!this.shouldApply()) {
-        return;
-    }
-
-    this.debug("SymbolInstanceComponent: apply:")
-    this.roundToPixel()
-
-    this.master().apply()
-    this._layer.resetSizeToMaster()
-
-    this.properties().apply()
+    var self = this
+    Component.prototype.apply.call(this, function() {
+        self.master().apply()
+        self._layer.resetSizeToMaster()
+    })
 }
 
 SymbolInstanceComponent.prototype.sizeToFit = function() {

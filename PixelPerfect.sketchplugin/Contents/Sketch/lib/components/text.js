@@ -14,17 +14,11 @@ TextComponent.new = function(layer) {
 // Action
 
 TextComponent.prototype.apply = function() {
-    if (!this.shouldApply()) {
-        return;
-    }
-
-    this.debug("TextComponent: apply:")
-    this.roundToPixel()
-
-    this._layer.setTextBehaviourSegmentIndex(0)
-    this._layer.setTextBehaviourSegmentIndex(1)
-    
-    this.properties().apply()
+    var self = this
+    Component.prototype.apply.call(this, function() {
+        self._layer.setTextBehaviourSegmentIndex(0)
+        self._layer.setTextBehaviourSegmentIndex(1)
+    })
 }
 
 TextComponent.prototype.resize = function() {

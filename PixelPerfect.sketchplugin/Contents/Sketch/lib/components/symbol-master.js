@@ -25,17 +25,11 @@ SymbolMasterComponent.prototype.shouldApply = function() {
 // Action
 
 SymbolMasterComponent.prototype.apply = function() {
-    if (!this.shouldApply()) {
-        return;
-    }
-
-    this.debug("SymbolMasterComponent: apply:")
-    this.roundToPixel()
-
-    this.components().apply()
-    this.resize()
-
-    this.properties().apply()
+    var self = this
+    Component.prototype.apply.call(this, function() {
+        self.components().apply()
+        self.resize()
+    })
 }
 
 SymbolMasterComponent.prototype.resize = function() {

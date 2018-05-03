@@ -11,26 +11,14 @@ ArtboardComponent.new = function(layer) {
     return Component.new(layer)
 }
 
-// Getter
-
-Component.prototype.shouldSizeToFit = function() {
-    return this.properties().includes("padding")
-}
-
 // Action
 
 ArtboardComponent.prototype.apply = function() {
-    if (!this.shouldApply()) {
-        return;
-    }
-
-    this.debug("ArtboardComponent: apply:")
-    this.roundToPixel()
-
-    this.components().apply()
-    this.sizeToFit()
-
-    this.properties().apply()
+    var self = this
+    Component.prototype.apply.call(this, function() {
+        self.components().apply()
+        self.sizeToFit()
+    })
 }
 
 ArtboardComponent.prototype.resize = function() {
@@ -38,7 +26,7 @@ ArtboardComponent.prototype.resize = function() {
 }
 
 ArtboardComponent.prototype.sizeToFit = function() {
-    if (!this.shouldSizeToFit()) {
+    if (this.properties().excludes("padding")) {
         return;
     }
 
