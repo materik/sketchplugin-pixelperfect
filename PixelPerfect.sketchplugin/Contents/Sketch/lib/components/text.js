@@ -22,7 +22,7 @@ TextComponent.prototype.apply = function() {
 }
 
 TextComponent.prototype.sizeToFit = function() {
-    if (this.properties().includes("height")) {
+    if (this.properties().contains("height")) {
         this._layer.setVerticalAlignment(1)
     } else {
         this._layer.adjustFrameToFit() 

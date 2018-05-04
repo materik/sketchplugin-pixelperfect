@@ -13,63 +13,30 @@ SymbolMasterComponent.new = function(layer) {
 
 // Getter
 
+SymbolMasterComponent.prototype.properties = function() {
+    var properties = Component.prototype.properties.call(this)
+    if (!properties.contains('padding')) {
+        properties.add('padding', Padding.zero())
+    }
+    return properties
+}
+
 SymbolMasterComponent.prototype.objectID = function() {
     return this._layer.symbolID()
 }
 
 SymbolMasterComponent.prototype.shouldApply = function() {
-    return Component.prototype.shouldApply.call(this) &&
-        SymbolMasterStore.sharedInstance.shouldApply(this)
+    return Component.prototype.shouldApply.call(this) && SymbolMasterStore.sharedInstance.shouldApply(this)
 }
 
 // Action
 
 SymbolMasterComponent.prototype.apply = function() {
-    var self = this
-    Component.prototype.apply.call(this, function() {
-        self.components().apply()
-        self.sizeToFit()
-    })
+    GroupComponent.prototype.apply.call(this)
 }
 
 SymbolMasterComponent.prototype.sizeToFit = function() {
-    this.debug("& SymbolMasterComponent: sizeToFit:", 1)
-
-    var constraints = []
-    var minX = this.components().minLeft()
-    var minY = this.components().minTop()
-
-    for (var i = 0; i < this.components().count(); i++) {
-        var component = this.components().objectAtIndex(i)
-
-        var frameBefore = this.frame().toString()
-
-        if (component.properties().includes("margin-right") && component.properties().excludes("margin-left")) {
-            component.frame().setX(component.frame().x())
-        } else {
-            component.frame().setX(component.frame().x() - minX)   
-        }
-
-        if (component.properties().includes("margin-bottom") && component.properties().excludes("margin-top")) {
-            component.frame().setY(component.frame().y())
-        } else {
-            component.frame().setY(component.frame().y() - minY)   
-        }
-
-        var frameAfter = this.frame().toString()
-
-        this.debug("& SymbolMasterComponent: sizeToFit: " + frameBefore + " -> " + frameAfter, 2)
-
-        component.constraints().lock()
-        constraints.push(component.constraints())
-    }
-
-    this.frame().setWidth(this.components().maxRight())
-    this.frame().setHeight(this.components().maxBottom())
-
-    for (var i = 0; i < constraints.length; i++) {
-        constraints[i].unlock()
-    }
+    // Do nothing...
 }
 
 // -----------------------------------------------------------

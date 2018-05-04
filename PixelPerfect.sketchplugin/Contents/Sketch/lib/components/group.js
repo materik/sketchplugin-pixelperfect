@@ -22,7 +22,10 @@ GroupComponent.prototype.apply = function() {
 }
 
 GroupComponent.prototype.sizeToFit = function() {
+    var frameBefore = this.frame().toString()
     this._layer.resizeToFitChildrenWithOption(1);
+    var frameAfter = this.frame().toString()
+    this.debug("$ GroupComponent: sizeToFit: <" + frameBefore + "> -> <" + frameAfter + ">", 1)
 }
 
 // -----------------------------------------------------------
