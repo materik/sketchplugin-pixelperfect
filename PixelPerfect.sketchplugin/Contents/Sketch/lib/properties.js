@@ -1,15 +1,17 @@
 
-function Properties(component) {
+function Properties(component, items) {
     this._component = component
-    this._items = []
+    this._items = items || []
 
-    this._setup()
+    if (items == undefined) {
+        this._setup()
+    }
 }
 
 // Static
 
-Properties.new = function(component) {
-    return new Properties(component)
+Properties.new = function(component, items) {
+    return new Properties(component, items)
 }
 
 // Getter
@@ -29,30 +31,42 @@ Properties.prototype.objectAtIndex = function(index) {
 Properties.prototype.find = function(key) {
     for (var i = 0; i < this.count(); i++) {
         var property = this.objectAtIndex(i)
-        if (property.key() == key) {
+        if (key.regexp().test(property.key())) {
             return property
         }
     }
 }
 
-Properties.prototype.includes = function(key) {
-    return this.find(key) != undefined
+Properties.prototype.filter = function(key) {
+    var items = []
+    for (var i = 0; i < this.count(); i++) {
+        var property = this.objectAtIndex(i)
+        if (key.regexp().test(property.key())) {
+            items.push(property)
+        }
+    }
+    return Properties.new(this.component(), items)
 }
 
-Properties.prototype.excludes = function(key) {
-    return this.find(key) == undefined
+Properties.prototype.contains = function(key) {
+    return this.find(key) != undefined
 }
 
 // Action
 
 Properties.prototype.apply = function() {
-    this.component().debug("~ Properties: apply:", 1)
     this.component().constraints().apply(this)
 
-    for (var i = 0; i < this.count(); i++) {
-        var property = this.objectAtIndex(i)
-        property.apply()
-        this.component().sizeToFit()
+    if (this.count() > 0) {
+        this.component().debug("~ Properties: apply:", 1)
+        for (var i = 0; i < this.count(); i++) {
+            var property = this.objectAtIndex(i)
+            property.apply()
+
+            if (this.component().isGroup()) {
+                this.component().sizeToFit()
+            }
+        }
     }
 }
 
@@ -60,6 +74,17 @@ Properties.prototype.add = function(key, value) {
     var property = Property.new(this.component(), key, value)
     if (property) {
         this._items.push(property)
+    }
+}
+
+Properties.prototype.addPadding = function(padding) {
+    var property = PaddingProperty.new(this.component(), "padding", padding)
+    if (property) {
+        if (property.isOuter()) {
+            this._items.append(property)
+        } else if (property.isInner()) {
+            this._items.prepend(property)
+        }
     }
 }
 
@@ -84,7 +109,7 @@ Properties.prototype._setup = function() {
         }
     }
     
-    this.add("padding", padding)
+    this.addPadding(padding)
 }
 
 // -----------------------------------------------------------
