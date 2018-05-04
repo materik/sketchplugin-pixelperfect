@@ -42,13 +42,33 @@ Array.prototype.odd = function() {
     return odd
 }
 
-String.prototype.contains = function(str) {
-    return this.indexOf(str) >= 0
+Array.prototype.prepend = function(item) {
+    this.unshift(item)
+}
+
+Array.prototype.append = function(item) {
+    this.push(item)
+}
+
+Array.prototype.contains = function(str) {
+    return this.includes(str)
 }
 
 Math.roundWithPrecision = function(value, precision) {
   var factor = this.pow(10, precision || 0);
   return this.round(value * factor) / factor;
+}
+
+RegExp.prototype.regexp = function() {
+    return this
+}
+
+String.prototype.contains = function(str) {
+    return this.indexOf(str) >= 0
+}
+
+String.prototype.regexp = function() {
+    return new RegExp("^" + this + "$")
 }
 
 // -----------------------------------------------------------
