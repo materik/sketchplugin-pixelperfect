@@ -12,6 +12,10 @@ Padding.new = function(top, right, bottom, left) {
     return new Padding(top, right, bottom, left)
 }
 
+Padding.zero = function() {
+    return new Padding(0, 0, 0, 0)
+}
+
 // Getter
 
 Padding.prototype.top = function() {
@@ -30,22 +34,6 @@ Padding.prototype.left = function() {
     return this._left != undefined ? this._left : this.right()
 }
 
-Padding.prototype.x = function(component) {
-    return component.frame().x() - this.left()
-}
-
-Padding.prototype.y = function(component) {
-    return component.frame().y() - this.top()
-}
-
-Padding.prototype.width = function(component) {
-    return component.frame().width() + this.left() + this.right()
-}
-
-Padding.prototype.height = function(component) {
-    return component.frame().height() + this.top() + this.bottom()
-}
-
 Padding.prototype.isValid = function() {
     return this._top != undefined
 }
@@ -55,19 +43,6 @@ Padding.prototype.toString = function() {
 }
 
 // Action
-
-Padding.prototype.apply = function(component) {
-    var parent = component.parent()
-    if (parent) {
-        var background = parent.components().find("bg")
-        if (background) {
-            background.frame().setX(this.x(component))
-            background.frame().setY(this.y(component))
-            background.frame().setWidth(this.width(component))
-            background.frame().setHeight(this.height(component))
-        }
-    }
-}
 
 Padding.prototype.add = function(value) {
     value = parseInt(value)
