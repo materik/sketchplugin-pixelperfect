@@ -1,6 +1,9 @@
 
 function Components(layers) {
-    this._layers = layers
+    this._layers = layers || NSArray.new()
+    this._items = []
+
+    this._setup()
 }
 
 Components.DEFAULT_MIN_TOP = 999999
@@ -27,11 +30,17 @@ Components.sub = function(layer) {
 // Getter
 
 Components.prototype.count = function() {
-    return this._layers.count()
+    if (this._layers.count() != this._items.length) {
+        this._setup()
+    }
+    return this._items.length
 }
 
 Components.prototype.objectAtIndex = function(index) {
-    return Component.new(this._layers.objectAtIndex(index))
+    if (this._layers.count() != this._items.length) {
+        this._setup()
+    }
+    return this._items[index]
 }
 
 Components.prototype.find = function(name) {
@@ -43,11 +52,15 @@ Components.prototype.find = function(name) {
     }
 }
 
-Components.prototype.minTop = function(ignoreId) {
+Components.prototype.contains = function(name) {
+    return this.find(name) != undefined
+}
+
+Components.prototype.minTop = function(ignoreID) {
     var top = Components.DEFAULT_MIN_TOP
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (component.objectID() == ignoreId) {
+        if (component.objectID() == ignoreID) {
             continue;
         }
         top = Math.min(top, component.frame().top())
@@ -55,35 +68,47 @@ Components.prototype.minTop = function(ignoreId) {
     return top == Components.DEFAULT_MIN_TOP ? 0 : top
 }
 
-Components.prototype.maxRight = function(isArtboard) {
+Components.prototype.maxRight = function(ignoreID, ignoreMarginRight) {
     var right = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        var condition = (isArtboard ? component.properties().excludes("margin-right") : true)
-        if (component.properties().excludes("width-percentage") && condition) {
-            right = Math.max(right, component.frame().right())
+        if (component.objectID() == ignoreID) {
+            continue;
         }
+        if (component.properties().contains("width-percentage")) {
+            continue;
+        }
+        if (ignoreMarginRight && component.properties().contains("margin-right")) {
+            continue;
+        }
+        right = Math.max(right, component.frame().right())
     }
     return right
 }
 
-Components.prototype.maxBottom = function(isArtboard) {
+Components.prototype.maxBottom = function(ignoreID, ignoreMarginBottom) {
     var bottom = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        var condition = (isArtboard ? component.properties().excludes("margin-bottom") : true)
-        if (component.properties().excludes("height-percentage") && condition) {
-            bottom = Math.max(bottom, component.frame().bottom())
+        if (component.objectID() == ignoreID) {
+            continue;
         }
+        if (component.properties().contains("height-percentage")) {
+            continue;
+        }
+        if (ignoreMarginBottom && component.properties().contains("margin-bottom")) {
+            continue;
+        }
+        bottom = Math.max(bottom, component.frame().bottom())
     }
     return bottom
 }
 
-Components.prototype.minLeft = function(ignoreId) {
+Components.prototype.minLeft = function(ignoreID) {
     var left = Components.DEFAULT_MIN_LEFT
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (component.objectID() == ignoreId) {
+        if (component.objectID() == ignoreID) {
             continue;
         }
         left = Math.min(left, component.frame().left())
@@ -91,28 +116,28 @@ Components.prototype.minLeft = function(ignoreId) {
     return left == Components.DEFAULT_MIN_LEFT ? 0 : left
 }
 
-Components.prototype.maxWidth = function(ignoreId) {
+Components.prototype.maxWidth = function(ignoreID) {
     var width = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (component.objectID() == ignoreId) {
+        if (component.objectID() == ignoreID) {
             continue;
         }
-        if (component.properties().excludes("width-percentage")) {
+        if (!component.properties().contains("width-percentage")) {
             width = Math.max(width, component.frame().width())
         }
     }
     return width
 }
 
-Components.prototype.maxHeight = function(ignoreId) {
+Components.prototype.maxHeight = function(ignoreID) {
     var height = 0
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i)
-        if (component.objectID() == ignoreId) {
+        if (component.objectID() == ignoreID) {
             continue;
         }
-        if (component.properties().excludes("height-percentage")) {
+        if (!component.properties().contains("height-percentage")) {
             height = Math.max(height, component.frame().height())
         }
     }
@@ -137,16 +162,36 @@ Components.prototype.apply = function() {
     }
 }
 
+Components.prototype.lockConstraints = function() {
+    for (var i = 0; i < this.count(); i++) {
+        this.objectAtIndex(i).constraints().lock()
+    }
+}
+
+Components.prototype.unlockConstraints = function() {
+    for (var i = 0; i < this.count(); i++) {
+        this.objectAtIndex(i).constraints().unlock()
+    }
+}
+
 // Private
 
+Components.prototype._setup = function() {
+    this._items = []
+    for (var i = 0; i < this._layers.count(); i++) {
+        var item = Component.new(this._layers.objectAtIndex(i))
+        this._items.push(item)
+    }
+}
+
 Components.prototype._shouldApplyComponentFirstly = function(component) {
-    return component.properties().excludes('width-percentage') &&
-        component.properties().excludes('height-percentage')
+    return !component.properties().contains('width-percentage') &&
+        !component.properties().contains('height-percentage')
 }
 
 Components.prototype._shouldApplyComponentSecondly = function(component) {
-    return component.properties().includes('width-percentage') ||
-        component.properties().includes('height-percentage')
+    return component.properties().contains('width-percentage') ||
+        component.properties().contains('height-percentage')
 }
 
 // -----------------------------------------------------------
