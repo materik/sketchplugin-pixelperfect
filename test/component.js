@@ -453,13 +453,13 @@ describe('component', function() {
 
     })
 
-    it('sizeToFit', function() {
+    it('size to fit - master', function() {
         var layer1 = createLayer("1", 30, 40, 50, 60)
         var layer2 = createLayer("2", 25, 50, 100, 200)
         var group = createSymbolMaster("group", 1, 2, 3, 4)
         group.insertLayer_afterLayerOrAtEnd(layer1)
         group.insertLayer_afterLayerOrAtEnd(layer2)
-        Component.new(group).sizeToFit()
+        Component.new(group).apply()
         assert.equal(layer1.frame().x(), 5)
         assert.equal(layer1.frame().y(), 0)
         assert.equal(layer1.frame().width(), 50)
@@ -472,13 +472,13 @@ describe('component', function() {
         assert.equal(group.frame().height(), 210)
     })
 
-    it('applyPadding', function() {
+    it('size to fit - artboard', function() {
         var layer1 = createLayer("1", 30, 40, 50, 60)
         var layer2 = createLayer("2", 25, 50, 100, 200)
         var artboard = createArtboard("10:20:30:40", 1, 2, 3, 4)
         artboard.insertLayer_afterLayerOrAtEnd(layer1)
         artboard.insertLayer_afterLayerOrAtEnd(layer2)
-        Component.new(artboard).applyPadding()
+        Component.new(artboard).apply()
         assert.equal(layer1.frame().x(), 45)
         assert.equal(layer1.frame().y(), 10)
         assert.equal(layer1.frame().width(), 50)

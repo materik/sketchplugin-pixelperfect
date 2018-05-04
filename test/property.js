@@ -95,9 +95,14 @@ describe('property', function() {
     })
 
     it('padding', function() {
+        var group = createLayerGroup()
         var padding = Padding.new()
         padding.add(1)
-        var property = Property.new(Component.new(createLayer()), "padding", padding)
+        assert.equal(padding.isValid(), true)
+        var property = Property.new(Component.new(group), "padding", padding)
+        assert.equal(property, undefined)
+        group.insertLayer_afterLayerOrAtEnd(createLayer())
+        var property = Property.new(Component.new(group), "padding", padding)
         assert.equal(property.isValid(), true)
         assert.equal(property.key(), "padding")
         assert.equal(property.value().isValid(), true)

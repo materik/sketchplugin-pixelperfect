@@ -230,7 +230,7 @@ describe('bugs', function() {
             //   and then sizes with the resize. This is difficult to mock why
             //   the other iteration is the right size here in the test
             if (i == 0) {
-                assert.equal(layer2.frame().height(), 500)   
+                assert.equal(layer2.frame().height(), 500) 
             } else {
                 assert.equal(layer2.frame().height(), 968)
             }
@@ -473,7 +473,7 @@ describe('bugs', function() {
         }
     })
 
-    it('margin right bottom shouldnt be affected of artboard padding', function() {
+    it('margin right bottom should be affected of artboard padding', function() {
         var artboard = createArtboard("0:32:32:0:w300:h300", 0, 0, 300, 300)
         var layer = createLayer("r32:b32", 236, 204, 32, 32)
 
@@ -489,17 +489,17 @@ describe('bugs', function() {
         }
     })
 
-    it('cannot adjust a layer to the left if background is layer than the artboard', function() {
+    it('cannot adjust a layer to the left if background is larger than the artboard (with padding)', function() {
         var artboard = createArtboard("Desktop/Login/1 [0:0:64:0:w1680:h>960]", 0, 0, 1680, 960)
         var layer1 = createLayer("w100%:t:l", 0, 0, 1680, 100)
-        var layer2 = createLayer("bg:h100%:v:h", 0, 0, 1707, 960)
+        var layer2 = createLayer("h100%:v:h", 0, 0, 1707, 960)
 
         artboard.insertLayer_afterLayerOrAtEnd(layer1)
         artboard.insertLayer_afterLayerOrAtEnd(layer2)
 
         // NOTE(materik):
         // * might expect layer1 to have x=0 and layer2 to have x=-13 but due to the padding set on the
-        //   artboard this is actually expected. See test below
+        //   artboard this is actually expected. See test below.
         for (var i = 0; i < 2; i++) {
             Component.apply(artboard)
 
@@ -518,10 +518,10 @@ describe('bugs', function() {
         }
     })
 
-    it('cannot adjust a layer to the left if background is layer than the artboard (without padding)', function() {
+    it('cannot adjust a layer to the left if background is larger than the artboard (without padding)', function() {
         var artboard = createArtboard("Desktop/Login/1 [w1680:h>960]", 0, 0, 1680, 960)
         var layer1 = createLayer("w100%:t:l", 0, 0, 1680, 100)
-        var layer2 = createLayer("bg:h100%:v:h", 0, 0, 1707, 960)
+        var layer2 = createLayer("h100%:v:h", 0, 0, 1707, 960)
 
         artboard.insertLayer_afterLayerOrAtEnd(layer1)
         artboard.insertLayer_afterLayerOrAtEnd(layer2)
@@ -541,6 +541,57 @@ describe('bugs', function() {
             assert.equal(layer2.frame().y(), 0)
             assert.equal(layer2.frame().width(), 1707)
             assert.equal(layer2.frame().height(), 960)
+        }
+    })
+
+    it('multiple paddings creates an infinite loop', function() {
+        var master = createSymbolMaster("Master")
+        var group1 = createLayerGroup("30:50:100")
+        var group2 = createLayerGroup("Group", 0, 0, 96, 116)
+        var layer1 = createLayer("1", 0, 0, 52, 52)
+        var layer2 = createLayer("2", 42, 62, 54, 54)
+        var layer3 = createLayer("bg")
+
+        master.insertLayer_afterLayerOrAtEnd(group1)
+        group1.insertLayer_afterLayerOrAtEnd(group2)
+        group1.insertLayer_afterLayerOrAtEnd(layer3)
+        group2.insertLayer_afterLayerOrAtEnd(layer1)
+        group2.insertLayer_afterLayerOrAtEnd(layer2)
+
+        for (var i = 0; i < 2; i++) {
+            Component.apply(master)
+
+            assert.equal(master.frame().width(), 196)
+            assert.equal(master.frame().height(), 246)
+
+            assert.equal(group1.frame().x(), 0)
+            assert.equal(group1.frame().y(), 0)
+            assert.equal(group1.frame().width(), 196)
+            assert.equal(group1.frame().height(), 246)
+
+            assert.equal(group2.frame().x(), 50)
+            assert.equal(group2.frame().y(), 30)
+            assert.equal(group2.frame().width(), 96)
+            assert.equal(group2.frame().height(), 116)
+
+            assert.equal(layer1.frame().x(), 0)
+            assert.equal(layer1.frame().y(), 0)
+            assert.equal(layer1.frame().width(), 52)
+            assert.equal(layer1.frame().height(), 52)
+            assert.equal(layer1.hasFixedWidth(), true)
+            assert.equal(layer1.hasFixedHeight(), true)
+
+            assert.equal(layer2.frame().x(), 42)
+            assert.equal(layer2.frame().y(), 62)
+            assert.equal(layer2.frame().width(), 54)
+            assert.equal(layer2.frame().height(), 54)
+            assert.equal(layer2.hasFixedWidth(), true)
+            assert.equal(layer2.hasFixedHeight(), true)
+
+            assert.equal(layer3.frame().x(), 0)
+            assert.equal(layer3.frame().y(), 0)
+            assert.equal(layer3.frame().width(), 196)
+            assert.equal(layer3.frame().height(), 246)
         }
     })
 
