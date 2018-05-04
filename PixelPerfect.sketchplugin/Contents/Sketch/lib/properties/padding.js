@@ -43,6 +43,8 @@ PaddingProperty.prototype.apply = function() {
         this.applyOuter()
     } else if (this.isInner()) {
         this.applyInner()
+    } else {
+        this.component().debug("~ PaddingProperty: ERROR: invalid property: <" + this.key() + ">", 2)
     }
 
     var frameAfter = this.component().frame().toString()

@@ -56,7 +56,7 @@ MarginProperty.prototype.apply = function() {
             break;
         /* istanbul ignore next */
         default:
-            this.component().debug("~ ERROR: invalid property: " + this.key(), 2)
+            this.component().debug("~ MarginProperty: ERROR: invalid property: <" + this.key() + ">", 2)
             break;
     }
 
