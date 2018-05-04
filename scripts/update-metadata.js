@@ -25,7 +25,6 @@ pkgLock.save()
 // Update manifest.json
 
 var manifest = json(MANIFEST_FILE, { stringify_width: 4 });
-manifest.set('name', name)
 manifest.set('description', description)
 manifest.set('version', version)
 manifest.save()
