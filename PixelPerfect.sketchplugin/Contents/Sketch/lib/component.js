@@ -2,9 +2,10 @@
 function Component(layer) {
     this._layer = layer
     this._frame = Frame.new(layer)
-    this._components = undefined
-    this._properties = undefined
-    this._constraints = undefined
+    this._components = null
+    this._properties = null
+    this._constraints = null
+    this._parent = null
 }
 
 // Static
@@ -15,6 +16,8 @@ Component.new = function(layer) {
             return new ArtboardComponent(layer)
         case "MSLayerGroup":
             return new GroupComponent(layer)
+        case "MSShapeGroup":
+            return new ShapeComponent(layer)
         case "MSSymbolInstance":
             return new SymbolInstanceComponent(layer)
         case "MSSymbolMaster":
@@ -33,21 +36,21 @@ Component.apply = function(layer) {
 // Getter
 
 Component.prototype.components = function() {
-    if (!this._components) {
+    if (this._components == null) {
         this._components = Components.sub(this._layer)
     }
     return this._components
 }
 
 Component.prototype.properties = function() {
-    if (!this._properties) {
+    if (this._properties == null) {
         this._properties = Properties.new(this)
     }
     return this._properties
 }
 
 Component.prototype.constraints = function() {
-    if (!this._constraints) {
+    if (this._constraints == null) {
         this._constraints = Constraints.new(this._layer)
     }
     return this._constraints
@@ -88,64 +91,77 @@ Component.prototype.isArtboard = function() {
     return this.class() == "MSArtboardGroup"
 }
 
+Component.prototype.isGroup = function() {
+    return this.class() == "MSLayerGroup"
+}
+
+Component.prototype.isSymbolMaster = function() {
+    return this.class() == "MSSymbolMaster"
+}
+
 Component.prototype.shouldApply = function() {
     return this.isVisible() && !IGNORE_RE.test(this.name())
 }
 
-Component.prototype.parent = function() {
+Component.prototype.hasComponents = function() {
+    return this.components().count() > 0
+}
+
+Component.prototype.hasParent = function() {
     if (this._layer.parentGroup) {
-        var parentLayer = this._layer.parentGroup()
-        if (parentLayer) {
-            return Component.new(parentLayer)
-        }   
+        return this._layer.parentGroup() != undefined
     }
+    return false
+}
+
+Component.prototype.parent = function() {
+    if (this._parent == null) {
+        this._parent = this.hasParent() ? Component.new(this._layer.parentGroup()) : undefined
+    }
+    return this._parent
 }
 
 Component.prototype.minLeftInParent = function(ignoreSelf) {
-    var parent = this.parent()
-    if (parent == undefined) {
+    if (!this.hasParent()) {
         return 0
-    } else if (parent.isArtboard()) {
+    } else if (this.parent().isArtboard()) {
         return 0
     } else {
-        return parent.components().minLeft(ignoreSelf ? this.objectID() : undefined)
+        return this.parent().components().minLeft(ignoreSelf ? this.objectID() : undefined)
     }
 }
 
 Component.prototype.minTopInParent = function(ignoreSelf) {
-    var parent = this.parent()
-    if (parent == undefined) {
+    if (!this.hasParent()) {
         return 0
-    } else if (parent.isArtboard()) {
+    } else if (this.parent().isArtboard()) {
         return 0
     } else {
-        return parent.components().minTop(ignoreSelf ? this.objectID() : undefined)
+        return this.parent().components().minTop(ignoreSelf ? this.objectID() : undefined)
     }
 }
 
 Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
-    var parent = this.parent()
-    if (parent == undefined) {
+    if (!this.hasParent()) {
         return 0
-    } else if (parent.isArtboard()) {
-        return parent.frame().width()
-    } else if (forceIteration || parent.properties().includes("width-percentage")) {
-        return parent.widthOfParent(forceIteration, ignoreSelf) || parent.frame().width()
+    } else if (this.parent().isArtboard()) {
+        return this.parent().frame().width()
+    } else if (forceIteration || this.parent().properties().contains("width-percentage")) {
+        return this.parent().widthOfParent(forceIteration, ignoreSelf) || this.parent().frame().width()
     } else {
-        return parent.components().maxWidth(ignoreSelf ? this.objectID() : undefined)
+        return this.parent().components().maxWidth(ignoreSelf ? this.objectID() : undefined)
     }
 }
 
 Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
-    var parent = this.parent()
-    if (!parent) {
+    if (!this.hasParent()) {
         return 0
-    } else if (parent.isArtboard()) {
-        return parent.frame().height()
-    } else if (forceIteration || parent.properties().includes("height-percentage")) {
-        return parent.heightOfParent(forceIteration, ignoreSelf) || parent.frame().height()
+    } else if (this.parent().isArtboard()) {
+        return this.parent().frame().height()
+    } else if (forceIteration || this.parent().properties().contains("height-percentage")) {
+        return this.parent().heightOfParent(forceIteration, ignoreSelf) || this.parent().frame().height()
     } else {
-        return parent.components().maxHeight(ignoreSelf ? this.objectID() : undefined)
+        return this.parent().components().maxHeight(ignoreSelf ? this.objectID() : undefined)
     }
 }
 
@@ -162,6 +178,7 @@ Component.prototype.apply = function(typeSpecificApply) {
     typeSpecificApply && typeSpecificApply()
 
     this.properties().apply()
+    this.sizeToFit()
 }
 
 Component.prototype.sizeToFit = function() {
