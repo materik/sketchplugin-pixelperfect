@@ -47,6 +47,10 @@ Constraints.prototype.toString = function() {
     "}>"
 }
 
+Constraints.prototype.isLocked = function() {
+    return this._lockedHasFixedWidth != undefined
+}
+
 // Setter
 
 Constraints.prototype.setHasFixedWidth = function(hasFixed) {
@@ -83,33 +87,33 @@ Constraints.prototype.apply = function(properties) {
 
     this.reset()
     this.setHasFixedTop(
-        properties.includes('margin-top') ||
-        properties.includes('padding') ||
-        properties.includes('margin') ||
-        properties.includes('height-percentage')
+        properties.contains('margin-top') ||
+        properties.contains('padding') ||
+        properties.contains('margin') ||
+        properties.contains('height-percentage')
     );
     this.setHasFixedRight(
-        properties.includes('margin-right') ||
-        properties.includes('padding') ||
-        properties.includes('margin') ||
-        properties.includes('width-percentage')
+        properties.contains('margin-right') ||
+        properties.contains('padding') ||
+        properties.contains('margin') ||
+        properties.contains('width-percentage')
     );
     this.setHasFixedBottom(
-        properties.includes('margin-bottom') ||
-        properties.includes('padding') ||
-        properties.includes('margin') ||
-        properties.includes('height-percentage')
+        properties.contains('margin-bottom') ||
+        properties.contains('padding') ||
+        properties.contains('margin') ||
+        properties.contains('height-percentage')
     );
     this.setHasFixedLeft(
-        properties.includes('margin-left') ||
-        properties.includes('padding') ||
-        properties.includes('margin') ||
-        properties.includes('width-percentage')
+        properties.contains('margin-left') ||
+        properties.contains('padding') ||
+        properties.contains('margin') ||
+        properties.contains('width-percentage')
     );
     this.setHasFixedWidth(!(this.hasFixedRight() && this.hasFixedLeft()));
     this.setHasFixedHeight(!(this.hasFixedTop() && this.hasFixedBottom()));
 
-    this.component().debug("^ Constraints: apply:" + this.toString(), 1)
+    this.component().debug("^ Constraints: apply: " + this.toString(), 1)
 }
 
 Constraints.prototype.reset = function() {
@@ -117,8 +121,6 @@ Constraints.prototype.reset = function() {
 }
 
 Constraints.prototype.lock = function() {
-    this.component().debug("^ Constraints: lock>", 1)
-
     this._lockedHasFixedWidth = this.hasFixedWidth()
     this._lockedHasFixedHeight = this.hasFixedHeight()
     this._lockedHasFixedTop = this.hasFixedTop()
@@ -131,10 +133,14 @@ Constraints.prototype.lock = function() {
     this.setHasFixedHeight(true)
     this.setHasFixedTop(true)
     this.setHasFixedLeft(true)
+
+    this.component().debug("^ Constraints: lock: " + this.toString(), 1)
 }
 
 Constraints.prototype.unlock = function() {
-    this.component().debug("^ Constraints: unlock", 1)
+    if (!this.isLocked()) {
+        return;
+    }
 
     this.reset()
     this.setHasFixedWidth(this._lockedHasFixedWidth)
@@ -150,6 +156,8 @@ Constraints.prototype.unlock = function() {
     this._lockedHasFixedRight = undefined
     this._lockedHasFixedBottom = undefined
     this._lockedHasFixedLeft = undefined
+    
+    this.component().debug("^ Constraints: unlock: " + this.toString(), 1)
 }
 
 // -----------------------------------------------------------
