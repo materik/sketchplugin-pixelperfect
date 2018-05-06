@@ -13,11 +13,11 @@ ShapeComponent.prototype.components = function() {
 
 // Action
 
-ShapeComponent.prototype.apply = function() {
-    Component.prototype.apply.call(this)
+ShapeComponent.prototype._apply = function() {
+    // Do nothing...
 }
 
-ShapeComponent.prototype.sizeToFit = function() {
+ShapeComponent.prototype._sizeToFit = function() {
     // Do nothing...
 }
 

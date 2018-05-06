@@ -14,6 +14,7 @@ require('../../PixelPerfect.sketchplugin/Contents/Sketch/lib/utils');
 
 require('../../PixelPerfect.sketchplugin/Contents/Sketch/lib/components/artboard');
 require('../../PixelPerfect.sketchplugin/Contents/Sketch/lib/components/group');
+require('../../PixelPerfect.sketchplugin/Contents/Sketch/lib/components/layer');
 require('../../PixelPerfect.sketchplugin/Contents/Sketch/lib/components/shape');
 require('../../PixelPerfect.sketchplugin/Contents/Sketch/lib/components/symbol-instance');
 require('../../PixelPerfect.sketchplugin/Contents/Sketch/lib/components/symbol-master');

@@ -7,11 +7,11 @@ ArtboardComponent.prototype = Object.create(Component.prototype)
 
 // Action
 
-ArtboardComponent.prototype.apply = function() {
-    GroupComponent.prototype.apply.call(this)
+ArtboardComponent.prototype._apply = function() {
+    this.components().apply()
 }
 
-ArtboardComponent.prototype.sizeToFit = function() {
+ArtboardComponent.prototype._sizeToFit = function() {
     // Do nothing...
 }
 

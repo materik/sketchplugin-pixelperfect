@@ -25,7 +25,7 @@ Component.new = function(layer) {
         case CLASS_TEXT:
             return new TextComponent(layer)
         default:
-            return new Component(layer)
+            return new LayerComponent(layer)
     }
 }
 
@@ -167,7 +167,7 @@ Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
 
 // Action
 
-Component.prototype.apply = function(typeSpecificApply) {
+Component.prototype.apply = function() {
     if (!this.shouldApply()) {
         return;
     }
@@ -175,14 +175,14 @@ Component.prototype.apply = function(typeSpecificApply) {
     this.debug("Component: apply:")
     this.roundToPixel()
 
-    typeSpecificApply && typeSpecificApply()
+    this._apply()
 
     this.properties().apply()
     this.sizeToFit()
 }
 
 Component.prototype.sizeToFit = function() {
-    // Do nothing...
+    this._sizeToFit()
 }
 
 Component.prototype.roundToPixel = function() {
@@ -191,6 +191,8 @@ Component.prototype.roundToPixel = function() {
     this.frame().setWidth(this.frame().width())
     this.frame().setHeight(this.frame().height())
 }
+
+// Logging
 
 Component.prototype.debug = function(msg, addLevel) {
     debug(this, msg + " <" + this.name() + "> <" + this.class() + ">", addLevel)

@@ -7,15 +7,12 @@ TextComponent.prototype = Object.create(Component.prototype)
 
 // Action
 
-TextComponent.prototype.apply = function() {
-    var self = this
-    Component.prototype.apply.call(this, function() {
-        self._layer.setTextBehaviourSegmentIndex(0)
-        self._layer.setTextBehaviourSegmentIndex(1)
-    })
+TextComponent.prototype._apply = function() {
+    this._layer.setTextBehaviourSegmentIndex(0)
+    this._layer.setTextBehaviourSegmentIndex(1)
 }
 
-TextComponent.prototype.sizeToFit = function() {
+TextComponent.prototype._sizeToFit = function() {
     if (this.properties().contains(PROPERTY_HEIGHT_STATIC)) {
         this._layer.setVerticalAlignment(1)
     } else {

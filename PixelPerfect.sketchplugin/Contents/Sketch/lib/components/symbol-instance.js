@@ -7,20 +7,13 @@ SymbolInstanceComponent.prototype = Object.create(Component.prototype)
 
 // Action
 
-SymbolInstanceComponent.prototype.apply = function() {
-    var self = this
-    Component.prototype.apply.call(this, function() {
-        self.master().apply()
-        self.sizeToMaster()
-    })
-}
-
-SymbolInstanceComponent.prototype.sizeToFit = function() {
-    // Do nothing...
-}
-
-SymbolInstanceComponent.prototype.sizeToMaster = function() {
+SymbolInstanceComponent.prototype._apply = function() {
+    this.master().apply()
     this._layer.resetSizeToMaster()
+}
+
+SymbolInstanceComponent.prototype._sizeToFit = function() {
+    // Do nothing...
 }
 
 // -----------------------------------------------------------

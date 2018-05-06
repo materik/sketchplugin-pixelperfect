@@ -14,6 +14,7 @@ var global = {};
 
 @import "./lib/components/artboard.js";
 @import "./lib/components/group.js";
+@import "./lib/components/layer.js";
 @import "./lib/components/shape.js";
 @import "./lib/components/symbol-instance.js";
 @import "./lib/components/symbol-master.js";

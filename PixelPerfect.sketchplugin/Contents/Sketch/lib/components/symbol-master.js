@@ -25,11 +25,11 @@ SymbolMasterComponent.prototype.shouldApply = function() {
 
 // Action
 
-SymbolMasterComponent.prototype.apply = function() {
-    GroupComponent.prototype.apply.call(this)
+SymbolMasterComponent.prototype._apply = function() {
+    this.components().apply()
 }
 
-SymbolMasterComponent.prototype.sizeToFit = function() {
+SymbolMasterComponent.prototype._sizeToFit = function() {
     // Do nothing...
 }
 
