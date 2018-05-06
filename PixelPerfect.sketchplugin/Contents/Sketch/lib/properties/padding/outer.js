@@ -2,7 +2,7 @@
 function PaddingOuterProperty(component, key, value) {
     Property.call(this, component, key, value);
 
-    this._container = null
+    this._container = null;
 }
 
 PaddingOuterProperty.prototype = Object.create(Property.prototype);
@@ -23,7 +23,7 @@ PaddingOuterProperty.new = function(component, raw, value) {
 
 PaddingOuterProperty.prototype.container = function() {
     if (this._container == null) {
-        return this.component().parent() && 
+        return this.component().parent() &&
             this.component().parent().components().find(PROPERTIES_RE_PADDING_CONTAINER);
     }
     return this._container;
@@ -33,12 +33,11 @@ PaddingOuterProperty.prototype.isValid = function() {
     if (!PaddingOuterProperty.validKeys().contains(this.key())) {
         return false;
     }
-    return this.value() && this.value().isValid() && this.hasContainer()
-        
+    return this.value() && this.value().isValid() && this.hasContainer();
 };
 
 PaddingOuterProperty.prototype.hasContainer = function() {
-    return this.component().hasParent() && 
+    return this.component().hasParent() &&
         this.component().parent().components().contains(PROPERTIES_RE_PADDING_CONTAINER);
 };
 

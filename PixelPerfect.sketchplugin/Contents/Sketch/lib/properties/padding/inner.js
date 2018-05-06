@@ -2,9 +2,9 @@
 function PaddingInnerProperty(component, key, value) {
     Property.call(this, component, key, value);
 
-    this._container = null
-    this._minLeft = null
-    this._minTop = null
+    this._container = null;
+    this._minLeft = null;
+    this._minTop = null;
 }
 
 PaddingInnerProperty.prototype = Object.create(Property.prototype);
@@ -30,28 +30,28 @@ PaddingInnerProperty.new = function(component, raw, value) {
 PaddingInnerProperty.prototype.container = function() {
     if (this._container == null) {
         if (this.component().isArtboard() || this.component().isSymbolMaster()) {
-            this._container = this.component()
+            this._container = this.component();
         } else {
-            var container = this.component().components().find(PROPERTIES_RE_PADDING_CONTAINER)
+            var container = this.component().components().find(PROPERTIES_RE_PADDING_CONTAINER);
             this._container = container || this.component();
-        }   
+        }
     }
-    return this._container
-}
+    return this._container;
+};
 
 PaddingInnerProperty.prototype.minLeft = function() {
     if (this._minLeft == null) {
         this._minLeft = this.component().components().minLeft(this.container().objectID());
     }
-    return this._minLeft
-}
+    return this._minLeft;
+};
 
 PaddingInnerProperty.prototype.minTop = function() {
     if (this._minTop == null) {
         this._minTop = this.component().components().minTop(this.container().objectID());
     }
-    return this._minTop
-}
+    return this._minTop;
+};
 
 PaddingInnerProperty.prototype.isValid = function() {
     if (!PaddingInnerProperty.validKeys().contains(this.key())) {
@@ -85,16 +85,20 @@ PaddingInnerProperty.prototype._apply = function() {
             continue;
         }
 
-        this._applyComponent(component)
+        this._applyComponent(component);
     }
 
     if (!this.component().properties().contains(PROPERTY_WIDTH_STATIC)) {
-        var maxRight = components.maxRight(this.container().objectID(), this.container().isArtboard());
+        var maxRight = components.maxRight(
+            this.container().objectID(), this.container().isArtboard()
+        );
         this.container().frame().setWidth(maxRight + padding.right());
     }
 
     if (!this.component().properties().contains(PROPERTY_HEIGHT_STATIC)) {
-        var maxBottom = components.maxBottom(this.container().objectID(), this.container().isArtboard());
+        var maxBottom = components.maxBottom(
+            this.container().objectID(), this.container().isArtboard()
+        );
         this.container().frame().setHeight(maxBottom + padding.bottom());
     }
 
@@ -102,7 +106,7 @@ PaddingInnerProperty.prototype._apply = function() {
 };
 
 PaddingInnerProperty.prototype._applyComponent = function(component) {
-    var frame = component.frame()
+    var frame = component.frame();
 
     component.debugFrame();
 
@@ -121,7 +125,7 @@ PaddingInnerProperty.prototype._applyComponent = function(component) {
     }
 
     component.debug('# PaddingInnerProperty: apply:');
-}
+};
 
 // -----------------------------------------------------------
 

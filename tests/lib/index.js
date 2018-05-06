@@ -1,7 +1,7 @@
 
 global.assert = require('assert');
 
-var PATH_ROOT = "../.."
+var PATH_ROOT = '../..';
 var PATH_SKETCHPLUGIN = PATH_ROOT + '/PixelPerfect.sketchplugin/Contents/Sketch';
 var PATH_LIB = PATH_SKETCHPLUGIN + '/lib';
 var PATH_COMPONENTS = PATH_LIB + '/components';

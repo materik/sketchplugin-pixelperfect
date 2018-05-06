@@ -2,8 +2,8 @@
 function PaddingProperty(component, key, value) {
     Property.call(this, component, key, value);
 
-    this._inner = new PaddingInnerProperty(component, key, value)
-    this._outer = new PaddingOuterProperty(component, key, value)
+    this._inner = new PaddingInnerProperty(component, key, value);
+    this._outer = new PaddingOuterProperty(component, key, value);
 }
 
 PaddingProperty.prototype = Object.create(Property.prototype);
@@ -34,11 +34,11 @@ PaddingProperty.prototype.isValid = function() {
 };
 
 PaddingProperty.prototype.isOuter = function() {
-    return this._outer.isValid()
+    return this._outer.isValid();
 };
 
 PaddingProperty.prototype.isInner = function() {
-    return this._inner.isValid()
+    return this._inner.isValid();
 };
 
 // Action
