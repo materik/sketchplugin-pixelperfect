@@ -27,5 +27,5 @@
         "test": "nyc --reporter=html --reporter=text mocha test",
         "update-metadata": "./scripts/update-metadata.js"
     },
-    "version": "1.0.4"
+    "version": "1.1.0"
 }
