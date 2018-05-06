@@ -36,16 +36,12 @@ PaddingProperty.prototype.isOuter = function() {
 
 // Action
 
-PaddingProperty.prototype.apply = function() {
-    this.component().debugFrame();
-
+PaddingProperty.prototype._apply = function() {
     if (this.isOuter()) {
         this.applyOuter();
     } else if (this.isInner()) {
         this.applyInner();
     }
-
-    this.component().debug('~ PaddingProperty: apply: ' + this.toString());
 };
 
 PaddingProperty.prototype.applyOuter = function() {

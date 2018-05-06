@@ -55,7 +55,9 @@ Property.prototype.isValid = function() {
 // Action
 
 Property.prototype.apply = function() {
-    // Do nothing...
+    this.component().debugFrame();
+    this._apply()
+    this.component().debug('~ Property: apply: ' + this.toString());
 };
 
 // Private

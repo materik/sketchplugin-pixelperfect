@@ -37,9 +37,7 @@ SizeProperty.prototype.isValid = function() {
 
 // Action
 
-SizeProperty.prototype.apply = function() {
-    this.component().debugFrame();
-
+SizeProperty.prototype._apply = function() {
     var frame = this.component().frame();
     switch (this.key()) {
         case PROPERTY_WIDTH_STATIC:
@@ -76,8 +74,6 @@ SizeProperty.prototype.apply = function() {
         default:
             return;
     }
-
-    this.component().debug('~ SizeProperty: apply: ' + this.toString());
 };
 
 // -----------------------------------------------------------

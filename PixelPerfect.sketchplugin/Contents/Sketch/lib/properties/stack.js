@@ -33,9 +33,7 @@ StackProperty.prototype.isValid = function() {
 
 // Action
 
-StackProperty.prototype.apply = function() {
-    this.component().debugFrame();
-
+StackProperty.prototype._apply = function() {
     var frame = this.component().frame();
     switch (this.key()) {
         case PROPERTY_STACK_HORIZONTALLY_TOP:
@@ -60,8 +58,6 @@ StackProperty.prototype.apply = function() {
         default:
             return;
     }
-
-    this.component().debug('~ StackProperty: apply: ' + this.toString());
 };
 
 Property.prototype.applyStackHorizontally = function(alignment) {

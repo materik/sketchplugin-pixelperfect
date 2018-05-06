@@ -29,9 +29,7 @@ MarginProperty.prototype.isValid = function() {
 
 // Action
 
-MarginProperty.prototype.apply = function() {
-    this.component().debugFrame();
-
+MarginProperty.prototype._apply = function() {
     var frame = this.component().frame();
     switch (this.key()) {
         case PROPERTY_MARGIN:
@@ -58,8 +56,6 @@ MarginProperty.prototype.apply = function() {
         default:
             return;
     }
-
-    this.component().debug('~ MarginProperty: apply: ' + this.toString());
 };
 
 // -----------------------------------------------------------

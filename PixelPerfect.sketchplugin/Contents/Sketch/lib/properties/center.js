@@ -26,9 +26,7 @@ CenterProperty.prototype.isValid = function() {
 
 // Action
 
-CenterProperty.prototype.apply = function() {
-    this.component().debugFrame();
-
+CenterProperty.prototype._apply = function() {
     var frame = this.component().frame();
     switch (this.key()) {
         case PROPERTY_CENTER_HORIZONTALLY:
@@ -45,8 +43,6 @@ CenterProperty.prototype.apply = function() {
         default:
             return;
     }
-
-    this.component().debug('~ CenterProperty: apply: ' + this.toString());
 };
 
 // -----------------------------------------------------------
