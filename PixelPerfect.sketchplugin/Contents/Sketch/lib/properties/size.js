@@ -38,7 +38,7 @@ SizeProperty.prototype.isValid = function() {
 // Action
 
 SizeProperty.prototype.apply = function() {   
-    var frameBefore = this.component().frame().toString()
+    this.component().debugFrame()
 
     var frame = this.component().frame()
     switch (this.key()) {
@@ -77,9 +77,7 @@ SizeProperty.prototype.apply = function() {
             return;
     }
 
-    var frameAfter = this.component().frame().toString()
-
-    this.component().debug("~ SizeProperty: apply: " + this.toString() + " <" + frameBefore + "> -> <" + frameAfter + ">", 2)
+    this.component().debug("~ SizeProperty: apply: " + this.toString())
 }
 
 // -----------------------------------------------------------

@@ -34,7 +34,7 @@ StackProperty.prototype.isValid = function() {
 // Action
 
 StackProperty.prototype.apply = function() {
-    var frameBefore = this.component().frame().toString()
+    this.component().debugFrame()
 
     var frame = this.component().frame()
     switch (this.key()) {
@@ -61,9 +61,7 @@ StackProperty.prototype.apply = function() {
             return;
     }
 
-    var frameAfter = this.component().frame().toString()
-
-    this.component().debug("~ StackProperty: apply: " + this.toString() + " <" + frameBefore + "> -> <" + frameAfter + ">", 2)
+    this.component().debug("~ StackProperty: apply: " + this.toString())
 }
 
 Property.prototype.applyStackHorizontally = function(alignment) {

@@ -194,8 +194,17 @@ Component.prototype.roundToPixel = function() {
 
 // Logging
 
-Component.prototype.debug = function(msg, addLevel) {
-    debug(this, msg + " <" + this.name() + "> <" + this.class() + ">", addLevel)
+Component.prototype.debugFrame = function() {
+    this._debugFrame = this.frame().toString()
+}
+
+Component.prototype.debug = function(msg) {
+    var frame = this._debugFrame ? "<" + this._debugFrame + "> -> <" + this.frame().toString() + ">" : ""
+    var name = "<" + this.name() + "> <" + this.class() + ">"
+
+    debug(this, [msg, frame, name].join(" "))
+
+    this._debugFrame = undefined
 }
 
 // -----------------------------------------------------------

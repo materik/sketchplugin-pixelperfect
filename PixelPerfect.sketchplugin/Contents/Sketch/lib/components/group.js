@@ -13,10 +13,9 @@ GroupComponent.prototype._apply = function() {
 }
 
 GroupComponent.prototype._sizeToFit = function() {
-    var frameBefore = this.frame().toString()
+    this.debugFrame()
     this._layer.resizeToFitChildrenWithOption(1);
-    var frameAfter = this.frame().toString()
-    this.debug("$ GroupComponent: sizeToFit: <" + frameBefore + "> -> <" + frameAfter + ">", 1)
+    this.debug("$ GroupComponent: sizeToFit:")
 }
 
 // -----------------------------------------------------------

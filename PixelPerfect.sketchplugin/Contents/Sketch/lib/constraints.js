@@ -113,7 +113,7 @@ Constraints.prototype.apply = function(properties) {
     this.setHasFixedWidth(!(this.hasFixedRight() && this.hasFixedLeft()));
     this.setHasFixedHeight(!(this.hasFixedTop() && this.hasFixedBottom()));
 
-    this.component().debug("^ Constraints: apply: " + this.toString(), 1)
+    this.component().debug("^ Constraints: apply: " + this.toString())
 }
 
 Constraints.prototype.reset = function() {
@@ -134,7 +134,7 @@ Constraints.prototype.lock = function() {
     this.setHasFixedTop(true)
     this.setHasFixedLeft(true)
 
-    this.component().debug("^ Constraints: lock: " + this.toString(), 1)
+    this.component().debug("^ Constraints: lock: " + this.toString())
 }
 
 Constraints.prototype.unlock = function() {
@@ -157,7 +157,7 @@ Constraints.prototype.unlock = function() {
     this._lockedHasFixedBottom = undefined
     this._lockedHasFixedLeft = undefined
     
-    this.component().debug("^ Constraints: unlock: " + this.toString(), 1)
+    this.component().debug("^ Constraints: unlock: " + this.toString())
 }
 
 // -----------------------------------------------------------

@@ -8,10 +8,6 @@ var selection = function(context) {
     }
 }
 
-var debug = function(component, msg, addLevel) {
-    print(_repeatString("  ", _debugLevel(component) - 1 + (addLevel || 0)) + msg)
-}
-
 // -----------------------------------------------------------
 
 Array.prototype.first = function() {
@@ -72,6 +68,10 @@ String.prototype.regexp = function() {
 }
 
 // -----------------------------------------------------------
+
+var debug = function(component, msg, addLevel) {
+    print(_repeatString("  ", _debugLevel(component) - 1 + (addLevel || 0)) + msg)
+}
 
 var _debugLevel = function(component) {
     var parent = component.parent()

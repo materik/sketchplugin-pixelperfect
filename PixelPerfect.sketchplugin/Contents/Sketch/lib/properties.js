@@ -58,7 +58,7 @@ Properties.prototype.apply = function() {
     this.component().constraints().apply(this)
 
     if (this.count() > 0) {
-        this.component().debug("~ Properties: apply:", 1)
+        this.component().debug("~ Properties: apply:")
         for (var i = 0; i < this.count(); i++) {
             var property = this.objectAtIndex(i)
             property.apply()

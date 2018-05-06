@@ -37,19 +37,15 @@ PaddingProperty.prototype.isOuter = function() {
 // Action
 
 PaddingProperty.prototype.apply = function() {
-    var frameBefore = this.component().frame().toString()
+    this.component().debugFrame()
 
     if (this.isOuter()) {
         this.applyOuter()
     } else if (this.isInner()) {
         this.applyInner()
-    } else {
-        this.component().debug("~ PaddingProperty: ERROR: invalid property: <" + this.key() + ">", 2)
     }
 
-    var frameAfter = this.component().frame().toString()
-
-    this.component().debug("~ PaddingProperty: apply: " + this.toString() + " <" + frameBefore + "> -> <" + frameAfter + ">", 2)
+    this.component().debug("~ PaddingProperty: apply: " + this.toString())
 }
 
 PaddingProperty.prototype.applyOuter = function() {
@@ -57,7 +53,7 @@ PaddingProperty.prototype.applyOuter = function() {
     var background = this.component().parent() && this.component().parent().components().find("bg")
 
     if (background) {
-        this.component().debug("# PaddingProperty: apply outer padding:", 2)
+        this.component().debug("# PaddingProperty: apply outer padding:")
 
         background.frame().setX(this.component().frame().x() - padding.left())
         background.frame().setY(this.component().frame().y() - padding.top())
@@ -72,7 +68,7 @@ PaddingProperty.prototype.applyInner = function() {
     var background = components.find("bg") || this.component()
 
     if (background) {
-        this.component().debug("# PaddingProperty: apply inner padding:", 2)
+        this.component().debug("# PaddingProperty: apply inner padding:")
 
         var minLeft = components.minLeft(background.objectID())
         var minTop = components.minTop(background.objectID())
@@ -87,7 +83,7 @@ PaddingProperty.prototype.applyInner = function() {
                 continue;
             }
 
-            var beforeFrame = component.frame().toString()
+            component.debugFrame()
 
             if (component.properties().contains(PROPERTY_MARGIN_RIGHT) && !component.properties().contains(PROPERTY_MARGIN_LEFT)) {
                 component.frame().setX(component.frame().x() - padding.right())
@@ -101,9 +97,7 @@ PaddingProperty.prototype.applyInner = function() {
                 component.frame().setY(component.frame().y() - minTop + padding.top())
             }
 
-            var afterFrame = component.frame().toString()
-
-            component.debug("# PaddingProperty: apply: <" + beforeFrame + "> -> <" + afterFrame + ">", 2)
+            component.debug("# PaddingProperty: apply:")
         }
 
         if (!this.component().properties().contains(PROPERTY_WIDTH_STATIC)) {

@@ -59,10 +59,10 @@ SymbolMasterStore.prototype.contains = function(component) {
 
 SymbolMasterStore.prototype.shouldApply = function(component) {
     if (component.page() == null) {
-        component.debug("/ master is not local: " + component.name(), 1)
+        component.debug("/ SymbolMasterStore: master is not local")
         return false
     } else if (this.contains(component)) {
-        component.debug("/ master already applied: " + component.name(), 1)
+        component.debug("/ SymbolMasterStore: master already applied")
         return false
     } else {
         this.add(component)
