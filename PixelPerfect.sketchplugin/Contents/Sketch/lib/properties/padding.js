@@ -51,10 +51,11 @@ PaddingProperty.prototype.applyOuter = function() {
     if (background) {
         this.component().debug('# PaddingProperty: apply outer padding:');
 
-        background.frame().setX(this.component().frame().x() - padding.left());
-        background.frame().setY(this.component().frame().y() - padding.top());
-        background.frame().setWidth(this.component().frame().width() + padding.left() + padding.right());
-        background.frame().setHeight(this.component().frame().height() + padding.top() + padding.bottom());
+        var frame = this.component().frame();
+        background.frame().setX(frame.x() - padding.left());
+        background.frame().setY(frame.y() - padding.top());
+        background.frame().setWidth(frame.width() + padding.left() + padding.right());
+        background.frame().setHeight(frame.height() + padding.top() + padding.bottom());
     }
 };
 
@@ -81,13 +82,15 @@ PaddingProperty.prototype.applyInner = function() {
 
             component.debugFrame();
 
-            if (component.properties().contains(PROPERTY_MARGIN_RIGHT) && !component.properties().contains(PROPERTY_MARGIN_LEFT)) {
+            if (component.properties().contains(PROPERTY_MARGIN_RIGHT) &&
+                !component.properties().contains(PROPERTY_MARGIN_LEFT)) {
                 component.frame().setX(component.frame().x() - padding.right());
             } else {
                 component.frame().setX(component.frame().x() - minLeft + padding.left());
             }
 
-            if (component.properties().contains(PROPERTY_MARGIN_BOTTOM) && !component.properties().contains(PROPERTY_MARGIN_TOP)) {
+            if (component.properties().contains(PROPERTY_MARGIN_BOTTOM) &&
+                !component.properties().contains(PROPERTY_MARGIN_TOP)) {
                 component.frame().setY(component.frame().y() - padding.bottom());
             } else {
                 component.frame().setY(component.frame().y() - minTop + padding.top());
@@ -97,11 +100,13 @@ PaddingProperty.prototype.applyInner = function() {
         }
 
         if (!this.component().properties().contains(PROPERTY_WIDTH_STATIC)) {
-            background.frame().setWidth(components.maxRight(background.objectID(), background.isArtboard()) + padding.right());
+            var maxRight = components.maxRight(background.objectID(), background.isArtboard());
+            background.frame().setWidth(maxRight + padding.right());
         }
 
         if (!this.component().properties().contains(PROPERTY_HEIGHT_STATIC)) {
-            background.frame().setHeight(components.maxBottom(background.objectID(), background.isArtboard()) + padding.bottom());
+            var maxBottom = components.maxBottom(background.objectID(), background.isArtboard());
+            background.frame().setHeight(maxBottom + padding.bottom());
         }
 
         components.unlockConstraints();

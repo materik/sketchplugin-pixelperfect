@@ -251,8 +251,7 @@ describe('component', function() {
             group.insertLayer_afterLayerOrAtEnd(instance3);
             group.insertLayer_afterLayerOrAtEnd(instance4);
             Component.apply(group);
-            // 4 (initial) + 1 (size width)
-            assert.equal(layer.frame()._nbrOfChanges, 5);
+            assert.equal(layer.frame()._nbrOfChanges, 5); // 4 (initial) + 1 (size width)
         });
 
         it('textLayer', function() {

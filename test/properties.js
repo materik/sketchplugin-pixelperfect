@@ -105,13 +105,17 @@ describe('properties', function() {
     });
 
     it('_raw', function() {
-        var properties = Properties.new(Component.new(createLayer('Component [1]')));
+        var component = Component.new(createLayer('Component [1]'));
+        var properties = Properties.new(component);
         assert.deepEqual(properties._raw(), ['1']);
-        var properties = Properties.new(Component.new(createLayer('Component [w100:h100]')));
+        var component = Component.new(createLayer('Component [w100:h100]'));
+        var properties = Properties.new(component);
         assert.deepEqual(properties._raw(), ['w100', 'h100']);
-        var properties = Properties.new(Component.new(createLayer('bg:w100:h100:xt100')));
+        var component = Component.new(createLayer('bg:w100:h100:xt100'));
+        var properties = Properties.new(component);
         assert.deepEqual(properties._raw(), ['bg', 'w100', 'h100', 'xt100']);
-        var properties = Properties.new(Component.new(createLayer('Component [w100:h100] [xt100]')));
+        var component = Component.new(createLayer('Component [w100:h100] [xt100]'));
+        var properties = Properties.new(component);
         assert.deepEqual(properties._raw(), ['w100', 'h100', 'xt100']);
     });
 });

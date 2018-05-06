@@ -13,6 +13,7 @@
         "function",
     ],
     "excludeFiles": [
+        "./PixelPerfect.sketchplugin/Contents/Sketch/index.js",
         "coverage",
         "node_modules",
     ],

@@ -36,6 +36,12 @@ manifest.save();
 // Update README.md
 
 var readme = fs.readFileSync(README_FILE).toString();
-readme = readme.replace(/<!-- Description -->.*<!-- EOL -->/, '<!-- Description --> ' + description + ' <!-- EOL -->');
-readme = readme.replace(/version\-[\d\.]+\-blue/, 'version-' + version + '-blue');
+readme = readme.replace(
+    /<!-- Description -->.*<!-- EOL -->/,
+    '<!-- Description --> ' + description + ' <!-- EOL -->'
+);
+readme = readme.replace(
+    /version\-[\d\.]+\-blue/,
+    'version-' + version + '-blue'
+);
 fs.writeFileSync(README_FILE, readme);

@@ -21,8 +21,9 @@
     "plusplus": false,
     "predef": [
         "@import",
+        "assert",
         "describe",
-        "it",
+        "it"
     ],
     "quotmark": "single",
     "strict": false,

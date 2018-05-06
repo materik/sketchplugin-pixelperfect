@@ -147,7 +147,8 @@ Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
     } else if (this.parent().isArtboard()) {
         return this.parent().frame().width();
     } else if (forceIteration || this.parent().properties().contains(PROPERTY_WIDTH_PERCENTAGE)) {
-        return this.parent().widthOfParent(forceIteration, ignoreSelf) || this.parent().frame().width();
+        return this.parent().widthOfParent(forceIteration, ignoreSelf) ||
+            this.parent().frame().width();
     } else {
         return this.parent().components().maxWidth(ignoreSelf ? this.objectID() : undefined);
     }
@@ -159,7 +160,8 @@ Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
     } else if (this.parent().isArtboard()) {
         return this.parent().frame().height();
     } else if (forceIteration || this.parent().properties().contains(PROPERTY_HEIGHT_PERCENTAGE)) {
-        return this.parent().heightOfParent(forceIteration, ignoreSelf) || this.parent().frame().height();
+        return this.parent().heightOfParent(forceIteration, ignoreSelf) ||
+            this.parent().frame().height();
     } else {
         return this.parent().components().maxHeight(ignoreSelf ? this.objectID() : undefined);
     }
@@ -199,10 +201,10 @@ Component.prototype.debugFrame = function() {
 };
 
 Component.prototype.debug = function(msg) {
-    var frame = this._debugFrame ? '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>' : '';
+    var frame = '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>';
     var name = '<' + this.name() + '> <' + this.class() + '>';
 
-    debug(this, [msg, frame, name].join(' '));
+    debug(this, [msg, this._debugFrame ? frame : '', name].join(' '));
 
     this._debugFrame = undefined;
 };

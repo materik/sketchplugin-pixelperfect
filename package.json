@@ -20,7 +20,8 @@
     "scripts": {
         "bump-version": "./scripts/bump-version.js",
         "coverage": "nyc report --reporter=text-lcov | coveralls",
-        "lint": "jscs . -x && jshint .",
+        "lint": "jscs . -x",
+        "hint": "jshint .",
         "release": "./scripts/release.js",
         "set-version": "./scripts/set-version.js",
         "test": "nyc --reporter=html --reporter=text mocha test",
