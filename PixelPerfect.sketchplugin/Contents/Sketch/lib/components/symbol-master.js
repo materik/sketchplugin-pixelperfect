@@ -21,7 +21,7 @@ SymbolMasterComponent.prototype.objectID = function() {
 
 SymbolMasterComponent.prototype.shouldApply = function() {
     return Component.prototype.shouldApply.call(this) &&
-        SymbolMasterStore.sharedInstance.shouldApply(this);
+        SymbolStore.sharedInstance.shouldApply(this);
 };
 
 // Action

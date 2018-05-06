@@ -12,7 +12,7 @@ var global = {};
 @import "./lib/padding.js";
 @import "./lib/properties.js";
 @import "./lib/property.js";
-@import "./lib/symbol-master-store.js";
+@import "./lib/symbol-store.js";
 @import "./lib/utils.js";
 
 @import "./lib/components/artboard.js";
@@ -26,5 +26,7 @@ var global = {};
 @import "./lib/properties/center.js";
 @import "./lib/properties/margin.js";
 @import "./lib/properties/padding.js";
+@import "./lib/properties/padding/inner.js";
+@import "./lib/properties/padding/outer.js";
 @import "./lib/properties/size.js";
 @import "./lib/properties/stack.js";
