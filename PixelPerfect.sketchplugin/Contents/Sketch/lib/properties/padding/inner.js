@@ -3,6 +3,8 @@ function PaddingInnerProperty(component, key, value) {
     Property.call(this, component, key, value);
 
     this._container = null
+    this._minLeft = null
+    this._minTop = null
 }
 
 PaddingInnerProperty.prototype = Object.create(Property.prototype);
@@ -25,17 +27,6 @@ PaddingInnerProperty.new = function(component, raw, value) {
 
 // Getter
 
-PaddingInnerProperty.prototype.isValid = function() {
-    if (!PaddingInnerProperty.validKeys().contains(this.key())) {
-        return false;
-    }
-    return this.value() && this.value().isValid() && this.hasContainer();
-};
-
-PaddingInnerProperty.prototype.hasContainer = function() {
-    return this.component().hasComponents();
-};
-
 PaddingInnerProperty.prototype.container = function() {
     if (this._container == null) {
         if (this.component().isArtboard() || this.component().isSymbolMaster()) {
@@ -47,6 +38,31 @@ PaddingInnerProperty.prototype.container = function() {
     }
     return this._container
 }
+
+PaddingInnerProperty.prototype.minLeft = function() {
+    if (this._minLeft == null) {
+        this._minLeft = this.component().components().minLeft(this.container().objectID());
+    }
+    return this._minLeft
+}
+
+PaddingInnerProperty.prototype.minTop = function() {
+    if (this._minTop == null) {
+        this._minTop = this.component().components().minTop(this.container().objectID());
+    }
+    return this._minTop
+}
+
+PaddingInnerProperty.prototype.isValid = function() {
+    if (!PaddingInnerProperty.validKeys().contains(this.key())) {
+        return false;
+    }
+    return this.value() && this.value().isValid() && this.hasContainer();
+};
+
+PaddingInnerProperty.prototype.hasContainer = function() {
+    return this.component().hasComponents();
+};
 
 // Action
 
@@ -69,23 +85,7 @@ PaddingInnerProperty.prototype._apply = function() {
             continue;
         }
 
-        component.debugFrame();
-
-        if (component.properties().contains(PROPERTY_MARGIN_RIGHT) &&
-            !component.properties().contains(PROPERTY_MARGIN_LEFT)) {
-            component.frame().setX(component.frame().x() - padding.right());
-        } else {
-            component.frame().setX(component.frame().x() - minLeft + padding.left());
-        }
-
-        if (component.properties().contains(PROPERTY_MARGIN_BOTTOM) &&
-            !component.properties().contains(PROPERTY_MARGIN_TOP)) {
-            component.frame().setY(component.frame().y() - padding.bottom());
-        } else {
-            component.frame().setY(component.frame().y() - minTop + padding.top());
-        }
-
-        component.debug('# PaddingInnerProperty: apply:');
+        this._applyComponent(component)
     }
 
     if (!this.component().properties().contains(PROPERTY_WIDTH_STATIC)) {
@@ -100,6 +100,28 @@ PaddingInnerProperty.prototype._apply = function() {
 
     components.unlockConstraints();
 };
+
+PaddingInnerProperty.prototype._applyComponent = function(component) {
+    var frame = component.frame()
+
+    component.debugFrame();
+
+    if (component.properties().contains(PROPERTY_MARGIN_RIGHT) &&
+        !component.properties().contains(PROPERTY_MARGIN_LEFT)) {
+        frame.setX(frame.x() - this.value().right());
+    } else {
+        frame.setX(frame.x() - this.minLeft() + this.value().left());
+    }
+
+    if (component.properties().contains(PROPERTY_MARGIN_BOTTOM) &&
+        !component.properties().contains(PROPERTY_MARGIN_TOP)) {
+        frame.setY(frame.y() - this.value().bottom());
+    } else {
+        frame.setY(frame.y() - this.minTop() + this.value().top());
+    }
+
+    component.debug('# PaddingInnerProperty: apply:');
+}
 
 // -----------------------------------------------------------
 

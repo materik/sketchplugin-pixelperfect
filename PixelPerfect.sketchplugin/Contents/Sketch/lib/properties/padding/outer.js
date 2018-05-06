@@ -21,6 +21,14 @@ PaddingOuterProperty.new = function(component, raw, value) {
 
 // Getter
 
+PaddingOuterProperty.prototype.container = function() {
+    if (this._container == null) {
+        return this.component().parent() && 
+            this.component().parent().components().find(PROPERTIES_RE_PADDING_CONTAINER);
+    }
+    return this._container;
+};
+
 PaddingOuterProperty.prototype.isValid = function() {
     if (!PaddingOuterProperty.validKeys().contains(this.key())) {
         return false;
@@ -32,14 +40,6 @@ PaddingOuterProperty.prototype.isValid = function() {
 PaddingOuterProperty.prototype.hasContainer = function() {
     return this.component().hasParent() && 
         this.component().parent().components().contains(PROPERTIES_RE_PADDING_CONTAINER);
-};
-
-PaddingOuterProperty.prototype.container = function() {
-    if (this._container == null) {
-        return this.component().parent() && 
-            this.component().parent().components().find(PROPERTIES_RE_PADDING_CONTAINER);
-    }
-    return this._container;
 };
 
 // Action
