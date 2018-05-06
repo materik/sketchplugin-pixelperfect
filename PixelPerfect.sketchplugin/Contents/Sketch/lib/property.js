@@ -8,7 +8,7 @@ function Property(component, key, value) {
 // Static
 
 Property.new = function(component, raw, value) {
-    key = Property._extractKey(raw || component.name());
+    var key = Property._extractKey(raw || component.name());
     value = value || Property._extractValue(raw || component.name());
 
     var property = (function() {
