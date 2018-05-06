@@ -9,11 +9,11 @@ MarginProperty.prototype = Object.create(Property.prototype)
 
 MarginProperty.validKeys = function() {
     return [
-        "margin",
-        "margin-top",
-        "margin-right",
-        "margin-bottom",
-        "margin-left",
+        PROPERTY_MARGIN,
+        PROPERTY_MARGIN_TOP,
+        PROPERTY_MARGIN_RIGHT,
+        PROPERTY_MARGIN_BOTTOM,
+        PROPERTY_MARGIN_LEFT,
     ]
 }
 
@@ -34,30 +34,29 @@ MarginProperty.prototype.apply = function() {
 
     var frame = this.component().frame()
     switch (this.key()) {
-        case "margin":
+        case PROPERTY_MARGIN:
             frame.setX(0)
             frame.setY(0)
             break;
-        case "margin-top":
+        case PROPERTY_MARGIN_TOP:
             frame.setY(this.value() || 0)
             break;
-        case "margin-right":
+        case PROPERTY_MARGIN_RIGHT:
             var left = this.component().minLeftInParent(true)
             var widthOfParent = this.component().widthOfParent(false, true)
             frame.setX(left + widthOfParent - frame.width() - (this.value() || 0))
             break;
-        case "margin-bottom":
+        case PROPERTY_MARGIN_BOTTOM:
             var top = this.component().minTopInParent(true)
             var heightOfParent = this.component().heightOfParent(false, true)
             frame.setY(top + heightOfParent - frame.height() - (this.value() || 0))
             break;
-        case "margin-left":
+        case PROPERTY_MARGIN_LEFT:
             frame.setX(this.value() || 0)
             break;
         /* istanbul ignore next */
         default:
-            this.component().debug("~ MarginProperty: ERROR: invalid property: <" + this.key() + ">", 2)
-            break;
+            return;
     }
 
     var frameAfter = this.component().frame().toString()

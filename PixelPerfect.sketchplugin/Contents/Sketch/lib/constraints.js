@@ -87,28 +87,28 @@ Constraints.prototype.apply = function(properties) {
 
     this.reset()
     this.setHasFixedTop(
-        properties.contains('margin-top') ||
-        properties.contains('padding') ||
-        properties.contains('margin') ||
-        properties.contains('height-percentage')
+        properties.contains(PROPERTY_MARGIN_TOP) ||
+        properties.contains(PROPERTY_PADDING) ||
+        properties.contains(PROPERTY_MARGIN) ||
+        properties.contains(PROPERTY_HEIGHT_PERCENTAGE)
     );
     this.setHasFixedRight(
-        properties.contains('margin-right') ||
-        properties.contains('padding') ||
-        properties.contains('margin') ||
-        properties.contains('width-percentage')
+        properties.contains(PROPERTY_MARGIN_RIGHT) ||
+        properties.contains(PROPERTY_PADDING) ||
+        properties.contains(PROPERTY_MARGIN) ||
+        properties.contains(PROPERTY_WIDTH_PERCENTAGE)
     );
     this.setHasFixedBottom(
-        properties.contains('margin-bottom') ||
-        properties.contains('padding') ||
-        properties.contains('margin') ||
-        properties.contains('height-percentage')
+        properties.contains(PROPERTY_MARGIN_BOTTOM) ||
+        properties.contains(PROPERTY_PADDING) ||
+        properties.contains(PROPERTY_MARGIN) ||
+        properties.contains(PROPERTY_HEIGHT_PERCENTAGE)
     );
     this.setHasFixedLeft(
-        properties.contains('margin-left') ||
-        properties.contains('padding') ||
-        properties.contains('margin') ||
-        properties.contains('width-percentage')
+        properties.contains(PROPERTY_MARGIN_LEFT) ||
+        properties.contains(PROPERTY_PADDING) ||
+        properties.contains(PROPERTY_MARGIN) ||
+        properties.contains(PROPERTY_WIDTH_PERCENTAGE)
     );
     this.setHasFixedWidth(!(this.hasFixedRight() && this.hasFixedLeft()));
     this.setHasFixedHeight(!(this.hasFixedTop() && this.hasFixedBottom()));

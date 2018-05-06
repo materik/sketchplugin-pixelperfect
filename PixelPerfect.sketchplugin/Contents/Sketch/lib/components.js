@@ -75,10 +75,10 @@ Components.prototype.maxRight = function(ignoreID, ignoreMarginRight) {
         if (component.objectID() == ignoreID) {
             continue;
         }
-        if (component.properties().contains("width-percentage")) {
+        if (component.properties().contains(PROPERTY_WIDTH_PERCENTAGE)) {
             continue;
         }
-        if (ignoreMarginRight && component.properties().contains("margin-right")) {
+        if (ignoreMarginRight && component.properties().contains(PROPERTY_MARGIN_RIGHT)) {
             continue;
         }
         right = Math.max(right, component.frame().right())
@@ -93,10 +93,10 @@ Components.prototype.maxBottom = function(ignoreID, ignoreMarginBottom) {
         if (component.objectID() == ignoreID) {
             continue;
         }
-        if (component.properties().contains("height-percentage")) {
+        if (component.properties().contains(PROPERTY_HEIGHT_PERCENTAGE)) {
             continue;
         }
-        if (ignoreMarginBottom && component.properties().contains("margin-bottom")) {
+        if (ignoreMarginBottom && component.properties().contains(PROPERTY_MARGIN_BOTTOM)) {
             continue;
         }
         bottom = Math.max(bottom, component.frame().bottom())
@@ -123,7 +123,7 @@ Components.prototype.maxWidth = function(ignoreID) {
         if (component.objectID() == ignoreID) {
             continue;
         }
-        if (!component.properties().contains("width-percentage")) {
+        if (!component.properties().contains(PROPERTY_WIDTH_PERCENTAGE)) {
             width = Math.max(width, component.frame().width())
         }
     }
@@ -137,7 +137,7 @@ Components.prototype.maxHeight = function(ignoreID) {
         if (component.objectID() == ignoreID) {
             continue;
         }
-        if (!component.properties().contains("height-percentage")) {
+        if (!component.properties().contains(PROPERTY_HEIGHT_PERCENTAGE)) {
             height = Math.max(height, component.frame().height())
         }
     }
@@ -185,13 +185,13 @@ Components.prototype._setup = function() {
 }
 
 Components.prototype._shouldApplyComponentFirstly = function(component) {
-    return !component.properties().contains('width-percentage') &&
-        !component.properties().contains('height-percentage')
+    return !component.properties().contains(PROPERTY_WIDTH_PERCENTAGE) &&
+        !component.properties().contains(PROPERTY_HEIGHT_PERCENTAGE)
 }
 
 Components.prototype._shouldApplyComponentSecondly = function(component) {
-    return component.properties().contains('width-percentage') ||
-        component.properties().contains('height-percentage')
+    return component.properties().contains(PROPERTY_WIDTH_PERCENTAGE) ||
+        component.properties().contains(PROPERTY_HEIGHT_PERCENTAGE)
 }
 
 // -----------------------------------------------------------

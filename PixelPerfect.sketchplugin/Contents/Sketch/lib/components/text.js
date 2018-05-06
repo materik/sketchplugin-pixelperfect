@@ -16,7 +16,7 @@ TextComponent.prototype.apply = function() {
 }
 
 TextComponent.prototype.sizeToFit = function() {
-    if (this.properties().contains("height")) {
+    if (this.properties().contains(PROPERTY_HEIGHT_STATIC)) {
         this._layer.setVerticalAlignment(1)
     } else {
         this._layer.adjustFrameToFit() 

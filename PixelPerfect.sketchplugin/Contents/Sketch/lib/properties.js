@@ -78,7 +78,7 @@ Properties.prototype.add = function(key, value) {
 }
 
 Properties.prototype.addPadding = function(padding) {
-    var property = PaddingProperty.new(this.component(), "padding", padding)
+    var property = PaddingProperty.new(this.component(), PROPERTY_PADDING, padding)
     if (property) {
         if (property.isOuter()) {
             this._items.append(property)

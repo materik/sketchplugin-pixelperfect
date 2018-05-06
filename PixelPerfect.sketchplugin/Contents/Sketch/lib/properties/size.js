@@ -9,16 +9,16 @@ SizeProperty.prototype = Object.create(Property.prototype)
 
 SizeProperty.validKeys = function() {
     return [
-        "width",
-        "width-addition",
-        "width-percentage",
-        "width-percentage-full",
-        "width-min",
-        "height",
-        "height-addition",
-        "height-percentage",
-        "height-percentage-full",
-        "height-min",
+        PROPERTY_WIDTH_STATIC,
+        PROPERTY_WIDTH_ADDITION,
+        PROPERTY_WIDTH_PERCENTAGE,
+        PROPERTY_WIDTH_PERCENTAGE_FULL,
+        PROPERTY_WIDTH_MIN,
+        PROPERTY_HEIGHT_STATIC,
+        PROPERTY_HEIGHT_ADDITION,
+        PROPERTY_HEIGHT_PERCENTAGE,
+        PROPERTY_HEIGHT_PERCENTAGE_FULL,
+        PROPERTY_HEIGHT_MIN,
     ]
 }
 
@@ -42,40 +42,39 @@ SizeProperty.prototype.apply = function() {
 
     var frame = this.component().frame()
     switch (this.key()) {
-        case "width":
+        case PROPERTY_WIDTH_STATIC:
             frame.setWidth(this.value())
             break;
-        case "width-addition":
+        case PROPERTY_WIDTH_ADDITION:
             frame.setWidth(frame.width() + this.value())
             break;
-        case "width-percentage":
+        case PROPERTY_WIDTH_PERCENTAGE:
             frame.setWidth(this.value() / 100 * this.component().widthOfParent(false, true))
             break;
-        case "width-percentage-full":
+        case PROPERTY_WIDTH_PERCENTAGE_FULL:
             frame.setWidth(this.value() / 100 * this.component().widthOfParent(true))
             break;
-        case "width-min":
+        case PROPERTY_WIDTH_MIN:
             frame.setWidth(frame.width() < this.value() ? this.value() : frame.width())
             break;
-        case "height":
+        case PROPERTY_HEIGHT_STATIC:
             frame.setHeight(this.value())
             break;
-        case "height-addition":
+        case PROPERTY_HEIGHT_ADDITION:
             frame.setHeight(frame.height() + this.value())
             break;
-        case "height-percentage":
+        case PROPERTY_HEIGHT_PERCENTAGE:
             frame.setHeight(this.value() / 100 * this.component().heightOfParent(false, true))
             break;
-        case "height-percentage-full":
+        case PROPERTY_HEIGHT_PERCENTAGE_FULL:
             frame.setHeight(this.value() / 100 * this.component().heightOfParent(true))
             break;
-        case "height-min":
+        case PROPERTY_HEIGHT_MIN:
             frame.setHeight(frame.height() < this.value() ? this.value() : frame.height())
             break;
         /* istanbul ignore next */
         default:
-            this.component().debug("~ SizeProperty: ERROR: invalid property: <" + this.key() + ">", 2)
-            break;
+            return;
     }
 
     var frameAfter = this.component().frame().toString()

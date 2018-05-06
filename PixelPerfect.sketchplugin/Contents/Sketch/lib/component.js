@@ -12,17 +12,17 @@ function Component(layer) {
 
 Component.new = function(layer) {
     switch (String(layer.class().toString())) {
-        case "MSArtboardGroup":
+        case CLASS_ARTBOARD:
             return new ArtboardComponent(layer)
-        case "MSLayerGroup":
+        case CLASS_GROUP:
             return new GroupComponent(layer)
-        case "MSShapeGroup":
+        case CLASS_SHAPE:
             return new ShapeComponent(layer)
-        case "MSSymbolInstance":
+        case CLASS_SYMBOL_INSTANCE:
             return new SymbolInstanceComponent(layer)
-        case "MSSymbolMaster":
+        case CLASS_SYMBOL_MASTER:
             return new SymbolMasterComponent(layer)
-        case "MSTextLayer":
+        case CLASS_TEXT:
             return new TextComponent(layer)
         default:
             return new Component(layer)
@@ -146,7 +146,7 @@ Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
         return 0
     } else if (this.parent().isArtboard()) {
         return this.parent().frame().width()
-    } else if (forceIteration || this.parent().properties().contains("width-percentage")) {
+    } else if (forceIteration || this.parent().properties().contains(PROPERTY_WIDTH_PERCENTAGE)) {
         return this.parent().widthOfParent(forceIteration, ignoreSelf) || this.parent().frame().width()
     } else {
         return this.parent().components().maxWidth(ignoreSelf ? this.objectID() : undefined)
@@ -158,7 +158,7 @@ Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
         return 0
     } else if (this.parent().isArtboard()) {
         return this.parent().frame().height()
-    } else if (forceIteration || this.parent().properties().contains("height-percentage")) {
+    } else if (forceIteration || this.parent().properties().contains(PROPERTY_HEIGHT_PERCENTAGE)) {
         return this.parent().heightOfParent(forceIteration, ignoreSelf) || this.parent().frame().height()
     } else {
         return this.parent().components().maxHeight(ignoreSelf ? this.objectID() : undefined)

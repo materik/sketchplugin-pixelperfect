@@ -9,12 +9,12 @@ StackProperty.prototype = Object.create(Property.prototype)
 
 StackProperty.validKeys = function() {
     return [
-        "stack-horizontally-top",
-        "stack-horizontally-middle",
-        "stack-horizontally-bottom",
-        "stack-vertically-left",
-        "stack-vertically-center",
-        "stack-vertically-right",
+        PROPERTY_STACK_HORIZONTALLY_TOP,
+        PROPERTY_STACK_HORIZONTALLY_MIDDLE,
+        PROPERTY_STACK_HORIZONTALLY_BOTTOM,
+        PROPERTY_STACK_VERTICALLY_LEFT,
+        PROPERTY_STACK_VERTICALLY_CENTER,
+        PROPERTY_STACK_VERTICALLY_RIGHT,
     ]
 }
 
@@ -38,28 +38,27 @@ StackProperty.prototype.apply = function() {
 
     var frame = this.component().frame()
     switch (this.key()) {
-        case "stack-horizontally-top":
+        case PROPERTY_STACK_HORIZONTALLY_TOP:
             this.applyStackHorizontally(Alignment.top())
             break;
-        case "stack-horizontally-middle":
+        case PROPERTY_STACK_HORIZONTALLY_MIDDLE:
             this.applyStackHorizontally(Alignment.middle())
             break;
-        case "stack-horizontally-bottom":
+        case PROPERTY_STACK_HORIZONTALLY_BOTTOM:
             this.applyStackHorizontally(Alignment.bottom())
             break;
-        case "stack-vertically-left":
+        case PROPERTY_STACK_VERTICALLY_LEFT:
             this.applyStackVertically(Alignment.left())
             break;
-        case "stack-vertically-center":
+        case PROPERTY_STACK_VERTICALLY_CENTER:
             this.applyStackVertically(Alignment.center())
             break;
-        case "stack-vertically-right":
+        case PROPERTY_STACK_VERTICALLY_RIGHT:
             this.applyStackVertically(Alignment.right())
             break;
         /* istanbul ignore next */
         default:
-            this.component().debug("~ StackProperty: ERROR: invalid property: <" + this.key() + ">", 2)
-            break;
+            return;
     }
 
     var frameAfter = this.component().frame().toString()

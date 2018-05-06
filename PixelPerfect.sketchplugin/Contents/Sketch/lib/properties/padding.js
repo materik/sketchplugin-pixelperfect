@@ -9,7 +9,7 @@ PaddingProperty.prototype = Object.create(Property.prototype)
 
 PaddingProperty.validKeys = function() {
     return [
-        "padding",
+        PROPERTY_PADDING,
     ]
 }
 
@@ -89,13 +89,13 @@ PaddingProperty.prototype.applyInner = function() {
 
             var beforeFrame = component.frame().toString()
 
-            if (component.properties().contains("margin-right") && !component.properties().contains("margin-left")) {
+            if (component.properties().contains(PROPERTY_MARGIN_RIGHT) && !component.properties().contains(PROPERTY_MARGIN_LEFT)) {
                 component.frame().setX(component.frame().x() - padding.right())
             } else {
                 component.frame().setX(component.frame().x() - minLeft + padding.left())
             }
 
-            if (component.properties().contains("margin-bottom") && !component.properties().contains("margin-top")) {
+            if (component.properties().contains(PROPERTY_MARGIN_BOTTOM) && !component.properties().contains(PROPERTY_MARGIN_TOP)) {
                 component.frame().setY(component.frame().y() - padding.bottom())
             } else {
                 component.frame().setY(component.frame().y() - minTop + padding.top())
@@ -106,11 +106,11 @@ PaddingProperty.prototype.applyInner = function() {
             component.debug("# PaddingProperty: apply: <" + beforeFrame + "> -> <" + afterFrame + ">", 2)
         }
 
-        if (!this.component().properties().contains("width")) {
+        if (!this.component().properties().contains(PROPERTY_WIDTH_STATIC)) {
             background.frame().setWidth(components.maxRight(background.objectID(), background.isArtboard()) + padding.right())
         }
 
-        if (!this.component().properties().contains("height")) {
+        if (!this.component().properties().contains(PROPERTY_HEIGHT_STATIC)) {
             background.frame().setHeight(components.maxBottom(background.objectID(), background.isArtboard()) + padding.bottom())
         }
 

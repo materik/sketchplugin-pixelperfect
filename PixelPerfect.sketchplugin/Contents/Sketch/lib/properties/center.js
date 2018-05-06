@@ -9,8 +9,8 @@ CenterProperty.prototype = Object.create(Property.prototype)
 
 CenterProperty.validKeys = function() {
     return [
-        "center-horizontally",
-        "center-vertically",
+        PROPERTY_CENTER_HORIZONTALLY,
+        PROPERTY_CENTER_VERTICALLY,
     ]
 }
 
@@ -31,20 +31,19 @@ CenterProperty.prototype.apply = function() {
 
     var frame = this.component().frame()
     switch (this.key()) {
-        case "center-horizontally":
+        case PROPERTY_CENTER_HORIZONTALLY:
             var left = this.component().minLeftInParent(true)
             var widthOfParent = this.component().widthOfParent(false, true)
             frame.setX(left + (widthOfParent - frame.width()) / 2 + (this.value() || 0))
             break;
-        case "center-vertically":
+        case PROPERTY_CENTER_VERTICALLY:
             var top = this.component().minTopInParent(true)
             var heightOfParent = this.component().heightOfParent(false, true)
             frame.setY(top + (heightOfParent - frame.height()) / 2 + (this.value() || 0))
             break;
         /* istanbul ignore next */
         default:
-            this.component().debug("~ CenterProperty: ERROR: invalid property: <" + this.key() + ">", 2)
-            break;
+            return;
     }
 
     var frameAfter = this.component().frame().toString()

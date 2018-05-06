@@ -9,8 +9,8 @@ SymbolMasterComponent.prototype = Object.create(Component.prototype)
 
 SymbolMasterComponent.prototype.properties = function() {
     var properties = Component.prototype.properties.call(this)
-    if (!properties.contains('padding')) {
-        properties.add('padding', Padding.zero())
+    if (!properties.contains(PROPERTY_PADDING)) {
+        properties.add(PROPERTY_PADDING, Padding.zero())
     }
     return properties
 }
