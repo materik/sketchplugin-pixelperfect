@@ -9,9 +9,9 @@ describe('components', function() {
         group.insertLayer_afterLayerOrAtEnd(layer1);
         group.insertLayer_afterLayerOrAtEnd(layer2);
         var component = Component.new(group);
-        assert.equal(component.components().find('apa'), undefined);
-        assert.equal(component.components().find('layer1').name(), 'layer1');
-        assert.equal(component.components().find('layer2').name(), 'LAYER2');
+        assert.equal(component.components().find(/apa/i), undefined);
+        assert.equal(component.components().find(/layer1/i).name(), 'layer1');
+        assert.equal(component.components().find(/layer2/i).name(), 'LAYER2');
     });
 
     it('maxWidth', function() {

@@ -46,7 +46,7 @@ Components.prototype.objectAtIndex = function(index) {
 Components.prototype.find = function(name) {
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i);
-        if (component.name().toLowerCase().contains(name.toLowerCase())) {
+        if (name.regexp().test(component.name())) {
             return component;
         }
     }

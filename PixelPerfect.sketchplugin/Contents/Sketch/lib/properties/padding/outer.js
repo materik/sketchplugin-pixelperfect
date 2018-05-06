@@ -1,6 +1,8 @@
 
 function PaddingOuterProperty(component, key, value) {
     Property.call(this, component, key, value);
+
+    this._container = null
 }
 
 PaddingOuterProperty.prototype = Object.create(Property.prototype);
@@ -23,31 +25,35 @@ PaddingOuterProperty.prototype.isValid = function() {
     if (!PaddingOuterProperty.validKeys().contains(this.key())) {
         return false;
     }
-    return this.value() && 
-        this.value().isValid() &&
-        this.component().hasParent() && 
-        this.component().parent().components().contains('bg');
+    return this.value() && this.value().isValid() && this.hasContainer()
+        
 };
 
-PaddingOuterProperty.prototype.isOuter = function() {
-    return 
+PaddingOuterProperty.prototype.hasContainer = function() {
+    return this.component().hasParent() && 
+        this.component().parent().components().contains(PROPERTIES_RE_PADDING_CONTAINER);
+};
+
+PaddingOuterProperty.prototype.container = function() {
+    if (this._container == null) {
+        return this.component().parent() && 
+            this.component().parent().components().find(PROPERTIES_RE_PADDING_CONTAINER);
+    }
+    return this._container;
 };
 
 // Action
 
 PaddingOuterProperty.prototype._apply = function() {
     var padding = this.value();
-    var background = this.component().parent() && this.component().parent().components().find('bg');
+    var frame = this.component().frame();
 
-    if (background) {
-        this.component().debug('# PaddingOuterProperty: apply outer padding:');
+    this.component().debug('# PaddingOuterProperty: apply outer padding:');
 
-        var frame = this.component().frame();
-        background.frame().setX(frame.x() - padding.left());
-        background.frame().setY(frame.y() - padding.top());
-        background.frame().setWidth(frame.width() + padding.left() + padding.right());
-        background.frame().setHeight(frame.height() + padding.top() + padding.bottom());
-    }
+    this.container().frame().setX(frame.x() - padding.left());
+    this.container().frame().setY(frame.y() - padding.top());
+    this.container().frame().setWidth(frame.width() + padding.left() + padding.right());
+    this.container().frame().setHeight(frame.height() + padding.top() + padding.bottom());
 };
 
 // -----------------------------------------------------------

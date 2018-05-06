@@ -2,6 +2,7 @@
 var PROPERTIES_RE = new RegExp('\\[([^\\]]+)\\]');
 var PROPERTIES_RE_IGNORE = new RegExp('\\[ignore\\]', 'i');
 var PROPERTIES_RE_PADDING = new RegExp('^\\d+$');
+var PROPERTIES_RE_PADDING_CONTAINER = new RegExp('(bg|container)', 'i');
 var PROPERTIES_SEP = ':';
 
 // -----------------------------------------------------------
@@ -82,6 +83,7 @@ var CLASS_TEXT = 'MSTextLayer';
 global.PROPERTIES_RE = PROPERTIES_RE;
 global.PROPERTIES_RE_IGNORE = PROPERTIES_RE_IGNORE;
 global.PROPERTIES_RE_PADDING = PROPERTIES_RE_PADDING;
+global.PROPERTIES_RE_PADDING_CONTAINER = PROPERTIES_RE_PADDING_CONTAINER;
 global.PROPERTIES_SEP = PROPERTIES_SEP;
 global.PROPERTY_WIDTH_STATIC = PROPERTY_WIDTH_STATIC;
 global.PROPERTY_WIDTH_ADDITION = PROPERTY_WIDTH_ADDITION;
