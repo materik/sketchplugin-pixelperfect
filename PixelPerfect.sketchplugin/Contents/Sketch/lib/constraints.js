@@ -1,6 +1,7 @@
 
 function Constraints(layer) {
     this._layer = layer;
+    this._component = Component.new(this._layer)
 }
 
 // Static
@@ -12,7 +13,7 @@ Constraints.new = function(layer) {
 // Getter
 
 Constraints.prototype.component = function() {
-    return Component.new(this._layer);
+    return this._component
 };
 
 Constraints.prototype.hasFixedWidth = function() {
