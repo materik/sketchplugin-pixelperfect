@@ -7,6 +7,8 @@
     "devDependencies": {
         "coveralls": "^3.0.0",
         "edit-json-file": "^1.0.8",
+        "jscs": "^3.0.7",
+        "jshint": "^2.9.5",
         "mocha": "^3.x",
         "node-cmd": "^3.0.0",
         "nyc": "^11.7.1"
@@ -18,6 +20,7 @@
     "scripts": {
         "bump-version": "./scripts/bump-version.js",
         "coverage": "nyc report --reporter=text-lcov | coveralls",
+        "lint": "jscs . -x && jshint .",
         "release": "./scripts/release.js",
         "set-version": "./scripts/set-version.js",
         "test": "nyc --reporter=html --reporter=text mocha test",
