@@ -56,7 +56,7 @@ Property.prototype.isValid = function() {
 
 Property.prototype.apply = function() {
     this.component().debugFrame();
-    this._apply()
+    this._apply();
     this.component().debug('~ Property: apply: ' + this.toString());
 };
 

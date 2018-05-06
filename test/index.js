@@ -8,8 +8,8 @@ describe('index', function() {
         var selection = NSMutableArray.new();
         selection.addObject(layer);
         var context = {
+            document: doc,
             selection,
-            document: doc
         };
         makePixelPerfect(context);
         assert.equal(layer.frame().x(), 1);

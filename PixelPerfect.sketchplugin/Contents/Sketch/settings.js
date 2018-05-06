@@ -1,8 +1,10 @@
 
-var IGNORE_RE = new RegExp('\\[ignore\\]', 'i');
 var PROPERTIES_RE = new RegExp('\\[([^\\]]+)\\]');
+var PROPERTIES_RE_IGNORE = new RegExp('\\[ignore\\]', 'i');
+var PROPERTIES_RE_PADDING = new RegExp('^\\d+$');
 var PROPERTIES_SEP = ':';
-var PROPERTY_PADDING_RE = new RegExp('^\\d+$');
+
+// -----------------------------------------------------------
 
 var PROPERTY_WIDTH_STATIC = 'width';
 var PROPERTY_WIDTH_ADDITION = 'width-addition';
@@ -15,6 +17,10 @@ var PROPERTY_HEIGHT_PERCENTAGE = 'height-percentage';
 var PROPERTY_HEIGHT_PERCENTAGE_FULL = 'height-percentage-full';
 var PROPERTY_HEIGHT_MIN = 'height-min';
 var PROPERTY_PADDING = 'padding';
+var PROPERTY_PADDING_TOP = 'padding-top';
+var PROPERTY_PADDING_RIGHT = 'padding-right';
+var PROPERTY_PADDING_BOTTOM = 'padding-bottom';
+var PROPERTY_PADDING_LEFT = 'padding-left';
 var PROPERTY_MARGIN = 'margin';
 var PROPERTY_MARGIN_TOP = 'margin-top';
 var PROPERTY_MARGIN_RIGHT = 'margin-right';
@@ -28,32 +34,41 @@ var PROPERTY_STACK_VERTICALLY_CENTER = 'stack-vertically-center';
 var PROPERTY_STACK_VERTICALLY_RIGHT = 'stack-vertically-right';
 var PROPERTY_CENTER_HORIZONTALLY = 'center-horizontally';
 var PROPERTY_CENTER_VERTICALLY = 'center-vertically';
+
 var PROPERTY_MAP = {
-    '(w)\\d+':              PROPERTY_WIDTH_STATIC,
-    '(w)(\\+|\\-)\\d+':     PROPERTY_WIDTH_ADDITION,
-    '(w)\\d+%':             PROPERTY_WIDTH_PERCENTAGE,
-    '(w)\\d+%%':            PROPERTY_WIDTH_PERCENTAGE_FULL,
-    '(w)\\>\\d+':           PROPERTY_WIDTH_MIN,
-    '(h)\\d+':              PROPERTY_HEIGHT_STATIC,
-    '(h)(\\+|\\-)\\d+':     PROPERTY_HEIGHT_ADDITION,
-    '(h)\\d+%':             PROPERTY_HEIGHT_PERCENTAGE,
-    '(h)\\d+%%':            PROPERTY_HEIGHT_PERCENTAGE_FULL,
-    '(h)\\>\\d+':           PROPERTY_HEIGHT_MIN,
-    'padding':              PROPERTY_PADDING,
-    '(bg|trbl|m)':          PROPERTY_MARGIN,
-    '(t|mt)\\-?\\d*':       PROPERTY_MARGIN_TOP,
-    '(r|mr)\\-?\\d*':       PROPERTY_MARGIN_RIGHT,
-    '(b|mb)\\-?\\d*':       PROPERTY_MARGIN_BOTTOM,
-    '(l|ml)\\-?\\d*':       PROPERTY_MARGIN_LEFT,
-    '(xt)\\-?\\d+':         PROPERTY_STACK_HORIZONTALLY_TOP,
-    '(x)\\-?\\d+':          PROPERTY_STACK_HORIZONTALLY_MIDDLE,
-    '(xb)\\-?\\d+':         PROPERTY_STACK_HORIZONTALLY_BOTTOM,
-    '(yl)\\-?\\d+':         PROPERTY_STACK_VERTICALLY_LEFT,
-    '(y)\\-?\\d+':          PROPERTY_STACK_VERTICALLY_CENTER,
-    '(yr)\\-?\\d+':         PROPERTY_STACK_VERTICALLY_RIGHT,
-    '(h|c)(\\+|\\-)?\\d*':  PROPERTY_CENTER_HORIZONTALLY,
-    '(v)(\\+|\\-)?\\d*':    PROPERTY_CENTER_VERTICALLY,
+    '(c)(\\+|\\-)?\\d*':        PROPERTY_CENTER_HORIZONTALLY,
+    '(h)':                      PROPERTY_CENTER_HORIZONTALLY,
+    '(h)\\d+':                  PROPERTY_HEIGHT_STATIC,
+    '(h)\\d+%':                 PROPERTY_HEIGHT_PERCENTAGE,
+    '(h)\\d+%%':                PROPERTY_HEIGHT_PERCENTAGE_FULL,
+    '(h)\\>\\d+':               PROPERTY_HEIGHT_MIN,
+    '(h)(\\+|\\-)\\d+':         PROPERTY_HEIGHT_ADDITION,
+    '(m|margin|trbl|bg)':       PROPERTY_MARGIN,
+    '(mb|b)\\-?\\d*':           PROPERTY_MARGIN_BOTTOM,
+    '(ml|l)\\-?\\d*':           PROPERTY_MARGIN_LEFT,
+    '(mr|r)\\-?\\d*':           PROPERTY_MARGIN_RIGHT,
+    '(mt|t)\\-?\\d*':           PROPERTY_MARGIN_TOP,
+    '(p|padding)':              PROPERTY_PADDING,
+    '(pb)\\-?\\d*':             PROPERTY_PADDING_BOTTOM,
+    '(pl)\\-?\\d*':             PROPERTY_PADDING_LEFT,
+    '(pr)\\-?\\d*':             PROPERTY_PADDING_RIGHT,
+    '(pt)\\-?\\d*':             PROPERTY_PADDING_TOP,
+    '(v)(\\+|\\-)?\\d*':        PROPERTY_CENTER_VERTICALLY,
+    '(v)':                      PROPERTY_CENTER_VERTICALLY,
+    '(w)\\d+':                  PROPERTY_WIDTH_STATIC,
+    '(w)\\d+%':                 PROPERTY_WIDTH_PERCENTAGE,
+    '(w)\\d+%%':                PROPERTY_WIDTH_PERCENTAGE_FULL,
+    '(w)\\>\\d+':               PROPERTY_WIDTH_MIN,
+    '(w)(\\+|\\-)\\d+':         PROPERTY_WIDTH_ADDITION,
+    '(x)\\-?\\d+':              PROPERTY_STACK_HORIZONTALLY_MIDDLE,
+    '(xb)\\-?\\d+':             PROPERTY_STACK_HORIZONTALLY_BOTTOM,
+    '(xt)\\-?\\d+':             PROPERTY_STACK_HORIZONTALLY_TOP,
+    '(y)\\-?\\d+':              PROPERTY_STACK_VERTICALLY_CENTER,
+    '(yl)\\-?\\d+':             PROPERTY_STACK_VERTICALLY_LEFT,
+    '(yr)\\-?\\d+':             PROPERTY_STACK_VERTICALLY_RIGHT,
 };
+
+// -----------------------------------------------------------
 
 var CLASS_ARTBOARD = 'MSArtboardGroup';
 var CLASS_GROUP = 'MSLayerGroup';
@@ -64,11 +79,10 @@ var CLASS_TEXT = 'MSTextLayer';
 
 // -----------------------------------------------------------
 
-global.IGNORE_RE = IGNORE_RE;
 global.PROPERTIES_RE = PROPERTIES_RE;
+global.PROPERTIES_RE_IGNORE = PROPERTIES_RE_IGNORE;
+global.PROPERTIES_RE_PADDING = PROPERTIES_RE_PADDING;
 global.PROPERTIES_SEP = PROPERTIES_SEP;
-global.PROPERTY_PADDING_RE = PROPERTY_PADDING_RE;
-
 global.PROPERTY_WIDTH_STATIC = PROPERTY_WIDTH_STATIC;
 global.PROPERTY_WIDTH_ADDITION = PROPERTY_WIDTH_ADDITION;
 global.PROPERTY_WIDTH_PERCENTAGE = PROPERTY_WIDTH_PERCENTAGE;
@@ -94,7 +108,6 @@ global.PROPERTY_STACK_VERTICALLY_RIGHT = PROPERTY_STACK_VERTICALLY_RIGHT;
 global.PROPERTY_CENTER_HORIZONTALLY = PROPERTY_CENTER_HORIZONTALLY;
 global.PROPERTY_CENTER_VERTICALLY = PROPERTY_CENTER_VERTICALLY;
 global.PROPERTY_MAP = PROPERTY_MAP;
-
 global.CLASS_ARTBOARD = CLASS_ARTBOARD;
 global.CLASS_GROUP = CLASS_GROUP;
 global.CLASS_SHAPE = CLASS_SHAPE;

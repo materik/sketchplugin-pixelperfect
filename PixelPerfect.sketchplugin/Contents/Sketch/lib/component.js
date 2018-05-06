@@ -100,7 +100,7 @@ Component.prototype.isSymbolMaster = function() {
 };
 
 Component.prototype.shouldApply = function() {
-    return this.isVisible() && !IGNORE_RE.test(this.name());
+    return this.isVisible() && !PROPERTIES_RE_IGNORE.test(this.name());
 };
 
 Component.prototype.hasComponents = function() {

@@ -102,7 +102,7 @@ Properties.prototype._setup = function() {
     var raw = this._raw();
     for (var i = 0; i < raw.length; i++) {
         var key = raw[i];
-        if (PROPERTY_PADDING_RE.test(key)) {
+        if (PROPERTIES_RE_PADDING.test(key)) {
             padding.add(key);
         } else {
             this.add(key);

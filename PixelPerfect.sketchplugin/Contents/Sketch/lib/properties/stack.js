@@ -94,4 +94,4 @@ Property.prototype.applyStackVertically = function(alignment) {
 
 // -----------------------------------------------------------
 
-global.StackProperty = StackProperty
+global.StackProperty = StackProperty;

@@ -74,4 +74,4 @@ Alignment.prototype.align = function(component, d) {
 
 // -----------------------------------------------------------
 
-global.Alignment = Alignment
+global.Alignment = Alignment;
