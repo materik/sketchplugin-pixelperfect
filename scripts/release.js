@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var cmd = require('node-cmd');
-var json = require("edit-json-file");
+var json = require('edit-json-file');
 
 var PACKAGE_FILE = './package.json';
 
@@ -12,12 +12,12 @@ var oldVersion = pkg.get('version');
 
 // Bump version
 
-var args = process.argv
-var type = args[args.length - 1]
+var args = process.argv;
+var type = args[args.length - 1];
 
 cmd.get('npm run bump-version ' + type, (err, res) => {
     if (err) {
-        throw(err)
+        throw(err);
     }
 
     // Get version from package.json
@@ -27,7 +27,7 @@ cmd.get('npm run bump-version ' + type, (err, res) => {
 
     // Log
 
-    console.log("Releasing new version " + newVersion + " (was " + oldVersion + ")");
+    console.log('Releasing new version ' + newVersion + ' (was ' + oldVersion + ')');
 
     // Commit version bump
 
@@ -40,9 +40,9 @@ cmd.get('npm run bump-version ' + type, (err, res) => {
         `,
         (err, res) => {
             if (err) {
-                throw(err)
+                throw(err);
             } else {
-                console.log(res)
+                console.log(res);
             }
         }
     );

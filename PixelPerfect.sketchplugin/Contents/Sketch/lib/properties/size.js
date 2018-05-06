@@ -1,9 +1,9 @@
 
 function SizeProperty(component, key, value) {
-    Property.call(this, component, key, value)
+    Property.call(this, component, key, value);
 }
 
-SizeProperty.prototype = Object.create(Property.prototype)
+SizeProperty.prototype = Object.create(Property.prototype);
 
 // Static
 
@@ -19,67 +19,67 @@ SizeProperty.validKeys = function() {
         PROPERTY_HEIGHT_PERCENTAGE,
         PROPERTY_HEIGHT_PERCENTAGE_FULL,
         PROPERTY_HEIGHT_MIN,
-    ]
-}
+    ];
+};
 
 SizeProperty.new = function(component, raw, value) {
-    return Property.new(component, raw, value)
-}
+    return Property.new(component, raw, value);
+};
 
 // Getter
 
 SizeProperty.prototype.isValid = function() {
     if (!SizeProperty.validKeys().contains(this.key())) {
-        return false
+        return false;
     }
-    return this.key() != "" && !isNaN(this.value())
-}
+    return this.key() != '' && !isNaN(this.value());
+};
 
 // Action
 
-SizeProperty.prototype.apply = function() {   
-    this.component().debugFrame()
+SizeProperty.prototype.apply = function() {
+    this.component().debugFrame();
 
-    var frame = this.component().frame()
+    var frame = this.component().frame();
     switch (this.key()) {
         case PROPERTY_WIDTH_STATIC:
-            frame.setWidth(this.value())
+            frame.setWidth(this.value());
             break;
         case PROPERTY_WIDTH_ADDITION:
-            frame.setWidth(frame.width() + this.value())
+            frame.setWidth(frame.width() + this.value());
             break;
         case PROPERTY_WIDTH_PERCENTAGE:
-            frame.setWidth(this.value() / 100 * this.component().widthOfParent(false, true))
+            frame.setWidth(this.value() / 100 * this.component().widthOfParent(false, true));
             break;
         case PROPERTY_WIDTH_PERCENTAGE_FULL:
-            frame.setWidth(this.value() / 100 * this.component().widthOfParent(true))
+            frame.setWidth(this.value() / 100 * this.component().widthOfParent(true));
             break;
         case PROPERTY_WIDTH_MIN:
-            frame.setWidth(frame.width() < this.value() ? this.value() : frame.width())
+            frame.setWidth(frame.width() < this.value() ? this.value() : frame.width());
             break;
         case PROPERTY_HEIGHT_STATIC:
-            frame.setHeight(this.value())
+            frame.setHeight(this.value());
             break;
         case PROPERTY_HEIGHT_ADDITION:
-            frame.setHeight(frame.height() + this.value())
+            frame.setHeight(frame.height() + this.value());
             break;
         case PROPERTY_HEIGHT_PERCENTAGE:
-            frame.setHeight(this.value() / 100 * this.component().heightOfParent(false, true))
+            frame.setHeight(this.value() / 100 * this.component().heightOfParent(false, true));
             break;
         case PROPERTY_HEIGHT_PERCENTAGE_FULL:
-            frame.setHeight(this.value() / 100 * this.component().heightOfParent(true))
+            frame.setHeight(this.value() / 100 * this.component().heightOfParent(true));
             break;
         case PROPERTY_HEIGHT_MIN:
-            frame.setHeight(frame.height() < this.value() ? this.value() : frame.height())
+            frame.setHeight(frame.height() < this.value() ? this.value() : frame.height());
             break;
         /* istanbul ignore next */
         default:
             return;
     }
 
-    this.component().debug("~ SizeProperty: apply: " + this.toString())
-}
+    this.component().debug('~ SizeProperty: apply: ' + this.toString());
+};
 
 // -----------------------------------------------------------
 
-global.SizeProperty = SizeProperty
+global.SizeProperty = SizeProperty;
