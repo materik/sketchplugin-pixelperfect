@@ -1,7 +1,7 @@
 
-require('./lib');
+require('../lib');
 
-describe('bugs', function() {
+describe('bugs-1', function() {
     it('cannot set margin right or bottom if that is bigger than the other layers', function() {
         var layer = createLayer('r:v', 1, 2, 28, 13);
         var backgroundLayer = createLayer('bg', 10, 11, 12, 13);

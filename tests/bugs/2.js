@@ -1,7 +1,7 @@
 
-require('./lib');
+require('../lib');
 
-describe('bugs', function() {
+describe('bugs-2', function() {
     it('resizing symbol master with instances of other symbols is inconsistent', function() {
         var symbol1 = createSymbolMaster('Symbol1');
         var group1 = createLayerGroup('Group1');

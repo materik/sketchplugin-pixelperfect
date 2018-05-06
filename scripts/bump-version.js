@@ -10,7 +10,7 @@ var PACKAGE_FILE = './package.json';
 var pkg = json(PACKAGE_FILE);
 var version = pkg.get('version');
 
-var bumb = function(version, major, minor, patch) {
+var bump = function(version, major, minor, patch) {
     var split = version.split('.');
     if (major) {
         var _major = parseInt(split[0]) + 1;
@@ -34,13 +34,13 @@ var type = args[args.length - 1].trim().toLowerCase();
 
 switch (type) {
     case 'major':
-        version = bumb(version, true);
+        version = bump(version, true);
         break;
     case 'minor':
-        version = bumb(version, false, true);
+        version = bump(version, false, true);
         break;
     case 'patch':
-        version = bumb(version, false, false, true);
+        version = bump(version, false, false, true);
         break;
     default:
         throw('ERROR: Need to specify: "Major", "Minor", or "Patch"');

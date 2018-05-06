@@ -1,7 +1,7 @@
 
-require('./lib');
+require('../lib');
 
-describe('property', function() {
+describe('property-stack', function() {
     it('stack-horizontally-top', function() {
         var property = Property.new(Component.new(createLayer('xt10')));
         assert.equal(property.isValid(), true);

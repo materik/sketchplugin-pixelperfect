@@ -91,5 +91,5 @@ var _repeatString = function(str, repeat) {
 
 // -----------------------------------------------------------
 
-global.selection = selection;
 global.debug = debug;
+global.selection = selection;

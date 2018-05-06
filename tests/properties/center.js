@@ -1,7 +1,7 @@
 
-require('./lib');
+require('../lib');
 
-describe('property', function() {
+describe('property-center', function() {
     it('center-horizontally', function() {
         var property = Property.new(Component.new(createLayer('c')));
         assert.equal(property.isValid(), true);

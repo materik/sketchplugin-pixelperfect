@@ -510,7 +510,6 @@ describe('component', function() {
         layer.setName('Layer [w100]');
         assert.equal(Component.new(layer).shouldApply(), true);
         var layer = createArtboard('Artboard');
-        log(Component.new(layer));
         assert.equal(Component.new(layer).shouldApply(), true);
         layer.setName('Artboard [w100]');
         assert.equal(Component.new(layer).shouldApply(), true);

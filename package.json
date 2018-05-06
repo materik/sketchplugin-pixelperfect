@@ -24,7 +24,7 @@
         "hint": "jshint PixelPerfect.sketchplugin",
         "release": "./scripts/release.js",
         "set-version": "./scripts/set-version.js",
-        "test": "nyc --reporter=html --reporter=text mocha test",
+        "test": "nyc --reporter=html --reporter=text mocha tests",
         "update-metadata": "./scripts/update-metadata.js"
     },
     "version": "1.1.0"
