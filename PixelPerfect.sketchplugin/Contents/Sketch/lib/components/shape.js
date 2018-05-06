@@ -5,12 +5,6 @@ function ShapeComponent(layer) {
 
 ShapeComponent.prototype = Object.create(Component.prototype)
 
-// Static
-
-ShapeComponent.new = function(layer) {
-    return Component.new(layer)
-}
-
 // Getter
 
 ShapeComponent.prototype.components = function() {

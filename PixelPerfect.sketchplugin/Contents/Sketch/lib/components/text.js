@@ -5,12 +5,6 @@ function TextComponent(layer) {
 
 TextComponent.prototype = Object.create(Component.prototype)
 
-// Static
-
-TextComponent.new = function(layer) {
-    return Component.new(layer)
-}
-
 // Action
 
 TextComponent.prototype.apply = function() {

@@ -7,9 +7,9 @@ ArtboardComponent.prototype = Object.create(Component.prototype)
 
 // Static
 
-ArtboardComponent.new = function(layer) {
-    return Component.new(layer)
-}
+// ArtboardComponent.new = function(layer) {
+//     return Component.new(layer)
+// }
 
 // Action
 

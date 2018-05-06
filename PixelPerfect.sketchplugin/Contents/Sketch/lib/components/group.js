@@ -5,12 +5,6 @@ function GroupComponent(layer) {
 
 GroupComponent.prototype = Object.create(Component.prototype)
 
-// Static
-
-GroupComponent.new = function(layer) {
-    return Component.new(layer)
-}
-
 // Action
 
 GroupComponent.prototype.apply = function() {

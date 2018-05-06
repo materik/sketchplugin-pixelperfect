@@ -5,12 +5,6 @@ function SymbolMasterComponent(layer) {
 
 SymbolMasterComponent.prototype = Object.create(Component.prototype)
 
-// Static
-
-SymbolMasterComponent.new = function(layer) {
-    return Component.new(layer)
-}
-
 // Getter
 
 SymbolMasterComponent.prototype.properties = function() {
