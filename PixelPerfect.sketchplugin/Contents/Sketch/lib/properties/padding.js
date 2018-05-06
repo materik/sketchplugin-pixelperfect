@@ -10,6 +10,10 @@ PaddingProperty.prototype = Object.create(Property.prototype);
 PaddingProperty.validKeys = function() {
     return [
         PROPERTY_PADDING,
+        PROPERTY_PADDING_TOP,
+        PROPERTY_PADDING_RIGHT,
+        PROPERTY_PADDING_BOTTOM,
+        PROPERTY_PADDING_LEFT,
     ];
 };
 
@@ -37,10 +41,18 @@ PaddingProperty.prototype.isOuter = function() {
 // Action
 
 PaddingProperty.prototype._apply = function() {
-    if (this.isOuter()) {
-        this.applyOuter();
-    } else if (this.isInner()) {
-        this.applyInner();
+    var frame = this.component().frame();
+    switch (this.key()) {
+        case PROPERTY_PADDING:
+            if (this.isOuter()) {
+                this.applyOuter();
+            } else if (this.isInner()) {
+                this.applyInner();
+            }
+            break;
+        /* istanbul ignore next */
+        default:
+            return;
     }
 };
 
