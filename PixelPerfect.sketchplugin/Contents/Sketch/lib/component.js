@@ -1,266 +1,214 @@
 
 function Component(layer) {
-    this._layer = layer
-    this._frame = Frame.new(layer)
-    this._components = undefined
-    this._properties = undefined
-    this._constraints = undefined
+    this._layer = layer;
+    this._frame = Frame.new(layer);
+    this._components = null;
+    this._properties = null;
+    this._constraints = null;
+    this._parent = null;
 }
 
 // Static
 
 Component.new = function(layer) {
-    return new Component(layer)
-}
+    switch (String(layer.class().toString())) {
+        case CLASS_ARTBOARD:
+            return new ArtboardComponent(layer);
+        case CLASS_GROUP:
+            return new GroupComponent(layer);
+        case CLASS_SHAPE:
+            return new ShapeComponent(layer);
+        case CLASS_SYMBOL_INSTANCE:
+            return new SymbolInstanceComponent(layer);
+        case CLASS_SYMBOL_MASTER:
+            return new SymbolMasterComponent(layer);
+        case CLASS_TEXT:
+            return new TextComponent(layer);
+        default:
+            return new LayerComponent(layer);
+    }
+};
 
 Component.apply = function(layer) {
-    return Component.new(layer).apply()
-}
+    return Component.new(layer).apply();
+};
 
 // Getter
 
 Component.prototype.components = function() {
-    if (!this._components) {
-        this._components = Components.sub(this._layer)
+    if (this._components == null) {
+        this._components = Components.sub(this._layer);
     }
-    return this._components
-}
+    return this._components;
+};
 
 Component.prototype.properties = function() {
-    if (!this._properties) {
-        this._properties = Properties.new(this)
+    if (this._properties == null) {
+        this._properties = Properties.new(this);
     }
-    return this._properties
-}
+    return this._properties;
+};
 
 Component.prototype.constraints = function() {
-    if (!this._constraints) {
-        this._constraints = Constraints.new(this._layer)
+    if (this._constraints == null) {
+        this._constraints = Constraints.new(this._layer);
     }
-    return this._constraints
-}
+    return this._constraints;
+};
 
 Component.prototype.name = function() {
-    return this._layer.name()
-}
+    return this._layer.name();
+};
 
 Component.prototype.frame = function() {
-    return this._frame
-}
+    return this._frame;
+};
 
 Component.prototype.class = function() {
-    return String(this._layer.class().toString())
-}
+    return String(this._layer.class().toString());
+};
 
 Component.prototype.page = function() {
-    return this._layer.parentPage()
-}
+    return this._layer.parentPage();
+};
 
 Component.prototype.objectID = function() {
-    if (this._layer.symbolID) {
-        return this._layer.symbolID()
-    } else {
-        return this._layer.objectID()
-    }
-}
+    return this._layer.objectID();
+};
 
 Component.prototype.master = function() {
     /* istanbul ignore else */
     if (this._layer.symbolMaster) {
-        return Component.new(this._layer.symbolMaster())
+        return Component.new(this._layer.symbolMaster());
     }
-}
+};
 
 Component.prototype.isVisible = function() {
-    return this._layer.isVisible()
-}
+    return this._layer.isVisible();
+};
 
 Component.prototype.isArtboard = function() {
-    return this.class() == "MSArtboardGroup"
-}
+    return this.class() == 'MSArtboardGroup';
+};
 
-Component.prototype.shouldIgnore = function() {
-    return !this.isVisible() || IGNORE_RE.test(this.name())
-}
+Component.prototype.isGroup = function() {
+    return this.class() == 'MSLayerGroup';
+};
 
-Component.prototype.shouldResizeArtboard = function() {
-    return this.isArtboard() && this.properties().count() > 0
-}
+Component.prototype.isSymbolMaster = function() {
+    return this.class() == 'MSSymbolMaster';
+};
+
+Component.prototype.shouldApply = function() {
+    return this.isVisible() && !PROPERTIES_RE_IGNORE.test(this.name());
+};
+
+Component.prototype.hasComponents = function() {
+    return this.components().count() > 0;
+};
+
+Component.prototype.hasParent = function() {
+    if (this._layer.parentGroup) {
+        return this._layer.parentGroup() != undefined;
+    }
+    return false;
+};
 
 Component.prototype.parent = function() {
-    if (this._layer.parentGroup) {
-        var parentLayer = this._layer.parentGroup()
-        if (parentLayer) {
-            return Component.new(parentLayer)
-        }   
+    if (this._parent == null) {
+        this._parent = this.hasParent() ? Component.new(this._layer.parentGroup()) : undefined;
     }
-}
+    return this._parent;
+};
 
 Component.prototype.minLeftInParent = function(ignoreSelf) {
-    var parent = this.parent()
-    if (parent == undefined) {
-        return 0
-    } else if (parent.isArtboard()) {
-        return 0
+    if (!this.hasParent()) {
+        return 0;
+    } else if (this.parent().isArtboard()) {
+        return 0;
     } else {
-        return parent.components().minLeft(ignoreSelf ? this.objectID() : undefined)
+        return this.parent().components().minLeft(ignoreSelf ? this.objectID() : undefined);
     }
-}
+};
 
 Component.prototype.minTopInParent = function(ignoreSelf) {
-    var parent = this.parent()
-    if (parent == undefined) {
-        return 0
-    } else if (parent.isArtboard()) {
-        return 0
+    if (!this.hasParent()) {
+        return 0;
+    } else if (this.parent().isArtboard()) {
+        return 0;
     } else {
-        return parent.components().minTop(ignoreSelf ? this.objectID() : undefined)
+        return this.parent().components().minTop(ignoreSelf ? this.objectID() : undefined);
     }
-}
+};
 
 Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
-    var parent = this.parent()
-    if (parent == undefined) {
-        return 0
-    } else if (parent.isArtboard()) {
-        return parent.frame().width()
-    } else if (forceIteration || parent.properties().includes("width-percentage")) {
-        return parent.widthOfParent(forceIteration, ignoreSelf) || parent.frame().width()
+    if (!this.hasParent()) {
+        return 0;
+    } else if (this.parent().isArtboard()) {
+        return this.parent().frame().width();
+    } else if (forceIteration || this.parent().properties().contains(PROPERTY_WIDTH_PERCENTAGE)) {
+        return this.parent().widthOfParent(forceIteration, ignoreSelf) ||
+            this.parent().frame().width();
     } else {
-        return parent.components().maxWidth(ignoreSelf ? this.objectID() : undefined)
+        return this.parent().components().maxWidth(ignoreSelf ? this.objectID() : undefined);
     }
-}
+};
 
 Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
-    var parent = this.parent()
-    if (!parent) {
-        return 0
-    } else if (parent.isArtboard()) {
-        return parent.frame().height()
-    } else if (forceIteration || parent.properties().includes("height-percentage")) {
-        return parent.heightOfParent(forceIteration, ignoreSelf) || parent.frame().height()
+    if (!this.hasParent()) {
+        return 0;
+    } else if (this.parent().isArtboard()) {
+        return this.parent().frame().height();
+    } else if (forceIteration || this.parent().properties().contains(PROPERTY_HEIGHT_PERCENTAGE)) {
+        return this.parent().heightOfParent(forceIteration, ignoreSelf) ||
+            this.parent().frame().height();
     } else {
-        return parent.components().maxHeight(ignoreSelf ? this.objectID() : undefined)
+        return this.parent().components().maxHeight(ignoreSelf ? this.objectID() : undefined);
     }
-}
+};
 
 // Action
 
 Component.prototype.apply = function() {
-    if (this.shouldIgnore()) {
-        return
+    if (!this.shouldApply()) {
+        return;
     }
 
-    this.debug("Component: apply: " + this.name())
-    this.roundToPixel()
+    this.debug('Component: apply:');
+    this.roundToPixel();
 
-    switch (this.class()) {
-        case "MSSymbolInstance":
-            SymbolMaster.sharedInstance.apply(this.master())
-            this._layer.resetSizeToMaster()
-            break;
-        case "MSArtboardGroup":
-        case "MSLayerGroup":
-        case "MSSymbolMaster":
-            this.components().apply()
-            this.resize()
-            
-            if (this.shouldResizeArtboard()) {
-                var property = this.properties().find("padding")
-                this.sizeToFit(property && property.value())
-            }
-            break;
-        case "MSTextLayer":
-            this._layer.setTextBehaviourSegmentIndex(0)
-            this._layer.setTextBehaviourSegmentIndex(1)
-            break;
-        default:
-            break;
-    }
+    this._apply();
 
-    this.properties().apply()
-}
+    this.properties().apply();
+    this.sizeToFit();
+};
 
-Component.prototype.resize = function() {
-    this.debug("& Component: resize: <" + this.name() + "> <" + this.class() + ">", 2)
-
-    switch (this.class()) {
-        case "MSSymbolMaster":
-            this.sizeToFit()
-            break;
-        case "MSTextLayer":
-            if (this.properties().includes("height")) {
-                this._layer.setVerticalAlignment(1)
-            } else {
-                this._layer.adjustFrameToFit() 
-            }
-            break;
-        default:
-            if (this._layer.resizeToFitChildrenWithOption) {
-                this._layer.resizeToFitChildrenWithOption(1);
-            }
-            break;
-    }
-}
-
-Component.prototype.sizeToFit = function(padding) {
-    if (this.components().count() == 0) {
-        return
-    }
-
-    this.debug("& Component: sizeToFit: <" + this.name() + "> <" + this.class() + ">", 1)
-
-    var constraints = []
-    var minX = this.components().minLeft()
-    var minY = this.components().minTop()
-
-    padding = padding || new Padding()
-    for (var i = 0; i < this.components().count(); i++) {
-        var component = this.components().objectAtIndex(i)
-
-        var frameBefore = this.frame().toString()
-
-        if (component.properties().includes("margin-right") && component.properties().excludes("margin-left")) {
-            component.frame().setX(component.frame().x() - padding.right())
-        } else {
-            component.frame().setX(component.frame().x() - minX + padding.left())   
-        }
-
-        if (component.properties().includes("margin-bottom") && component.properties().excludes("margin-top")) {
-            component.frame().setY(component.frame().y() - padding.bottom())
-        } else {
-            component.frame().setY(component.frame().y() - minY + padding.top())   
-        }
-
-        var frameAfter = this.frame().toString()
-
-        this.debug("& Component: sizeToFit: <" + component.name() + "> " + frameBefore + " -> " + frameAfter, 2)
-
-        if (!this.isArtboard()) {
-            component.constraints().lock()
-            constraints.push(component.constraints())
-        }
-    }
-
-    this.frame().setWidth(this.components().maxRight(this.isArtboard()) + padding.right())
-    this.frame().setHeight(this.components().maxBottom(this.isArtboard()) + padding.bottom())
-
-    for (var i = 0; i < constraints.length; i++) {
-        constraints[i].unlock()
-    }
-}
+Component.prototype.sizeToFit = function() {
+    this._sizeToFit();
+};
 
 Component.prototype.roundToPixel = function() {
-    this.frame().setX(this.frame().x())
-    this.frame().setY(this.frame().y())
-    this.frame().setWidth(this.frame().width())
-    this.frame().setHeight(this.frame().height())
-}
+    this.frame().setX(this.frame().x());
+    this.frame().setY(this.frame().y());
+    this.frame().setWidth(this.frame().width());
+    this.frame().setHeight(this.frame().height());
+};
 
-Component.prototype.debug = function(msg, addLevel) {
-    debug(this, msg, addLevel)
-}
+// Logging
+
+Component.prototype.debugFrame = function() {
+    this._debugFrame = this.frame().toString();
+};
+
+Component.prototype.debug = function(msg) {
+    var frame = '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>';
+    var name = '<' + this.name() + '> <' + this.class() + '>';
+
+    debug(this, [msg, (this._debugFrame ? frame : ''), name].join(' '));
+
+    this._debugFrame = undefined;
+};
 
 // -----------------------------------------------------------
 
-global.Component = Component
+global.Component = Component;

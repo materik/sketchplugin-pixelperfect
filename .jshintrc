@@ -1,0 +1,32 @@
+{
+    "bitwise": true,
+    "camelcase": false,
+    "curly": true,
+    "eqeqeq": true,
+    "forin": true,
+    "freeze": true,
+    "immed": true,
+    "latedef": false, // want true
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "nonbsp": true,
+    "nonew": true,
+    "maxcomplexity": false,
+    "maxdepth": 2,
+    "maxlen": false,
+    "maxparams": false,
+    "maxstatements": false,
+    "node": true,
+    "plusplus": false,
+    "predef": [
+        "@import",
+        "assert",
+        "describe",
+        "it"
+    ],
+    "quotmark": "single",
+    "strict": false,
+    "undef": true,
+    "unused": true
+}
