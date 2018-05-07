@@ -50,7 +50,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 25);
                 assert.equal(layer.frame().y(), 10);
                 assert.equal(container.frame().width(), 100);
@@ -63,7 +63,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 40);
                 assert.equal(layer.frame().y(), 50);
                 assert.equal(container.frame().width(), 100);
@@ -76,7 +76,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 25);
                 assert.equal(layer.frame().y(), 90);
                 assert.equal(container.frame().width(), 100);
@@ -89,7 +89,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 10);
                 assert.equal(layer.frame().y(), 50);
                 assert.equal(container.frame().width(), 100);
@@ -102,7 +102,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 40);
                 assert.equal(layer.frame().y(), 10);
                 assert.equal(container.frame().width(), 100);
@@ -115,11 +115,11 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 25);
                 assert.equal(layer.frame().y(), 10);
                 assert.equal(container.frame().width(), 100);
-                assert.equal(container.frame().height(), 80);
+                assert.equal(container.frame().height(), 120);
             });
 
             it('top-left', function() {
@@ -128,7 +128,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 10);
                 assert.equal(layer.frame().y(), 10);
                 assert.equal(container.frame().width(), 100);
@@ -141,7 +141,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 40);
                 assert.equal(layer.frame().y(), 90);
                 assert.equal(container.frame().width(), 100);
@@ -154,7 +154,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 10);
                 assert.equal(layer.frame().y(), 50);
                 assert.equal(container.frame().width(), 70);
@@ -167,7 +167,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 10);
                 assert.equal(layer.frame().y(), 90);
                 assert.equal(container.frame().width(), 100);
@@ -180,11 +180,11 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 40);
                 assert.equal(layer.frame().y(), 10);
                 assert.equal(container.frame().width(), 100);
-                assert.equal(container.frame().height(), 80);
+                assert.equal(container.frame().height(), 120);
             });
 
             it('top-right-left', function() {
@@ -193,7 +193,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 10);
                 assert.equal(layer.frame().y(), 10);
                 assert.equal(container.frame().width(), 70);
@@ -206,11 +206,11 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 10);
                 assert.equal(layer.frame().y(), 10);
                 assert.equal(container.frame().width(), 100);
-                assert.equal(container.frame().height(), 80);
+                assert.equal(container.frame().height(), 120);
             });
 
             it('right-bottom-left', function() {
@@ -219,7 +219,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 10);
                 assert.equal(layer.frame().y(), 90);
                 assert.equal(container.frame().width(), 70);
@@ -232,12 +232,11 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
-                log(Component.new(layer).properties())
-                Property.new(Component.new(layer)).apply();
+                Component.new(layer).apply();
                 assert.equal(layer.frame().x(), 10);
                 assert.equal(layer.frame().y(), 10);
                 assert.equal(container.frame().width(), 70);
-                assert.equal(container.frame().height(), 80);
+                assert.equal(container.frame().height(), 120);
             });
         });
     });

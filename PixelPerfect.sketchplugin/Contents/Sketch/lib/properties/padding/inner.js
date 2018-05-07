@@ -73,7 +73,7 @@ PaddingInnerProperty.prototype._apply = function() {
     var padding = this.value();
     var components = this.component().components();
 
-    this.component().debug('# PaddingInnerProperty: apply inner padding:');
+    this.component().debug('# PaddingInnerProperty: apply: ' + this.toString());
 
     var minLeft = components.minLeft(this.container().objectID());
     var minTop = components.minTop(this.container().objectID());

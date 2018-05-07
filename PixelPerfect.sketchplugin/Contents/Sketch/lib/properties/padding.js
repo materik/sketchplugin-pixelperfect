@@ -41,18 +41,10 @@ PaddingProperty.prototype.isInner = function() {
 // Action
 
 PaddingProperty.prototype._apply = function() {
-    var frame = this.component().frame();
-    switch (this.key()) {
-        case PROPERTY_PADDING:
-            if (this.isOuter()) {
-                this._outer.apply();
-            } else if (this.isInner()) {
-                this._inner.apply();
-            }
-            break;
-        /* istanbul ignore next */
-        default:
-            return;
+    if (this.isOuter()) {
+        this._outer.apply();
+    } else if (this.isInner()) {
+        this._inner.apply();
     }
 };
 
