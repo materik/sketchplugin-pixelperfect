@@ -93,20 +93,6 @@ describe('property', function() {
         assert.equal(property.value(), 200);
     });
 
-    it('padding', function() {
-        var group = createLayerGroup();
-        var padding = Padding.new();
-        padding.add(1);
-        assert.equal(padding.isValid(), true);
-        var property = Property.new(Component.new(group), 'padding', padding);
-        assert.equal(property, undefined);
-        group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var property = Property.new(Component.new(group), 'padding', padding);
-        assert.equal(property.isValid(), true);
-        assert.equal(property.key(), 'padding');
-        assert.equal(property.value().isValid(), true);
-    });
-
     it('margin-top', function() {
         var property = Property.new(Component.new(createLayer('t100')));
         assert.equal(property.isValid(), true);
@@ -302,31 +288,6 @@ describe('property', function() {
             component.frame().setHeight(20);
             property.apply();
             assert.equal(component.frame().height(), 20);
-        });
-
-        it('padding', function() {
-            var layer1 = createLayer('', 10, 11, 3, 4);
-            var layer2 = createLayer('bg', 5, 6, 7, 8);
-            var component = Component.new(layer1);
-            var background = Component.new(layer2);
-            var group = createLayerGroup();
-            group.insertLayer_afterLayerOrAtEnd(layer1);
-            group.insertLayer_afterLayerOrAtEnd(layer2);
-            var padding = Padding.new();
-            padding.add(1);
-            padding.add(2);
-            padding.add(3);
-            padding.add(4);
-            var property = Property.new(component, 'padding', padding);
-            property.apply();
-            assert.equal(component.frame().x(), 10);
-            assert.equal(component.frame().y(), 11);
-            assert.equal(component.frame().width(), 3);
-            assert.equal(component.frame().height(), 4);
-            assert.equal(background.frame().x(), 6);
-            assert.equal(background.frame().y(), 10);
-            assert.equal(background.frame().width(), 9);
-            assert.equal(background.frame().height(), 8);
         });
 
         it('margin-top', function() {

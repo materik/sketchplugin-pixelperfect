@@ -57,7 +57,10 @@ PaddingInnerProperty.prototype.isValid = function() {
     if (!PaddingInnerProperty.validKeys().contains(this.key())) {
         return false;
     }
-    return this.value() && this.value().isValid() && this.hasContainer();
+    if (this.key() == PROPERTY_PADDING && !this.value().isValid()) {
+        return false;
+    }
+    return this.hasContainer();
 };
 
 PaddingInnerProperty.prototype.hasContainer = function() {

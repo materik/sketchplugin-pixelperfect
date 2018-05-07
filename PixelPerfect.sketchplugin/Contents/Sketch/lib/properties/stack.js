@@ -28,7 +28,7 @@ StackProperty.prototype.isValid = function() {
     if (!StackProperty.validKeys().contains(this.key())) {
         return false;
     }
-    return this.key() != '' && !isNaN(this.value());
+    return !isNaN(this.value());
 };
 
 // Action

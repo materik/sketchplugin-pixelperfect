@@ -12,6 +12,10 @@ PaddingOuterProperty.prototype = Object.create(Property.prototype);
 PaddingOuterProperty.validKeys = function() {
     return [
         PROPERTY_PADDING,
+        PROPERTY_PADDING_TOP,
+        PROPERTY_PADDING_RIGHT,
+        PROPERTY_PADDING_BOTTOM,
+        PROPERTY_PADDING_LEFT,
     ];
 };
 
@@ -33,7 +37,10 @@ PaddingOuterProperty.prototype.isValid = function() {
     if (!PaddingOuterProperty.validKeys().contains(this.key())) {
         return false;
     }
-    return this.value() && this.value().isValid() && this.hasContainer();
+    if (this.key() == PROPERTY_PADDING && !this.value().isValid()) {
+        return false;
+    }
+    return this.hasContainer();
 };
 
 PaddingOuterProperty.prototype.hasContainer = function() {

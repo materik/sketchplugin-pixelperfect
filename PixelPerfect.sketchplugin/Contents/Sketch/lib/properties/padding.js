@@ -27,10 +27,7 @@ PaddingProperty.new = function(component, raw, value) {
 // Getter
 
 PaddingProperty.prototype.isValid = function() {
-    if (!PaddingProperty.validKeys().contains(this.key())) {
-        return false;
-    }
-    return this.value() && this.value().isValid() && (this.isOuter() || this.isInner());
+    return this.isOuter() || this.isInner();
 };
 
 PaddingProperty.prototype.isOuter = function() {
