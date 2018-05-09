@@ -2,32 +2,39 @@
 function Property(component, key, value) {
     this._component = component;
     this._key = key;
-    this._value = value;
+    this._value = value || 0;
 }
 
 // Static
 
-Property.new = function(component, raw, value) {
-    var key = Property._extractKey(raw || component.name());
-    value = value || Property._extractValue(raw || component.name());
-
-    var property = (function() {
-        if (CenterProperty.validKeys().contains(key)) {
-            return new CenterProperty(component, key, value);
-        } else if (MarginProperty.validKeys().contains(key)) {
-            return new MarginProperty(component, key, value);
-        } else if (PaddingProperty.validKeys().contains(key)) {
-            return new PaddingProperty(component, key, value);
-        } else if (SizeProperty.validKeys().contains(key)) {
-            return new SizeProperty(component, key, value);
-        } else if (StackProperty.validKeys().contains(key)) {
-            return new StackProperty(component, key, value);
-        }
-    })();
-
+Property.new = function(component, key, value) {
+    var property = new CenterProperty(component, key, value);
     if (property && property.isValid()) {
         return property;
     }
+    var property = new MarginProperty(component, key, value);
+    if (property && property.isValid()) {
+        return property;
+    }
+    var property = new PaddingProperty(component, key, value);
+    if (property && property.isValid()) {
+        return property;
+    }
+    var property = new SizeProperty(component, key, value);
+    if (property && property.isValid()) {
+        return property;
+    }
+    var property = new StackProperty(component, key, value);
+    if (property && property.isValid()) {
+        return property;
+    }
+    component.debug('~ Property: invalid <' + key + '> <' + value + '>')
+};
+
+Property.parse = function(component, raw) {
+    var key = Property._extractKey(raw || component.name());
+    var value = Property._extractValue(raw || component.name());
+    return Property.new(component, key, value)
 };
 
 // Getter

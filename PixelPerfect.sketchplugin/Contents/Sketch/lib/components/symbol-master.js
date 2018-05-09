@@ -1,16 +1,16 @@
 
 function SymbolMasterComponent(layer) {
-    Component.call(this, layer);
+    ArtboardComponent.call(this, layer);
 }
 
-SymbolMasterComponent.prototype = Object.create(Component.prototype);
+SymbolMasterComponent.prototype = Object.create(ArtboardComponent.prototype);
 
 // Getter
 
 SymbolMasterComponent.prototype.properties = function() {
-    var properties = Component.prototype.properties.call(this);
-    if (!properties.contains(PROPERTY_PADDING)) {
-        properties.add(PROPERTY_PADDING, Padding.zero());
+    var properties = ArtboardComponent.prototype.properties.call(this);
+    if (!properties.containsPadding()) {
+        properties.addZeroPadding();
     }
     return properties;
 };
@@ -20,18 +20,8 @@ SymbolMasterComponent.prototype.objectID = function() {
 };
 
 SymbolMasterComponent.prototype.shouldApply = function() {
-    return Component.prototype.shouldApply.call(this) &&
+    return ArtboardComponent.prototype.shouldApply.call(this) &&
         SymbolStore.sharedInstance.shouldApply(this);
-};
-
-// Action
-
-SymbolMasterComponent.prototype._apply = function() {
-    this.components().apply();
-};
-
-SymbolMasterComponent.prototype._sizeToFit = function() {
-    // Do nothing...
 };
 
 // -----------------------------------------------------------

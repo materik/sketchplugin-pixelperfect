@@ -18,20 +18,21 @@ StackProperty.validKeys = function() {
     ];
 };
 
-StackProperty.new = function(component, raw, value) {
-    return Property.new(component, raw, value);
+StackProperty.new = function(component, key, value) {
+    return Property.new(component, key, value);
 };
 
 // Getter
 
 StackProperty.prototype.isValid = function() {
-    if (!StackProperty.validKeys().contains(this.key())) {
-        return false;
-    }
-    return !isNaN(this.value());
+    return StackProperty.validKeys().contains(this.key());
 };
 
 // Action
+
+StackProperty.prototype.type = function() {
+    return PROPERTY_TYPE_STACK;
+}
 
 StackProperty.prototype._apply = function() {
     var frame = this.component().frame();
@@ -62,7 +63,7 @@ StackProperty.prototype._apply = function() {
 
 Property.prototype.applyStackHorizontally = function(alignment) {
     var components = this.component().components();
-    var h = components.maxHeight();
+    var h = components.frame().maxHeight();
 
     var x = 0;
     for (var k = components.count() - 1; k >= 0; k--) {
@@ -78,7 +79,7 @@ Property.prototype.applyStackHorizontally = function(alignment) {
 
 Property.prototype.applyStackVertically = function(alignment) {
     var components = this.component().components();
-    var w = components.maxWidth();
+    var w = components.frame().maxWidth();
 
     var y = 0;
     for (var k = components.count() - 1; k >= 0; k--) {

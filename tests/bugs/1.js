@@ -123,9 +123,9 @@ describe('bugs-1', function() {
         }
     });
 
-    it('margin right bottom should be affected of artboard padding', function() {
+    it('margin right bottom shouldnt be affected of artboard padding', function() {
         var artboard = createArtboard('0:32:32:0:w300:h300', 0, 0, 300, 300);
-        var layer = createLayer('r32:b32', 236, 204, 32, 32);
+        var layer = createLayer('r64:b64', 236, 204, 32, 32);
 
         artboard.insertLayer_afterLayerOrAtEnd(layer);
 

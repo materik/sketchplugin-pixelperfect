@@ -13,15 +13,17 @@ SymbolStore.prototype.ids = function() {
     return this._ids;
 };
 
-SymbolStore.prototype.contains = function(component) {
+SymbolStore.prototype.containsComponent = function(component) {
     return this.ids().includes(component.objectID());
 };
 
 SymbolStore.prototype.shouldApply = function(component) {
-    if (component.page() == null) {
+    if (!component.isSymbolMaster()) {
+        return true
+    } else if (component.page() == null) {
         component.debug('/ SymbolStore: master is not local');
         return false;
-    } else if (this.contains(component)) {
+    } else if (this.containsComponent(component)) {
         component.debug('/ SymbolStore: master already applied');
         return false;
     } else {

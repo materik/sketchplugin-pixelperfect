@@ -51,6 +51,18 @@ describe('constraints', function() {
         assert.equal(layer.hasFixedLeft(), true);
     });
 
+    it('width-percentage-full', function() {
+        var layer = createLayer('w100%%');
+        assert.equal(layer.hasFixedWidth(), false);
+        Component.apply(layer);
+        assert.equal(layer.hasFixedWidth(), false);
+        assert.equal(layer.hasFixedHeight(), true);
+        assert.equal(layer.hasFixedTop(), false);
+        assert.equal(layer.hasFixedRight(), true);
+        assert.equal(layer.hasFixedBottom(), false);
+        assert.equal(layer.hasFixedLeft(), true);
+    });
+
     it('height', function() {
         var layer = createLayer('h100');
         assert.equal(layer.hasFixedHeight(), false);
@@ -65,6 +77,18 @@ describe('constraints', function() {
 
     it('height-percentage', function() {
         var layer = createLayer('h100%');
+        assert.equal(layer.hasFixedHeight(), false);
+        Component.apply(layer);
+        assert.equal(layer.hasFixedWidth(), true);
+        assert.equal(layer.hasFixedHeight(), false);
+        assert.equal(layer.hasFixedTop(), true);
+        assert.equal(layer.hasFixedRight(), false);
+        assert.equal(layer.hasFixedBottom(), true);
+        assert.equal(layer.hasFixedLeft(), false);
+    });
+
+    it('height-percentage-full', function() {
+        var layer = createLayer('h100%%');
         assert.equal(layer.hasFixedHeight(), false);
         Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), true);

@@ -37,7 +37,7 @@ Component.apply = function(layer) {
 
 Component.prototype.components = function() {
     if (this._components == null) {
-        this._components = Components.sub(this._layer);
+        this._components = Components.sub(this._layer, this);
     }
     return this._components;
 };
@@ -121,49 +121,57 @@ Component.prototype.parent = function() {
     return this._parent;
 };
 
-Component.prototype.minLeftInParent = function(ignoreSelf) {
+Component.prototype.leftInParent = function(ignoreSelf) {
     if (!this.hasParent()) {
         return 0;
-    } else if (this.parent().isArtboard()) {
+    } else if (this.parent().isArtboard() || this.parent().isSymbolMaster()) {
         return 0;
+    } else if (ignoreSelf) {
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().left()
     } else {
-        return this.parent().components().minLeft(ignoreSelf ? this.objectID() : undefined);
+        return this.parent().components().frame().left();
     }
 };
 
-Component.prototype.minTopInParent = function(ignoreSelf) {
+Component.prototype.topInParent = function(ignoreSelf) {
     if (!this.hasParent()) {
         return 0;
-    } else if (this.parent().isArtboard()) {
+    } else if (this.parent().isArtboard() || this.parent().isSymbolMaster()) {
         return 0;
+    } else if (ignoreSelf) {
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().top()
     } else {
-        return this.parent().components().minTop(ignoreSelf ? this.objectID() : undefined);
+        return this.parent().components().frame().top();
     }
 };
 
 Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
     if (!this.hasParent()) {
         return 0;
-    } else if (this.parent().isArtboard()) {
+    } else if (this.parent().isArtboard() || this.parent().isSymbolMaster()) {
         return this.parent().frame().width();
-    } else if (forceIteration || this.parent().properties().contains(PROPERTY_WIDTH_PERCENTAGE)) {
+    } else if (forceIteration || this.parent().properties().containsKey(PROPERTY_WIDTH_PERCENTAGE)) {
         return this.parent().widthOfParent(forceIteration, ignoreSelf) ||
             this.parent().frame().width();
+    } else if (ignoreSelf) {
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().maxWidth()
     } else {
-        return this.parent().components().maxWidth(ignoreSelf ? this.objectID() : undefined);
+        return this.parent().components().frame().maxWidth();
     }
 };
 
 Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
     if (!this.hasParent()) {
         return 0;
-    } else if (this.parent().isArtboard()) {
+    } else if (this.parent().isArtboard() || this.parent().isSymbolMaster() || this.parent().isSymbolMaster()) {
         return this.parent().frame().height();
-    } else if (forceIteration || this.parent().properties().contains(PROPERTY_HEIGHT_PERCENTAGE)) {
+    } else if (forceIteration || this.parent().properties().containsKey(PROPERTY_HEIGHT_PERCENTAGE)) {
         return this.parent().heightOfParent(forceIteration, ignoreSelf) ||
             this.parent().frame().height();
+    } else if (ignoreSelf) {
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().maxHeight()
     } else {
-        return this.parent().components().maxHeight(ignoreSelf ? this.objectID() : undefined);
+        return this.parent().components().frame().maxHeight();
     }
 };
 
@@ -192,6 +200,14 @@ Component.prototype.roundToPixel = function() {
     this.frame().setY(this.frame().y());
     this.frame().setWidth(this.frame().width());
     this.frame().setHeight(this.frame().height());
+};
+
+Component.prototype.lockConstraints = function() {
+    this.constraints().lock();
+};
+
+Component.prototype.unlockConstraints = function() {
+    this.constraints().unlock();
 };
 
 // Logging

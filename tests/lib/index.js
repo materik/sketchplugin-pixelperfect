@@ -14,7 +14,6 @@ require(PATH_LIB + '/components');
 require(PATH_LIB + '/constraints');
 require(PATH_LIB + '/frame');
 require(PATH_LIB + '/index');
-require(PATH_LIB + '/padding');
 require(PATH_LIB + '/properties');
 require(PATH_LIB + '/property');
 require(PATH_LIB + '/symbol-store');
@@ -29,8 +28,6 @@ require(PATH_COMPONENTS + '/text');
 require(PATH_PROPERTIES + '/center');
 require(PATH_PROPERTIES + '/margin');
 require(PATH_PROPERTIES + '/padding');
-require(PATH_PROPERTIES + '/padding/inner');
-require(PATH_PROPERTIES + '/padding/outer');
 require(PATH_PROPERTIES + '/size');
 require(PATH_PROPERTIES + '/stack');
 

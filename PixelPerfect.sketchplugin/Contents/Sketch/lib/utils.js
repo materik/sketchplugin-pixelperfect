@@ -50,6 +50,14 @@ Array.prototype.contains = function(str) {
     return this.includes(str);
 };
 
+Array.prototype.map = function(callback) {
+    var map = []
+    for (var i = 0; i < this.length; i++) {
+        map.push(callback(this[i]))
+    }
+    return map;
+}
+
 Math.roundWithPrecision = function(value, precision) {
     var factor = this.pow(10, precision || 0);
     return this.round(value * factor) / factor;
@@ -63,8 +71,8 @@ String.prototype.contains = function(str) {
     return this.indexOf(str) >= 0;
 };
 
-String.prototype.regexp = function() {
-    return new RegExp('^' + this + '$');
+String.prototype.regexp = function(flags) {
+    return new RegExp('^' + this + '$', flags);
 };
 
 // -----------------------------------------------------------

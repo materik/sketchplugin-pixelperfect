@@ -1,44 +1,45 @@
 
 require('../lib');
 
-describe('property-center', function() {
+describe('property', function() {
+describe('center', function() {
     it('center-horizontally', function() {
-        var property = Property.new(Component.new(createLayer('c')));
+        var property = Property.parse(Component.new(createLayer('c')));
         assert.equal(property.isValid(), true);
         assert.equal(property.key(), 'center-horizontally');
-        assert.ok(isNaN(property.value()));
+        assert.equal(property.value(), 0);
     });
 
     it('center-horizontally-addition', function() {
-        var property = Property.new(Component.new(createLayer('c+16')));
+        var property = Property.parse(Component.new(createLayer('c+16')));
         assert.equal(property.isValid(), true);
         assert.equal(property.key(), 'center-horizontally');
         assert.equal(property.value(), 16);
     });
 
     it('center-horizontally-subtraction', function() {
-        var property = Property.new(Component.new(createLayer('c-16')));
+        var property = Property.parse(Component.new(createLayer('c-16')));
         assert.equal(property.isValid(), true);
         assert.equal(property.key(), 'center-horizontally');
         assert.equal(property.value(), -16);
     });
 
     it('center-vertically', function() {
-        var property = Property.new(Component.new(createLayer('v')));
+        var property = Property.parse(Component.new(createLayer('v')));
         assert.equal(property.isValid(), true);
         assert.equal(property.key(), 'center-vertically');
-        assert.ok(isNaN(property.value()));
+        assert.equal(property.value(), 0);
     });
 
     it('center-vertically-addition', function() {
-        var property = Property.new(Component.new(createLayer('v+16')));
+        var property = Property.parse(Component.new(createLayer('v+16')));
         assert.equal(property.isValid(), true);
         assert.equal(property.key(), 'center-vertically');
         assert.equal(property.value(), 16);
     });
 
     it('center-vertically-subtraction', function() {
-        var property = Property.new(Component.new(createLayer('v-16')));
+        var property = Property.parse(Component.new(createLayer('v-16')));
         assert.equal(property.isValid(), true);
         assert.equal(property.key(), 'center-vertically');
         assert.equal(property.value(), -16);
@@ -53,7 +54,7 @@ describe('property-center', function() {
             var group = createLayerGroup();
             group.insertLayer_afterLayerOrAtEnd(layer1);
             group.insertLayer_afterLayerOrAtEnd(layer2);
-            var property = Property.new(component);
+            var property = Property.parse(component);
             property.apply();
             assert.equal(component.frame().x(), 14);
         });
@@ -66,7 +67,7 @@ describe('property-center', function() {
             var group = createLayerGroup();
             group.insertLayer_afterLayerOrAtEnd(layer1);
             group.insertLayer_afterLayerOrAtEnd(layer2);
-            var property = Property.new(component);
+            var property = Property.parse(component);
             property.apply();
             assert.equal(component.frame().x(), 16);
         });
@@ -79,7 +80,7 @@ describe('property-center', function() {
             var group = createLayerGroup();
             group.insertLayer_afterLayerOrAtEnd(layer1);
             group.insertLayer_afterLayerOrAtEnd(layer2);
-            var property = Property.new(component);
+            var property = Property.parse(component);
             property.apply();
             assert.equal(component.frame().x(), 12);
         });
@@ -92,7 +93,7 @@ describe('property-center', function() {
             var group = createLayerGroup();
             group.insertLayer_afterLayerOrAtEnd(layer1);
             group.insertLayer_afterLayerOrAtEnd(layer2);
-            var property = Property.new(component);
+            var property = Property.parse(component);
             property.apply();
             assert.equal(component.frame().y(), 16);
         });
@@ -105,7 +106,7 @@ describe('property-center', function() {
             var group = createLayerGroup();
             group.insertLayer_afterLayerOrAtEnd(layer1);
             group.insertLayer_afterLayerOrAtEnd(layer2);
-            var property = Property.new(component);
+            var property = Property.parse(component);
             property.apply();
             assert.equal(component.frame().y(), 18);
         });
@@ -118,9 +119,10 @@ describe('property-center', function() {
             var group = createLayerGroup();
             group.insertLayer_afterLayerOrAtEnd(layer1);
             group.insertLayer_afterLayerOrAtEnd(layer2);
-            var property = Property.new(component);
+            var property = Property.parse(component);
             property.apply();
             assert.equal(component.frame().y(), 14);
         });
     });
+});
 });

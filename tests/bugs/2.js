@@ -204,7 +204,7 @@ describe('bugs-2', function() {
     it('layer doesnt comply to artboard with layed out to the right', function() {
         var artboard = createArtboard('Desktop/MVP/02 [0:0:64:0:w1680:h>960]', 0, 0, 1680, 500);
         var layer1 = createLayer('l128:t112', 0, 0, 1024, 792);
-        var layer2 = createLayer('h100%:t:r:b', 1712, 0, 496, 500);
+        var layer2 = createLayer('h100%:b:r:t', 1712, 0, 496, 500);
         var layer3 = createLayer('l:t', 0, 0, 10, 10);
 
         artboard.insertLayer_afterLayerOrAtEnd(layer1);
@@ -223,16 +223,7 @@ describe('bugs-2', function() {
             assert.equal(layer2.frame().x(), 1184);
             assert.equal(layer2.frame().y(), 0);
             assert.equal(layer2.frame().width(), 496);
-
-            // NOTE(materik):
-            // * in real sketch the layers conforms to the first size of the artboard
-            //   and then sizes with the resize. This is difficult to mock why
-            //   the other iteration is the right size here in the test
-            if (i == 0) {
-                assert.equal(layer2.frame().height(), 500);
-            } else {
-                assert.equal(layer2.frame().height(), 968);
-            }
+            assert.equal(layer2.frame().height(), 968);
         }
     });
 
@@ -241,7 +232,7 @@ describe('bugs-2', function() {
         var masterLayer = createLayer('w100:h100:t:b', 0, 0, 120, 120);
         var artboard = createArtboard('Artboard [32:32:w500:h>300]', 0, 0, 500, 500);
         var instance = createSymbolInstance(master, 'Symbol [h200:l:t]', 96, 56, 188, 128);
-        var group = createLayerGroup('y20:b:r', 166, 184, 245, 177);
+        var group = createLayerGroup('y20:b32:r32', 166, 184, 245, 177);
         var layer1 = createLayer('Red [w20:h50]', 0, 117, 60, 60);
         var layer2 = createLayer('Green [w50:h20]', 185, 0, 60, 60);
 
@@ -283,6 +274,7 @@ describe('bugs-2', function() {
             assert.equal(instance.hasFixedLeft(), true);
 
             assert.equal(group.frame().x(), 418);
+            assert.equal(group.frame().y(), 178);
             assert.equal(group.frame().width(), 50);
             assert.equal(group.frame().height(), 90);
             assert.equal(group.hasFixedWidth(), true);
@@ -305,16 +297,6 @@ describe('bugs-2', function() {
             assert.equal(layer2.frame().height(), 20);
             assert.equal(layer2.hasFixedWidth(), true);
             assert.equal(layer2.hasFixedHeight(), true);
-
-            // NOTE(materik):
-            // * in real sketch the layers conforms to the first size of the artboard
-            //   and then sizes with the resize. This is difficult to mock why
-            //   the other iteration is the right size here in the test
-            if (i == 0) {
-                assert.equal(group.frame().y(), 378);
-            } else {
-                assert.equal(group.frame().y(), 178);
-            }
         }
     });
 
