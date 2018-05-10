@@ -5,9 +5,10 @@ var global = {};
 
 @import "./lib/alignment.js";
 @import "./lib/component.js";
+@import "./lib/component-frame.js";
 @import "./lib/components.js";
+@import "./lib/components-frame.js";
 @import "./lib/constraints.js";
-@import "./lib/frame.js";
 @import "./lib/index.js";
 @import "./lib/properties.js";
 @import "./lib/property.js";

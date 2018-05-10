@@ -1,7 +1,7 @@
 
 function Component(layer) {
     this._layer = layer;
-    this._frame = Frame.new(layer);
+    this._frame = ComponentFrame.new(layer);
     this._components = null;
     this._properties = null;
     this._constraints = null;
