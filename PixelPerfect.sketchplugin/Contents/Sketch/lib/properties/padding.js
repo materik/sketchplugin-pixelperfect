@@ -117,7 +117,8 @@ PaddingProperty.prototype._apply = function() {
     switch (this.key()) {
         case PROPERTY_PADDING_TOP:
             MarginProperty.top(this.components(), this.value()).apply()
-            if (!this.components().properties().containsPaddingRightOrLeft()) {
+            if (!this.components().properties().containsPaddingRightOrLeft() &&
+                !this.components().properties().containsMarginRightOrLeft()) {
                 CenterProperty.horizontally(this.components()).apply()
             } else if (!this.container().isSymbolMaster() && !this.container().isArtboard()) {
                 MarginProperty.top(this.container(), 0).apply()
@@ -130,7 +131,8 @@ PaddingProperty.prototype._apply = function() {
             } else {
                 MarginProperty.right(this.components(), this.value()).apply()
             }
-            if (!this.components().properties().containsPaddingTopOrBottom()) {
+            if (!this.components().properties().containsPaddingTopOrBottom() &&
+                !this.components().properties().containsMarginTopOrBottom()) {
                 CenterProperty.vertically(this.components()).apply()
             } else if (!this.container().isSymbolMaster() && !this.container().isArtboard()) {
                 MarginProperty.left(this.container(), 0).apply()
@@ -143,7 +145,8 @@ PaddingProperty.prototype._apply = function() {
             } else {
                 MarginProperty.bottom(this.components(), this.value()).apply()
             }
-            if (!this.components().properties().containsPaddingRightOrLeft()) {
+            if (!this.components().properties().containsPaddingRightOrLeft() &&
+                !this.components().properties().containsMarginRightOrLeft()) {
                 CenterProperty.horizontally(this.components()).apply()
             } else if (!this.container().isSymbolMaster() && !this.container().isArtboard()) {
                 MarginProperty.top(this.container(), 0).apply()
@@ -151,7 +154,8 @@ PaddingProperty.prototype._apply = function() {
             break;
         case PROPERTY_PADDING_LEFT:
             MarginProperty.left(this.components(), this.value()).apply()
-            if (!this.components().properties().containsPaddingTopOrBottom()) {
+            if (!this.components().properties().containsPaddingTopOrBottom() &&
+                !this.components().properties().containsMarginTopOrBottom()) {
                 CenterProperty.vertically(this.components()).apply()
             } else if (!this.container().isSymbolMaster() && !this.container().isArtboard()) {
                 MarginProperty.left(this.container(), 0).apply()

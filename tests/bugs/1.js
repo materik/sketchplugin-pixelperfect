@@ -140,7 +140,7 @@ describe('bugs-1', function() {
     });
 
     it('cannot adjust a layer to the left if background is larger (with padding)', function() {
-        var artboard = createArtboard('Desktop/Login/1 [0:0:64:0:w1680:h>960]', 0, 0, 1680, 960);
+        var artboard = createArtboard('Desktop/Login/1 [pb16:w1680:h>960]', 0, 0, 1680, 960);
         var layer1 = createLayer('w100%:t:l', 0, 0, 1680, 100);
         var layer2 = createLayer('h100%:v:h', 0, 0, 1707, 960);
 
@@ -156,12 +156,12 @@ describe('bugs-1', function() {
             assert.equal(artboard.frame().width(), 1680);
             assert.equal(artboard.frame().height(), 960);
 
-            assert.equal(layer1.frame().x(), 13);
+            assert.equal(layer1.frame().x(), 0);
             assert.equal(layer1.frame().y(), 0);
             assert.equal(layer1.frame().width(), 1680);
             assert.equal(layer1.frame().height(), 100);
 
-            assert.equal(layer2.frame().x(), 0);
+            assert.equal(layer2.frame().x(), -13);
             assert.equal(layer2.frame().y(), 0);
             assert.equal(layer2.frame().width(), 1707);
             assert.equal(layer2.frame().height(), 960);

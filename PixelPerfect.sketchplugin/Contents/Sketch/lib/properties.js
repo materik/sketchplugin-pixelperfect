@@ -66,17 +66,12 @@ Properties.prototype.containsType = function(type) {
     }).count() > 0;
 };
 
-Properties.prototype.containsPadding = function() {
-    return this.containsType(PROPERTY_TYPE_PADDING);
-};
-
 Properties.prototype.containsPercentageWidthOrHeight = function() {
     return this.containsKey(PROPERTY_WIDTH_PERCENTAGE) || this.containsKey(PROPERTY_WIDTH_PERCENTAGE);
 }
 
-Properties.prototype.containsMarginRightOrBottom = function() {
-    return (this.containsKey(PROPERTY_MARGIN_RIGHT) && !this.containsKey(PROPERTY_MARGIN_LEFT)) || 
-        (this.containsKey(PROPERTY_MARGIN_BOTTOM) && !this.containsKey(PROPERTY_MARGIN_TOP));
+Properties.prototype.containsPadding = function() {
+    return this.containsType(PROPERTY_TYPE_PADDING);
 };
 
 Properties.prototype.containsPaddingTopOrBottom = function() {
@@ -85,6 +80,28 @@ Properties.prototype.containsPaddingTopOrBottom = function() {
 
 Properties.prototype.containsPaddingRightOrLeft = function() {
     return this.containsKey(PROPERTY_PADDING_RIGHT) || this.containsKey(PROPERTY_PADDING_LEFT);
+};
+
+Properties.prototype.containsMargin = function() {
+    return this.containsType(PROPERTY_TYPE_MARGIN);
+};
+
+Properties.prototype.containsMarginTopOrLeft = function() {
+    return (!this.containsKey(PROPERTY_MARGIN_RIGHT) && this.containsKey(PROPERTY_MARGIN_LEFT)) || 
+        (!this.containsKey(PROPERTY_MARGIN_BOTTOM) && this.containsKey(PROPERTY_MARGIN_TOP));
+};
+
+Properties.prototype.containsMarginRightOrBottom = function() {
+    return (this.containsKey(PROPERTY_MARGIN_RIGHT) && !this.containsKey(PROPERTY_MARGIN_LEFT)) || 
+        (this.containsKey(PROPERTY_MARGIN_BOTTOM) && !this.containsKey(PROPERTY_MARGIN_TOP));
+};
+
+Properties.prototype.containsMarginTopOrBottom = function() {
+    return this.containsKey(PROPERTY_MARGIN_TOP) || this.containsKey(PROPERTY_MARGIN_BOTTOM);
+};
+
+Properties.prototype.containsMarginRightOrLeft = function() {
+    return this.containsKey(PROPERTY_MARGIN_RIGHT) || this.containsKey(PROPERTY_MARGIN_LEFT);
 };
 
 // Action

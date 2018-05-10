@@ -262,8 +262,8 @@ describe('bugs-2', function() {
             assert.equal(artboard.frame().width(), 500);
             assert.equal(artboard.frame().height(), 300);
 
-            assert.equal(instance.frame().x(), 32);
-            assert.equal(instance.frame().y(), 32);
+            assert.equal(instance.frame().x(), 0);
+            assert.equal(instance.frame().y(), 0);
             assert.equal(instance.frame().width(), 100);
             assert.equal(instance.frame().height(), 200);
             assert.equal(instance.hasFixedWidth(), true);
