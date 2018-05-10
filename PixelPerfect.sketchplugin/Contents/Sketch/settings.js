@@ -7,11 +7,11 @@ var PROPERTIES_SEP = ':';
 
 // -----------------------------------------------------------
 
-var PROPERTY_TYPE_CENTER = 'center'
-var PROPERTY_TYPE_MARGIN = 'margin'
-var PROPERTY_TYPE_PADDING = 'padding'
-var PROPERTY_TYPE_SIZE = 'size'
-var PROPERTY_TYPE_STACK = 'stack'
+var PROPERTY_TYPE_CENTER = 'center';
+var PROPERTY_TYPE_MARGIN = 'margin';
+var PROPERTY_TYPE_PADDING = 'padding';
+var PROPERTY_TYPE_SIZE = 'size';
+var PROPERTY_TYPE_STACK = 'stack';
 
 var PROPERTY_WIDTH_STATIC = 'width';
 var PROPERTY_WIDTH_ADDITION = 'width-addition';
@@ -98,19 +98,19 @@ var PROPERTY_PRIORITY = [
     PROPERTY_PADDING_BOTTOM,
     PROPERTY_PADDING_TOP,
     PROPERTY_PADDING_LEFT,
-]
+];
 
 var PROPERTY_MODIFY_PADDING_MAP = {
-    "(?:^|:)([\\d]+):([\\d]+):([\\d]+):([\\d]+)(?:$|:)": ":pt$1:pr$2:pb$3:pl$4:",
-    "(?:^|:)([\\d]+):([\\d]+):([\\d]+)(?:$|:)": ":pt$1:pr$2:pb$3:pl$2:",
-    "(?:^|:)([\\d]+):([\\d]+)(?:$|:)": ":pt$1:pr$2:pb$1:pl$2:",
-    "(?:^|:)([\\d]+)(?:$|:)": ":pt$1:pr$1:pb$1:pl$1:",
-    "(?:^|:)(p|padding)(?:$|:)": ":pt:pr:pb:pl:",
-}
+    '(?:^|:)([\\d]+):([\\d]+):([\\d]+):([\\d]+)(?:$|:)': ':pt$1:pr$2:pb$3:pl$4:',
+    '(?:^|:)([\\d]+):([\\d]+):([\\d]+)(?:$|:)': ':pt$1:pr$2:pb$3:pl$2:',
+    '(?:^|:)([\\d]+):([\\d]+)(?:$|:)': ':pt$1:pr$2:pb$1:pl$2:',
+    '(?:^|:)([\\d]+)(?:$|:)': ':pt$1:pr$1:pb$1:pl$1:',
+    '(?:^|:)(p|padding)(?:$|:)': ':pt:pr:pb:pl:',
+};
 
 var PROPERTY_MODIFY_MARGIN_MAP = {
-    "(?:^|:)(m|margin|trbl|bg)(?:$|:)": ":b:r:t:l:",
-}
+    '(?:^|:)(m|margin|trbl|bg)(?:$|:)': ':b:r:t:l:',
+};
 
 // -----------------------------------------------------------
 

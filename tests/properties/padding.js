@@ -17,12 +17,12 @@ describe('property', function() {
             assert.equal(PaddingProperty.modify('h+100:1:2:3:w+100'), 'h+100:pt1:pr2:pb3:pl2:w+100');
             assert.equal(PaddingProperty.modify('h+100:1:2:3:4:w+100'), 'h+100:pt1:pr2:pb3:pl4:w+100');
             assert.equal(PaddingProperty.modify('h+100:1:2:3:4:5:w+100'), 'h+100:pt1:pr2:pb3:pl4:5:w+100');
-        })
+        });
 
         describe('outer', function() {
             it('top', function() {
-                var layer = createLayer('pt10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pt10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -34,8 +34,8 @@ describe('property', function() {
             });
 
             it('right', function() {
-                var layer = createLayer('pr10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pr10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -47,8 +47,8 @@ describe('property', function() {
             });
 
             it('bottom', function() {
-                var layer = createLayer('pb10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pb10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -60,8 +60,8 @@ describe('property', function() {
             });
 
             it('left', function() {
-                var layer = createLayer('pl10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pl10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -73,8 +73,8 @@ describe('property', function() {
             });
 
             it('top-right', function() {
-                var layer = createLayer('pt10:pr10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pt10:pr10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -86,8 +86,8 @@ describe('property', function() {
             });
 
             it('top-bottom', function() {
-                var layer = createLayer('pt10:pb10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pt10:pb10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -99,8 +99,8 @@ describe('property', function() {
             });
 
             it('top-left', function() {
-                var layer = createLayer('pt10:pl10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pt10:pl10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -112,8 +112,8 @@ describe('property', function() {
             });
 
             it('right-bottom', function() {
-                var layer = createLayer('pr10:pb10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pr10:pb10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -125,8 +125,8 @@ describe('property', function() {
             });
 
             it('right-left', function() {
-                var layer = createLayer('pr10:pl10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pr10:pl10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -138,8 +138,8 @@ describe('property', function() {
             });
 
             it('bottom-left', function() {
-                var layer = createLayer('pb10:pl10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pb10:pl10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -151,8 +151,8 @@ describe('property', function() {
             });
 
             it('top-right-bottom', function() {
-                var layer = createLayer('pt10:pr10:pb10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pt10:pr10:pb10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -164,8 +164,8 @@ describe('property', function() {
             });
 
             it('top-right-left', function() {
-                var layer = createLayer('pt10:pr10:pl10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pt10:pr10:pl10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -177,8 +177,8 @@ describe('property', function() {
             });
 
             it('top-bottom-left', function() {
-                var layer = createLayer('pt10:pb10:pl10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pt10:pb10:pl10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -190,8 +190,8 @@ describe('property', function() {
             });
 
             it('right-bottom-left', function() {
-                var layer = createLayer('pr10:pb10:pl10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pr10:pb10:pl10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -203,8 +203,8 @@ describe('property', function() {
             });
 
             it('top-right-bottom-left', function() {
-                var layer = createLayer('pt10:pr10:pb10:pl10', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('pt10:pr10:pb10:pl10', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -218,8 +218,8 @@ describe('property', function() {
 
         describe('inner', function() {
             it('top', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pt10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -231,8 +231,8 @@ describe('property', function() {
             });
 
             it('right', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pr10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -244,8 +244,8 @@ describe('property', function() {
             });
 
             it('bottom', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pb10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -257,8 +257,8 @@ describe('property', function() {
             });
 
             it('left', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pl10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -270,8 +270,8 @@ describe('property', function() {
             });
 
             it('top-right', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pt10:pr10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -283,8 +283,8 @@ describe('property', function() {
             });
 
             it('top-bottom', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pt10:pb10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -296,8 +296,8 @@ describe('property', function() {
             });
 
             it('top-left', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pt10:pl10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -309,8 +309,8 @@ describe('property', function() {
             });
 
             it('right-bottom', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pr10:pb10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -322,8 +322,8 @@ describe('property', function() {
             });
 
             it('right-left', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pr10:pl10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -335,8 +335,8 @@ describe('property', function() {
             });
 
             it('bottom-left', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pb10:pl10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -348,8 +348,8 @@ describe('property', function() {
             });
 
             it('top-right-bottom', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pt10:pr10:pb10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -361,8 +361,8 @@ describe('property', function() {
             });
 
             it('top-right-left', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pt10:pr10:pl10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -374,8 +374,8 @@ describe('property', function() {
             });
 
             it('top-bottom-left', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pt10:pb10:pl10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -387,8 +387,8 @@ describe('property', function() {
             });
 
             it('right-bottom-left', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pr10:pb10:pl10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -400,8 +400,8 @@ describe('property', function() {
             });
 
             it('top-right-bottom-left', function() {
-                var layer = createLayer('', 0, 0, 50, 100)
-                var container = createLayer('bg', 0, 0, 100, 200)
+                var layer = createLayer('', 0, 0, 50, 100);
+                var container = createLayer('bg', 0, 0, 100, 200);
                 var group = createLayerGroup('pt10:pr10:pb10:pl10');
                 group.insertLayer_afterLayerOrAtEnd(layer);
                 group.insertLayer_afterLayerOrAtEnd(container);
@@ -414,9 +414,8 @@ describe('property', function() {
         });
 
         describe('master-artboard', function() {
-
             it('artboard (without padding)', function() {
-                var layer = createLayer('', 5, 5, 50, 100)
+                var layer = createLayer('', 5, 5, 50, 100);
                 var artboard = createArtboard('', 0, 0, 100, 200);
                 artboard.insertLayer_afterLayerOrAtEnd(layer);
                 Component.new(artboard).apply();
@@ -427,7 +426,7 @@ describe('property', function() {
             });
 
             it('artboard (with padding)', function() {
-                var layer = createLayer('', 5, 5, 50, 100)
+                var layer = createLayer('', 5, 5, 50, 100);
                 var artboard = createArtboard('pt10:pr10:pb10:pl10', 0, 0, 100, 200);
                 artboard.insertLayer_afterLayerOrAtEnd(layer);
                 Component.new(artboard).apply();
@@ -476,7 +475,7 @@ describe('property', function() {
             });
 
             it('master (without padding)', function() {
-                var layer = createLayer('', 5, 5, 50, 100)
+                var layer = createLayer('', 5, 5, 50, 100);
                 var master = createSymbolMaster('', 0, 0, 100, 200);
                 master.insertLayer_afterLayerOrAtEnd(layer);
                 Component.new(master).apply();
@@ -487,7 +486,7 @@ describe('property', function() {
             });
 
             it('master (with padding)', function() {
-                var layer = createLayer('', 5, 5, 50, 100)
+                var layer = createLayer('', 5, 5, 50, 100);
                 var master = createSymbolMaster('pt10:pr10:pb10:pl10', 0, 0, 100, 200);
                 master.insertLayer_afterLayerOrAtEnd(layer);
                 Component.new(master).apply();
@@ -534,6 +533,6 @@ describe('property', function() {
                 assert.equal(master.frame().width(), 110);
                 assert.equal(master.frame().height(), 100);
             });
-        })
+        });
     });
 });

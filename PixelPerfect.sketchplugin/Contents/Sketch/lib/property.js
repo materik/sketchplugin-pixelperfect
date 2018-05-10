@@ -28,13 +28,13 @@ Property.new = function(component, key, value) {
     if (property && property.isValid()) {
         return property;
     }
-    component.debug('~ Property: invalid <' + key + '> <' + value + '>')
+    component.debug('~ Property: invalid <' + key + '> <' + value + '>');
 };
 
 Property.parse = function(component, raw) {
     var key = Property._extractKey(raw || component.name());
     var value = Property._extractValue(raw || component.name());
-    return Property.new(component, key, value)
+    return Property.new(component, key, value);
 };
 
 // Getter

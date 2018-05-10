@@ -40,34 +40,34 @@ describe('utils', function() {
         });
 
         it('prepend', function() {
-            var arr = []
-            arr.prepend(1)
-            assert.deepEqual(arr, [1])
-            arr.prepend(2)
-            assert.deepEqual(arr, [2, 1])
-        })
+            var arr = [];
+            arr.prepend(1);
+            assert.deepEqual(arr, [1]);
+            arr.prepend(2);
+            assert.deepEqual(arr, [2, 1]);
+        });
 
         it('append', function() {
-            var arr = []
-            arr.append(1)
-            assert.deepEqual(arr, [1])
-            arr.append(2)
-            assert.deepEqual(arr, [1, 2])
-        })
+            var arr = [];
+            arr.append(1);
+            assert.deepEqual(arr, [1]);
+            arr.append(2);
+            assert.deepEqual(arr, [1, 2]);
+        });
 
         it('contains', function() {
             assert.equal([1, 2, 3].contains(0), false);
             assert.equal([1, 2, 3].contains(1), true);
-        })
+        });
     });
 
     describe('String', function() {
         it('repeat', function() {
-            assert.equal('x'.repeat(), 'xx')
-            assert.equal('x'.repeat(0), '')
-            assert.equal('x'.repeat(1), 'x')
-            assert.equal('x'.repeat(5), 'xxxxx')
-        })
+            assert.equal('x'.repeat(), 'xx');
+            assert.equal('x'.repeat(0), '');
+            assert.equal('x'.repeat(1), 'x');
+            assert.equal('x'.repeat(5), 'xxxxx');
+        });
 
         it('contains', function() {
             assert.equal('hej1'.contains(0), false);
@@ -75,12 +75,12 @@ describe('utils', function() {
             assert.equal('hej1'.contains('1'), true);
             assert.equal('hej1'.contains('h'), true);
             assert.equal('hej1'.contains('e'), true);
-        })
+        });
 
         it('regexp', function() {
-            assert.deepEqual('hej'.regexp(), new RegExp('^hej$'))
-            assert.deepEqual('hej'.regexp('i'), new RegExp('^hej$', 'i'))
-            assert.deepEqual('\\d'.regexp(), /^\d$/.regexp())
-        })
-    })
+            assert.deepEqual('hej'.regexp(), new RegExp('^hej$'));
+            assert.deepEqual('hej'.regexp('i'), new RegExp('^hej$', 'i'));
+            assert.deepEqual('\\d'.regexp(), /^\d$/.regexp());
+        });
+    });
 });

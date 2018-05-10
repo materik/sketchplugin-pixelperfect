@@ -127,7 +127,7 @@ Component.prototype.leftInParent = function(ignoreSelf) {
     } else if (this.parent().isArtboard() || this.parent().isSymbolMaster()) {
         return 0;
     } else if (ignoreSelf) {
-        return this.parent().components().filterByExcludingID(this.objectID()).frame().left()
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().left();
     } else {
         return this.parent().components().frame().left();
     }
@@ -139,7 +139,7 @@ Component.prototype.topInParent = function(ignoreSelf) {
     } else if (this.parent().isArtboard() || this.parent().isSymbolMaster()) {
         return 0;
     } else if (ignoreSelf) {
-        return this.parent().components().filterByExcludingID(this.objectID()).frame().top()
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().top();
     } else {
         return this.parent().components().frame().top();
     }
@@ -154,7 +154,7 @@ Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
         return this.parent().widthOfParent(forceIteration, ignoreSelf) ||
             this.parent().frame().width();
     } else if (ignoreSelf) {
-        return this.parent().components().filterByExcludingID(this.objectID()).frame().maxWidth()
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().maxWidth();
     } else {
         return this.parent().components().frame().maxWidth();
     }
@@ -169,7 +169,7 @@ Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
         return this.parent().heightOfParent(forceIteration, ignoreSelf) ||
             this.parent().frame().height();
     } else if (ignoreSelf) {
-        return this.parent().components().filterByExcludingID(this.objectID()).frame().maxHeight()
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().maxHeight();
     } else {
         return this.parent().components().frame().maxHeight();
     }

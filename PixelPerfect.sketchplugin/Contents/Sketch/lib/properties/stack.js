@@ -32,7 +32,7 @@ StackProperty.prototype.isValid = function() {
 
 StackProperty.prototype.type = function() {
     return PROPERTY_TYPE_STACK;
-}
+};
 
 StackProperty.prototype._apply = function() {
     var frame = this.component().frame();

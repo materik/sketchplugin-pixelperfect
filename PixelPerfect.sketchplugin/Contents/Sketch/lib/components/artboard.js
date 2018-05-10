@@ -9,8 +9,8 @@ ArtboardComponent.prototype = Object.create(Component.prototype);
 
 ArtboardComponent.prototype._apply = function() {
     this.properties().filter(function(property) {
-        return /(width|height)/.test(property.key())
-    }).apply()
+        return /(width|height)/.test(property.key());
+    }).apply();
 
     this.components().apply();
 };
@@ -20,11 +20,11 @@ ArtboardComponent.prototype._sizeToFit = function() {
         for (var i = 0; i < this.components().count(); i++) {
             var component = this.components().objectAtIndex(i);
             var properties = component.properties().filter(function(property) {
-                return property.type() == PROPERTY_TYPE_MARGIN || 
+                return property.type() == PROPERTY_TYPE_MARGIN ||
                     property.type() == PROPERTY_TYPE_SIZE ||
                     property.type() == PROPERTY_TYPE_CENTER;
             });
-            properties.apply()
+            properties.apply();
         }
     }
 };

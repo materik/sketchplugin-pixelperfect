@@ -19,7 +19,7 @@ SymbolStore.prototype.containsComponent = function(component) {
 
 SymbolStore.prototype.shouldApply = function(component) {
     if (!component.isSymbolMaster()) {
-        return true
+        return true;
     } else if (component.page() == null) {
         component.debug('/ SymbolStore: master is not local');
         return false;

@@ -19,18 +19,18 @@ CenterProperty.new = function(component, key, value) {
 };
 
 CenterProperty.horizontally = function(component, value) {
-    return CenterProperty.new(component, PROPERTY_CENTER_HORIZONTALLY, value)
+    return CenterProperty.new(component, PROPERTY_CENTER_HORIZONTALLY, value);
 };
 
 CenterProperty.vertically = function(component, value) {
-    return CenterProperty.new(component, PROPERTY_CENTER_VERTICALLY, value)
+    return CenterProperty.new(component, PROPERTY_CENTER_VERTICALLY, value);
 };
 
 // Getter
 
 CenterProperty.prototype.type = function() {
     return PROPERTY_TYPE_CENTER;
-}
+};
 
 CenterProperty.prototype.isValid = function() {
     return CenterProperty.validKeys().contains(this.key());

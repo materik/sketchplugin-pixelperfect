@@ -21,36 +21,36 @@ MarginProperty.new = function(component, key, value) {
 };
 
 MarginProperty.top = function(component, value) {
-    return MarginProperty.new(component, PROPERTY_MARGIN_TOP, value)
+    return MarginProperty.new(component, PROPERTY_MARGIN_TOP, value);
 };
 
 MarginProperty.right = function(component, value) {
-    return MarginProperty.new(component, PROPERTY_MARGIN_RIGHT, value)
+    return MarginProperty.new(component, PROPERTY_MARGIN_RIGHT, value);
 };
 
 MarginProperty.bottom = function(component, value) {
-    return MarginProperty.new(component, PROPERTY_MARGIN_BOTTOM, value)
+    return MarginProperty.new(component, PROPERTY_MARGIN_BOTTOM, value);
 };
 
 MarginProperty.left = function(component, value) {
-    return MarginProperty.new(component, PROPERTY_MARGIN_LEFT, value)
+    return MarginProperty.new(component, PROPERTY_MARGIN_LEFT, value);
 };
 
 MarginProperty.modify = function(str) {
     for (var key in PROPERTY_MODIFY_MARGIN_MAP) {
-        var re = new RegExp(key, 'i')
+        var re = new RegExp(key, 'i');
         if (re.test(str)) {
-            return str.replace(re, PROPERTY_MODIFY_MARGIN_MAP[key])
+            return str.replace(re, PROPERTY_MODIFY_MARGIN_MAP[key]);
         }
     }
-    return str
+    return str;
 };
 
 // Getter
 
 MarginProperty.prototype.type = function() {
     return PROPERTY_TYPE_MARGIN;
-}
+};
 
 MarginProperty.prototype.isValid = function() {
     return MarginProperty.validKeys().contains(this.key());

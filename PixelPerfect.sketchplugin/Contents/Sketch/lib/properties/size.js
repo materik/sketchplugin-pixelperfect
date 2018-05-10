@@ -27,18 +27,18 @@ SizeProperty.new = function(component, key, value) {
 };
 
 SizeProperty.width = function(component, value) {
-    return SizeProperty.new(component, PROPERTY_WIDTH_STATIC, value)
+    return SizeProperty.new(component, PROPERTY_WIDTH_STATIC, value);
 };
 
 SizeProperty.height = function(component, value) {
-    return SizeProperty.new(component, PROPERTY_HEIGHT_STATIC, value)
+    return SizeProperty.new(component, PROPERTY_HEIGHT_STATIC, value);
 };
 
 // Getter
 
 SizeProperty.prototype.type = function() {
     return PROPERTY_TYPE_SIZE;
-}
+};
 
 SizeProperty.prototype.isValid = function() {
     return SizeProperty.validKeys().contains(this.key());

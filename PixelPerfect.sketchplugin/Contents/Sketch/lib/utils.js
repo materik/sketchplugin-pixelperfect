@@ -52,12 +52,12 @@ Array.prototype.contains = function(str) {
 };
 
 Array.prototype.map = function(callback) {
-    var map = []
+    var map = [];
     for (var i = 0; i < this.length; i++) {
-        map.push(callback(this[i]))
+        map.push(callback(this[i]));
     }
     return map;
-}
+};
 
 Math.roundWithPrecision = function(value, precision) {
     var factor = this.pow(10, precision || 0);

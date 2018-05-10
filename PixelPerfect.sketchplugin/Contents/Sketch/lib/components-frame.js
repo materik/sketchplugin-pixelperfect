@@ -112,28 +112,28 @@ ComponentsFrame.prototype.maxHeight = function() {
 // Setter
 
 ComponentsFrame.prototype.setX = function(x) {
-    var left = this.left()
+    var left = this.left();
     for (var i = 0; i < this._components.count(); i++) {
-        var component = this._components.objectAtIndex(i)
-        component.frame().setX(component.frame().x() - left + x)
+        var component = this._components.objectAtIndex(i);
+        component.frame().setX(component.frame().x() - left + x);
     }
-}
+};
 
 ComponentsFrame.prototype.setY = function(y) {
-    var top = this.top()
+    var top = this.top();
     for (var i = 0; i < this._components.count(); i++) {
-        var component = this._components.objectAtIndex(i)
-        component.frame().setY(component.frame().y() - top + y)
+        var component = this._components.objectAtIndex(i);
+        component.frame().setY(component.frame().y() - top + y);
     }
-}
+};
 
 ComponentsFrame.prototype.setWidth = function() {
     // Do nothing...
-}
+};
 
 ComponentsFrame.prototype.setHeight = function() {
     // Do nothing...
-}
+};
 
 // -----------------------------------------------------------
 
