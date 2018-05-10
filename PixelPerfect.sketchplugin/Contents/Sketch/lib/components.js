@@ -1,14 +1,12 @@
 
 function Components(layers, parent, items) {
     this._layers = layers || NSArray.new();
-    this._items = items || [];
+
+    this._items = items || null;
     this._frame = null;
     this._parent = parent;
 
-    this._isFiltered = items != undefined;
-    if (!this._isFiltered) {
-        this._setup();
-    }
+    this._isFiltered = items != null;
 }
 
 Components.prototype = Object.create(Component.prototype);
@@ -33,6 +31,13 @@ Components.sub = function(layer, parent) {
 
 // Getter
 
+Components.prototype.items = function() {
+    if (this._items == null) {
+        this._setup();
+    }
+    return this._items
+}
+
 Components.prototype.frame = function() {
     if (this._frame == null) {
         this._frame = ComponentsFrame.new(this);
@@ -41,17 +46,17 @@ Components.prototype.frame = function() {
 };
 
 Components.prototype.count = function() {
-    if (this._layers.count() != this._items.length) {
-        this._setup();
+    if (this._layers.count() != this.items().length) {
+        this._items = null;
     }
-    return this._items.length;
+    return this.items().length;
 };
 
 Components.prototype.objectAtIndex = function(index) {
-    if (this._layers.count() != this._items.length) {
-        this._setup();
+    if (this._layers.count() != this.items().length) {
+        this._items = null;
     }
-    return this._items[index];
+    return this.items()[index];
 };
 
 Components.prototype.find = function(name) {
@@ -134,7 +139,7 @@ Components.prototype._setup = function() {
     this._items = [];
     for (var i = 0; i < this._layers.count(); i++) {
         var item = Component.new(this._layers.objectAtIndex(i));
-        this._items.push(item);
+        this.items().push(item);
     }
 };
 

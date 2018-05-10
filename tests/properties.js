@@ -192,43 +192,43 @@ describe('properties', function() {
 
     it('_sort', function() {
         var component = Component.new(createLayer('trbl'));
-        var properties = Properties.new(component)._items.map((i) => i.key());
+        var properties = Properties.new(component).items().map((i) => i.key());
         assert.deepEqual(properties, ['margin-right', 'margin-bottom', 'margin-top', 'margin-left']);
         var component = Component.new(createLayer('t:w100:b:h100'));
-        var properties = Properties.new(component)._items.map((i) => i.key());
+        var properties = Properties.new(component).items().map((i) => i.key());
         assert.deepEqual(properties, ['width', 'height', 'margin-bottom', 'margin-top']);
         var component = Component.new(createLayer('x10:c:w+10:w100%'));
-        var properties = Properties.new(component)._items.map((i) => i.key());
+        var properties = Properties.new(component).items().map((i) => i.key());
         assert.deepEqual(properties, ['stack-horizontally-middle', 'width-percentage', 'width-addition', 'center-horizontally']);
         var group = createLayerGroup('t:l:b:r:1:2');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = Component.new(group);
-        var properties = Properties.new(component)._items.map((i) => i.key());
+        var properties = Properties.new(component).items().map((i) => i.key());
         assert.deepEqual(properties, [
             'padding-right',
- 'padding-bottom',
- 'padding-top',
- 'padding-left',
+            'padding-bottom',
+            'padding-top',
+            'padding-left',
             'margin-right',
- 'margin-bottom',
- 'margin-top',
- 'margin-left',
+            'margin-bottom',
+            'margin-top',
+            'margin-left',
         ]);
         var group = createLayerGroup();
         var layer = createLayer('1:2:t:l:b:r');
         group.insertLayer_afterLayerOrAtEnd(layer);
         group.insertLayer_afterLayerOrAtEnd(createLayer('bg'));
         var component = Component.new(layer);
-        var properties = Properties.new(component)._items.map((i) => i.key());
+        var properties = Properties.new(component).items().map((i) => i.key());
         assert.deepEqual(properties, [
             'margin-right',
- 'margin-bottom',
- 'margin-top',
- 'margin-left',
+            'margin-bottom',
+            'margin-top',
+            'margin-left',
             'padding-right',
- 'padding-bottom',
- 'padding-top',
- 'padding-left',
+            'padding-bottom',
+            'padding-top',
+            'padding-left',
         ]);
     });
 });
