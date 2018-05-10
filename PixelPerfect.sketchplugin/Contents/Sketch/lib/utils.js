@@ -1,4 +1,5 @@
 
+/* istanbul ignore next */
 var selection = function(context) {
     var layers = context.selection;
     if (layers && layers.count() > 0) {
@@ -75,26 +76,28 @@ String.prototype.regexp = function(flags) {
     return new RegExp('^' + this + '$', flags);
 };
 
-// -----------------------------------------------------------
-
-var debug = function(component, msg, addLevel) {
-    print(_repeatString('  ', _debugLevel(component) - 1 + (addLevel || 0)) + msg);
+String.prototype.repeat = function(times) {
+    var str = '';
+    for (var i = 0; i < (times == undefined ? 2 : times); i++) {
+        str += this;
+    }
+    return str;
 };
 
+// -----------------------------------------------------------
+
+/* istanbul ignore next */
+var debug = function(component, msg, addLevel) {
+    print('  '.repeat(_debugLevel(component) - 1 + (addLevel || 0)) + msg);
+};
+
+/* istanbul ignore next */
 var _debugLevel = function(component) {
     var parent = component.parent();
     if (parent) {
         return _debugLevel(parent) + 1;
     }
     return 0;
-};
-
-var _repeatString = function(str, repeat) {
-    var repeatedString = '';
-    for (var i = 0; i < repeat; i++) {
-        repeatedString += str;
-    }
-    return repeatedString;
 };
 
 // -----------------------------------------------------------
