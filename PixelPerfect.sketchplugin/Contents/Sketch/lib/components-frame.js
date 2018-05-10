@@ -1,10 +1,10 @@
 
+var DEFAULT_MIN_TOP = 999999;
+var DEFAULT_MIN_LEFT = 999999;
+
 function ComponentsFrame(components) {
     this._components = components || Components.new();
 };
-
-ComponentsFrame.DEFAULT_MIN_TOP = 999999;
-ComponentsFrame.DEFAULT_MIN_LEFT = 999999;
 
 // Static
 
@@ -38,12 +38,12 @@ ComponentsFrame.prototype.height = function(ignoreMarginBottom) {
 };
 
 ComponentsFrame.prototype.top = function() {
-    var top = ComponentsFrame.DEFAULT_MIN_TOP;
+    var top = DEFAULT_MIN_TOP;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
         top = Math.min(top, component.frame().top());
     }
-    return top == ComponentsFrame.DEFAULT_MIN_TOP ? 0 : top;
+    return top == DEFAULT_MIN_TOP ? 0 : top;
 };
 
 ComponentsFrame.prototype.right = function(ignoreMarginRight) {
@@ -77,12 +77,12 @@ ComponentsFrame.prototype.bottom = function(ignoreMarginBottom) {
 };
 
 ComponentsFrame.prototype.left = function() {
-    var left = ComponentsFrame.DEFAULT_MIN_LEFT;
+    var left = DEFAULT_MIN_LEFT;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
         left = Math.min(left, component.frame().left());
     }
-    return left == ComponentsFrame.DEFAULT_MIN_LEFT ? 0 : left;
+    return left == DEFAULT_MIN_LEFT ? 0 : left;
 };
 
 ComponentsFrame.prototype.maxWidth = function() {
