@@ -31,6 +31,7 @@
         "coverage": "nyc report --reporter=text-lcov | coveralls",
         "lint": "jscs . -x",
         "hint": "jshint PixelPerfect.sketchplugin",
+        "perfect-coverage": "./scripts/perfect-coverage.js",
         "release": "./scripts/release.js",
         "set-version": "./scripts/set-version.js",
         "test": "nyc npm run tests",
