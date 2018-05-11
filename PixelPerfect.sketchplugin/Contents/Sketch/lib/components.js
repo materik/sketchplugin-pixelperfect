@@ -154,14 +154,14 @@ Components.prototype._setup = function() {
 
 global.Components = Components;
 
-// -----------------------------------------------------------
+// -------------------------------------------------- Override
 
-// Override
-
+/* istanbul ignore next */
 Components.prototype.components = function() {
     return Components.new();
 };
 
+/* istanbul ignore next */
 Components.prototype.properties = function() {
     if (this.hasParent()) {
         return this.parent().properties();
@@ -169,62 +169,77 @@ Components.prototype.properties = function() {
     return Properties.new(this, []);
 };
 
+/* istanbul ignore next */
 Components.prototype.constraints = function() {
     return null;
 };
 
+/* istanbul ignore next */
 Components.prototype.name = function() {
     return null;
 };
 
+/* istanbul ignore next */
 Components.prototype.class = function() {
     return 'Components';
 };
 
+/* istanbul ignore next */
 Components.prototype.page = function() {
     return null;
 };
 
+/* istanbul ignore next */
 Components.prototype.objectID = function() {
     return null;
 };
 
+/* istanbul ignore next */
 Components.prototype.master = function() {
     return null;
 };
 
+/* istanbul ignore next */
 Components.prototype.isVisible = function() {
     return true;
 };
 
+/* istanbul ignore next */
 Components.prototype.isArtboard = function() {
     return false;
 };
 
+/* istanbul ignore next */
 Components.prototype.isGroup = function() {
     return false;
 };
 
+/* istanbul ignore next */
 Components.prototype.isSymbolMaster = function() {
     return false;
 };
 
+/* istanbul ignore next */
 Components.prototype.shouldApply = function() {
     return true;
 };
 
+/* istanbul ignore next */
 Components.prototype.hasComponents = function() {
     return false;
 };
 
+/* istanbul ignore next */
 Components.prototype.hasParent = function() {
     return this.parent() != undefined;
 };
 
+/* istanbul ignore next */
 Components.prototype.parent = function() {
     return this._parent;
 };
 
+/* istanbul ignore next */
 Components.prototype.sizeToFit = function() {
     // Do nothing...
 };

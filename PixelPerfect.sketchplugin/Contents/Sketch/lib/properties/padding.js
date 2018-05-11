@@ -63,15 +63,14 @@ PaddingProperty.prototype.type = function() {
 };
 
 PaddingProperty.prototype.components = function() {
-    if (this.isOuter()) {
-        return this.component();
-    } else if (this.isInner()) {
+    if (this.isInner() && !this.isOuter()) {
         return this.component().components()
             .filterByExcludingID(this.container().objectID())
             .filter(function(component) {
                 return !component.properties().containsMarginRightOrBottom();
             });
     }
+    return this.component();
 };
 
 PaddingProperty.prototype.container = function() {

@@ -88,15 +88,15 @@ Component.prototype.isVisible = function() {
 };
 
 Component.prototype.isArtboard = function() {
-    return this.class() == 'MSArtboardGroup';
+    return this.class() == CLASS_ARTBOARD;
 };
 
 Component.prototype.isGroup = function() {
-    return this.class() == 'MSLayerGroup';
+    return this.class() == CLASS_GROUP;
 };
 
 Component.prototype.isSymbolMaster = function() {
-    return this.class() == 'MSSymbolMaster';
+    return this.class() == CLASS_SYMBOL_MASTER;
 };
 
 Component.prototype.isArtboardOrSymbolMaster = function() {
