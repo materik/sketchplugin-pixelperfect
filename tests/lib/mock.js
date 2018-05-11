@@ -398,7 +398,7 @@ MSDocument.prototype.class = function() {
 };
 
 MSDocument.prototype.showMessage = function(msg) {
-    console.log('> SHOW MESSAGE:', msg);
+    //console.log('> SHOW MESSAGE:', msg);
 };
 
 MSDocument.prototype.currentPage = function() {
@@ -516,11 +516,11 @@ MSSymbolInstance.prototype.resetSizeToMaster = function() {
 // -----------------------------------------------------------
 
 global.print = function(msg) {
-    console.log('> PRINT:', msg);
+    //console.log('> PRINT:', msg);
 };
 
 global.log = function(msg) {
-    console.log('> LOG  :', msg);
+    //console.log('> LOG  :', msg);
 };
 
 // -----------------------------------------------------------

@@ -154,4 +154,40 @@ describe('constraints', function() {
         assert.equal(instance.hasFixedBottom(), false);
         assert.equal(instance.hasFixedLeft(), false);
     });
+
+    it('lock-unlock', function() {
+        var layer = createLayer();
+        layer.setHasFixedWidth(true);
+        layer.setHasFixedHeight(false);
+        layer.setHasFixedTop(true);
+        layer.setHasFixedRight(false);
+        layer.setHasFixedBottom(true);
+        layer.setHasFixedLeft(false);
+        var constraints = Constraints.new(layer);
+        assert.equal(constraints.isLocked(), false)
+        constraints.unlock()
+        assert.equal(constraints.isLocked(), false)
+        assert.equal(layer.hasFixedWidth(), true);
+        assert.equal(layer.hasFixedHeight(), false);
+        assert.equal(layer.hasFixedTop(), true);
+        assert.equal(layer.hasFixedRight(), false);
+        assert.equal(layer.hasFixedBottom(), true);
+        assert.equal(layer.hasFixedLeft(), false);
+        constraints.lock()
+        assert.equal(constraints.isLocked(), true)
+        assert.equal(layer.hasFixedWidth(), true);
+        assert.equal(layer.hasFixedHeight(), true);
+        assert.equal(layer.hasFixedTop(), true);
+        assert.equal(layer.hasFixedRight(), false);
+        assert.equal(layer.hasFixedBottom(), false);
+        assert.equal(layer.hasFixedLeft(), true);
+        constraints.unlock()
+        assert.equal(constraints.isLocked(), false)
+        assert.equal(layer.hasFixedWidth(), true);
+        assert.equal(layer.hasFixedHeight(), false);
+        assert.equal(layer.hasFixedTop(), true);
+        assert.equal(layer.hasFixedRight(), false);
+        assert.equal(layer.hasFixedBottom(), true);
+        assert.equal(layer.hasFixedLeft(), false);
+    })
 });
