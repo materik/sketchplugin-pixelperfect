@@ -29,6 +29,13 @@ Components.sub = function(layer, parent) {
     }
 };
 
+Components.items = function(items, parent) {
+    var layers = items.map(function(item) {
+        return item._layer
+    });
+    return Components.new(NSArray.new(layers), parent, items)
+}
+
 // Getter
 
 Components.prototype.items = function() {
@@ -73,29 +80,25 @@ Components.prototype.findContainer = function() {
 };
 
 Components.prototype.filter = function(callback) {
-    var layers = NSMutableArray.new();
     var items = [];
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i);
         if (callback(component)) {
-            layers.addObject(component._layer);
             items.push(component);
         }
     }
-    return Components.new(layers, this.parent(), items);
+    return Components.items(items, this.parent());
 };
 
 Components.prototype.filterByExcludingID = function(objectID) {
-    var layers = NSMutableArray.new();
     var items = [];
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i);
         if (component.objectID() != objectID) {
-            layers.addObject(component._layer);
             items.push(component);
         }
     }
-    return Components.new(layers, this.parent(), items);
+    return Components.items(items, this.parent());
 };
 
 Components.prototype.containsName = function(name) {

@@ -429,6 +429,22 @@ MSPage.prototype.selection = function() {
 
 // -----------------------------------------------------------
 
+function MSShapeGroup(objects) {
+    MSLayerGroup.call(this);
+}
+
+MSShapeGroup.new = function() {
+    return new MSShapeGroup();
+};
+
+MSShapeGroup.prototype = Object.create(MSLayerGroup.prototype);
+
+MSShapeGroup.prototype.class = function() {
+    return NSClass.new('MSShapeGroup');
+};
+
+// -----------------------------------------------------------
+
 function MSArtboardGroup() {
     MSLayerGroup.call(this);
 }
@@ -578,6 +594,16 @@ global.createSymbolInstance = function(master, name, x, y, w, h) {
     instance.frame().setWidth(w || 1);
     instance.frame().setHeight(h || 1);
     return instance;
+};
+
+global.createShape = function(name, x, y, w, h) {
+    var group = MSShapeGroup.new();
+    group.setName(name || 'shape');
+    group.frame().setX(x || 0);
+    group.frame().setY(y || 0);
+    group.frame().setWidth(w || 1);
+    group.frame().setHeight(h || 1);
+    return group;
 };
 
 // -----------------------------------------------------------

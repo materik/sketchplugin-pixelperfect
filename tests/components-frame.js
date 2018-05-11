@@ -24,7 +24,7 @@ describe('components-frame', function() {
     it('toString', function() {
         var component1 = Component.new(createLayer('', 10, 40, 30, 40));
         var component2 = Component.new(createLayer('', 30, 20, 50, 60));
-        var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+        var frame = ComponentsFrame.new(Components.items([component1, component2]))
         assert.equal(frame.toString(), '{10,20,70,60}')
     })
 
@@ -32,7 +32,7 @@ describe('components-frame', function() {
         it('default', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.x(), 10)
             assert.equal(frame.y(), 20)
             assert.equal(frame.width(), 70)
@@ -100,32 +100,32 @@ describe('components-frame', function() {
         it('right - ignore width percentage', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('w100%', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.right(), 40)
             var component1 = Component.new(createLayer('w100%', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.right(), 80)
             var component1 = Component.new(createLayer('w100%', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('w100%', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.right(), 0)
         })
 
         it('right - ignore margin right', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('r', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.right(), 80)
             assert.equal(frame.right(true), 40)
             var component1 = Component.new(createLayer('r', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.right(), 80)
             assert.equal(frame.right(true), 80)
             var component1 = Component.new(createLayer('r', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('r', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.right(), 80)
             assert.equal(frame.right(true), 0)
         })
@@ -133,32 +133,32 @@ describe('components-frame', function() {
         it('bottom - ignore height percentage', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('h100%', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.bottom(), 80)
             var component1 = Component.new(createLayer('h100%', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 40, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.bottom(), 100)
             var component1 = Component.new(createLayer('h100%', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('h100%', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.bottom(), 0)
         })
 
         it('bottom - ignore margin bottom', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('b', 30, 40, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.bottom(), 100)
             assert.equal(frame.bottom(true), 80)
             var component1 = Component.new(createLayer('b', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 40, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.bottom(), 100)
             assert.equal(frame.bottom(true), 100)
             var component1 = Component.new(createLayer('b', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('b', 30, 40, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.bottom(), 100)
             assert.equal(frame.bottom(true), 0)
         })
@@ -166,30 +166,30 @@ describe('components-frame', function() {
         it('maxWidth - ignore width percentage', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('w100%', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.maxWidth(), 30)
             var component1 = Component.new(createLayer('w100%', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.maxWidth(), 50)
             var component1 = Component.new(createLayer('w100%', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('w100%', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.maxWidth(), 0)
         })
 
         it('maxHeight - ignore height percentage', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('h100%', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.maxHeight(), 40)
             var component1 = Component.new(createLayer('h100%', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 40, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.maxHeight(), 60)
             var component1 = Component.new(createLayer('h100%', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('h100%', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             assert.equal(frame.maxHeight(), 0)
         })
     })
@@ -198,7 +198,7 @@ describe('components-frame', function() {
         it('setX', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             frame.setX(100)
             assert.equal(frame.x(), 100)
             assert.equal(frame.y(), 20)
@@ -215,7 +215,7 @@ describe('components-frame', function() {
         it('setY', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             frame.setY(100)
             assert.equal(frame.x(), 10)
             assert.equal(frame.y(), 100)
@@ -232,7 +232,7 @@ describe('components-frame', function() {
         it('setWidth', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             frame.setWidth(100)
             assert.equal(frame.x(), 10)
             assert.equal(frame.y(), 20)
@@ -249,7 +249,7 @@ describe('components-frame', function() {
         it('setHeight', function() {
             var component1 = Component.new(createLayer('', 10, 40, 30, 40));
             var component2 = Component.new(createLayer('', 30, 20, 50, 60));
-            var frame = ComponentsFrame.new(Components.new(NSArray.new([component1, component2])))
+            var frame = ComponentsFrame.new(Components.items([component1, component2]))
             frame.setHeight(100)
             assert.equal(frame.x(), 10)
             assert.equal(frame.y(), 20)

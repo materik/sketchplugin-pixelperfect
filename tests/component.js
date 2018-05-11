@@ -108,6 +108,85 @@ describe('component', function() {
         assert.equal(textLayer.frame().height(), 60);
     });
 
+    it('shape', function() {
+        var shape = createShape('', 0, 0, 10, 20);
+        Component.apply(shape);
+        assert.equal(shape.frame().width(), 10);
+        assert.equal(shape.frame().height(), 20);
+        var shape = createShape('w436', 0, 0, 10, 20);
+        Component.apply(shape);
+        assert.equal(shape.frame().width(), 436);
+        assert.equal(shape.frame().height(), 20);
+        var shape = createShape('h60', 0, 0, 10, 20);
+        Component.apply(shape);
+        assert.equal(shape.frame().width(), 10);
+        assert.equal(shape.frame().height(), 60);
+        var component = Component.new(shape)
+        assert.equal(component.components().count(), 0)
+        shape.insertLayer_afterLayerOrAtEnd(createLayer())
+        assert.equal(component.components().count(), 0)
+    });
+
+    it('isArtboard', function() {
+        var layer = createLayer()
+        assert.equal(Component.new(layer).isArtboard(), false)
+        var artboard = createArtboard()
+        assert.equal(Component.new(artboard).isArtboard(), true)
+        var group = createLayerGroup()
+        assert.equal(Component.new(group).isArtboard(), false)
+        var master = createSymbolMaster()
+        assert.equal(Component.new(master).isArtboard(), false)
+        var instance = createSymbolInstance(master)
+        assert.equal(Component.new(instance).isArtboard(), false)
+        var textLayer = createTextLayer();
+        assert.equal(Component.new(textLayer).isArtboard(), false)
+    })
+
+    it('isGroup', function() {
+        var layer = createLayer()
+        assert.equal(Component.new(layer).isGroup(), false)
+        var artboard = createArtboard()
+        assert.equal(Component.new(artboard).isGroup(), false)
+        var group = createLayerGroup()
+        assert.equal(Component.new(group).isGroup(), true)
+        var master = createSymbolMaster()
+        assert.equal(Component.new(master).isGroup(), false)
+        var instance = createSymbolInstance(master)
+        assert.equal(Component.new(instance).isGroup(), false)
+        var textLayer = createTextLayer();
+        assert.equal(Component.new(textLayer).isGroup(), false)
+    })
+
+    it('isSymbolMaster', function() {
+        var layer = createLayer()
+        assert.equal(Component.new(layer).isSymbolMaster(), false)
+        var artboard = createArtboard()
+        assert.equal(Component.new(artboard).isSymbolMaster(), false)
+        var group = createLayerGroup()
+        assert.equal(Component.new(group).isSymbolMaster(), false)
+        var master = createSymbolMaster()
+        assert.equal(Component.new(master).isSymbolMaster(), true)
+        var instance = createSymbolInstance(master)
+        assert.equal(Component.new(instance).isSymbolMaster(), false)
+        var textLayer = createTextLayer();
+        assert.equal(Component.new(textLayer).isSymbolMaster(), false)
+    })
+
+    it('isArtboardOrSymbolMaster', function() {
+        var layer = createLayer()
+        assert.equal(Component.new(layer).isArtboardOrSymbolMaster(), false)
+        var artboard = createArtboard()
+        assert.equal(Component.new(artboard).isArtboardOrSymbolMaster(), true)
+        var group = createLayerGroup()
+        assert.equal(Component.new(group).isArtboardOrSymbolMaster(), false)
+        var master = createSymbolMaster()
+        assert.equal(Component.new(master).isArtboardOrSymbolMaster(), true)
+        var instance = createSymbolInstance(master)
+        assert.equal(Component.new(instance).isArtboardOrSymbolMaster(), false)
+        var textLayer = createTextLayer();
+        assert.equal(Component.new(textLayer).isArtboardOrSymbolMaster(), false)
+    })
+
     it('shouldApply', function() {
         var layer = createLayer('');
         assert.equal(Component.new(layer).shouldApply(), true);
@@ -132,6 +211,14 @@ describe('component', function() {
         assert.equal(component.shouldApply(), true);
         assert.equal(component.shouldApply(), true);
     });
+
+    it('hasParent', function() {
+        var layer = createLayer();
+        assert.equal(Component.new(layer).hasParent(), false)
+        var group = createLayerGroup()
+        group.insertLayer_afterLayerOrAtEnd(layer)
+        assert.equal(Component.new(layer).hasParent(), true)
+    })
 
     it('roundToPixel', function() {
         var component = Component.new(createLayer('', 1.1, 2.2, 3.3, 4.5));
@@ -160,6 +247,13 @@ describe('component', function() {
             assert.equal(Component.new(layer1).leftInParent(true), 10);
             assert.equal(Component.new(layer2).leftInParent(), 5);
             assert.equal(Component.new(layer2).leftInParent(true), 5);
+
+            var layer1 = createLayer('1', 0, 5, 50, 60);
+            var layer2 = createLayer('2', 0, 10, 100, 200);
+            var artboard = createArtboard();
+            artboard.insertLayer_afterLayerOrAtEnd(layer1);
+            artboard.insertLayer_afterLayerOrAtEnd(layer2);
+            assert.equal(Component.new(layer1).leftInParent(), 0);
         });
 
         it('topInParent', function() {
@@ -176,6 +270,13 @@ describe('component', function() {
             assert.equal(Component.new(layer1).topInParent(true), 10);
             assert.equal(Component.new(layer2).topInParent(), 5);
             assert.equal(Component.new(layer2).topInParent(true), 5);
+
+            var layer1 = createLayer('1', 0, 5, 50, 60);
+            var layer2 = createLayer('2', 0, 10, 100, 200);
+            var artboard = createArtboard();
+            artboard.insertLayer_afterLayerOrAtEnd(layer1);
+            artboard.insertLayer_afterLayerOrAtEnd(layer2);
+            assert.equal(Component.new(layer1).topInParent(), 0);
         });
 
         it('widthOfParent', function() {
@@ -205,6 +306,11 @@ describe('component', function() {
             assert.equal(Component.new(layer1).widthOfParent(), 3);
             layerGroup.setName('w100%');
             assert.equal(Component.new(layer1).widthOfParent(), 7);
+
+            var layer = createLayer('', 0, 0, 10, 20);
+            var layerGroup = createLayerGroup('', 0, 0, 100, 200);
+            layerGroup.insertLayer_afterLayerOrAtEnd(layer);
+            assert.equal(Component.new(layer).widthOfParent(true), 100);
         });
 
         it('heightOfParent', function() {
@@ -234,6 +340,11 @@ describe('component', function() {
             assert.equal(Component.new(layer1).heightOfParent(), 3);
             layerGroup.setName('h100%');
             assert.equal(Component.new(layer1).heightOfParent(), 8);
+
+            var layer = createLayer('', 0, 0, 10, 20);
+            var layerGroup = createLayerGroup('', 0, 0, 100, 200);
+            layerGroup.insertLayer_afterLayerOrAtEnd(layer);
+            assert.equal(Component.new(layer).heightOfParent(true), 200);
         });
 
         it('setX', function() {

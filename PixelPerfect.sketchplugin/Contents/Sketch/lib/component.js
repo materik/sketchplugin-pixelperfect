@@ -99,6 +99,10 @@ Component.prototype.isSymbolMaster = function() {
     return this.class() == 'MSSymbolMaster';
 };
 
+Component.prototype.isArtboardOrSymbolMaster = function() {
+    return this.isArtboard() || this.isSymbolMaster();
+};
+
 Component.prototype.shouldApply = function() {
     return this.isVisible() && !PROPERTIES_RE_IGNORE.test(this.name());
 };
@@ -108,10 +112,7 @@ Component.prototype.hasComponents = function() {
 };
 
 Component.prototype.hasParent = function() {
-    if (this._layer.parentGroup) {
-        return this._layer.parentGroup() != undefined;
-    }
-    return false;
+    return this._layer.parentGroup() != undefined;
 };
 
 Component.prototype.parent = function() {
@@ -124,7 +125,7 @@ Component.prototype.parent = function() {
 Component.prototype.leftInParent = function(ignoreSelf) {
     if (!this.hasParent()) {
         return 0;
-    } else if (this.parent().isArtboard() || this.parent().isSymbolMaster()) {
+    } else if (this.parent().isArtboardOrSymbolMaster()) {
         return 0;
     } else if (ignoreSelf) {
         return this.parent().components().filterByExcludingID(this.objectID()).frame().left();
@@ -136,7 +137,7 @@ Component.prototype.leftInParent = function(ignoreSelf) {
 Component.prototype.topInParent = function(ignoreSelf) {
     if (!this.hasParent()) {
         return 0;
-    } else if (this.parent().isArtboard() || this.parent().isSymbolMaster()) {
+    } else if (this.parent().isArtboardOrSymbolMaster()) {
         return 0;
     } else if (ignoreSelf) {
         return this.parent().components().filterByExcludingID(this.objectID()).frame().top();
@@ -148,7 +149,7 @@ Component.prototype.topInParent = function(ignoreSelf) {
 Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
     if (!this.hasParent()) {
         return 0;
-    } else if (this.parent().isArtboard() || this.parent().isSymbolMaster()) {
+    } else if (this.parent().isArtboardOrSymbolMaster()) {
         return this.parent().frame().width();
     } else if (forceIteration || this.parent().properties().containsKey(PROPERTY_WIDTH_PERCENTAGE)) {
         return this.parent().widthOfParent(forceIteration, ignoreSelf) ||
@@ -163,7 +164,7 @@ Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
 Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
     if (!this.hasParent()) {
         return 0;
-    } else if (this.parent().isArtboard() || this.parent().isSymbolMaster() || this.parent().isSymbolMaster()) {
+    } else if (this.parent().isArtboardOrSymbolMaster()) {
         return this.parent().frame().height();
     } else if (forceIteration || this.parent().properties().containsKey(PROPERTY_HEIGHT_PERCENTAGE)) {
         return this.parent().heightOfParent(forceIteration, ignoreSelf) ||

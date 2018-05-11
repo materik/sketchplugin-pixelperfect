@@ -80,7 +80,7 @@ PaddingProperty.prototype.container = function() {
             var parent = this.component().parent();
             this._container = parent.components().findContainer();
         } else if (this.isInner()) {
-            if (this.component().isArtboard() || this.component().isSymbolMaster()) {
+            if (this.component().isArtboardOrSymbolMaster()) {
                 this._container = this.component();
             } else {
                 var container = this.component().components().findContainer();
@@ -119,7 +119,7 @@ PaddingProperty.prototype._apply = function() {
             if (!this.components().properties().containsPaddingRightOrLeft() &&
                 !this.components().properties().containsMarginRightOrLeft()) {
                 CenterProperty.horizontally(this.components()).apply();
-            } else if (!this.container().isSymbolMaster() && !this.container().isArtboard()) {
+            } else if (!this.container().isArtboardOrSymbolMaster()) {
                 MarginProperty.top(this.container(), 0).apply();
             }
             break;
@@ -133,7 +133,7 @@ PaddingProperty.prototype._apply = function() {
             if (!this.components().properties().containsPaddingTopOrBottom() &&
                 !this.components().properties().containsMarginTopOrBottom()) {
                 CenterProperty.vertically(this.components()).apply();
-            } else if (!this.container().isSymbolMaster() && !this.container().isArtboard()) {
+            } else if (!this.container().isArtboardOrSymbolMaster()) {
                 MarginProperty.left(this.container(), 0).apply();
             }
             break;
@@ -147,7 +147,7 @@ PaddingProperty.prototype._apply = function() {
             if (!this.components().properties().containsPaddingRightOrLeft() &&
                 !this.components().properties().containsMarginRightOrLeft()) {
                 CenterProperty.horizontally(this.components()).apply();
-            } else if (!this.container().isSymbolMaster() && !this.container().isArtboard()) {
+            } else if (!this.container().isArtboardOrSymbolMaster()) {
                 MarginProperty.top(this.container(), 0).apply();
             }
             break;
@@ -156,7 +156,7 @@ PaddingProperty.prototype._apply = function() {
             if (!this.components().properties().containsPaddingTopOrBottom() &&
                 !this.components().properties().containsMarginTopOrBottom()) {
                 CenterProperty.vertically(this.components()).apply();
-            } else if (!this.container().isSymbolMaster() && !this.container().isArtboard()) {
+            } else if (!this.container().isArtboardOrSymbolMaster()) {
                 MarginProperty.left(this.container(), 0).apply();
             }
             break;
