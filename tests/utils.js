@@ -56,8 +56,21 @@ describe('utils', function() {
         });
 
         it('contains', function() {
+            assert.equal([].contains(0), false);
             assert.equal([1, 2, 3].contains(0), false);
             assert.equal([1, 2, 3].contains(1), true);
+        });
+
+        it('unique', function() {
+            assert.deepEqual([].unique(), [])
+            assert.deepEqual(['a', 'a', 'a', 'a'].unique(), ['a'])
+            assert.deepEqual(['a', 1, 'a', 2, '1'].unique(), ['a', 1, 2, '1'])
+        });
+
+        it('toLowerCase', function() {
+            assert.deepEqual([].toLowerCase(), [])
+            assert.deepEqual(['a', 'A', 'B', 'c'].toLowerCase(), ['a', 'a', 'b', 'c'])
+            assert.deepEqual(['APA', 1, 'ApA', 2, '1'].toLowerCase(), ['apa', 1, 'apa', 2, '1'])
         });
     });
 

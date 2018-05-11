@@ -1,4 +1,6 @@
 
+var VERBOSE = true
+
 function MSLayer() {
     this._name = '';
     this._frame = CGRect.new();
@@ -398,7 +400,9 @@ MSDocument.prototype.class = function() {
 };
 
 MSDocument.prototype.showMessage = function(msg) {
-    //console.log('> SHOW MESSAGE:', msg);
+    if (VERBOSE) {
+        console.log('> SHOW MESSAGE:', msg);   
+    }
 };
 
 MSDocument.prototype.currentPage = function() {
@@ -516,11 +520,15 @@ MSSymbolInstance.prototype.resetSizeToMaster = function() {
 // -----------------------------------------------------------
 
 global.print = function(msg) {
-    //console.log('> PRINT:', msg);
+    if (VERBOSE) {
+        console.log('> PRINT:', msg);
+    }
 };
 
 global.log = function(msg) {
-    //console.log('> LOG  :', msg);
+    if (VERBOSE) {
+        console.log('> LOG  :', msg);
+    }
 };
 
 // -----------------------------------------------------------

@@ -6,7 +6,7 @@ function Components(layers, parent, items) {
     this._frame = null;
     this._parent = parent;
 
-    this._isFiltered = items != null;
+    this._isFiltered = items != undefined;
 }
 
 Components.prototype = Object.create(Component.prototype);
@@ -38,6 +38,15 @@ Components.prototype.items = function() {
     return this._items
 }
 
+Components.prototype.names = function() {
+    if (this._names == null) {
+        this._names = this.items().map(function(item) {
+            return item.name();
+        })
+    }
+    return this._names
+}
+
 Components.prototype.frame = function() {
     if (this._frame == null) {
         this._frame = ComponentsFrame.new(this);
@@ -60,16 +69,14 @@ Components.prototype.objectAtIndex = function(index) {
 };
 
 Components.prototype.find = function(name) {
-    for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
-        if (name.regexp().test(component.name())) {
-            return component;
-        }
+    var index = this.names().toLowerCase().indexOf(name.toLowerCase())
+    if (index >= 0) {
+        return this.objectAtIndex(index)   
     }
 };
 
 Components.prototype.findContainer = function() {
-    return this.find(PROPERTIES_RE_PADDING_CONTAINER);
+    return this.find(PROPERTIES_PADDING_CONTAINER_NAME);
 };
 
 Components.prototype.filter = function(callback) {
@@ -99,7 +106,11 @@ Components.prototype.filterByExcludingID = function(objectID) {
 };
 
 Components.prototype.containsName = function(name) {
-    return this.find(name) != undefined;
+    return this.names().toLowerCase().contains(name.toLowerCase());
+};
+
+Components.prototype.containsContainer = function() {
+    return this.containsName(PROPERTIES_PADDING_CONTAINER_NAME);
 };
 
 // Action
@@ -136,6 +147,7 @@ Components.prototype.unlockConstraints = function() {
 // Private
 
 Components.prototype._setup = function() {
+    this._names = null;
     this._items = [];
     for (var i = 0; i < this._layers.count(); i++) {
         var item = Component.new(this._layers.objectAtIndex(i));

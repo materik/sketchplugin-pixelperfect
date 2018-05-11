@@ -59,6 +59,18 @@ Array.prototype.map = function(callback) {
     return map;
 };
 
+Array.prototype.unique = function() {
+    return this.filter(function(value, index, self) { 
+        return self.indexOf(value) === index;
+    });
+}
+
+Array.prototype.toLowerCase = function() {
+    return this.map(function(object) {
+        return object.toLowerCase == undefined ? object : object.toLowerCase()
+    })
+}
+
 Math.roundWithPrecision = function(value, precision) {
     var factor = this.pow(10, precision || 0);
     return this.round(value * factor) / factor;

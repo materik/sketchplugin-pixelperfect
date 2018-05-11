@@ -49,8 +49,7 @@ PaddingProperty.modify = function(str) {
 };
 
 PaddingProperty.isOuter = function(component) {
-    return component.hasParent() &&
-        component.parent().components().containsName(PROPERTIES_RE_PADDING_CONTAINER);
+    return component.hasParent() && component.parent().components().containsContainer();
 };
 
 PaddingProperty.isInner = function(component) {

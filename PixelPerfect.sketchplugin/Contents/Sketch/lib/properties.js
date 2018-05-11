@@ -6,7 +6,7 @@ function Properties(component, items) {
     this._keys = null;
     this._types = null;
 
-    this._isFiltered = items != null;
+    this._isFiltered = items != undefined;
 }
 
 // Static
@@ -46,6 +46,7 @@ Properties.prototype.types = function() {
         this._types = this.items().map(function(item) {
             return item.type();
         });
+        this._types = this._types.unique();
     }
     return this._types
 }
@@ -59,11 +60,9 @@ Properties.prototype.objectAtIndex = function(index) {
 };
 
 Properties.prototype.find = function(key) {
-    for (var i = 0; i < this.count(); i++) {
-        var property = this.objectAtIndex(i);
-        if (key.regexp().test(property.key())) {
-            return property;
-        }
+    var index = this.keys().indexOf(key)
+    if (index >= 0) {
+        return this.objectAtIndex(index)   
     }
 };
 
@@ -87,7 +86,7 @@ Properties.prototype.containsType = function(type) {
 };
 
 Properties.prototype.containsPercentageWidthOrHeight = function() {
-    return this.containsKey(PROPERTY_WIDTH_PERCENTAGE) || this.containsKey(PROPERTY_WIDTH_PERCENTAGE);
+    return this.containsKey(PROPERTY_WIDTH_PERCENTAGE) || this.containsKey(PROPERTY_HEIGHT_PERCENTAGE);
 };
 
 Properties.prototype.containsPadding = function() {
@@ -132,7 +131,7 @@ Properties.prototype.apply = function() {
     }
 
     if (this.count() > 0) {
-        this.component().debug('~ Properties: apply: ' + toString());
+        this.component().debug('~ Properties: apply: ' + this.toString());
         for (var i = 0; i < this.count(); i++) {
             var property = this.objectAtIndex(i);
             property.apply();
@@ -204,8 +203,6 @@ Properties.prototype._sort = function() {
         this._items = this.items().sort(function(a, b) {
             if (a.type() == PROPERTY_TYPE_PADDING && b.type() == PROPERTY_TYPE_PADDING) {
                 return 0;
-            } else if (a.type() == PROPERTY_TYPE_PADDING) {
-                return paddingIsHighPriority ? -1 : 1;
             } else if (b.type() == PROPERTY_TYPE_PADDING) {
                 return paddingIsHighPriority ? 1 : -1;
             }
