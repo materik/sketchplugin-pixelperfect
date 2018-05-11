@@ -17,6 +17,15 @@
         "node": "9.11.x"
     },
     "name": "pixelperfect",
+    "nyc": {
+        "exclude": [
+            "tests"
+        ],
+        "reporter": [
+            "html",
+            "text"
+        ]
+    },
     "scripts": {
         "bump-version": "./scripts/bump-version.js",
         "coverage": "nyc report --reporter=text-lcov | coveralls",
@@ -24,7 +33,7 @@
         "hint": "jshint PixelPerfect.sketchplugin",
         "release": "./scripts/release.js",
         "set-version": "./scripts/set-version.js",
-        "test": "nyc --reporter=html --reporter=text npm run tests",
+        "test": "nyc npm run tests",
         "tests": "mocha --recursive tests",
         "update-metadata": "./scripts/update-metadata.js"
     },

@@ -1,12 +1,11 @@
 
-var VERBOSE = true
+var VERBOSE = false;
 
 function MSLayer() {
     this._name = '';
     this._frame = CGRect.new();
     this._isVisible = true;
     this._parentGroup = null;
-    this._userInfo = {};
 
     this._hasFixedWidth = false;
     this._hasFixedHeight = false;
@@ -61,14 +60,6 @@ MSLayer.prototype.select_byExpandingSelection = function(select, expand, _layer)
             this._selection = [layer];
         }
     }
-};
-
-MSLayer.prototype.userInfo = function() {
-    return this._userInfo;
-};
-
-MSLayer.prototype._setUserInfo = function(userInfo) {
-    this._userInfo = userInfo;
 };
 
 MSLayer.prototype.resetConstraints = function() {
@@ -262,13 +253,6 @@ function CGRect() {
 
 CGRect.new = function() {
     return new CGRect();
-};
-
-CGRect.prototype.set = function(x, y, width, height) {
-    this.setX(x);
-    this.setY(y);
-    this.setWidth(width);
-    this.setHeight(height);
 };
 
 CGRect.prototype.x = function() {
