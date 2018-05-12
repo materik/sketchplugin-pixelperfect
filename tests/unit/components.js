@@ -94,9 +94,9 @@ describe('components', function() {
         var layer2 = createLayer('layer 2');
         var layer3 = createLayer('layer 3');
         var components = Components.new(NSArray.new([layer1, layer2, layer3]))
-        var filtered = components.filterByExcludingID('layer 1')
+        var filtered = components.filterByExcludingID(layer1.objectID())
         assert.deepEqual(filtered._layers._objects, [layer2, layer3])
-        var filtered = components.filterByExcludingID('layer 2')
+        var filtered = components.filterByExcludingID(layer2.objectID())
         assert.deepEqual(filtered._layers._objects, [layer1, layer3])
     })
 

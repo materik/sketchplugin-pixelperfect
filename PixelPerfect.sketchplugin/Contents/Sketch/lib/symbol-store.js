@@ -38,6 +38,10 @@ SymbolStore.prototype.add = function(component) {
     this.ids().push(component.objectID());
 };
 
+SymbolStore.prototype.clean = function() {
+    this._ids = [];
+}
+
 // -----------------------------------------------------------
 
 global.SymbolStore = SymbolStore;

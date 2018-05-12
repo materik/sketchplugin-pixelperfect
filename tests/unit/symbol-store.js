@@ -3,7 +3,7 @@ require('../lib');
 
 describe('symbol-store', function() {
     beforeEach(function() {
-        SymbolStore.sharedInstance = new SymbolStore();
+        SymbolStore.sharedInstance.clean();
     })
 
     describe('shouldApply', function() {

@@ -14,7 +14,7 @@ function MSLayer() {
     this._hasFixedBottom = false;
     this._hasFixedLeft = false;
 
-    this._objectID = Date.now().toString();
+    this._objectID = Date.now().toString() + Math.floor(Math.random() * Math.floor(1000));
 }
 
 MSLayer.new = function() {
@@ -120,7 +120,7 @@ MSLayer.prototype.setHasFixedLeft = function(hasFixedLeft) {
 };
 
 MSLayer.prototype.objectID = function() {
-    return this._name || this._objectID;
+    return this._name + this._objectID;
 };
 
 // -----------------------------------------------------------
@@ -464,7 +464,6 @@ MSArtboardGroup.prototype.class = function() {
 function MSSymbolMaster() {
     MSLayerGroup.call(this);
 
-    this._symbolID = Date.now().toString() + Math.floor(Math.random() * Math.floor(1000));
     this._parentPage = 'LocalSymbol';
 }
 
@@ -479,7 +478,7 @@ MSSymbolMaster.prototype.class = function() {
 };
 
 MSSymbolMaster.prototype.symbolID = function() {
-    return this._symbolID;
+    return this.objectID();
 };
 
 MSSymbolMaster.prototype.parentPage = function() {
