@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('constraints', function() {
     it('none', function() {

@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('alignment', function() {
     it('top', function() {

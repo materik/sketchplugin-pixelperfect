@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('component', function() {
     it('shouldIgnore', function() {

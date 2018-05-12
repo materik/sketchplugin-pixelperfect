@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('components-frame', function() {
     it('empty', function() {

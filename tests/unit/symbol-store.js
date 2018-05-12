@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('symbol-store', function() {
     beforeEach(function() {

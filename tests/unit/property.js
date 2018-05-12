@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('property', function() {
     it('invalid', function() {

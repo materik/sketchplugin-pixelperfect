@@ -31,11 +31,12 @@
         "coverage": "nyc report --reporter=text-lcov | coveralls",
         "lint": "jscs . -x",
         "hint": "jshint PixelPerfect.sketchplugin",
+        "perf": "mocha --recursive tests/perf",
         "perfect-coverage": "./scripts/perfect-coverage.js",
         "release": "./scripts/release.js",
         "set-version": "./scripts/set-version.js",
-        "test": "nyc npm run tests",
-        "tests": "mocha --recursive tests",
+        "test": "nyc npm run unit",
+        "unit": "mocha --recursive tests/unit",
         "update-metadata": "./scripts/update-metadata.js"
     },
     "version": "1.1.1"

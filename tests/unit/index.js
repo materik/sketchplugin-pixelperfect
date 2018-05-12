@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('index', function() {
     it('makePixelPerfect', function() {

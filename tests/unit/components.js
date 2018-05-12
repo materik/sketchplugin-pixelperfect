@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('components', function() {
     it('new - empty', function() {

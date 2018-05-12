@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('bugs', function() {
     it('cannot set margin right or bottom if that is bigger than the other layers', function() {

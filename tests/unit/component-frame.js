@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('component-frame', function() {
     it('toString', function() {

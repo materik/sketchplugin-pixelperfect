@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('utils', function() {
     describe('Math', function() {
