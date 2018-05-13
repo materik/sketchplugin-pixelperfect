@@ -37,6 +37,10 @@ Property.parse = function(component, raw) {
     return Property.new(component, key, value);
 };
 
+Property.modify = function(str) {
+    return PROPERTY_MODIFY_MAP.replace(str);
+}
+
 // Getter
 
 Property.prototype.component = function() {
@@ -70,16 +74,11 @@ Property.prototype.apply = function() {
 // Private
 
 Property._extractKey = function(str) {
-    for (var key in PROPERTY_MAP) {
-        var re = new RegExp('^' + key + '$', 'i');
-        if (re.test(str)) {
-            return PROPERTY_MAP[key];
-        }
-    }
-};
+    return PROPERTY_MAP.find(str);
+}; 
 
 Property._extractValue = function(str) {
-    return parseInt(str.replace(/[^\-\d]/g, ''));
+    return parseInt(PROPERTY_MODIFY_VALUE_MAP.replace(str));
 };
 
 // -----------------------------------------------------------

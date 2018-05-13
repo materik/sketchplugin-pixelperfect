@@ -536,12 +536,6 @@ global.log = function(msg) {
 
 // -----------------------------------------------------------
 
-Object.prototype.allKeys = function() {
-    return NSArray.new(Object.keys(this));
-};
-
-// -----------------------------------------------------------
-
 global.createLayer = function(name, x, y, w, h) {
     var layer = MSLayer.new();
     layer.setName(name || 'layer');

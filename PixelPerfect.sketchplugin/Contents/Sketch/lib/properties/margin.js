@@ -37,13 +37,7 @@ MarginProperty.left = function(component, value) {
 };
 
 MarginProperty.modify = function(str) {
-    for (var key in PROPERTY_MODIFY_MARGIN_MAP) {
-        var re = new RegExp(key, 'i');
-        if (re.test(str)) {
-            return str.replace(re, PROPERTY_MODIFY_MARGIN_MAP[key]);
-        }
-    }
-    return str;
+    return PROPERTY_MODIFY_MARGIN_MAP.replace(str, true);
 };
 
 // Getter

@@ -169,10 +169,7 @@ Properties.prototype._raw = function() {
 
     properties = PaddingProperty.modify(properties);
     properties = MarginProperty.modify(properties);
-
-    properties = properties.replace(/^:/, '');
-    properties = properties.replace(/:$/, '');
-    properties = properties.replace(/:{2,}/g, ':');
+    properties = Property.modify(properties);
 
     return properties.split(PROPERTIES_SEP);
 };

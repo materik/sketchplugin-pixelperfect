@@ -37,6 +37,30 @@ describe('perf', function() {
         })
     })
 
+    describe('many artboards', function() {
+        it('without padding', function() {
+            var artboards = NSMutableArray.new()
+            for (var i = 0; i < 10000; i++) {
+                var artboard = createArtboard('', 0, 0, 400, 400);
+                artboard.insertLayer_afterLayerOrAtEnd(createLayer());
+                artboards.addObject(artboard)
+            }
+
+            performanceTest( () => Components.apply(artboards) , 1)
+        });
+
+        it('with padding', function() {
+            var artboards = NSMutableArray.new()
+            for (var i = 0; i < 10000; i++) {
+                var artboard = createArtboard('32:32', 0, 0, 400, 400);
+                artboard.insertLayer_afterLayerOrAtEnd(createLayer());
+                artboards.addObject(artboard)
+            }
+
+            performanceTest( () => Components.apply(artboards) , 3)
+        });
+    })
+
     it('many symbol instances', function() {
         var layer = createLayer('w100:h200')
         var master = createSymbolMaster()
@@ -55,17 +79,6 @@ describe('perf', function() {
         assert.equal(layer.frame().width(), 100)
         assert.equal(layer.frame().height(), 200)
     })
-
-    it('padding on artboard', function() {
-        var artboards = NSMutableArray.new()
-        for (var i = 0; i < 10000; i++) {
-            var artboard = createArtboard('32:32', 0, 0, 400, 400);
-            artboard.insertLayer_afterLayerOrAtEnd(createLayer());
-            artboards.addObject(artboard)
-        }
-
-        performanceTest( () => Components.apply(artboards) , 3)
-    });
 
     it('many layers', function() {
         var artboard = createArtboard('', 0, 0, 400, 400);

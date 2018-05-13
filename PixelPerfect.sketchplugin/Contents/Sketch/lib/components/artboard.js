@@ -9,7 +9,8 @@ ArtboardComponent.prototype = Object.create(Component.prototype);
 
 ArtboardComponent.prototype._apply = function() {
     this.properties().filter(function(property) {
-        return /(width|height)/.test(property.key());
+        return property.key() == PROPERTY_WIDTH_STATIC ||
+            property.key() == PROPERTY_HEIGHT_STATIC
     }).apply();
 
     this.components().apply();

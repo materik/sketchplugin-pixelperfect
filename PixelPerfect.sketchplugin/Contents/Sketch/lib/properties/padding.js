@@ -39,13 +39,7 @@ PaddingProperty.left = function(component, value) {
 };
 
 PaddingProperty.modify = function(str) {
-    for (var key in PROPERTY_MODIFY_PADDING_MAP) {
-        var re = new RegExp(key, 'i');
-        if (re.test(str)) {
-            return str.replace(re, PROPERTY_MODIFY_PADDING_MAP[key]);
-        }
-    }
-    return str;
+    return PROPERTY_MODIFY_PADDING_MAP.replace(str, true);
 };
 
 PaddingProperty.isOuter = function(component) {

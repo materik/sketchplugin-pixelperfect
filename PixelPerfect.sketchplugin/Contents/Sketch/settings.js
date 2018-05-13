@@ -1,8 +1,8 @@
 
-var PROPERTIES_RE = new RegExp('\\[([^\\]]+)\\]');
-var PROPERTIES_RE_IGNORE = new RegExp('\\[ignore\\]', 'i');
-var PROPERTIES_RE_PADDING = new RegExp('^\\d+$');
-var PROPERTIES_RE_PADDING_CONTAINER_NAME = new RegExp('(bg|container)', 'i');
+var PROPERTIES_RE = /\[([^\]]+)\]/;
+var PROPERTIES_RE_IGNORE = /\[ignore\]/i;
+var PROPERTIES_RE_PADDING = /^\d+$/;
+var PROPERTIES_RE_PADDING_CONTAINER_NAME = /(bg|container)/i;
 var PROPERTIES_SEP = ':';
 
 // -----------------------------------------------------------
@@ -40,37 +40,6 @@ var PROPERTY_STACK_VERTICALLY_RIGHT = 'stack-vertically-right';
 var PROPERTY_CENTER_HORIZONTALLY = 'center-horizontally';
 var PROPERTY_CENTER_VERTICALLY = 'center-vertically';
 
-var PROPERTY_MAP = {
-    '(c)(\\+|\\-)?\\d*':        PROPERTY_CENTER_HORIZONTALLY,
-    '(h)':                      PROPERTY_CENTER_HORIZONTALLY,
-    '(h)(\\+|\\-)\\d+':         PROPERTY_HEIGHT_ADDITION,
-    '(h)\\>\\d+':               PROPERTY_HEIGHT_MIN,
-    '(h)\\d+':                  PROPERTY_HEIGHT_STATIC,
-    '(h)\\d+%':                 PROPERTY_HEIGHT_PERCENTAGE,
-    '(h)\\d+%%':                PROPERTY_HEIGHT_PERCENTAGE_FULL,
-    '(mb|b)\\-?\\d*':           PROPERTY_MARGIN_BOTTOM,
-    '(ml|l)\\-?\\d*':           PROPERTY_MARGIN_LEFT,
-    '(mr|r)\\-?\\d*':           PROPERTY_MARGIN_RIGHT,
-    '(mt|t)\\-?\\d*':           PROPERTY_MARGIN_TOP,
-    '(pb)\\-?\\d*':             PROPERTY_PADDING_BOTTOM,
-    '(pl)\\-?\\d*':             PROPERTY_PADDING_LEFT,
-    '(pr)\\-?\\d*':             PROPERTY_PADDING_RIGHT,
-    '(pt)\\-?\\d*':             PROPERTY_PADDING_TOP,
-    '(v)':                      PROPERTY_CENTER_VERTICALLY,
-    '(v)(\\+|\\-)?\\d*':        PROPERTY_CENTER_VERTICALLY,
-    '(w)(\\+|\\-)\\d+':         PROPERTY_WIDTH_ADDITION,
-    '(w)\\>\\d+':               PROPERTY_WIDTH_MIN,
-    '(w)\\d+':                  PROPERTY_WIDTH_STATIC,
-    '(w)\\d+%':                 PROPERTY_WIDTH_PERCENTAGE,
-    '(w)\\d+%%':                PROPERTY_WIDTH_PERCENTAGE_FULL,
-    '(x)\\-?\\d*':              PROPERTY_STACK_HORIZONTALLY_MIDDLE,
-    '(xb)\\-?\\d*':             PROPERTY_STACK_HORIZONTALLY_BOTTOM,
-    '(xt)\\-?\\d*':             PROPERTY_STACK_HORIZONTALLY_TOP,
-    '(y)\\-?\\d*':              PROPERTY_STACK_VERTICALLY_CENTER,
-    '(yl)\\-?\\d*':             PROPERTY_STACK_VERTICALLY_LEFT,
-    '(yr)\\-?\\d*':             PROPERTY_STACK_VERTICALLY_RIGHT,
-};
-
 var PROPERTY_PRIORITY = [
     PROPERTY_STACK_HORIZONTALLY_MIDDLE,
     PROPERTY_STACK_HORIZONTALLY_BOTTOM,
@@ -99,18 +68,6 @@ var PROPERTY_PRIORITY = [
     PROPERTY_PADDING_TOP,
     PROPERTY_PADDING_LEFT,
 ];
-
-var PROPERTY_MODIFY_PADDING_MAP = {
-    '(?:^|:)([\\d]+):([\\d]+):([\\d]+):([\\d]+)(?:$|:)': ':pt$1:pr$2:pb$3:pl$4:',
-    '(?:^|:)([\\d]+):([\\d]+):([\\d]+)(?:$|:)': ':pt$1:pr$2:pb$3:pl$2:',
-    '(?:^|:)([\\d]+):([\\d]+)(?:$|:)': ':pt$1:pr$2:pb$1:pl$2:',
-    '(?:^|:)([\\d]+)(?:$|:)': ':pt$1:pr$1:pb$1:pl$1:',
-    '(?:^|:)(p|padding)(?:$|:)': ':pt:pr:pb:pl:',
-};
-
-var PROPERTY_MODIFY_MARGIN_MAP = {
-    '(?:^|:)(m|margin|trbl|bg)(?:$|:)': ':b:r:t:l:',
-};
 
 // -----------------------------------------------------------
 
@@ -159,10 +116,7 @@ global.PROPERTY_STACK_VERTICALLY_CENTER = PROPERTY_STACK_VERTICALLY_CENTER;
 global.PROPERTY_STACK_VERTICALLY_RIGHT = PROPERTY_STACK_VERTICALLY_RIGHT;
 global.PROPERTY_CENTER_HORIZONTALLY = PROPERTY_CENTER_HORIZONTALLY;
 global.PROPERTY_CENTER_VERTICALLY = PROPERTY_CENTER_VERTICALLY;
-global.PROPERTY_MAP = PROPERTY_MAP;
 global.PROPERTY_PRIORITY = PROPERTY_PRIORITY;
-global.PROPERTY_MODIFY_PADDING_MAP = PROPERTY_MODIFY_PADDING_MAP;
-global.PROPERTY_MODIFY_MARGIN_MAP = PROPERTY_MODIFY_MARGIN_MAP;
 global.CLASS_ARTBOARD = CLASS_ARTBOARD;
 global.CLASS_GROUP = CLASS_GROUP;
 global.CLASS_SHAPE = CLASS_SHAPE;
