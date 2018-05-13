@@ -11,10 +11,10 @@ PaddingProperty.prototype = Object.create(Property.prototype);
 
 PaddingProperty.validKeys = function() {
     return [
-        PROPERTY_PADDING_TOP,
-        PROPERTY_PADDING_RIGHT,
-        PROPERTY_PADDING_BOTTOM,
-        PROPERTY_PADDING_LEFT,
+        PROPERTY_KEY_PADDING_TOP,
+        PROPERTY_KEY_PADDING_RIGHT,
+        PROPERTY_KEY_PADDING_BOTTOM,
+        PROPERTY_KEY_PADDING_LEFT,
     ];
 };
 
@@ -23,19 +23,19 @@ PaddingProperty.new = function(component, key, value) {
 };
 
 PaddingProperty.top = function(component, value) {
-    return PaddingProperty.new(component, PROPERTY_PADDING_TOP, value);
+    return PaddingProperty.new(component, PROPERTY_KEY_PADDING_TOP, value);
 };
 
 PaddingProperty.right = function(component, value) {
-    return PaddingProperty.new(component, PROPERTY_PADDING_RIGHT, value);
+    return PaddingProperty.new(component, PROPERTY_KEY_PADDING_RIGHT, value);
 };
 
 PaddingProperty.bottom = function(component, value) {
-    return PaddingProperty.new(component, PROPERTY_PADDING_BOTTOM, value);
+    return PaddingProperty.new(component, PROPERTY_KEY_PADDING_BOTTOM, value);
 };
 
 PaddingProperty.left = function(component, value) {
-    return PaddingProperty.new(component, PROPERTY_PADDING_LEFT, value);
+    return PaddingProperty.new(component, PROPERTY_KEY_PADDING_LEFT, value);
 };
 
 PaddingProperty.modify = function(str) {
@@ -107,7 +107,7 @@ PaddingProperty.prototype._apply = function() {
 
     var frame = this.components().frame();
     switch (this.key()) {
-        case PROPERTY_PADDING_TOP:
+        case PROPERTY_KEY_PADDING_TOP:
             MarginProperty.top(this.components(), this.value()).apply();
             if (!this.components().properties().containsPaddingRightOrLeft() &&
                 !this.components().properties().containsMarginRightOrLeft()) {
@@ -116,8 +116,8 @@ PaddingProperty.prototype._apply = function() {
                 MarginProperty.top(this.container(), 0).apply();
             }
             break;
-        case PROPERTY_PADDING_RIGHT:
-            var leftProperty = this.components().properties().find(PROPERTY_PADDING_LEFT);
+        case PROPERTY_KEY_PADDING_RIGHT:
+            var leftProperty = this.components().properties().find(PROPERTY_KEY_PADDING_LEFT);
             if (leftProperty) {
                 SizeProperty.width(this.container(), frame.width() + this.value() + leftProperty.value()).apply();
             } else {
@@ -130,8 +130,8 @@ PaddingProperty.prototype._apply = function() {
                 MarginProperty.left(this.container(), 0).apply();
             }
             break;
-        case PROPERTY_PADDING_BOTTOM:
-            var topProperty = this.components().properties().find(PROPERTY_PADDING_TOP);
+        case PROPERTY_KEY_PADDING_BOTTOM:
+            var topProperty = this.components().properties().find(PROPERTY_KEY_PADDING_TOP);
             if (topProperty) {
                 SizeProperty.height(this.container(), frame.height() + this.value() + topProperty.value()).apply();
             } else {
@@ -144,7 +144,7 @@ PaddingProperty.prototype._apply = function() {
                 MarginProperty.top(this.container(), 0).apply();
             }
             break;
-        case PROPERTY_PADDING_LEFT:
+        case PROPERTY_KEY_PADDING_LEFT:
             MarginProperty.left(this.components(), this.value()).apply();
             if (!this.components().properties().containsPaddingTopOrBottom() &&
                 !this.components().properties().containsMarginTopOrBottom()) {

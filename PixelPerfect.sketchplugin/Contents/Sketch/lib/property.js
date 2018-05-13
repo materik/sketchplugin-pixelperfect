@@ -74,11 +74,11 @@ Property.prototype.apply = function() {
 // Private
 
 Property._extractKey = function(str) {
-    return PROPERTY_MAP.find(str);
+    return PROPERTY_KEY_MAP.find(str);
 }; 
 
 Property._extractValue = function(str) {
-    return parseInt(PROPERTY_MODIFY_VALUE_MAP.replace(str));
+    return parseInt(PROPERTY_VALUE_MAP.replace(str));
 };
 
 // -----------------------------------------------------------

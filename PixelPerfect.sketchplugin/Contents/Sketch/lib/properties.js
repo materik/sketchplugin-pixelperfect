@@ -82,7 +82,7 @@ Properties.prototype.containsType = function(aType) {
 };
 
 Properties.prototype.containsPercentageWidthOrHeight = function() {
-    return this.containsKey(PROPERTY_WIDTH_PERCENTAGE) || this.containsKey(PROPERTY_HEIGHT_PERCENTAGE);
+    return this.containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE) || this.containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE);
 };
 
 Properties.prototype.containsPadding = function() {
@@ -90,11 +90,11 @@ Properties.prototype.containsPadding = function() {
 };
 
 Properties.prototype.containsPaddingTopOrBottom = function() {
-    return this.containsKey(PROPERTY_PADDING_TOP) || this.containsKey(PROPERTY_PADDING_BOTTOM);
+    return this.containsKey(PROPERTY_KEY_PADDING_TOP) || this.containsKey(PROPERTY_KEY_PADDING_BOTTOM);
 };
 
 Properties.prototype.containsPaddingRightOrLeft = function() {
-    return this.containsKey(PROPERTY_PADDING_RIGHT) || this.containsKey(PROPERTY_PADDING_LEFT);
+    return this.containsKey(PROPERTY_KEY_PADDING_RIGHT) || this.containsKey(PROPERTY_KEY_PADDING_LEFT);
 };
 
 Properties.prototype.containsMargin = function() {
@@ -102,21 +102,21 @@ Properties.prototype.containsMargin = function() {
 };
 
 Properties.prototype.containsMarginTopOrLeft = function() {
-    return (!this.containsKey(PROPERTY_MARGIN_RIGHT) && this.containsKey(PROPERTY_MARGIN_LEFT)) ||
-        (!this.containsKey(PROPERTY_MARGIN_BOTTOM) && this.containsKey(PROPERTY_MARGIN_TOP));
+    return (!this.containsKey(PROPERTY_KEY_MARGIN_RIGHT) && this.containsKey(PROPERTY_KEY_MARGIN_LEFT)) ||
+        (!this.containsKey(PROPERTY_KEY_MARGIN_BOTTOM) && this.containsKey(PROPERTY_KEY_MARGIN_TOP));
 };
 
 Properties.prototype.containsMarginRightOrBottom = function() {
-    return (this.containsKey(PROPERTY_MARGIN_RIGHT) && !this.containsKey(PROPERTY_MARGIN_LEFT)) ||
-        (this.containsKey(PROPERTY_MARGIN_BOTTOM) && !this.containsKey(PROPERTY_MARGIN_TOP));
+    return (this.containsKey(PROPERTY_KEY_MARGIN_RIGHT) && !this.containsKey(PROPERTY_KEY_MARGIN_LEFT)) ||
+        (this.containsKey(PROPERTY_KEY_MARGIN_BOTTOM) && !this.containsKey(PROPERTY_KEY_MARGIN_TOP));
 };
 
 Properties.prototype.containsMarginTopOrBottom = function() {
-    return this.containsKey(PROPERTY_MARGIN_TOP) || this.containsKey(PROPERTY_MARGIN_BOTTOM);
+    return this.containsKey(PROPERTY_KEY_MARGIN_TOP) || this.containsKey(PROPERTY_KEY_MARGIN_BOTTOM);
 };
 
 Properties.prototype.containsMarginRightOrLeft = function() {
-    return this.containsKey(PROPERTY_MARGIN_RIGHT) || this.containsKey(PROPERTY_MARGIN_LEFT);
+    return this.containsKey(PROPERTY_KEY_MARGIN_RIGHT) || this.containsKey(PROPERTY_KEY_MARGIN_LEFT);
 };
 
 // Action
@@ -153,10 +153,10 @@ Properties.prototype.addProperty = function(property) {
 };
 
 Properties.prototype.addZeroPadding = function() {
-    this.addProperty(Property.new(this.component(), PROPERTY_PADDING_TOP));
-    this.addProperty(Property.new(this.component(), PROPERTY_PADDING_RIGHT));
-    this.addProperty(Property.new(this.component(), PROPERTY_PADDING_BOTTOM));
-    this.addProperty(Property.new(this.component(), PROPERTY_PADDING_LEFT));
+    this.addProperty(Property.new(this.component(), PROPERTY_KEY_PADDING_TOP));
+    this.addProperty(Property.new(this.component(), PROPERTY_KEY_PADDING_RIGHT));
+    this.addProperty(Property.new(this.component(), PROPERTY_KEY_PADDING_BOTTOM));
+    this.addProperty(Property.new(this.component(), PROPERTY_KEY_PADDING_LEFT));
     this._sort();
 };
 
@@ -188,7 +188,7 @@ Properties.prototype._setup = function() {
 
 Properties.prototype._sort = function() {
     this._items = this.items().sort(function(a, b) {
-        return PROPERTY_PRIORITY.indexOf(a.key()) > PROPERTY_PRIORITY.indexOf(b.key());
+        return PROPERTY_KEY_PRIORITY.indexOf(a.key()) > PROPERTY_KEY_PRIORITY.indexOf(b.key());
     });
 
     if (this.containsPadding()) {

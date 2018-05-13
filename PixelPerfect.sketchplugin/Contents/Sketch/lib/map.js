@@ -50,38 +50,38 @@ RegExpMapEntry.prototype.value = function() {
 
 // -----------------------------------------------------------
 
-var PROPERTY_MAP = RegExpMap.new([
-    RegExpMapEntry.new('(c)(\\+|\\-)?\\d*', PROPERTY_CENTER_HORIZONTALLY),
-    RegExpMapEntry.new('(h)', PROPERTY_CENTER_HORIZONTALLY),
-    RegExpMapEntry.new('(h)(\\+|\\-)\\d+', PROPERTY_HEIGHT_ADDITION),
-    RegExpMapEntry.new('(h)\\>\\d+', PROPERTY_HEIGHT_MIN),
-    RegExpMapEntry.new('(h)\\d+', PROPERTY_HEIGHT_STATIC),
-    RegExpMapEntry.new('(h)\\d+%', PROPERTY_HEIGHT_PERCENTAGE),
-    RegExpMapEntry.new('(h)\\d+%%', PROPERTY_HEIGHT_PERCENTAGE_FULL),
-    RegExpMapEntry.new('(mb|b)\\-?\\d*', PROPERTY_MARGIN_BOTTOM),
-    RegExpMapEntry.new('(ml|l)\\-?\\d*', PROPERTY_MARGIN_LEFT),
-    RegExpMapEntry.new('(mr|r)\\-?\\d*', PROPERTY_MARGIN_RIGHT),
-    RegExpMapEntry.new('(mt|t)\\-?\\d*', PROPERTY_MARGIN_TOP),
-    RegExpMapEntry.new('(pb)\\-?\\d*', PROPERTY_PADDING_BOTTOM),
-    RegExpMapEntry.new('(pl)\\-?\\d*', PROPERTY_PADDING_LEFT),
-    RegExpMapEntry.new('(pr)\\-?\\d*', PROPERTY_PADDING_RIGHT),
-    RegExpMapEntry.new('(pt)\\-?\\d*', PROPERTY_PADDING_TOP),
-    RegExpMapEntry.new('(v)', PROPERTY_CENTER_VERTICALLY),
-    RegExpMapEntry.new('(v)(\\+|\\-)?\\d*', PROPERTY_CENTER_VERTICALLY),
-    RegExpMapEntry.new('(w)(\\+|\\-)\\d+', PROPERTY_WIDTH_ADDITION),
-    RegExpMapEntry.new('(w)\\>\\d+', PROPERTY_WIDTH_MIN),
-    RegExpMapEntry.new('(w)\\d+', PROPERTY_WIDTH_STATIC),
-    RegExpMapEntry.new('(w)\\d+%', PROPERTY_WIDTH_PERCENTAGE),
-    RegExpMapEntry.new('(w)\\d+%%', PROPERTY_WIDTH_PERCENTAGE_FULL),
-    RegExpMapEntry.new('(x)\\-?\\d*', PROPERTY_STACK_HORIZONTALLY_MIDDLE),
-    RegExpMapEntry.new('(xb)\\-?\\d*', PROPERTY_STACK_HORIZONTALLY_BOTTOM),
-    RegExpMapEntry.new('(xt)\\-?\\d*', PROPERTY_STACK_HORIZONTALLY_TOP),
-    RegExpMapEntry.new('(y)\\-?\\d*', PROPERTY_STACK_VERTICALLY_CENTER),
-    RegExpMapEntry.new('(yl)\\-?\\d*', PROPERTY_STACK_VERTICALLY_LEFT),
-    RegExpMapEntry.new('(yr)\\-?\\d*', PROPERTY_STACK_VERTICALLY_RIGHT),
+var PROPERTY_KEY_MAP = RegExpMap.new([
+    RegExpMapEntry.new('(c)(\\+|\\-)?\\d*', PROPERTY_KEY_CENTER_HORIZONTALLY),
+    RegExpMapEntry.new('(h)', PROPERTY_KEY_CENTER_HORIZONTALLY),
+    RegExpMapEntry.new('(h)(\\+|\\-)\\d+', PROPERTY_KEY_HEIGHT_ADDITION),
+    RegExpMapEntry.new('(h)\\>\\d+', PROPERTY_KEY_HEIGHT_MIN),
+    RegExpMapEntry.new('(h)\\d+', PROPERTY_KEY_HEIGHT_STATIC),
+    RegExpMapEntry.new('(h)\\d+%', PROPERTY_KEY_HEIGHT_PERCENTAGE),
+    RegExpMapEntry.new('(h)\\d+%%', PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL),
+    RegExpMapEntry.new('(mb|b)\\-?\\d*', PROPERTY_KEY_MARGIN_BOTTOM),
+    RegExpMapEntry.new('(ml|l)\\-?\\d*', PROPERTY_KEY_MARGIN_LEFT),
+    RegExpMapEntry.new('(mr|r)\\-?\\d*', PROPERTY_KEY_MARGIN_RIGHT),
+    RegExpMapEntry.new('(mt|t)\\-?\\d*', PROPERTY_KEY_MARGIN_TOP),
+    RegExpMapEntry.new('(pb)\\-?\\d*', PROPERTY_KEY_PADDING_BOTTOM),
+    RegExpMapEntry.new('(pl)\\-?\\d*', PROPERTY_KEY_PADDING_LEFT),
+    RegExpMapEntry.new('(pr)\\-?\\d*', PROPERTY_KEY_PADDING_RIGHT),
+    RegExpMapEntry.new('(pt)\\-?\\d*', PROPERTY_KEY_PADDING_TOP),
+    RegExpMapEntry.new('(v)', PROPERTY_KEY_CENTER_VERTICALLY),
+    RegExpMapEntry.new('(v)(\\+|\\-)?\\d*', PROPERTY_KEY_CENTER_VERTICALLY),
+    RegExpMapEntry.new('(w)(\\+|\\-)\\d+', PROPERTY_KEY_WIDTH_ADDITION),
+    RegExpMapEntry.new('(w)\\>\\d+', PROPERTY_KEY_WIDTH_MIN),
+    RegExpMapEntry.new('(w)\\d+', PROPERTY_KEY_WIDTH_STATIC),
+    RegExpMapEntry.new('(w)\\d+%', PROPERTY_KEY_WIDTH_PERCENTAGE),
+    RegExpMapEntry.new('(w)\\d+%%', PROPERTY_KEY_WIDTH_PERCENTAGE_FULL),
+    RegExpMapEntry.new('(x)\\-?\\d*', PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE),
+    RegExpMapEntry.new('(xb)\\-?\\d*', PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM),
+    RegExpMapEntry.new('(xt)\\-?\\d*', PROPERTY_KEY_STACK_HORIZONTALLY_TOP),
+    RegExpMapEntry.new('(y)\\-?\\d*', PROPERTY_KEY_STACK_VERTICALLY_CENTER),
+    RegExpMapEntry.new('(yl)\\-?\\d*', PROPERTY_KEY_STACK_VERTICALLY_LEFT),
+    RegExpMapEntry.new('(yr)\\-?\\d*', PROPERTY_KEY_STACK_VERTICALLY_RIGHT),
 ]);
 
-var PROPERTY_MODIFY_VALUE_MAP = RegExpMap.new([
+var PROPERTY_VALUE_MAP = RegExpMap.new([
     RegExpMapEntry.new(/[^\-\d]/g, ''),
 ])
 
@@ -108,8 +108,8 @@ var PROPERTY_MODIFY_MARGIN_MAP = RegExpMap.new([
 global.RegExpMap = RegExpMap
 global.RegExpMapEntry = RegExpMapEntry
 
-global.PROPERTY_MAP = PROPERTY_MAP;
-global.PROPERTY_MODIFY_VALUE_MAP = PROPERTY_MODIFY_VALUE_MAP;
+global.PROPERTY_KEY_MAP = PROPERTY_KEY_MAP;
+global.PROPERTY_VALUE_MAP = PROPERTY_VALUE_MAP;
 global.PROPERTY_MODIFY_MAP = PROPERTY_MODIFY_MAP;
 global.PROPERTY_MODIFY_PADDING_MAP = PROPERTY_MODIFY_PADDING_MAP;
 global.PROPERTY_MODIFY_MARGIN_MAP = PROPERTY_MODIFY_MARGIN_MAP;

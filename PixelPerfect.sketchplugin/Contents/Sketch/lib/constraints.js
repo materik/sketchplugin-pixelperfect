@@ -88,28 +88,28 @@ Constraints.prototype.apply = function(properties) {
 
     this.reset();
     this.setHasFixedTop(
-        properties.containsKey(PROPERTY_MARGIN_TOP) ||
-        properties.containsKey(PROPERTY_PADDING_TOP) ||
-        properties.containsKey(PROPERTY_HEIGHT_PERCENTAGE) ||
-        properties.containsKey(PROPERTY_HEIGHT_PERCENTAGE_FULL)
+        properties.containsKey(PROPERTY_KEY_MARGIN_TOP) ||
+        properties.containsKey(PROPERTY_KEY_PADDING_TOP) ||
+        properties.containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE) ||
+        properties.containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL)
     );
     this.setHasFixedRight(
-        properties.containsKey(PROPERTY_MARGIN_RIGHT) ||
-        properties.containsKey(PROPERTY_PADDING_RIGHT) ||
-        properties.containsKey(PROPERTY_WIDTH_PERCENTAGE) ||
-        properties.containsKey(PROPERTY_WIDTH_PERCENTAGE_FULL)
+        properties.containsKey(PROPERTY_KEY_MARGIN_RIGHT) ||
+        properties.containsKey(PROPERTY_KEY_PADDING_RIGHT) ||
+        properties.containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE) ||
+        properties.containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE_FULL)
     );
     this.setHasFixedBottom(
-        properties.containsKey(PROPERTY_MARGIN_BOTTOM) ||
-        properties.containsKey(PROPERTY_PADDING_BOTTOM) ||
-        properties.containsKey(PROPERTY_HEIGHT_PERCENTAGE) ||
-        properties.containsKey(PROPERTY_HEIGHT_PERCENTAGE_FULL)
+        properties.containsKey(PROPERTY_KEY_MARGIN_BOTTOM) ||
+        properties.containsKey(PROPERTY_KEY_PADDING_BOTTOM) ||
+        properties.containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE) ||
+        properties.containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL)
     );
     this.setHasFixedLeft(
-        properties.containsKey(PROPERTY_MARGIN_LEFT) ||
-        properties.containsKey(PROPERTY_PADDING_LEFT) ||
-        properties.containsKey(PROPERTY_WIDTH_PERCENTAGE) ||
-        properties.containsKey(PROPERTY_WIDTH_PERCENTAGE_FULL)
+        properties.containsKey(PROPERTY_KEY_MARGIN_LEFT) ||
+        properties.containsKey(PROPERTY_KEY_PADDING_LEFT) ||
+        properties.containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE) ||
+        properties.containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE_FULL)
     );
     this.setHasFixedWidth(!(this.hasFixedRight() && this.hasFixedLeft()));
     this.setHasFixedHeight(!(this.hasFixedTop() && this.hasFixedBottom()));

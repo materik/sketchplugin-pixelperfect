@@ -13,7 +13,7 @@ TextComponent.prototype._apply = function() {
 };
 
 TextComponent.prototype._sizeToFit = function() {
-    if (this.properties().containsKey(PROPERTY_HEIGHT_STATIC)) {
+    if (this.properties().containsKey(PROPERTY_KEY_HEIGHT_STATIC)) {
         this._layer.setVerticalAlignment(1);
     } else {
         this._layer.adjustFrameToFit();

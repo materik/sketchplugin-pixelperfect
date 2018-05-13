@@ -151,7 +151,7 @@ Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
         return 0;
     } else if (this.parent().isArtboardOrSymbolMaster()) {
         return this.parent().frame().width();
-    } else if (forceIteration || this.parent().properties().containsKey(PROPERTY_WIDTH_PERCENTAGE)) {
+    } else if (forceIteration || this.parent().properties().containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE)) {
         return this.parent().widthOfParent(forceIteration, ignoreSelf) ||
             this.parent().frame().width();
     } else if (ignoreSelf) {
@@ -166,7 +166,7 @@ Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
         return 0;
     } else if (this.parent().isArtboardOrSymbolMaster()) {
         return this.parent().frame().height();
-    } else if (forceIteration || this.parent().properties().containsKey(PROPERTY_HEIGHT_PERCENTAGE)) {
+    } else if (forceIteration || this.parent().properties().containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
         return this.parent().heightOfParent(forceIteration, ignoreSelf) ||
             this.parent().frame().height();
     } else if (ignoreSelf) {

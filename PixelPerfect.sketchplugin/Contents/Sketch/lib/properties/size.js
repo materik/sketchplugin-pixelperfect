@@ -9,16 +9,16 @@ SizeProperty.prototype = Object.create(Property.prototype);
 
 SizeProperty.validKeys = function() {
     return [
-        PROPERTY_WIDTH_STATIC,
-        PROPERTY_WIDTH_ADDITION,
-        PROPERTY_WIDTH_PERCENTAGE,
-        PROPERTY_WIDTH_PERCENTAGE_FULL,
-        PROPERTY_WIDTH_MIN,
-        PROPERTY_HEIGHT_STATIC,
-        PROPERTY_HEIGHT_ADDITION,
-        PROPERTY_HEIGHT_PERCENTAGE,
-        PROPERTY_HEIGHT_PERCENTAGE_FULL,
-        PROPERTY_HEIGHT_MIN,
+        PROPERTY_KEY_WIDTH_STATIC,
+        PROPERTY_KEY_WIDTH_ADDITION,
+        PROPERTY_KEY_WIDTH_PERCENTAGE,
+        PROPERTY_KEY_WIDTH_PERCENTAGE_FULL,
+        PROPERTY_KEY_WIDTH_MIN,
+        PROPERTY_KEY_HEIGHT_STATIC,
+        PROPERTY_KEY_HEIGHT_ADDITION,
+        PROPERTY_KEY_HEIGHT_PERCENTAGE,
+        PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL,
+        PROPERTY_KEY_HEIGHT_MIN,
     ];
 };
 
@@ -27,11 +27,11 @@ SizeProperty.new = function(component, key, value) {
 };
 
 SizeProperty.width = function(component, value) {
-    return SizeProperty.new(component, PROPERTY_WIDTH_STATIC, value);
+    return SizeProperty.new(component, PROPERTY_KEY_WIDTH_STATIC, value);
 };
 
 SizeProperty.height = function(component, value) {
-    return SizeProperty.new(component, PROPERTY_HEIGHT_STATIC, value);
+    return SizeProperty.new(component, PROPERTY_KEY_HEIGHT_STATIC, value);
 };
 
 // Getter
@@ -49,34 +49,34 @@ SizeProperty.prototype.isValid = function() {
 SizeProperty.prototype._apply = function() {
     var frame = this.component().frame();
     switch (this.key()) {
-        case PROPERTY_WIDTH_STATIC:
+        case PROPERTY_KEY_WIDTH_STATIC:
             frame.setWidth(this.value());
             break;
-        case PROPERTY_WIDTH_ADDITION:
+        case PROPERTY_KEY_WIDTH_ADDITION:
             frame.setWidth(frame.width() + this.value());
             break;
-        case PROPERTY_WIDTH_PERCENTAGE:
+        case PROPERTY_KEY_WIDTH_PERCENTAGE:
             frame.setWidth(this.value() / 100 * this.component().widthOfParent(false, true));
             break;
-        case PROPERTY_WIDTH_PERCENTAGE_FULL:
+        case PROPERTY_KEY_WIDTH_PERCENTAGE_FULL:
             frame.setWidth(this.value() / 100 * this.component().widthOfParent(true));
             break;
-        case PROPERTY_WIDTH_MIN:
+        case PROPERTY_KEY_WIDTH_MIN:
             frame.setWidth(frame.width() < this.value() ? this.value() : frame.width());
             break;
-        case PROPERTY_HEIGHT_STATIC:
+        case PROPERTY_KEY_HEIGHT_STATIC:
             frame.setHeight(this.value());
             break;
-        case PROPERTY_HEIGHT_ADDITION:
+        case PROPERTY_KEY_HEIGHT_ADDITION:
             frame.setHeight(frame.height() + this.value());
             break;
-        case PROPERTY_HEIGHT_PERCENTAGE:
+        case PROPERTY_KEY_HEIGHT_PERCENTAGE:
             frame.setHeight(this.value() / 100 * this.component().heightOfParent(false, true));
             break;
-        case PROPERTY_HEIGHT_PERCENTAGE_FULL:
+        case PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL:
             frame.setHeight(this.value() / 100 * this.component().heightOfParent(true));
             break;
-        case PROPERTY_HEIGHT_MIN:
+        case PROPERTY_KEY_HEIGHT_MIN:
             frame.setHeight(frame.height() < this.value() ? this.value() : frame.height());
             break;
         /* istanbul ignore next */
