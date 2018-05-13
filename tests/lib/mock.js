@@ -203,6 +203,10 @@ NSMutableArray.new = function(objects) {
 };
 
 NSMutableArray.prototype.addObject = function(object) {
+    this._objects.push(object);
+};
+
+NSMutableArray.prototype._prependObject = function(object) {
     var objects = this._objects.reverse();
     objects.push(object);
     this._objects = objects.reverse();
@@ -330,7 +334,7 @@ MSLayerGroup.prototype.isVisible = function() {
 };
 
 MSLayerGroup.prototype.insertLayer_afterLayerOrAtEnd = function(layer) {
-    this._layers.addObject(layer);
+    this._layers._prependObject(layer);
     layer._parentGroup = this;
 };
 
@@ -402,7 +406,7 @@ MSDocument.prototype.pages = function() {
 };
 
 MSDocument.prototype.addPage = function(page) {
-    this._pages.addObject(page);
+    this._pages._prependObject(page);
 };
 
 // -----------------------------------------------------------

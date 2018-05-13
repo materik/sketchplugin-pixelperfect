@@ -62,8 +62,9 @@ Array.prototype.map = function(callback) {
 Array.prototype.mapToDictionary = function(callback) {
     var map = {};
     for (var i = 0; i < this.length; i++) {
-        var object = this[i]
-        map[callback(object)] = object;
+        var value = this[i]
+        var key = callback(value)
+        map[key] = value;
     }
     return map;
 };

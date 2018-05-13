@@ -30,10 +30,11 @@ Components.sub = function(layer, parent) {
 };
 
 Components.items = function(items, parent) {
-    var layers = items.map(function(item) {
-        return item._layer
-    });
-    return Components.new(NSArray.new(layers), parent, items)
+    var layers = NSMutableArray.new()
+    for (var i = 0; i < items.length; i++) {
+        layers.addObject(items[i]._layer);
+    }
+    return Components.new(layers, parent, items)
 }
 
 // Getter
