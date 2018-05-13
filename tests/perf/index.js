@@ -174,7 +174,7 @@ describe('perf', function() {
                 }
             } , 1)
         })
-    })
+    });
 });
 
 var performanceTest = function(test, lessThanSec) {
@@ -184,4 +184,6 @@ var performanceTest = function(test, lessThanSec) {
     var time = after - before
 
     assert.ok(time < lessThanSec * 1000, "expected less than " + lessThanSec + "s, took " + time / 1000 + "s");
+
+    console.log("took " + time / 1000 + "s, which was less than expected " + lessThanSec + "s");
 }

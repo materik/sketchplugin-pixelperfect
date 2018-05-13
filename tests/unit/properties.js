@@ -27,26 +27,26 @@ describe('properties', function() {
 
     it('keys', function() {
         var properties = Properties.new(Component.new(createLayer('Hej')));
-        assert.deepEqual(properties.keys(), [])
-        assert.deepEqual(properties.keys(), [])
+        assert.deepEqual(properties.keys(), {})
+        assert.deepEqual(properties.keys(), {}) // NOTE(materik): check if it caches
         var properties = Properties.new(Component.new(createLayer('mr:h100')));
-        assert.deepEqual(properties.keys(), ['height', 'margin-right'])
+        assert.deepEqual(Object.keys(properties.keys()), ['height', 'margin-right'])
         var group = createLayerGroup('1:2')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
         var properties = Properties.new(Component.new(group));
-        assert.deepEqual(properties.keys(), ['padding-right', 'padding-bottom', 'padding-top', 'padding-left'])
+        assert.deepEqual(Object.keys(properties.keys()), ['padding-right', 'padding-bottom', 'padding-top', 'padding-left'])
     })
 
     it('types', function() {
         var properties = Properties.new(Component.new(createLayer('Hej')));
-        assert.deepEqual(properties.types(), [])
-        assert.deepEqual(properties.types(), [])
+        assert.deepEqual(properties.types(), {})
+        assert.deepEqual(properties.types(), {}) // NOTE(materik): check if it caches
         var properties = Properties.new(Component.new(createLayer('mr:h100')));
-        assert.deepEqual(properties.types(), ['size', 'margin'])
+        assert.deepEqual(Object.keys(properties.types()), ['size', 'margin'])
         var group = createLayerGroup('1:2')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
         var properties = Properties.new(Component.new(group));
-        assert.deepEqual(properties.types(), ['padding'])
+        assert.deepEqual(Object.keys(properties.types()), ['padding'])
     })
 
     it('one valid', function() {
@@ -204,15 +204,15 @@ describe('properties', function() {
         var filtered = properties.filter(function(property) {
             return false
         })
-        assert.deepEqual(filtered.keys(), []);
+        assert.deepEqual(filtered.keys(), {});
         var filtered = properties.filter(function(property) {
             return true
         })
-        assert.deepEqual(filtered.keys(), ['width', 'height', 'margin-right']);
+        assert.deepEqual(Object.keys(filtered.keys()), ['width', 'height', 'margin-right']);
         var filtered = properties.filter(function(property) {
             return property.type() == 'size'
         })
-        assert.deepEqual(filtered.keys(), ['width', 'height']);
+        assert.deepEqual(Object.keys(filtered.keys()), ['width', 'height']);
     });
 
     it('containsKey', function() {
@@ -432,18 +432,18 @@ describe('properties', function() {
 
     it('_sort', function() {
         var component = Component.new(createLayer('trbl'));
-        var properties = Properties.new(component).keys()
+        var properties = Object.keys(Properties.new(component).keys())
         assert.deepEqual(properties, ['margin-right', 'margin-bottom', 'margin-top', 'margin-left']);
         var component = Component.new(createLayer('t:w100:b:h100'));
-        var properties = Properties.new(component).keys()
+        var properties = Object.keys(Properties.new(component).keys())
         assert.deepEqual(properties, ['width', 'height', 'margin-bottom', 'margin-top']);
         var component = Component.new(createLayer('x10:c:w+10:w100%'));
-        var properties = Properties.new(component).keys()
+        var properties = Object.keys(Properties.new(component).keys())
         assert.deepEqual(properties, ['stack-horizontally-middle', 'width-percentage', 'width-addition', 'center-horizontally']);
         var group = createLayerGroup('t:l:b:r:1:2');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = Component.new(group);
-        var properties = Properties.new(component).keys()
+        var properties = Object.keys(Properties.new(component).keys())
         assert.deepEqual(properties, [
             'padding-right',
             'padding-bottom',
@@ -459,7 +459,7 @@ describe('properties', function() {
         group.insertLayer_afterLayerOrAtEnd(layer);
         group.insertLayer_afterLayerOrAtEnd(createLayer('bg'));
         var component = Component.new(layer);
-        var properties = Properties.new(component).keys()
+        var properties = Object.keys(Properties.new(component).keys())
         assert.deepEqual(properties, [
             'margin-right',
             'margin-bottom',

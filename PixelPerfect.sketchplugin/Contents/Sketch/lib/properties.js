@@ -18,7 +18,7 @@ Properties.new = function(component, items) {
 // Getter
 
 Properties.prototype.toString = function() {
-    return '<' + this.keys().join('>,<') + '>';
+    return '<' + Object.keys(this.keys()).join('>,<') + '>';
 };
 
 Properties.prototype.component = function() {
@@ -34,7 +34,7 @@ Properties.prototype.items = function() {
 
 Properties.prototype.keys = function() {
     if (this._keys == null) {
-        this._keys = this.items().map(function(item) {
+        this._keys = this.items().mapToDictionary(function(item) {
             return item.key();
         });
     }
@@ -43,10 +43,9 @@ Properties.prototype.keys = function() {
 
 Properties.prototype.types = function() {
     if (this._types == null) {
-        this._types = this.items().map(function(item) {
+        this._types = this.items().mapToDictionary(function(item) {
             return item.type();
         });
-        this._types = this._types.unique();
     }
     return this._types
 }
@@ -60,10 +59,7 @@ Properties.prototype.objectAtIndex = function(index) {
 };
 
 Properties.prototype.find = function(key) {
-    var index = this.keys().indexOf(key)
-    if (index >= 0) {
-        return this.objectAtIndex(index)   
-    }
+    return this.keys()[key];
 };
 
 Properties.prototype.filter = function(callback) {
@@ -77,12 +73,12 @@ Properties.prototype.filter = function(callback) {
     return Properties.new(this.component(), items);
 };
 
-Properties.prototype.containsKey = function(key) {
-    return this.keys().contains(key);
+Properties.prototype.containsKey = function(aKey) {
+    return aKey in this.keys();
 };
 
-Properties.prototype.containsType = function(type) {
-    return this.types().contains(type);
+Properties.prototype.containsType = function(aType) {
+    return aType in this.types();
 };
 
 Properties.prototype.containsPercentageWidthOrHeight = function() {

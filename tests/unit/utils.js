@@ -72,6 +72,16 @@ describe('utils', function() {
             assert.deepEqual(['a', 'A', 'B', 'c'].toLowerCase(), ['a', 'a', 'b', 'c'])
             assert.deepEqual(['APA', 1, 'ApA', 2, '1'].toLowerCase(), ['apa', 1, 'apa', 2, '1'])
         });
+
+        it('map', function() {
+            assert.deepEqual([].map( (x) => x + 1 ), [])
+            assert.deepEqual([1, 2, 3].map( (x) => x + 1 ), [2, 3, 4])
+        })
+
+        it('mapToDictionary', function() {
+            assert.deepEqual([].mapToDictionary( (x) => x + 1 ), {})
+            assert.deepEqual([1, 2].mapToDictionary( (x) => String(x + 1) ), {'2': 1, '3': 2})
+        })
     });
 
     describe('String', function() {

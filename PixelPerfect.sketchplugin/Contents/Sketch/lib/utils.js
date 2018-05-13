@@ -59,6 +59,15 @@ Array.prototype.map = function(callback) {
     return map;
 };
 
+Array.prototype.mapToDictionary = function(callback) {
+    var map = {};
+    for (var i = 0; i < this.length; i++) {
+        var object = this[i]
+        map[callback(object)] = object;
+    }
+    return map;
+};
+
 Array.prototype.unique = function() {
     return this.filter(function(value, index, self) { 
         return self.indexOf(value) === index;
