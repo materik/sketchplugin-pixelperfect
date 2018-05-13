@@ -63,12 +63,12 @@ var PROPERTY_MAP = {
     '(w)\\d+':                  PROPERTY_WIDTH_STATIC,
     '(w)\\d+%':                 PROPERTY_WIDTH_PERCENTAGE,
     '(w)\\d+%%':                PROPERTY_WIDTH_PERCENTAGE_FULL,
-    '(x)\\-?\\d+':              PROPERTY_STACK_HORIZONTALLY_MIDDLE,
-    '(xb)\\-?\\d+':             PROPERTY_STACK_HORIZONTALLY_BOTTOM,
-    '(xt)\\-?\\d+':             PROPERTY_STACK_HORIZONTALLY_TOP,
-    '(y)\\-?\\d+':              PROPERTY_STACK_VERTICALLY_CENTER,
-    '(yl)\\-?\\d+':             PROPERTY_STACK_VERTICALLY_LEFT,
-    '(yr)\\-?\\d+':             PROPERTY_STACK_VERTICALLY_RIGHT,
+    '(x)\\-?\\d*':              PROPERTY_STACK_HORIZONTALLY_MIDDLE,
+    '(xb)\\-?\\d*':             PROPERTY_STACK_HORIZONTALLY_BOTTOM,
+    '(xt)\\-?\\d*':             PROPERTY_STACK_HORIZONTALLY_TOP,
+    '(y)\\-?\\d*':              PROPERTY_STACK_VERTICALLY_CENTER,
+    '(yl)\\-?\\d*':             PROPERTY_STACK_VERTICALLY_LEFT,
+    '(yr)\\-?\\d*':             PROPERTY_STACK_VERTICALLY_RIGHT,
 };
 
 var PROPERTY_PRIORITY = [

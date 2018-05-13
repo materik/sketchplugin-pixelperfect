@@ -8,18 +8,33 @@ describe('perf', function() {
         SymbolStore.sharedInstance.clean();
     })
 
-    it('many symbols masters', function() {
-        var artboards = NSMutableArray.new()
-        for (var i = 0; i < 10000; i++) {
-            var master = createSymbolMaster(String(i))
-            master.insertLayer_afterLayerOrAtEnd(createLayer('w100:h100'))
-            var instance = createSymbolInstance(master)
+    describe('many symbol masters', function() {
+        it('one artboard', function() {
             var artboard = createArtboard('', 0, 0, 400, 400);
-            artboard.insertLayer_afterLayerOrAtEnd(instance);
-            artboards.addObject(artboard)
-        }
 
-        performanceTest( () => Components.apply(artboards) , 3)
+            for (var i = 0; i < 2000; i++) {
+                var master = createSymbolMaster(String(i))
+                master.insertLayer_afterLayerOrAtEnd(createLayer('w100:h100'))
+                var instance = createSymbolInstance(master)
+                artboard.insertLayer_afterLayerOrAtEnd(instance);
+            }
+
+            performanceTest( () => Component.apply(artboard) , 3)
+        })
+
+        it('many artboards', function() {
+            var artboards = NSMutableArray.new()
+            for (var i = 0; i < 10000; i++) {
+                var master = createSymbolMaster(String(i))
+                master.insertLayer_afterLayerOrAtEnd(createLayer('w100:h100'))
+                var instance = createSymbolInstance(master)
+                var artboard = createArtboard('', 0, 0, 400, 400);
+                artboard.insertLayer_afterLayerOrAtEnd(instance);
+                artboards.addObject(artboard)
+            }
+
+            performanceTest( () => Components.apply(artboards) , 3)
+        })
     })
 
     it('many symbol instances', function() {
@@ -81,6 +96,84 @@ describe('perf', function() {
 
         assert.equal(layer.frame().width(), 100)
         assert.equal(layer.frame().height(), 200)
+    });
+
+    describe('components frame', function() {
+        it('top', function() {
+            var group = createLayerGroup()
+            for (var i = 0; i < 10000; i++) {
+                group.insertLayer_afterLayerOrAtEnd(createLayer('', 0, i, 10, 10));
+            }
+
+            var top;
+            performanceTest( () => {
+                top = Component.new(group).components().frame().top()
+                top = Component.new(group).components().frame().top()
+            } , 0.5)
+
+            assert.equal(top, 0);
+        })
+
+        it('right', function() {
+            var group = createLayerGroup()
+            for (var i = 0; i < 10000; i++) {
+                group.insertLayer_afterLayerOrAtEnd(createLayer('', i, 0, 10, 10));
+            }
+
+            var right;
+            performanceTest( () => {
+                right = Component.new(group).components().frame().right()
+                right = Component.new(group).components().frame().right()
+            } , 1)
+
+            assert.equal(right, 10009);
+        })
+
+        it('bottom', function() {
+            var group = createLayerGroup()
+            for (var i = 0; i < 10000; i++) {
+                group.insertLayer_afterLayerOrAtEnd(createLayer('', 0, i, 10, 10));
+            }
+
+            var bottom;
+            performanceTest( () => {
+                bottom = Component.new(group).components().frame().bottom()
+                bottom = Component.new(group).components().frame().bottom()
+            } , 1)
+
+            assert.equal(bottom, 10009);
+        })
+
+        it('left', function() {
+            var group = createLayerGroup()
+            for (var i = 0; i < 10000; i++) {
+                group.insertLayer_afterLayerOrAtEnd(createLayer('', i, 0, 10, 10));
+            }
+
+            var left;
+            performanceTest( () => {
+                left = Component.new(group).components().frame().left()
+                left = Component.new(group).components().frame().left()
+            } , 0.5)
+
+            assert.equal(left, 0);
+        })
+    })
+
+    describe('properties', function() {
+        it('containsKey', function() {
+            var properties = []
+            for (var i = 0; i < 10000; i++) {
+                var component = Component.new(createLayer('10:10:r:t:b:l:xt:y:c:h:h100:w20'))
+                properties.push(component.properties())
+            }
+
+            performanceTest( () => {
+                for (var i = 0; i < properties.length; i++) {
+                    assert.equal(properties[i].containsKey('stack-horizontally-top'), true)
+                }
+            } , 1)
+        })
     })
 });
 

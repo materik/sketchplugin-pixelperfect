@@ -9,7 +9,7 @@ describe('properties', function() {
         var component = Component.new(createLayer('Hej:hej'));
         var properties = Properties.new(component);
         assert.equal(properties.count(), 0);
-        var component = Component.new(createLayer('Hej [x:y]'));
+        var component = Component.new(createLayer('Hej [a:d]'));
         var properties = Properties.new(component);
         assert.equal(properties.count(), 0);
     });
