@@ -1,5 +1,5 @@
 
-var PROPERTIES_RE = /\[([^\]]+)\]/;
+var PROPERTIES_RE = new RegExp('\\[([^\\]]+)\\]');
 var PROPERTIES_RE_IGNORE = /\[ignore\]/i;
 var PROPERTIES_RE_PADDING = /^\d+$/;
 var PROPERTIES_RE_PADDING_CONTAINER_NAME = /(bg|container)/i;

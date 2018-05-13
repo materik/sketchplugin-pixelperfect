@@ -89,6 +89,34 @@ describe('perf', function() {
         performanceTest( () => Component.apply(artboard) , 2)
     });
 
+    describe('padding', function() {
+        it('outer', function() {
+            var groups = NSMutableArray.new()
+            for (var i = 0; i < 10000; i++) {
+                var layer = createLayer('32:32')
+                var background = createLayer('bg')
+                var group = createLayerGroup()
+                group.insertLayer_afterLayerOrAtEnd(layer)
+                group.insertLayer_afterLayerOrAtEnd(background)
+                groups.addObject(group)
+            }
+
+            performanceTest( () => Components.apply(groups) , 2)
+        });
+
+        it('inner', function() {
+            var groups = NSMutableArray.new()
+            for (var i = 0; i < 10000; i++) {
+                var layer = createLayer('', 0, 0, 10, 10)
+                var group = createLayerGroup('32:32')
+                group.insertLayer_afterLayerOrAtEnd(layer)
+                groups.addObject(group)
+            }
+
+            performanceTest( () => Components.apply(groups) , 2)
+        });
+    });
+
     it('master inception', function() {
         var layer = createLayer('w100:h200')
         var master = createSymbolMaster('-1')
@@ -186,7 +214,7 @@ describe('perf', function() {
                     assert.equal(properties[i].containsKey('stack-horizontally-top'), true)
                 }
             } , 1)
-        })
+        });
     });
 });
 
@@ -198,5 +226,5 @@ var performanceTest = function(test, lessThanSec) {
 
     assert.ok(time < lessThanSec * 1000, "expected less than " + lessThanSec + "s, took " + time / 1000 + "s");
 
-    console.log("took " + time / 1000 + "s, which was less than expected " + lessThanSec + "s");
+    console.log("took " + time / 1000 + "s, which was less than expected: " + lessThanSec + "s");
 }

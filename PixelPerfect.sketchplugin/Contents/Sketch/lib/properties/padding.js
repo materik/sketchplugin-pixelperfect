@@ -2,7 +2,10 @@
 function PaddingProperty(component, key, value) {
     Property.call(this, component, key, value);
 
+    this._isOuter = null;
+    this._isInner = null;
     this._container = null;
+    this._components = null;
 }
 
 PaddingProperty.prototype = Object.create(Property.prototype);
@@ -56,17 +59,6 @@ PaddingProperty.prototype.type = function() {
     return PROPERTY_TYPE_PADDING;
 };
 
-PaddingProperty.prototype.components = function() {
-    if (this.isInner() && !this.isOuter()) {
-        return this.component().components()
-            .filterByExcludingID(this.container().objectID())
-            .filter(function(component) {
-                return !component.properties().containsMarginRightOrBottom();
-            });
-    }
-    return this.component();
-};
-
 PaddingProperty.prototype.container = function() {
     if (this._container == null) {
         if (this.isOuter()) {
@@ -84,16 +76,37 @@ PaddingProperty.prototype.container = function() {
     return this._container;
 };
 
+PaddingProperty.prototype.components = function() {
+    if (this._components == null) {
+        if (this.isInner() && !this.isOuter()) {
+            this._components = this.component().components()
+                .filterByExcludingID(this.container().objectID())
+                .filter(function(component) {
+                    return !component.properties().containsMarginRightOrBottom();
+                });
+        } else {
+            this._components = this.component()
+        }
+    }
+    return this._components
+};
+
 PaddingProperty.prototype.isValid = function() {
     return PaddingProperty.validKeys().contains(this.key()) && this.container() != null;
 };
 
 PaddingProperty.prototype.isOuter = function() {
-    return PaddingProperty.isOuter(this.component());
+    if (this._isOuter == null) {
+        this._isOuter = PaddingProperty.isOuter(this.component());
+    }
+    return this._isOuter
 };
 
 PaddingProperty.prototype.isInner = function() {
-    return PaddingProperty.isInner(this.component());
+    if (this._isInner == null) {
+        this._isInner = PaddingProperty.isInner(this.component());
+    }
+    return this._isInner
 };
 
 // Action
