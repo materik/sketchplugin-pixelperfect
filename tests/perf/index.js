@@ -12,19 +12,19 @@ describe('perf', function() {
         it('one artboard', function() {
             var artboard = createArtboard('', 0, 0, 400, 400);
 
-            for (var i = 0; i < 2000; i++) {
+            for (var i = 0; i < 1200; i++) {
                 var master = createSymbolMaster(String(i))
                 master.insertLayer_afterLayerOrAtEnd(createLayer('w100:h100'))
                 var instance = createSymbolInstance(master)
                 artboard.insertLayer_afterLayerOrAtEnd(instance);
             }
 
-            performanceTest( () => Component.apply(artboard) , 3)
+            performanceTest( () => Component.apply(artboard) , 1.5)
         })
 
         it('many artboards', function() {
             var artboards = NSMutableArray.new()
-            for (var i = 0; i < 10000; i++) {
+            for (var i = 0; i < 5000; i++) {
                 var master = createSymbolMaster(String(i))
                 master.insertLayer_afterLayerOrAtEnd(createLayer('w100:h100'))
                 var instance = createSymbolInstance(master)
@@ -33,7 +33,7 @@ describe('perf', function() {
                 artboards.addObject(artboard)
             }
 
-            performanceTest( () => Components.apply(artboards) , 3)
+            performanceTest( () => Components.apply(artboards) , 1.5)
         })
     })
 
@@ -57,7 +57,7 @@ describe('perf', function() {
                 artboards.addObject(artboard)
             }
 
-            performanceTest( () => Components.apply(artboards) , 3)
+            performanceTest( () => Components.apply(artboards) , 1)
         });
     })
 
@@ -74,7 +74,7 @@ describe('perf', function() {
             artboards.addObject(artboard)
         }
 
-        performanceTest( () => Components.apply(artboards) , 2)
+        performanceTest( () => Components.apply(artboards) , 1)
 
         assert.equal(layer.frame().width(), 100)
         assert.equal(layer.frame().height(), 200)
@@ -86,13 +86,13 @@ describe('perf', function() {
             artboard.insertLayer_afterLayerOrAtEnd(createLayer('l:r:w100:w+10:h100'));
         }
 
-        performanceTest( () => Component.apply(artboard) , 2)
+        performanceTest( () => Component.apply(artboard) , 1)
     });
 
     describe('padding', function() {
         it('outer', function() {
             var groups = NSMutableArray.new()
-            for (var i = 0; i < 10000; i++) {
+            for (var i = 0; i < 5000; i++) {
                 var layer = createLayer('32:32')
                 var background = createLayer('bg')
                 var group = createLayerGroup()
@@ -101,7 +101,7 @@ describe('perf', function() {
                 groups.addObject(group)
             }
 
-            performanceTest( () => Components.apply(groups) , 2)
+            performanceTest( () => Components.apply(groups) , 1.5)
         });
 
         it('inner', function() {
@@ -113,7 +113,7 @@ describe('perf', function() {
                 groups.addObject(group)
             }
 
-            performanceTest( () => Components.apply(groups) , 2)
+            performanceTest( () => Components.apply(groups) , 1.5)
         });
     });
 
@@ -133,7 +133,7 @@ describe('perf', function() {
         var artboard = createArtboard('', 0, 0, 400, 400);
         artboard.insertLayer_afterLayerOrAtEnd(instance)
 
-        performanceTest( () => Component.apply(artboard) , 1)
+        performanceTest( () => Component.apply(artboard) , 0.5)
 
         assert.equal(layer.frame().width(), 100)
         assert.equal(layer.frame().height(), 200)
@@ -165,7 +165,7 @@ describe('perf', function() {
             performanceTest( () => {
                 right = Component.new(group).components().frame().right()
                 right = Component.new(group).components().frame().right()
-            } , 1)
+            } , 0.5)
 
             assert.equal(right, 10009);
         })
@@ -180,7 +180,7 @@ describe('perf', function() {
             performanceTest( () => {
                 bottom = Component.new(group).components().frame().bottom()
                 bottom = Component.new(group).components().frame().bottom()
-            } , 1)
+            } , 0.5)
 
             assert.equal(bottom, 10009);
         })
@@ -220,7 +220,7 @@ describe('perf', function() {
     describe('components', function() {
         it('containsName', function() {
             var items = []
-            for (var i = 0; i < 5000; i++) {
+            for (var i = 0; i < 1500; i++) {
                 var item = Component.new(createLayer(String(i)))
                 items.push(item)
             }
@@ -236,8 +236,8 @@ describe('perf', function() {
 
         it('containsContainer', function() {
             var items = []
-            for (var i = 0; i < 5000; i++) {
-                var name = i == 2500 ? 'bg' : String(i);
+            for (var i = 0; i < 4000; i++) {
+                var name = i == 2000 ? 'bg' : String(i);
                 var item = Component.new(createLayer(name))
                 items.push(item)
             }
@@ -261,5 +261,7 @@ var performanceTest = function(test, lessThanSec) {
 
     assert.ok(time < lessThanSec * 1000, "expected less than " + lessThanSec + "s, took " + time / 1000 + "s");
 
-    console.log("took " + time / 1000 + "s, which was less than expected: " + lessThanSec + "s");
+    setTimeout( () => {
+        console.log("took " + time / 1000 + "s, which was less than expected: " + lessThanSec + "s");
+    });
 }
