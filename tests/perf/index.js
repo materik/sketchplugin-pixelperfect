@@ -216,6 +216,41 @@ describe('perf', function() {
             } , 1)
         });
     });
+
+    describe('components', function() {
+        it('containsName', function() {
+            var items = []
+            for (var i = 0; i < 5000; i++) {
+                var item = Component.new(createLayer(String(i)))
+                items.push(item)
+            }
+
+            var components = Components.items(items)
+
+            performanceTest( () => {
+                for (var i = 0; i < components.count(); i++) {
+                    assert.equal(components.containsName(String(i)), true)
+                }
+            } , 1)
+        });
+
+        it('containsContainer', function() {
+            var items = []
+            for (var i = 0; i < 5000; i++) {
+                var name = i == 2500 ? 'bg' : String(i);
+                var item = Component.new(createLayer(name))
+                items.push(item)
+            }
+
+            var components = Components.items(items)
+
+            performanceTest( () => {
+                for (var i = 0; i < components.count(); i++) {
+                    assert.equal(components.containsContainer(), true)
+                }
+            } , 1)
+        });
+    });
 });
 
 var performanceTest = function(test, lessThanSec) {

@@ -1,5 +1,5 @@
 
-var VERBOSE = false;
+var IS_DEBUGGING = false;
 
 function MSLayer() {
     this._name = '';
@@ -388,7 +388,7 @@ MSDocument.prototype.class = function() {
 };
 
 MSDocument.prototype.showMessage = function(msg) {
-    if (VERBOSE) {
+    if (IS_DEBUGGING) {
         console.log('> SHOW MESSAGE:', msg);   
     }
 };
@@ -522,17 +522,18 @@ MSSymbolInstance.prototype.resetSizeToMaster = function() {
 
 // -----------------------------------------------------------
 
-global.print = function(msg) {
-    if (VERBOSE) {
+if (IS_DEBUGGING) {
+    global.print = function(msg) {
         console.log('> PRINT:', msg);
-    }
-};
+    };
 
-global.log = function(msg) {
-    if (VERBOSE) {
+    global.log = function(msg) {
         console.log('> LOG  :', msg);
-    }
-};
+    };
+} else {
+    global.print = undefined
+    global.log = undefined
+}
 
 // -----------------------------------------------------------
 

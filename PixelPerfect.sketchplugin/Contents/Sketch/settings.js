@@ -1,4 +1,6 @@
 
+var IS_DEBUGGING = print != undefined && log != undefined
+
 var PROPERTIES_RE = new RegExp('\\[([^\\]]+)\\]');
 var PROPERTIES_RE_IGNORE = /\[ignore\]/i;
 var PROPERTIES_RE_PADDING = /^\d+$/;
@@ -80,6 +82,7 @@ var CLASS_TEXT = 'MSTextLayer';
 
 // -----------------------------------------------------------
 
+global.IS_DEBUGGING = IS_DEBUGGING;
 global.PROPERTIES_RE = PROPERTIES_RE;
 global.PROPERTIES_RE_IGNORE = PROPERTIES_RE_IGNORE;
 global.PROPERTIES_RE_PADDING = PROPERTIES_RE_PADDING;

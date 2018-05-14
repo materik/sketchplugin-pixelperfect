@@ -23,7 +23,9 @@ var makeEverythingPixelPerfect = function(context) {
             doc.setCurrentPage(page);
             page.select_byExpandingSelection(true, false);
 
-            print('\nPAGE: ' + page.name() + '\n');
+            if (IS_DEBUGGING) {
+                print('\nPAGE: ' + page.name() + '\n');
+            }
 
             makePixelPerfect(context);
 

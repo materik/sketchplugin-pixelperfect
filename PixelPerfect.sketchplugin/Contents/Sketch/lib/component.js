@@ -214,16 +214,18 @@ Component.prototype.unlockConstraints = function() {
 // Logging
 
 Component.prototype.debugFrame = function() {
-    this._debugFrame = this.frame().toString();
+    if (IS_DEBUGGING) {
+        this._debugFrame = this.frame().toString();
+    }
 };
 
 Component.prototype.debug = function(msg) {
-    var frame = '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>';
-    var name = '<' + this.name() + '> <' + this.class() + '>';
-
-    debug(this, [msg, (this._debugFrame ? frame : ''), name].join(' '));
-
-    this._debugFrame = undefined;
+    if (IS_DEBUGGING) {
+        var frame = '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>';
+        var name = '<' + this.name() + '> <' + this.class() + '>';
+        debug(this, [msg, (this._debugFrame ? frame : ''), name].join(' '));
+        this._debugFrame = undefined;
+    }
 };
 
 // -----------------------------------------------------------

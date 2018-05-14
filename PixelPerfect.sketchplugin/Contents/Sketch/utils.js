@@ -110,7 +110,9 @@ String.prototype.repeat = function(times) {
 
 /* istanbul ignore next */
 var debug = function(component, msg, addLevel) {
-    print('  '.repeat(_debugLevel(component) - 1 + (addLevel || 0)) + msg);
+    if (IS_DEBUGGING) {
+        print('  '.repeat(_debugLevel(component) - 1 + (addLevel || 0)) + msg);
+    }
 };
 
 /* istanbul ignore next */

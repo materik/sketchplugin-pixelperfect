@@ -29,3 +29,5 @@ var global = {};
 @import "./lib/properties/padding.js";
 @import "./lib/properties/size.js";
 @import "./lib/properties/stack.js";
+
+IS_DEBUGGING = false

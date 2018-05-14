@@ -7,6 +7,8 @@ var PATH_LIB = PATH_SKETCHPLUGIN + '/lib';
 var PATH_COMPONENTS = PATH_LIB + '/components';
 var PATH_PROPERTIES = PATH_LIB + '/properties';
 
+require('./mock');
+
 require(PATH_SKETCHPLUGIN + '/settings');
 require(PATH_SKETCHPLUGIN + '/utils');
 require(PATH_LIB + '/alignment');
@@ -32,5 +34,3 @@ require(PATH_PROPERTIES + '/margin');
 require(PATH_PROPERTIES + '/padding');
 require(PATH_PROPERTIES + '/size');
 require(PATH_PROPERTIES + '/stack');
-
-require('./mock');

@@ -40,7 +40,7 @@ Components.items = function(items, parent) {
 // Getter
 
 Components.prototype.items = function() {
-    if (this._items == null) {
+    if (this._needSetup()) {
         this._setup();
     }
     return this._items
@@ -54,15 +54,15 @@ Components.prototype.frame = function() {
 };
 
 Components.prototype.count = function() {
-    if (this._layers.count() != this.items().length) {
-        this._items = null;
+    if (this._needSetup()) {
+        this._setup();
     }
     return this.items().length;
 };
 
 Components.prototype.objectAtIndex = function(index) {
-    if (this._layers.count() != this.items().length) {
-        this._items = null;
+    if (this._needSetup()) {
+        this._setup();
     }
     return this.items()[index];
 };
@@ -81,25 +81,14 @@ Components.prototype.findContainer = function() {
 };
 
 Components.prototype.filter = function(callback) {
-    var items = [];
-    for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
-        if (callback(component)) {
-            items.push(component);
-        }
-    }
+    var items = this.items().filter(callback);
     return Components.items(items, this.parent());
 };
 
 Components.prototype.filterByExcludingID = function(objectID) {
-    var items = [];
-    for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
-        if (component.objectID() != objectID) {
-            items.push(component);
-        }
-    }
-    return Components.items(items, this.parent());
+    return this.filter(function(component) {
+        return component.objectID() != objectID
+    });
 };
 
 Components.prototype.containsName = function(name) {
@@ -143,11 +132,15 @@ Components.prototype.unlockConstraints = function() {
 
 // Private
 
+Components.prototype._needSetup = function() {
+    return this._items == null || this._layers.count() != this._items.length
+}
+
 Components.prototype._setup = function() {
     this._items = [];
     for (var i = 0; i < this._layers.count(); i++) {
         var item = Component.new(this._layers.objectAtIndex(i));
-        this.items().push(item);
+        this._items.push(item);
     }
 };
 

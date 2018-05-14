@@ -15,6 +15,10 @@ Properties.new = function(component, items) {
     return new Properties(component, items);
 };
 
+Properties.items = function(items, component) {
+    return Properties.new(component, items)
+}
+
 // Getter
 
 Properties.prototype.toString = function() {
@@ -63,14 +67,8 @@ Properties.prototype.find = function(key) {
 };
 
 Properties.prototype.filter = function(callback) {
-    var items = [];
-    for (var i = 0; i < this.count(); i++) {
-        var property = this.objectAtIndex(i);
-        if (callback(property)) {
-            items.push(property);
-        }
-    }
-    return Properties.new(this.component(), items);
+    var items = this.items().filter(callback)
+    return Properties.items(items, this.component());
 };
 
 Properties.prototype.containsKey = function(aKey) {
