@@ -35,7 +35,7 @@
         "perfect-coverage": "./scripts/perfect-coverage.js",
         "release": "./scripts/release.js",
         "set-version": "./scripts/set-version.js",
-        "test": "nyc npm run unit",
+        "test": "nyc npm run unit && npm run perf",
         "unit": "mocha --recursive tests/unit",
         "update-metadata": "./scripts/update-metadata.js"
     },
