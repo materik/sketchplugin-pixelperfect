@@ -399,4 +399,20 @@ describe('component', function() {
             assert.equal(component._layer.frame().height(), 1);
         });
     });
+
+    describe('apply', function() {
+        it('position of artboard shouldnt be affected', function() {
+            var artboard = createArtboard('pb32:w100:h200')
+            Component.apply(artboard)
+            assert.equal(artboard.frame().x(), 0)
+            assert.equal(artboard.frame().y(), 0)
+        });
+
+        it('position of symbol shouldnt be affected', function() {
+            var master = createSymbolMaster('pb32:w100:h200')
+            Component.apply(master)
+            assert.equal(master.frame().x(), 0)
+            assert.equal(master.frame().y(), 0)
+        })
+    });
 });
