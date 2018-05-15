@@ -80,9 +80,11 @@ See `width`. Works exactly the same but with `h` as the property index.
 
 ### `padding`
 
-Inspired by `Dynamic Button` and css, padding doesn't have a property index but instead solo numbers will be regarded as padding. Padding only works if it's together with a layer named `bg` (case-insensitive) which will be the layer affected by the padding. The numbers will be regarded in the order of `top`, `right`, `bottom` and `left`.
+Padding can either be defined by solo numbers, inspired by css, and will be regarded in the order of `top`, `right`, `bottom` and `left`, or in a specific direction by adding the property indexes; `pt` for top, `pr` for right, `pb` for bottom, and `pl` for left.
 
-**Examples:** `32:24:32:24`, `32:24`, `w100:32:24`
+Padding works either next to a layer named `bg` (case-insensitive), which will be the layer affected, or with a layer named `bg` inside the group. Padding applied to an artboard or symbol will affect it's size given the content.
+
+**Examples:** `32:24:32:24`, `32:24`, `w100:pt32:pb32`
 
 ### `margin`
 
@@ -118,15 +120,11 @@ See `center-horizontally`. Works exactly the same but with `v` as the property i
 
 #### Symbol masters and Artboards
 
-Symbol masters will resize itself to fit the content within, artboards will not. Artboards can have properties like, for instance, padding, and min width and min height.
-
-#### Order of execution
-
-The script goes from the bottom layer up and takes care of sublayers before applying properties to itself. Properties are applied from left to right except padding, which is always done last. Be aware of the ordering to get your expected behaviour.
+Symbol masters will automatically resize itself to fit the content within if nothing else is specified, artboards will not. Both can have properties similar to layers.
 
 #### Text layers
 
-Will always be set to fixed size after resizing it to fit it's content.
+Will be set to `Auto` if there are no size properties apply to it, otherwise it will be `Fixed` after resizing it to fit it's content.
 
 #### Ignore
 
@@ -134,4 +132,4 @@ If you don't want the script to apply to a certain layer, add `[ignore]` to the 
 
 #### Constraints
 
-Depending on the properties you have given a layer, constraints will be set as see fit. In short, margins and paddings will affect top, right, bottom, and left constraints while width and height will affect those constraints.
+Depending on the properties you have given a layer, constraints will be set as see fit. In short, margins and paddings will affect `top`, `right`, `bottom`, and `left` constraints while width and height will affect those constraints.
