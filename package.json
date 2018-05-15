@@ -14,7 +14,8 @@
         "nyc": "^11.7.1"
     },
     "engines": {
-        "node": "9.11.x"
+        "node": "9.11.x",
+        "sketch": ">=3.0"
     },
     "name": "pixelperfect",
     "nyc": {
@@ -25,6 +26,9 @@
             "html",
             "text"
         ]
+    },
+    "repository": {
+        "url": "https://github.com/materik/sketchplugin-pixelperfect"
     },
     "scripts": {
         "bump-version": "./scripts/bump-version.js",
@@ -38,6 +42,11 @@
         "test": "nyc npm run unit && npm run perf",
         "unit": "mocha --recursive tests/unit",
         "update-metadata": "./scripts/update-metadata.js"
+    },
+    "skpm": {
+        "main": "PixelPerfect.sketchplugin",
+        "manifest": "PixelPerfect.sketchplugin/Contents/Sketch/manifest.json",
+        "name": "Pixel Perfect"
     },
     "version": "1.1.1"
 }
