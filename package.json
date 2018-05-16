@@ -37,9 +37,10 @@
         "hint": "jshint PixelPerfect.sketchplugin",
         "perf": "mocha --recursive tests/perf",
         "perfect-coverage": "./scripts/perfect-coverage.js",
+        "publish": "skpm publish --skip-release",
         "release": "./scripts/release.js",
         "set-version": "./scripts/set-version.js",
-        "test": "nyc npm run unit && npm run perf",
+        "test": "nyc npm run unit",
         "unit": "mocha --recursive tests/unit",
         "update-metadata": "./scripts/update-metadata.js"
     },
