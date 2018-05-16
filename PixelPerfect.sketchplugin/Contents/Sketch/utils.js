@@ -1,4 +1,5 @@
 
+/* istanbul ignore next */
 var selection = function(context) {
     var layers = context.selection;
     if (layers && layers.count() > 0) {
@@ -50,6 +51,36 @@ Array.prototype.contains = function(str) {
     return this.includes(str);
 };
 
+Array.prototype.map = function(callback) {
+    var map = [];
+    for (var i = 0; i < this.length; i++) {
+        map.push(callback(this[i]));
+    }
+    return map;
+};
+
+Array.prototype.mapToDictionary = function(callback) {
+    var map = {};
+    for (var i = 0; i < this.length; i++) {
+        var value = this[i]
+        var key = callback(value)
+        map[key] = value;
+    }
+    return map;
+};
+
+Array.prototype.unique = function() {
+    return this.filter(function(value, index, self) { 
+        return self.indexOf(value) === index;
+    });
+}
+
+Array.prototype.toLowerCase = function() {
+    return this.map(function(object) {
+        return object.toLowerCase == undefined ? object : object.toLowerCase()
+    })
+}
+
 Math.roundWithPrecision = function(value, precision) {
     var factor = this.pow(10, precision || 0);
     return this.round(value * factor) / factor;
@@ -63,30 +94,34 @@ String.prototype.contains = function(str) {
     return this.indexOf(str) >= 0;
 };
 
-String.prototype.regexp = function() {
-    return new RegExp('^' + this + '$');
+String.prototype.regexp = function(flags) {
+    return new RegExp('^' + this + '$', flags);
+};
+
+String.prototype.repeat = function(times) {
+    var str = '';
+    for (var i = 0; i < (times == undefined ? 2 : times); i++) {
+        str += this;
+    }
+    return str;
 };
 
 // -----------------------------------------------------------
 
+/* istanbul ignore next */
 var debug = function(component, msg, addLevel) {
-    print(_repeatString('  ', _debugLevel(component) - 1 + (addLevel || 0)) + msg);
+    if (IS_DEBUGGING) {
+        print('  '.repeat(_debugLevel(component) - 1 + (addLevel || 0)) + msg);
+    }
 };
 
+/* istanbul ignore next */
 var _debugLevel = function(component) {
     var parent = component.parent();
     if (parent) {
         return _debugLevel(parent) + 1;
     }
     return 0;
-};
-
-var _repeatString = function(str, repeat) {
-    var repeatedString = '';
-    for (var i = 0; i < repeat; i++) {
-        repeatedString += str;
-    }
-    return repeatedString;
 };
 
 // -----------------------------------------------------------

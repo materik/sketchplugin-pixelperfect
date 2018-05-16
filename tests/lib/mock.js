@@ -1,10 +1,11 @@
 
+var IS_DEBUGGING = false;
+
 function MSLayer() {
     this._name = '';
     this._frame = CGRect.new();
     this._isVisible = true;
     this._parentGroup = null;
-    this._userInfo = {};
 
     this._hasFixedWidth = false;
     this._hasFixedHeight = false;
@@ -13,7 +14,7 @@ function MSLayer() {
     this._hasFixedBottom = false;
     this._hasFixedLeft = false;
 
-    this._objectID = Date.now().toString();
+    this._objectID = Date.now().toString() + Math.floor(Math.random() * Math.floor(1000));
 }
 
 MSLayer.new = function() {
@@ -59,14 +60,6 @@ MSLayer.prototype.select_byExpandingSelection = function(select, expand, _layer)
             this._selection = [layer];
         }
     }
-};
-
-MSLayer.prototype.userInfo = function() {
-    return this._userInfo;
-};
-
-MSLayer.prototype._setUserInfo = function(userInfo) {
-    this._userInfo = userInfo;
 };
 
 MSLayer.prototype.resetConstraints = function() {
@@ -127,7 +120,7 @@ MSLayer.prototype.setHasFixedLeft = function(hasFixedLeft) {
 };
 
 MSLayer.prototype.objectID = function() {
-    return this._name || this._objectID;
+    return this._name + this._objectID;
 };
 
 // -----------------------------------------------------------
@@ -210,6 +203,10 @@ NSMutableArray.new = function(objects) {
 };
 
 NSMutableArray.prototype.addObject = function(object) {
+    this._objects.push(object);
+};
+
+NSMutableArray.prototype._prependObject = function(object) {
     var objects = this._objects.reverse();
     objects.push(object);
     this._objects = objects.reverse();
@@ -260,13 +257,6 @@ function CGRect() {
 
 CGRect.new = function() {
     return new CGRect();
-};
-
-CGRect.prototype.set = function(x, y, width, height) {
-    this.setX(x);
-    this.setY(y);
-    this.setWidth(width);
-    this.setHeight(height);
 };
 
 CGRect.prototype.x = function() {
@@ -344,7 +334,7 @@ MSLayerGroup.prototype.isVisible = function() {
 };
 
 MSLayerGroup.prototype.insertLayer_afterLayerOrAtEnd = function(layer) {
-    this._layers.addObject(layer);
+    this._layers._prependObject(layer);
     layer._parentGroup = this;
 };
 
@@ -398,7 +388,9 @@ MSDocument.prototype.class = function() {
 };
 
 MSDocument.prototype.showMessage = function(msg) {
-    console.log('> SHOW MESSAGE:', msg);
+    if (IS_DEBUGGING) {
+        console.log('> SHOW MESSAGE:', msg);   
+    }
 };
 
 MSDocument.prototype.currentPage = function() {
@@ -414,7 +406,7 @@ MSDocument.prototype.pages = function() {
 };
 
 MSDocument.prototype.addPage = function(page) {
-    this._pages.addObject(page);
+    this._pages._prependObject(page);
 };
 
 // -----------------------------------------------------------
@@ -441,6 +433,22 @@ MSPage.prototype.selection = function() {
 
 // -----------------------------------------------------------
 
+function MSShapeGroup(objects) {
+    MSLayerGroup.call(this);
+}
+
+MSShapeGroup.new = function() {
+    return new MSShapeGroup();
+};
+
+MSShapeGroup.prototype = Object.create(MSLayerGroup.prototype);
+
+MSShapeGroup.prototype.class = function() {
+    return NSClass.new('MSShapeGroup');
+};
+
+// -----------------------------------------------------------
+
 function MSArtboardGroup() {
     MSLayerGroup.call(this);
 }
@@ -460,7 +468,6 @@ MSArtboardGroup.prototype.class = function() {
 function MSSymbolMaster() {
     MSLayerGroup.call(this);
 
-    this._symbolID = Date.now().toString() + Math.floor(Math.random() * Math.floor(1000));
     this._parentPage = 'LocalSymbol';
 }
 
@@ -475,7 +482,7 @@ MSSymbolMaster.prototype.class = function() {
 };
 
 MSSymbolMaster.prototype.symbolID = function() {
-    return this._symbolID;
+    return this.objectID();
 };
 
 MSSymbolMaster.prototype.parentPage = function() {
@@ -515,19 +522,18 @@ MSSymbolInstance.prototype.resetSizeToMaster = function() {
 
 // -----------------------------------------------------------
 
-global.print = function(msg) {
-    console.log('> PRINT:', msg);
-};
+if (IS_DEBUGGING) {
+    global.print = function(msg) {
+        console.log('> PRINT:', msg);
+    };
 
-global.log = function(msg) {
-    console.log('> LOG  :', msg);
-};
-
-// -----------------------------------------------------------
-
-Object.prototype.allKeys = function() {
-    return NSArray.new(Object.keys(this));
-};
+    global.log = function(msg) {
+        console.log('> LOG  :', msg);
+    };
+} else {
+    global.print = undefined
+    global.log = undefined
+}
 
 // -----------------------------------------------------------
 
@@ -586,6 +592,16 @@ global.createSymbolInstance = function(master, name, x, y, w, h) {
     instance.frame().setWidth(w || 1);
     instance.frame().setHeight(h || 1);
     return instance;
+};
+
+global.createShape = function(name, x, y, w, h) {
+    var group = MSShapeGroup.new();
+    group.setName(name || 'shape');
+    group.frame().setX(x || 0);
+    group.frame().setY(y || 0);
+    group.frame().setWidth(w || 1);
+    group.frame().setHeight(h || 1);
+    return group;
 };
 
 // -----------------------------------------------------------

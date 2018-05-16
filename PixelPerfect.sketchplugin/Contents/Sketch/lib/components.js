@@ -1,180 +1,140 @@
 
-function Components(layers) {
+function Components(layers, parent, items) {
     this._layers = layers || NSArray.new();
-    this._items = [];
 
-    this._setup();
+    this._items = items || null;
+    this._frame = null;
+    this._parent = parent;
+
+    this._isFiltered = items != undefined;
 }
 
-Components.DEFAULT_MIN_TOP = 999999;
-Components.DEFAULT_MIN_LEFT = 999999;
+Components.prototype = Object.create(Component.prototype);
 
 // Static
 
-Components.new = function(layers) {
-    return new Components(layers);
+Components.new = function(layers, parent, items) {
+    return new Components(layers, parent, items);
 };
 
-Components.apply = function(layers) {
-    return Components.new(layers).apply();
+Components.apply = function(layers, parent) {
+    return Components.new(layers, parent).apply();
 };
 
-Components.sub = function(layer) {
+Components.sub = function(layer, parent) {
     if (layer.layers) {
-        return Components.new(layer.layers());
+        return Components.new(layer.layers(), parent);
     } else {
-        return Components.new(NSArray.new());
+        return Components.new(NSArray.new(), parent);
     }
 };
+
+Components.items = function(items, parent) {
+    var layers = NSMutableArray.new()
+    for (var i = 0; i < items.length; i++) {
+        layers.addObject(items[i]._layer);
+    }
+    return Components.new(layers, parent, items)
+}
 
 // Getter
 
-Components.prototype.count = function() {
-    if (this._layers.count() != this._items.length) {
+Components.prototype.items = function() {
+    if (this._needSetup()) {
         this._setup();
     }
-    return this._items.length;
+    return this._items
+}
+
+Components.prototype.frame = function() {
+    if (this._frame == null) {
+        this._frame = ComponentsFrame.new(this);
+    }
+    return this._frame;
+};
+
+Components.prototype.count = function() {
+    if (this._needSetup()) {
+        this._setup();
+    }
+    return this.items().length;
 };
 
 Components.prototype.objectAtIndex = function(index) {
-    if (this._layers.count() != this._items.length) {
+    if (this._needSetup()) {
         this._setup();
     }
-    return this._items[index];
+    return this.items()[index];
 };
 
 Components.prototype.find = function(name) {
     for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
+        var component = this.objectAtIndex(i)
         if (name.regexp().test(component.name())) {
-            return component;
+            return component
         }
     }
 };
 
-Components.prototype.contains = function(name) {
-    return this.find(name) != undefined;
+Components.prototype.findContainer = function() {
+    return this.find(PROPERTIES_RE_PADDING_CONTAINER_NAME);
 };
 
-Components.prototype.minTop = function(ignoreID) {
-    var top = Components.DEFAULT_MIN_TOP;
-    for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
-        if (component.objectID() == ignoreID) {
-            continue;
-        }
-        top = Math.min(top, component.frame().top());
-    }
-    return top == Components.DEFAULT_MIN_TOP ? 0 : top;
+Components.prototype.filter = function(callback) {
+    var items = this.items().filter(callback);
+    return Components.items(items, this.parent());
 };
 
-Components.prototype.maxRight = function(ignoreID, ignoreMarginRight) {
-    var right = 0;
-    for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
-        if (component.objectID() == ignoreID) {
-            continue;
-        }
-        if (component.properties().contains(PROPERTY_WIDTH_PERCENTAGE)) {
-            continue;
-        }
-        if (ignoreMarginRight && component.properties().contains(PROPERTY_MARGIN_RIGHT)) {
-            continue;
-        }
-        right = Math.max(right, component.frame().right());
-    }
-    return right;
+Components.prototype.filterByExcludingID = function(objectID) {
+    return this.filter(function(component) {
+        return component.objectID() != objectID
+    });
 };
 
-Components.prototype.maxBottom = function(ignoreID, ignoreMarginBottom) {
-    var bottom = 0;
-    for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
-        if (component.objectID() == ignoreID) {
-            continue;
-        }
-        if (component.properties().contains(PROPERTY_HEIGHT_PERCENTAGE)) {
-            continue;
-        }
-        if (ignoreMarginBottom && component.properties().contains(PROPERTY_MARGIN_BOTTOM)) {
-            continue;
-        }
-        bottom = Math.max(bottom, component.frame().bottom());
-    }
-    return bottom;
+Components.prototype.containsName = function(name) {
+    return this.find(name) != undefined
 };
 
-Components.prototype.minLeft = function(ignoreID) {
-    var left = Components.DEFAULT_MIN_LEFT;
-    for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
-        if (component.objectID() == ignoreID) {
-            continue;
-        }
-        left = Math.min(left, component.frame().left());
-    }
-    return left == Components.DEFAULT_MIN_LEFT ? 0 : left;
-};
-
-Components.prototype.maxWidth = function(ignoreID) {
-    var width = 0;
-    for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
-        if (component.objectID() == ignoreID) {
-            continue;
-        }
-        if (!component.properties().contains(PROPERTY_WIDTH_PERCENTAGE)) {
-            width = Math.max(width, component.frame().width());
-        }
-    }
-    return width;
-};
-
-Components.prototype.maxHeight = function(ignoreID) {
-    var height = 0;
-    for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
-        if (component.objectID() == ignoreID) {
-            continue;
-        }
-        if (!component.properties().contains(PROPERTY_HEIGHT_PERCENTAGE)) {
-            height = Math.max(height, component.frame().height());
-        }
-    }
-    return height;
+Components.prototype.containsContainer = function() {
+    return this.containsName(PROPERTIES_RE_PADDING_CONTAINER_NAME);
 };
 
 // Action
 
 Components.prototype.apply = function() {
-    for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
-        if (this._shouldApplyComponentFirstly(component)) {
-            component.apply();
-        }
-    }
+    this.filter(function(component) {
+        return !component.properties().containsPercentageWidthOrHeight();
+    })._apply();
 
+    this.filter(function(component) {
+        return component.properties().containsPercentageWidthOrHeight();
+    })._apply();
+};
+
+Components.prototype._apply = function() {
     for (var i = 0; i < this.count(); i++) {
         var component = this.objectAtIndex(i);
-        if (this._shouldApplyComponentSecondly(component)) {
-            component.apply();
-        }
+        component.apply();
     }
 };
 
 Components.prototype.lockConstraints = function() {
     for (var i = 0; i < this.count(); i++) {
-        this.objectAtIndex(i).constraints().lock();
+        this.objectAtIndex(i).lockConstraints();
     }
 };
 
 Components.prototype.unlockConstraints = function() {
     for (var i = 0; i < this.count(); i++) {
-        this.objectAtIndex(i).constraints().unlock();
+        this.objectAtIndex(i).unlockConstraints();
     }
 };
 
 // Private
+
+Components.prototype._needSetup = function() {
+    return this._items == null || this._layers.count() != this._items.length
+}
 
 Components.prototype._setup = function() {
     this._items = [];
@@ -184,16 +144,96 @@ Components.prototype._setup = function() {
     }
 };
 
-Components.prototype._shouldApplyComponentFirstly = function(component) {
-    return !component.properties().contains(PROPERTY_WIDTH_PERCENTAGE) &&
-        !component.properties().contains(PROPERTY_HEIGHT_PERCENTAGE);
-};
-
-Components.prototype._shouldApplyComponentSecondly = function(component) {
-    return component.properties().contains(PROPERTY_WIDTH_PERCENTAGE) ||
-        component.properties().contains(PROPERTY_HEIGHT_PERCENTAGE);
-};
-
 // -----------------------------------------------------------
 
 global.Components = Components;
+
+// -------------------------------------------------- Override
+
+/* istanbul ignore next */
+Components.prototype.components = function() {
+    return Components.new();
+};
+
+/* istanbul ignore next */
+Components.prototype.properties = function() {
+    if (this.hasParent()) {
+        return this.parent().properties();
+    }
+    return Properties.new(this, []);
+};
+
+/* istanbul ignore next */
+Components.prototype.constraints = function() {
+    return null;
+};
+
+/* istanbul ignore next */
+Components.prototype.name = function() {
+    return null;
+};
+
+/* istanbul ignore next */
+Components.prototype.class = function() {
+    return 'Components';
+};
+
+/* istanbul ignore next */
+Components.prototype.page = function() {
+    return null;
+};
+
+/* istanbul ignore next */
+Components.prototype.objectID = function() {
+    return null;
+};
+
+/* istanbul ignore next */
+Components.prototype.master = function() {
+    return null;
+};
+
+/* istanbul ignore next */
+Components.prototype.isVisible = function() {
+    return true;
+};
+
+/* istanbul ignore next */
+Components.prototype.isArtboard = function() {
+    return false;
+};
+
+/* istanbul ignore next */
+Components.prototype.isGroup = function() {
+    return false;
+};
+
+/* istanbul ignore next */
+Components.prototype.isSymbolMaster = function() {
+    return false;
+};
+
+/* istanbul ignore next */
+Components.prototype.shouldApply = function() {
+    return true;
+};
+
+/* istanbul ignore next */
+Components.prototype.hasComponents = function() {
+    return false;
+};
+
+/* istanbul ignore next */
+Components.prototype.hasParent = function() {
+    return this.parent() != undefined;
+};
+
+/* istanbul ignore next */
+Components.prototype.parent = function() {
+    return this._parent;
+};
+
+/* istanbul ignore next */
+Components.prototype.sizeToFit = function() {
+    // Do nothing...
+};

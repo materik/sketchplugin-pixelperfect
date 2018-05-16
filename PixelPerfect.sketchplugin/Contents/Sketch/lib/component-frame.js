@@ -1,79 +1,79 @@
 
-function Frame(layer) {
+function ComponentFrame(layer) {
     this._layer = layer;
 }
 
 // Static
 
-Frame.new = function(layer) {
-    return new Frame(layer);
+ComponentFrame.new = function(layer) {
+    return new ComponentFrame(layer);
 };
 
 // Getter
 
-Frame.prototype.toString = function() {
+ComponentFrame.prototype.toString = function() {
     return '{' +
         this.x() + ',' + this.y() + ',' +
         this.width() + ',' + this.height() +
     '}';
 };
 
-Frame.prototype.x = function() {
+ComponentFrame.prototype.x = function() {
     return this._layer.frame().x();
 };
 
-Frame.prototype.y = function() {
+ComponentFrame.prototype.y = function() {
     return this._layer.frame().y();
 };
 
-Frame.prototype.width = function() {
+ComponentFrame.prototype.width = function() {
     return this._layer.frame().width();
 };
 
-Frame.prototype.height = function() {
+ComponentFrame.prototype.height = function() {
     return this._layer.frame().height();
 };
 
-Frame.prototype.top = function() {
+ComponentFrame.prototype.top = function() {
     return this.y();
 };
 
-Frame.prototype.right = function() {
+ComponentFrame.prototype.right = function() {
     return this.x() + this.width();
 };
 
-Frame.prototype.bottom = function() {
+ComponentFrame.prototype.bottom = function() {
     return this.y() + this.height();
 };
 
-Frame.prototype.left = function() {
+ComponentFrame.prototype.left = function() {
     return this.x();
 };
 
 // Setter
 
-Frame.prototype.setX = function(x) {
+ComponentFrame.prototype.setX = function(x) {
     x = Math.round(x);
     if (this.x() != x) {
         this._layer.frame().setX(x);
     }
 };
 
-Frame.prototype.setY = function(y) {
+ComponentFrame.prototype.setY = function(y) {
     y = Math.round(y);
     if (this.y() != y) {
         this._layer.frame().setY(y);
     }
 };
 
-Frame.prototype.setWidth = function(w) {
+ComponentFrame.prototype.setWidth = function(w) {
     w = Math.round(w);
     if (this.width() != w) {
         this._layer.frame().setWidth(w);
     }
 };
 
-Frame.prototype.setHeight = function(h) {
+ComponentFrame.prototype.setHeight = function(h) {
     h = Math.round(h);
     if (this.height() != h) {
         this._layer.frame().setHeight(h);
@@ -82,4 +82,4 @@ Frame.prototype.setHeight = function(h) {
 
 // -----------------------------------------------------------
 
-global.Frame = Frame;
+global.ComponentFrame = ComponentFrame;

@@ -9,49 +9,50 @@ StackProperty.prototype = Object.create(Property.prototype);
 
 StackProperty.validKeys = function() {
     return [
-        PROPERTY_STACK_HORIZONTALLY_TOP,
-        PROPERTY_STACK_HORIZONTALLY_MIDDLE,
-        PROPERTY_STACK_HORIZONTALLY_BOTTOM,
-        PROPERTY_STACK_VERTICALLY_LEFT,
-        PROPERTY_STACK_VERTICALLY_CENTER,
-        PROPERTY_STACK_VERTICALLY_RIGHT,
+        PROPERTY_KEY_STACK_HORIZONTALLY_TOP,
+        PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE,
+        PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM,
+        PROPERTY_KEY_STACK_VERTICALLY_LEFT,
+        PROPERTY_KEY_STACK_VERTICALLY_CENTER,
+        PROPERTY_KEY_STACK_VERTICALLY_RIGHT,
     ];
 };
 
-StackProperty.new = function(component, raw, value) {
-    return Property.new(component, raw, value);
+StackProperty.new = function(component, key, value) {
+    return Property.new(component, key, value);
 };
 
 // Getter
 
 StackProperty.prototype.isValid = function() {
-    if (!StackProperty.validKeys().contains(this.key())) {
-        return false;
-    }
-    return !isNaN(this.value());
+    return StackProperty.validKeys().contains(this.key());
 };
 
 // Action
 
+StackProperty.prototype.type = function() {
+    return PROPERTY_TYPE_STACK;
+};
+
 StackProperty.prototype._apply = function() {
     var frame = this.component().frame();
     switch (this.key()) {
-        case PROPERTY_STACK_HORIZONTALLY_TOP:
+        case PROPERTY_KEY_STACK_HORIZONTALLY_TOP:
             this.applyStackHorizontally(Alignment.top());
             break;
-        case PROPERTY_STACK_HORIZONTALLY_MIDDLE:
+        case PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE:
             this.applyStackHorizontally(Alignment.middle());
             break;
-        case PROPERTY_STACK_HORIZONTALLY_BOTTOM:
+        case PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM:
             this.applyStackHorizontally(Alignment.bottom());
             break;
-        case PROPERTY_STACK_VERTICALLY_LEFT:
+        case PROPERTY_KEY_STACK_VERTICALLY_LEFT:
             this.applyStackVertically(Alignment.left());
             break;
-        case PROPERTY_STACK_VERTICALLY_CENTER:
+        case PROPERTY_KEY_STACK_VERTICALLY_CENTER:
             this.applyStackVertically(Alignment.center());
             break;
-        case PROPERTY_STACK_VERTICALLY_RIGHT:
+        case PROPERTY_KEY_STACK_VERTICALLY_RIGHT:
             this.applyStackVertically(Alignment.right());
             break;
         /* istanbul ignore next */
@@ -62,7 +63,7 @@ StackProperty.prototype._apply = function() {
 
 Property.prototype.applyStackHorizontally = function(alignment) {
     var components = this.component().components();
-    var h = components.maxHeight();
+    var h = components.frame().maxHeight();
 
     var x = 0;
     for (var k = components.count() - 1; k >= 0; k--) {
@@ -78,7 +79,7 @@ Property.prototype.applyStackHorizontally = function(alignment) {
 
 Property.prototype.applyStackVertically = function(alignment) {
     var components = this.component().components();
-    var w = components.maxWidth();
+    var w = components.frame().maxWidth();
 
     var y = 0;
     for (var k = components.count() - 1; k >= 0; k--) {

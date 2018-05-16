@@ -1,5 +1,5 @@
 
-require('./lib');
+require('../lib');
 
 describe('constraints', function() {
     it('none', function() {
@@ -51,6 +51,18 @@ describe('constraints', function() {
         assert.equal(layer.hasFixedLeft(), true);
     });
 
+    it('width-percentage-full', function() {
+        var layer = createLayer('w100%%');
+        assert.equal(layer.hasFixedWidth(), false);
+        Component.apply(layer);
+        assert.equal(layer.hasFixedWidth(), false);
+        assert.equal(layer.hasFixedHeight(), true);
+        assert.equal(layer.hasFixedTop(), false);
+        assert.equal(layer.hasFixedRight(), true);
+        assert.equal(layer.hasFixedBottom(), false);
+        assert.equal(layer.hasFixedLeft(), true);
+    });
+
     it('height', function() {
         var layer = createLayer('h100');
         assert.equal(layer.hasFixedHeight(), false);
@@ -65,6 +77,18 @@ describe('constraints', function() {
 
     it('height-percentage', function() {
         var layer = createLayer('h100%');
+        assert.equal(layer.hasFixedHeight(), false);
+        Component.apply(layer);
+        assert.equal(layer.hasFixedWidth(), true);
+        assert.equal(layer.hasFixedHeight(), false);
+        assert.equal(layer.hasFixedTop(), true);
+        assert.equal(layer.hasFixedRight(), false);
+        assert.equal(layer.hasFixedBottom(), true);
+        assert.equal(layer.hasFixedLeft(), false);
+    });
+
+    it('height-percentage-full', function() {
+        var layer = createLayer('h100%%');
         assert.equal(layer.hasFixedHeight(), false);
         Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), true);
@@ -130,4 +154,40 @@ describe('constraints', function() {
         assert.equal(instance.hasFixedBottom(), false);
         assert.equal(instance.hasFixedLeft(), false);
     });
+
+    it('lock-unlock', function() {
+        var layer = createLayer();
+        layer.setHasFixedWidth(true);
+        layer.setHasFixedHeight(false);
+        layer.setHasFixedTop(true);
+        layer.setHasFixedRight(false);
+        layer.setHasFixedBottom(true);
+        layer.setHasFixedLeft(false);
+        var constraints = Constraints.new(layer);
+        assert.equal(constraints.isLocked(), false)
+        constraints.unlock()
+        assert.equal(constraints.isLocked(), false)
+        assert.equal(layer.hasFixedWidth(), true);
+        assert.equal(layer.hasFixedHeight(), false);
+        assert.equal(layer.hasFixedTop(), true);
+        assert.equal(layer.hasFixedRight(), false);
+        assert.equal(layer.hasFixedBottom(), true);
+        assert.equal(layer.hasFixedLeft(), false);
+        constraints.lock()
+        assert.equal(constraints.isLocked(), true)
+        assert.equal(layer.hasFixedWidth(), true);
+        assert.equal(layer.hasFixedHeight(), true);
+        assert.equal(layer.hasFixedTop(), true);
+        assert.equal(layer.hasFixedRight(), false);
+        assert.equal(layer.hasFixedBottom(), false);
+        assert.equal(layer.hasFixedLeft(), true);
+        constraints.unlock()
+        assert.equal(constraints.isLocked(), false)
+        assert.equal(layer.hasFixedWidth(), true);
+        assert.equal(layer.hasFixedHeight(), false);
+        assert.equal(layer.hasFixedTop(), true);
+        assert.equal(layer.hasFixedRight(), false);
+        assert.equal(layer.hasFixedBottom(), true);
+        assert.equal(layer.hasFixedLeft(), false);
+    })
 });
