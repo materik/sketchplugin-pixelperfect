@@ -27,6 +27,13 @@ ArtboardComponent.prototype._sizeToFit = function() {
             });
             properties.apply();
         }
+        
+        var properties = this.properties().filter(function(property) {
+            return property.type() == PROPERTY_TYPE_MARGIN ||
+                property.type() == PROPERTY_TYPE_SIZE ||
+                property.type() == PROPERTY_TYPE_CENTER;
+        });
+        properties.apply();
     }
 };
 
