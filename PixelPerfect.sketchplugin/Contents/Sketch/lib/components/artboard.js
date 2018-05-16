@@ -17,6 +17,8 @@ ArtboardComponent.prototype._apply = function() {
 };
 
 ArtboardComponent.prototype._sizeToFit = function() {
+    // TODO(materik):
+    // * figure out what exactly here is needed and make it more efficiant
     if (this.properties().containsPadding()) {
         for (var i = 0; i < this.components().count(); i++) {
             var component = this.components().objectAtIndex(i);
