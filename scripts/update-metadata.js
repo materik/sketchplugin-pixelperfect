@@ -15,15 +15,6 @@ var name = pkg.get('name');
 var description = pkg.get('description');
 var version = pkg.get('version');
 
-// Update package-lock.json
-
-var pkgLock = json(PACKAGE_LOCK_FILE, {
-    stringify_width: 4
-});
-pkgLock.set('name', name);
-pkgLock.set('version', version);
-pkgLock.save();
-
 // Update manifest.json
 
 var manifest = json(MANIFEST_FILE, {
