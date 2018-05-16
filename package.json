@@ -47,7 +47,7 @@
     "skpm": {
         "main": "PixelPerfect.sketchplugin",
         "manifest": "PixelPerfect.sketchplugin/Contents/Sketch/manifest.json",
-        "name": "Pixel Perfect"
+        "name": "👾 Pixel Perfect"
     },
     "version": "1.2.0"
 }

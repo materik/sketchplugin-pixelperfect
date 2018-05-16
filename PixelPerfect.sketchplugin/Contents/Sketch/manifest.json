@@ -1,4 +1,5 @@
 {
+    "appcast": "https://raw.githubusercontent.com/materik/sketchplugin-pixelperfect/master/.appcast.xml",
     "author": "Mattias Eriksson",
     "authorEmail": "mattias@materikab.com",
     "commands": [
@@ -22,6 +23,7 @@
         }
     ],
     "description": "Plugin for handling layouts and sizing of layers automatically in Sketch based on the layer names.",
+    "icon": "icon.png",
     "identifier": "com.materikab.pixelperfect",
     "menu": {
         "title": "👾 Pixel Perfect",
