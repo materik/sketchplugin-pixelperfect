@@ -2,15 +2,15 @@
 global.assert = require('assert');
 
 var PATH_ROOT = '../..';
-var PATH_SKETCHPLUGIN = PATH_ROOT + '/PixelPerfect.sketchplugin/Contents/Sketch';
-var PATH_LIB = PATH_SKETCHPLUGIN + '/lib';
+var PATH_SRC = PATH_ROOT + '/src';
+var PATH_LIB = PATH_SRC + '/lib';
 var PATH_COMPONENTS = PATH_LIB + '/components';
 var PATH_PROPERTIES = PATH_LIB + '/properties';
 
 require('./mock');
 
-require(PATH_SKETCHPLUGIN + '/settings');
-require(PATH_SKETCHPLUGIN + '/utils');
+require(PATH_SRC + '/settings');
+require(PATH_SRC + '/utils');
 require(PATH_LIB + '/alignment');
 require(PATH_LIB + '/component');
 require(PATH_LIB + '/component-frame');

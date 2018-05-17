@@ -1,0 +1,37 @@
+{
+    "appcast": "https://raw.githubusercontent.com/materik/sketchplugin-pixelperfect/master/.appcast.xml",
+    "author": "Mattias Eriksson",
+    "authorEmail": "mattias@materikab.com",
+    "commands": [
+        {
+            "script": "index.js",
+            "name": "Make layers pixel perfect",
+            "shortcut": "cmd l",
+            "handlers": {
+                "run": "makePixelPerfect"
+            },
+            "identifier": "makePixelPerfect"
+        },
+        {
+            "script": "index.js",
+            "name": "Make every layer pixel perfect",
+            "shortcut": "cmd ctrl l",
+            "handlers": {
+                "run": "makeEverythingPixelPerfect"
+            },
+            "identifier": "makeEverythingPixelPerfect"
+        }
+    ],
+    "description": "Plugin for handling layouts and sizing of layers automatically in Sketch based on the layer names.",
+    "icon": "icon.png",
+    "identifier": "com.materikab.pixelperfect",
+    "menu": {
+        "title": "👾 Pixel Perfect",
+        "items": [
+            "makePixelPerfect",
+            "makeEverythingPixelPerfect"
+        ]
+    },
+    "name": "👾 Pixel Perfect",
+    "version": "1.2.2"
+}

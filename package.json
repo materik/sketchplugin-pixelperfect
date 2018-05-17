@@ -5,6 +5,7 @@
     },
     "description": "Plugin for handling layouts and sizing of layers automatically in Sketch based on the layer names.",
     "devDependencies": {
+        "@skpm/builder": "^0.2.3",
         "coveralls": "^3.0.0",
         "edit-json-file": "^1.0.8",
         "jscs": "^3.0.7",
@@ -31,22 +32,26 @@
         "url": "https://github.com/materik/sketchplugin-pixelperfect"
     },
     "scripts": {
+        "build": "skpm-build",
         "bump-version": "./scripts/bump-version.js",
         "coverage": "nyc report --reporter=text-lcov | coveralls",
         "lint": "jscs . -x",
         "hint": "jshint PixelPerfect.sketchplugin",
         "perf": "mocha --recursive tests/perf",
         "perfect-coverage": "./scripts/perfect-coverage.js",
+        "postinstall": "npm run build && skpm-link",
         "publish": "skpm publish",
         "release": "./scripts/release.js",
         "set-version": "./scripts/set-version.js",
+        "start": "skpm-build --watch --run",
         "test": "nyc npm run unit",
         "unit": "mocha --recursive tests/unit",
-        "update-metadata": "./scripts/update-metadata.js"
+        "update-metadata": "./scripts/update-metadata.js",
+        "watch": "skpm-build --watch"
     },
     "skpm": {
         "main": "PixelPerfect.sketchplugin",
-        "manifest": "PixelPerfect.sketchplugin/Contents/Sketch/manifest.json",
+        "manifest": "src/manifest.json",
         "name": "Pixel Perfect"
     },
     "version": "1.2.2"
