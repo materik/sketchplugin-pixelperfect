@@ -98,6 +98,7 @@ var _sub = function _sub(fn, dict) {
 
 module.exports = {
     'const': __webpack_require__(27),
+    debug: __webpack_require__(29),
 
     require: {
         alignment: function () {
@@ -259,7 +260,6 @@ module.exports = {
 
 
 var index = __webpack_require__(0);
-var utils = __webpack_require__(2);
 
 var ComponentFrame = index.require.componentFrame();
 var Constraints = index.require.constraints();
@@ -486,16 +486,16 @@ Component.prototype.unlockConstraints = function () {
 // Logging
 
 Component.prototype.debugFrame = function () {
-    if (index['const'].IS_DEBUGGING) {
+    if (index.debug.isEnabled()) {
         this._debugFrame = this.frame().toString();
     }
 };
 
 Component.prototype.debug = function (msg) {
-    if (index['const'].IS_DEBUGGING) {
+    if (index.debug.isEnabled()) {
         var frame = this._debugFrame ? '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>' : '';
         var name = '<' + this.name() + '> <' + this['class']() + '>';
-        utils.debug(this, [msg, frame, name].join(' '));
+        index.debug(this, [msg, frame, name].join(' '));
         this._debugFrame = undefined;
     }
 };
@@ -505,33 +505,7 @@ Component.prototype.debug = function (msg) {
 module.exports = Component;
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var index = __webpack_require__(0);
-
-/* istanbul ignore next */
-var debug = function debug(component, msg, addLevel) {
-    if (index['const'].IS_DEBUGGING) {
-        print('  '.repeat(_debugLevel(component) - 1 + (addLevel || 0)) + msg);
-    }
-};
-
-/* istanbul ignore next */
-var _debugLevel = function _debugLevel(component) {
-    var parent = component.parent();
-    if (parent) {
-        return _debugLevel(parent) + 1;
-    }
-    return 0;
-};
-
-// -----------------------------------------------------------
-
-module.exports = { debug: debug };
-
-/***/ }),
+/* 2 */,
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2499,7 +2473,7 @@ var makeEverythingPixelPerfect = function makeEverythingPixelPerfect(context) {
             doc.setCurrentPage(page);
             page.select_byExpandingSelection(true, false);
 
-            if (index['const'].IS_DEBUGGING) {
+            if (index.debug.isEnabled()) {
                 print('\nPAGE: ' + page.name() + '\n');
             }
 
@@ -2676,9 +2650,7 @@ var map = {
 	"./property/stack": 22,
 	"./property/stack.js": 22,
 	"./symbol-store": 23,
-	"./symbol-store.js": 23,
-	"./utils": 2,
-	"./utils.js": 2
+	"./symbol-store.js": 23
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -2700,8 +2672,6 @@ webpackContext.id = 26;
 /* 27 */
 /***/ (function(module, exports) {
 
-
-var IS_DEBUGGING = print != undefined && log != undefined;
 
 var PROPERTIES_RE = new RegExp('\\[([^\\]]+)\\]');
 var PROPERTIES_RE_IGNORE = /\[ignore\]/i;
@@ -2758,7 +2728,6 @@ var CLASS_TEXT = 'MSTextLayer';
 // -----------------------------------------------------------
 
 module.exports = {
-    IS_DEBUGGING: IS_DEBUGGING,
     PROPERTIES_RE: PROPERTIES_RE,
     PROPERTIES_RE_IGNORE: PROPERTIES_RE_IGNORE,
     PROPERTIES_RE_PADDING: PROPERTIES_RE_PADDING,
@@ -2803,6 +2772,36 @@ module.exports = {
     CLASS_SYMBOL_MASTER: CLASS_SYMBOL_MASTER,
     CLASS_TEXT: CLASS_TEXT
 };
+
+/***/ }),
+/* 28 */,
+/* 29 */
+/***/ (function(module, exports) {
+
+
+/* istanbul ignore next */
+var debug = function debug(component, msg, addLevel) {
+    if (debug.isEnabled()) {
+        print('  '.repeat(_debugLevel(component) - 1 + (addLevel || 0)) + msg);
+    }
+};
+
+debug.isEnabled = function () {
+    return print != undefined;
+};
+
+/* istanbul ignore next */
+var _debugLevel = function _debugLevel(component) {
+    var parent = component.parent();
+    if (parent) {
+        return _debugLevel(parent) + 1;
+    }
+    return 0;
+};
+
+// -----------------------------------------------------------
+
+module.exports = debug;
 
 /***/ })
 /******/ ]);

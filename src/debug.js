@@ -1,12 +1,14 @@
 
-var index = require('../index');
-
 /* istanbul ignore next */
 var debug = function(component, msg, addLevel) {
-    if (index.const.IS_DEBUGGING) {
+    if (debug.isEnabled()) {
         print('  '.repeat(_debugLevel(component) - 1 + (addLevel || 0)) + msg);
     }
 };
+
+debug.isEnabled = function() {
+    return print != undefined;
+}
 
 /* istanbul ignore next */
 var _debugLevel = function(component) {
@@ -19,4 +21,4 @@ var _debugLevel = function(component) {
 
 // -----------------------------------------------------------
 
-module.exports = { debug };
+module.exports = debug;

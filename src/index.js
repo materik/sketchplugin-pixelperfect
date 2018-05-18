@@ -24,6 +24,7 @@ var _sub = function(fn, dict) {
 
 module.exports = {
     const: require('./const'),
+    debug: require('./debug'),
 
     require: {
         alignment: function() {

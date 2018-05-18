@@ -1,6 +1,4 @@
 
-const IS_DEBUGGING = print != undefined && log != undefined
-
 const PROPERTIES_RE = new RegExp('\\[([^\\]]+)\\]');
 const PROPERTIES_RE_IGNORE = /\[ignore\]/i;
 const PROPERTIES_RE_PADDING = /^\d+$/;
@@ -83,7 +81,6 @@ const CLASS_TEXT = 'MSTextLayer';
 // -----------------------------------------------------------
 
 module.exports = {
-    IS_DEBUGGING,
     PROPERTIES_RE,
     PROPERTIES_RE_IGNORE,
     PROPERTIES_RE_PADDING,

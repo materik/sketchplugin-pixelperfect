@@ -1,6 +1,5 @@
 
 var index = require('../index');
-var utils = require('./utils');
 
 var ComponentFrame = index.require.componentFrame();
 var Constraints = index.require.constraints();
@@ -229,16 +228,16 @@ Component.prototype.unlockConstraints = function() {
 // Logging
 
 Component.prototype.debugFrame = function() {
-    if (index.const.IS_DEBUGGING) {
+    if (index.debug.isEnabled()) {
         this._debugFrame = this.frame().toString();
     }
 };
 
 Component.prototype.debug = function(msg) {
-    if (index.const.IS_DEBUGGING) {
+    if (index.debug.isEnabled()) {
         var frame = this._debugFrame ? '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>' : '';
         var name = '<' + this.name() + '> <' + this.class() + '>';
-        utils.debug(this, [msg, frame, name].join(' '));
+        index.debug(this, [msg, frame, name].join(' '));
         this._debugFrame = undefined;
     }
 };

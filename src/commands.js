@@ -27,7 +27,7 @@ var makeEverythingPixelPerfect = function(context) {
             doc.setCurrentPage(page);
             page.select_byExpandingSelection(true, false);
 
-            if (index.const.IS_DEBUGGING) {
+            if (index.debug.isEnabled()) {
                 print('\nPAGE: ' + page.name() + '\n');
             }
 
