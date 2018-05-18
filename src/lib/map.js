@@ -21,8 +21,8 @@ RegExpMap.prototype.find = function(str) {
 RegExpMap.prototype.replace = function(str, replaceOne) {
     for (var i = 0; i < this._entries.length; i++) {
         var entry = this._entries[i]
-        if (entry.regexp().test(str)) {
-            str = str.replace(entry.regexp(), entry.value());
+        if (entry.test(str)) {
+            str = entry.replace(str);
             if (replaceOne) {
                 return str
             }
@@ -48,6 +48,14 @@ RegExpMapEntry.prototype.regexp = function() {
 
 RegExpMapEntry.prototype.value = function() {
     return this._value;
+}
+
+RegExpMapEntry.prototype.replace = function(str) {
+    return str.replace(this.regexp(), this.value())
+}
+
+RegExpMapEntry.prototype.test = function(str) {
+    return this.regexp().test(str)
 }
 
 // -----------------------------------------------------------
