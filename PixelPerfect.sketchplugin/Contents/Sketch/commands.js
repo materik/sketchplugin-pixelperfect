@@ -87,6 +87,13 @@ var _requireProperty = function _requireProperty(property) {
     return _requireLib('property/' + property);
 };
 
+var _sub = function _sub(fn, dict) {
+    for (var key in dict) {
+        fn[key] = dict[key];
+    }
+    return fn;
+};
+
 // -----------------------------------------------------------
 
 module.exports = {
@@ -99,13 +106,6 @@ module.exports = {
             }
 
             return alignment;
-        }(),
-        component: function () {
-            function component() {
-                return _requireLib('component');
-            }
-
-            return component;
         }(),
         componentFrame: function () {
             function componentFrame() {
@@ -149,60 +149,108 @@ module.exports = {
 
             return properties;
         }(),
-        property: function () {
-            function property() {
-                return _requireLib('property');
-            }
-
-            return property;
-        }(),
         symbolStore: function () {
             function symbolStore() {
                 return _requireLib('symbol-store');
             }
 
             return symbolStore;
-        }()
+        }(),
 
+        component: _sub(function () {
+            return _requireLib('component');
+        }, {
+            artboard: function () {
+                function artboard() {
+                    return _requireComponent('artboard');
+                }
+
+                return artboard;
+            }(),
+            group: function () {
+                function group() {
+                    return _requireComponent('group');
+                }
+
+                return group;
+            }(),
+            layer: function () {
+                function layer() {
+                    return _requireComponent('layer');
+                }
+
+                return layer;
+            }(),
+            shape: function () {
+                function shape() {
+                    return _requireComponent('shape');
+                }
+
+                return shape;
+            }(),
+            symbolInstance: function () {
+                function symbolInstance() {
+                    return _requireComponent('symbol-instance');
+                }
+
+                return symbolInstance;
+            }(),
+            symbolMaster: function () {
+                function symbolMaster() {
+                    return _requireComponent('symbol-master');
+                }
+
+                return symbolMaster;
+            }(),
+            text: function () {
+                function text() {
+                    return _requireComponent('text');
+                }
+
+                return text;
+            }()
+        }),
+
+        property: _sub(function () {
+            return _requireLib('property');
+        }, {
+            center: function () {
+                function center() {
+                    return _requireProperty('center');
+                }
+
+                return center;
+            }(),
+            margin: function () {
+                function margin() {
+                    return _requireProperty('margin');
+                }
+
+                return margin;
+            }(),
+            padding: function () {
+                function padding() {
+                    return _requireProperty('padding');
+                }
+
+                return padding;
+            }(),
+            size: function () {
+                function size() {
+                    return _requireProperty('size');
+                }
+
+                return size;
+            }(),
+            stack: function () {
+                function stack() {
+                    return _requireProperty('stack');
+                }
+
+                return stack;
+            }()
+        })
     }
-};
-
-module.exports.require.component.artboard = function () {
-    return _requireComponent('artboard');
-};
-module.exports.require.component.group = function () {
-    return _requireComponent('group');
-};
-module.exports.require.component.layer = function () {
-    return _requireComponent('layer');
-};
-module.exports.require.component.shape = function () {
-    return _requireComponent('shape');
-};
-module.exports.require.component.symbolInstance = function () {
-    return _requireComponent('symbol-instance');
-};
-module.exports.require.component.symbolMaster = function () {
-    return _requireComponent('symbol-master');
-};
-module.exports.require.component.text = function () {
-    return _requireComponent('text');
-};
-
-module.exports.require.property.center = function () {
-    return _requireProperty('center');
-};
-module.exports.require.property.margin = function () {
-    return _requireProperty('margin');
-};
-module.exports.require.property.padding = function () {
-    return _requireProperty('padding');
-};
-module.exports.require.property.size = function () {
-    return _requireProperty('size');
-};
-module.exports.require.property.stack = function () {
-    return _requireProperty('stack');
 };
 
 /***/ }),
