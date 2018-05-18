@@ -1,33 +1,94 @@
 
-var global = {};
+require('./extensions');
 
-@import "./settings.js";
-@import "./utils.js";
+var _requireLib = function(lib) {
+    return require('./lib/' + lib)
+}
 
-@import "./lib/alignment.js";
-@import "./lib/component.js";
-@import "./lib/component-frame.js";
-@import "./lib/components.js";
-@import "./lib/components-frame.js";
-@import "./lib/constraints.js";
-@import "./lib/index.js";
-@import "./lib/map.js";
-@import "./lib/properties.js";
-@import "./lib/property.js";
-@import "./lib/symbol-store.js";
+var _requireComponent = function(component) {
+    return _requireLib('component/' + component)
+}
 
-@import "./lib/components/artboard.js";
-@import "./lib/components/group.js";
-@import "./lib/components/layer.js";
-@import "./lib/components/shape.js";
-@import "./lib/components/symbol-instance.js";
-@import "./lib/components/symbol-master.js";
-@import "./lib/components/text.js";
+var _requireProperty = function(property) {
+    return _requireLib('property/' + property)
+}
 
-@import "./lib/properties/center.js";
-@import "./lib/properties/margin.js";
-@import "./lib/properties/padding.js";
-@import "./lib/properties/size.js";
-@import "./lib/properties/stack.js";
+// -----------------------------------------------------------
 
-IS_DEBUGGING = false
+module.exports = {
+    const: require('./const'),
+
+    require: {
+        alignment: function() {
+            return _requireLib('alignment');
+        },
+        component: function() {
+            return _requireLib('component');
+        },
+        componentFrame: function() {
+            return _requireLib('component-frame');
+        },
+        components: function() {
+            return _requireLib('components');
+        },
+        componentsFrame: function() {
+            return _requireLib('components-frame');
+        },
+        constraints: function() {
+            return _requireLib('constraints');
+        },
+        map: function() {
+            return _requireLib('map');
+        },
+        properties: function() {
+            return _requireLib('properties');
+        },
+        property: function() {
+            return _requireLib('property');
+        },
+        symbolStore: function() {
+            return _requireLib('symbol-store');
+        },
+
+
+    },
+}
+
+
+module.exports.require.component.artboard= function() {
+                return _requireComponent('artboard');
+            }
+module.exports.require.component.group= function() {
+                return _requireComponent('group');
+            }
+module.exports.require.component.layer= function() {
+                return _requireComponent('layer');
+            }
+module.exports.require.component.shape= function() {
+                return _requireComponent('shape');
+            }
+module.exports.require.component.symbolInstance= function() {
+                return _requireComponent('symbol-instance');
+            }
+module.exports.require.component.symbolMaster= function() {
+                return _requireComponent('symbol-master');
+            }
+module.exports.require.component.text= function() {
+                return _requireComponent('text');
+            }
+
+module.exports.require.property.center= function() {
+                return _requireProperty('center');
+            }
+module.exports.require.property.margin= function() {
+                return _requireProperty('margin');
+            }
+module.exports.require.property.padding= function() {
+                return _requireProperty('padding');
+            }
+module.exports.require.property.size= function() {
+                return _requireProperty('size');
+            }
+module.exports.require.property.stack= function() {
+                return _requireProperty('stack');
+            }

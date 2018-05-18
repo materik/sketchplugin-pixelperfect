@@ -1,4 +1,8 @@
 
+var index = require('../../index');
+
+var Component = index.require.component();
+
 function LayerComponent(layer) {
     Component.call(this, layer);
 }
@@ -17,4 +21,4 @@ LayerComponent.prototype._sizeToFit = function() {
 
 // -----------------------------------------------------------
 
-global.LayerComponent = LayerComponent;
+module.exports = LayerComponent;

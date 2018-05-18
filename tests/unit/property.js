@@ -1,18 +1,18 @@
 
-require('../lib');
+var src = require('../src');
 
 describe('property', function() {
     it('invalid', function() {
-        var property = new Property(Component.new(createLayer('Hej')));
+        var property = new src.Property(src.Component.init(createLayer('Hej')));
         assert.equal(property.isValid(), false);
-        var property = Property.parse(Component.new(createLayer('Hej')));
+        var property = src.Property.parse(src.Component.init(createLayer('Hej')));
         assert.equal(property);
     });
 
     describe('apply', function() {
         it('multiple', function() {
-            var component = Component.new(createLayer('l2:t3:w100:h200'));
-            var properties = Properties.new(component);
+            var component = src.Component.init(createLayer('l2:t3:w100:h200'));
+            var properties = src.Properties.init(component);
             properties.apply();
             assert.equal(component.frame().x(), 2);
             assert.equal(component.frame().y(), 3);

@@ -1,4 +1,11 @@
 
+var index = require('../../index');
+
+var CenterProperty = index.require.property.center();
+var MarginProperty = index.require.property.margin();
+var Property = index.require.property();
+var SizeProperty = index.require.property.size();
+
 function PaddingProperty(component, key, value) {
     Property.call(this, component, key, value);
 
@@ -14,35 +21,35 @@ PaddingProperty.prototype = Object.create(Property.prototype);
 
 PaddingProperty.validKeys = function() {
     return [
-        PROPERTY_KEY_PADDING_TOP,
-        PROPERTY_KEY_PADDING_RIGHT,
-        PROPERTY_KEY_PADDING_BOTTOM,
-        PROPERTY_KEY_PADDING_LEFT,
+        index.const.PROPERTY_KEY_PADDING_TOP,
+        index.const.PROPERTY_KEY_PADDING_RIGHT,
+        index.const.PROPERTY_KEY_PADDING_BOTTOM,
+        index.const.PROPERTY_KEY_PADDING_LEFT,
     ];
 };
 
-PaddingProperty.new = function(component, key, value) {
-    return Property.new(component, key, value);
+PaddingProperty.init = function(component, key, value) {
+    return Property.init(component, key, value);
 };
 
 PaddingProperty.top = function(component, value) {
-    return PaddingProperty.new(component, PROPERTY_KEY_PADDING_TOP, value);
+    return PaddingProperty.init(component, index.const.PROPERTY_KEY_PADDING_TOP, value);
 };
 
 PaddingProperty.right = function(component, value) {
-    return PaddingProperty.new(component, PROPERTY_KEY_PADDING_RIGHT, value);
+    return PaddingProperty.init(component, index.const.PROPERTY_KEY_PADDING_RIGHT, value);
 };
 
 PaddingProperty.bottom = function(component, value) {
-    return PaddingProperty.new(component, PROPERTY_KEY_PADDING_BOTTOM, value);
+    return PaddingProperty.init(component, index.const.PROPERTY_KEY_PADDING_BOTTOM, value);
 };
 
 PaddingProperty.left = function(component, value) {
-    return PaddingProperty.new(component, PROPERTY_KEY_PADDING_LEFT, value);
+    return PaddingProperty.init(component, index.const.PROPERTY_KEY_PADDING_LEFT, value);
 };
 
 PaddingProperty.modify = function(str) {
-    return PROPERTY_MODIFY_PADDING_MAP.replace(str, true);
+    return index.require.map().PROPERTY_MODIFY_PADDING_MAP.replace(str, true);
 };
 
 PaddingProperty.isOuter = function(component) {
@@ -56,7 +63,7 @@ PaddingProperty.isInner = function(component) {
 // Getter
 
 PaddingProperty.prototype.type = function() {
-    return PROPERTY_TYPE_PADDING;
+    return index.const.PROPERTY_TYPE_PADDING;
 };
 
 PaddingProperty.prototype.container = function() {
@@ -120,7 +127,7 @@ PaddingProperty.prototype._apply = function() {
 
     var frame = this.components().frame();
     switch (this.key()) {
-        case PROPERTY_KEY_PADDING_TOP:
+        case index.const.PROPERTY_KEY_PADDING_TOP:
             MarginProperty.top(this.components(), this.value()).apply();
             if (!this.components().properties().containsPaddingRightOrLeft() &&
                 !this.components().properties().containsMarginRightOrLeft()) {
@@ -129,8 +136,8 @@ PaddingProperty.prototype._apply = function() {
                 MarginProperty.top(this.container(), 0).apply();
             }
             break;
-        case PROPERTY_KEY_PADDING_RIGHT:
-            var leftProperty = this.components().properties().find(PROPERTY_KEY_PADDING_LEFT);
+        case index.const.PROPERTY_KEY_PADDING_RIGHT:
+            var leftProperty = this.components().properties().find(index.const.PROPERTY_KEY_PADDING_LEFT);
             if (leftProperty) {
                 SizeProperty.width(this.container(), frame.width() + this.value() + leftProperty.value()).apply();
             } else {
@@ -143,8 +150,8 @@ PaddingProperty.prototype._apply = function() {
                 MarginProperty.left(this.container(), 0).apply();
             }
             break;
-        case PROPERTY_KEY_PADDING_BOTTOM:
-            var topProperty = this.components().properties().find(PROPERTY_KEY_PADDING_TOP);
+        case index.const.PROPERTY_KEY_PADDING_BOTTOM:
+            var topProperty = this.components().properties().find(index.const.PROPERTY_KEY_PADDING_TOP);
             if (topProperty) {
                 SizeProperty.height(this.container(), frame.height() + this.value() + topProperty.value()).apply();
             } else {
@@ -157,7 +164,7 @@ PaddingProperty.prototype._apply = function() {
                 MarginProperty.top(this.container(), 0).apply();
             }
             break;
-        case PROPERTY_KEY_PADDING_LEFT:
+        case index.const.PROPERTY_KEY_PADDING_LEFT:
             MarginProperty.left(this.components(), this.value()).apply();
             if (!this.components().properties().containsPaddingTopOrBottom() &&
                 !this.components().properties().containsMarginTopOrBottom()) {
@@ -173,4 +180,4 @@ PaddingProperty.prototype._apply = function() {
 
 // -----------------------------------------------------------
 
-global.PaddingProperty = PaddingProperty;
+module.exports = PaddingProperty;

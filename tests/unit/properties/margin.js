@@ -1,63 +1,63 @@
 
-require('../../lib');
+var src = require('../../src');
 
 describe('property', function() {
     describe('margin', function() {
         it('margin-top', function() {
-            var property = Property.parse(Component.new(createLayer('t100')));
+            var property = src.Property.parse(src.Component.init(createLayer('t100')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-top');
             assert.equal(property.value(), 100);
-            var property = Property.parse(Component.new(createLayer('t-100')));
+            var property = src.Property.parse(src.Component.init(createLayer('t-100')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-top');
             assert.equal(property.value(), -100);
-            var property = Property.parse(Component.new(createLayer('mt100')));
+            var property = src.Property.parse(src.Component.init(createLayer('mt100')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-top');
             assert.equal(property.value(), 100);
         });
 
         it('margin-right', function() {
-            var property = Property.parse(Component.new(createLayer('r200')));
+            var property = src.Property.parse(src.Component.init(createLayer('r200')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-right');
             assert.equal(property.value(), 200);
-            var property = Property.parse(Component.new(createLayer('r-200')));
+            var property = src.Property.parse(src.Component.init(createLayer('r-200')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-right');
             assert.equal(property.value(), -200);
-            var property = Property.parse(Component.new(createLayer('mr200')));
+            var property = src.Property.parse(src.Component.init(createLayer('mr200')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-right');
             assert.equal(property.value(), 200);
         });
 
         it('margin-bottom', function() {
-            var property = Property.parse(Component.new(createLayer('b300')));
+            var property = src.Property.parse(src.Component.init(createLayer('b300')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-bottom');
             assert.equal(property.value(), 300);
-            var property = Property.parse(Component.new(createLayer('b-300')));
+            var property = src.Property.parse(src.Component.init(createLayer('b-300')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-bottom');
             assert.equal(property.value(), -300);
-            var property = Property.parse(Component.new(createLayer('mb300')));
+            var property = src.Property.parse(src.Component.init(createLayer('mb300')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-bottom');
             assert.equal(property.value(), 300);
         });
 
         it('margin-left', function() {
-            var property = Property.parse(Component.new(createLayer('l400')));
+            var property = src.Property.parse(src.Component.init(createLayer('l400')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-left');
             assert.equal(property.value(), 400);
-            var property = Property.parse(Component.new(createLayer('l-400')));
+            var property = src.Property.parse(src.Component.init(createLayer('l-400')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-left');
             assert.equal(property.value(), -400);
-            var property = Property.parse(Component.new(createLayer('ml400')));
+            var property = src.Property.parse(src.Component.init(createLayer('ml400')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'margin-left');
             assert.equal(property.value(), 400);
@@ -66,12 +66,12 @@ describe('property', function() {
             it('margin-top', function() {
                 var layer1 = createLayer('t1', 1, 2, 3, 4);
                 var layer2 = createLayer('bg', 10, 11, 12, 13);
-                var component = Component.new(layer1);
-                var background = Component.new(layer2);
+                var component = src.Component.init(layer1);
+                var background = src.Component.init(layer2);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                var property = Property.parse(component);
+                var property = src.Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().y(), 1);
 
@@ -80,7 +80,7 @@ describe('property', function() {
                 var artboard = createArtboard('artboard', 0, 0, 200, 100);
                 artboard.insertLayer_afterLayerOrAtEnd(layer1);
                 artboard.insertLayer_afterLayerOrAtEnd(layer2);
-                Component.apply(artboard);
+                src.Component.apply(artboard);
                 assert.equal(layer1.frame().x(), 99);
                 assert.equal(layer1.frame().y(), 0);
                 assert.equal(layer1.frame().width(), 3);
@@ -94,12 +94,12 @@ describe('property', function() {
             it('margin-right', function() {
                 var layer1 = createLayer('r2', 1, 2, 3, 4);
                 var layer2 = createLayer('bg', 10, 11, 12, 13);
-                var component = Component.new(layer1);
-                var background = Component.new(layer2);
+                var component = src.Component.init(layer1);
+                var background = src.Component.init(layer2);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                var property = Property.parse(component);
+                var property = src.Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().x(), 17);
 
@@ -108,7 +108,7 @@ describe('property', function() {
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                Component.apply(group);
+                src.Component.apply(group);
                 assert.equal(layer1.frame().x(), 97);
                 assert.equal(layer1.frame().y(), 2);
                 assert.equal(layer1.frame().width(), 3);
@@ -122,12 +122,12 @@ describe('property', function() {
             it('margin-bottom', function() {
                 var layer1 = createLayer('b3', 1, 2, 3, 4);
                 var layer2 = createLayer('bg', 10, 11, 12, 13);
-                var component = Component.new(layer1);
-                var background = Component.new(layer2);
+                var component = src.Component.init(layer1);
+                var background = src.Component.init(layer2);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                var property = Property.parse(component);
+                var property = src.Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().y(), 17);
             });
@@ -135,12 +135,12 @@ describe('property', function() {
             it('margin-left', function() {
                 var layer1 = createLayer('l4', 1, 2, 3, 4);
                 var layer2 = createLayer('bg', 10, 11, 12, 13);
-                var component = Component.new(layer1);
-                var background = Component.new(layer2);
+                var component = src.Component.init(layer1);
+                var background = src.Component.init(layer2);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                var property = Property.parse(component);
+                var property = src.Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().x(), 4);
             });

@@ -1,7 +1,14 @@
 
+var index = require('../index');
+var utils = require('./utils');
+
+var ComponentFrame = index.require.componentFrame();
+var Constraints = index.require.constraints();
+var Properties = index.require.properties();
+
 function Component(layer) {
     this._layer = layer;
-    this._frame = ComponentFrame.new(layer);
+    this._frame = ComponentFrame.init(layer);
     this._components = null;
     this._properties = null;
     this._constraints = null;
@@ -10,33 +17,41 @@ function Component(layer) {
 
 // Static
 
-Component.new = function(layer) {
+Component.init = function(layer) {
     switch (String(layer.class().toString())) {
-        case CLASS_ARTBOARD:
+        case index.const.CLASS_ARTBOARD:
+            var ArtboardComponent = index.require.component.artboard();
             return new ArtboardComponent(layer);
-        case CLASS_GROUP:
+        case index.const.CLASS_GROUP:
+            var GroupComponent = index.require.component.group();
             return new GroupComponent(layer);
-        case CLASS_SHAPE:
+        case index.const.CLASS_SHAPE:
+            var ShapeComponent = index.require.component.shape();
             return new ShapeComponent(layer);
-        case CLASS_SYMBOL_INSTANCE:
+        case index.const.CLASS_SYMBOL_INSTANCE:
+            var SymbolInstanceComponent = index.require.component.symbolInstance();
             return new SymbolInstanceComponent(layer);
-        case CLASS_SYMBOL_MASTER:
+        case index.const.CLASS_SYMBOL_MASTER:
+            var SymbolMasterComponent = index.require.component.symbolMaster();
             return new SymbolMasterComponent(layer);
-        case CLASS_TEXT:
+        case index.const.CLASS_TEXT:
+            var TextComponent = index.require.component.text();
             return new TextComponent(layer);
         default:
+            var LayerComponent = index.require.component.layer();
             return new LayerComponent(layer);
     }
 };
 
 Component.apply = function(layer) {
-    return Component.new(layer).apply();
+    return Component.init(layer).apply();
 };
 
 // Getter
 
 Component.prototype.components = function() {
     if (this._components == null) {
+        var Components = index.require.components();
         this._components = Components.sub(this._layer, this);
     }
     return this._components;
@@ -44,14 +59,14 @@ Component.prototype.components = function() {
 
 Component.prototype.properties = function() {
     if (this._properties == null) {
-        this._properties = Properties.new(this);
+        this._properties = Properties.init(this);
     }
     return this._properties;
 };
 
 Component.prototype.constraints = function() {
     if (this._constraints == null) {
-        this._constraints = Constraints.new(this._layer);
+        this._constraints = Constraints.init(this);
     }
     return this._constraints;
 };
@@ -79,7 +94,7 @@ Component.prototype.objectID = function() {
 Component.prototype.master = function() {
     /* istanbul ignore else */
     if (this._layer.symbolMaster) {
-        return Component.new(this._layer.symbolMaster());
+        return Component.init(this._layer.symbolMaster());
     }
 };
 
@@ -88,15 +103,15 @@ Component.prototype.isVisible = function() {
 };
 
 Component.prototype.isArtboard = function() {
-    return this.class() == CLASS_ARTBOARD;
+    return this.class() == index.const.CLASS_ARTBOARD;
 };
 
 Component.prototype.isGroup = function() {
-    return this.class() == CLASS_GROUP;
+    return this.class() == index.const.CLASS_GROUP;
 };
 
 Component.prototype.isSymbolMaster = function() {
-    return this.class() == CLASS_SYMBOL_MASTER;
+    return this.class() == index.const.CLASS_SYMBOL_MASTER;
 };
 
 Component.prototype.isArtboardOrSymbolMaster = function() {
@@ -104,7 +119,7 @@ Component.prototype.isArtboardOrSymbolMaster = function() {
 };
 
 Component.prototype.shouldApply = function() {
-    return this.isVisible() && !PROPERTIES_RE_IGNORE.test(this.name());
+    return this.isVisible() && !index.const.PROPERTIES_RE_IGNORE.test(this.name());
 };
 
 Component.prototype.hasComponents = function() {
@@ -117,7 +132,7 @@ Component.prototype.hasParent = function() {
 
 Component.prototype.parent = function() {
     if (this._parent == null) {
-        this._parent = this.hasParent() ? Component.new(this._layer.parentGroup()) : undefined;
+        this._parent = this.hasParent() ? Component.init(this._layer.parentGroup()) : undefined;
     }
     return this._parent;
 };
@@ -151,7 +166,7 @@ Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
         return 0;
     } else if (this.parent().isArtboardOrSymbolMaster()) {
         return this.parent().frame().width();
-    } else if (forceIteration || this.parent().properties().containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE)) {
+    } else if (forceIteration || this.parent().properties().containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE)) {
         return this.parent().widthOfParent(forceIteration, ignoreSelf) ||
             this.parent().frame().width();
     } else if (ignoreSelf) {
@@ -166,7 +181,7 @@ Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
         return 0;
     } else if (this.parent().isArtboardOrSymbolMaster()) {
         return this.parent().frame().height();
-    } else if (forceIteration || this.parent().properties().containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
+    } else if (forceIteration || this.parent().properties().containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
         return this.parent().heightOfParent(forceIteration, ignoreSelf) ||
             this.parent().frame().height();
     } else if (ignoreSelf) {
@@ -214,20 +229,20 @@ Component.prototype.unlockConstraints = function() {
 // Logging
 
 Component.prototype.debugFrame = function() {
-    if (IS_DEBUGGING) {
+    if (index.const.IS_DEBUGGING) {
         this._debugFrame = this.frame().toString();
     }
 };
 
 Component.prototype.debug = function(msg) {
-    if (IS_DEBUGGING) {
-        var frame = '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>';
+    if (index.const.IS_DEBUGGING) {
+        var frame = this._debugFrame ? '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>' : '';
         var name = '<' + this.name() + '> <' + this.class() + '>';
-        debug(this, [msg, (this._debugFrame ? frame : ''), name].join(' '));
+        utils.debug(this, [msg, frame, name].join(' '));
         this._debugFrame = undefined;
     }
 };
 
 // -----------------------------------------------------------
 
-global.Component = Component;
+module.exports = Component;

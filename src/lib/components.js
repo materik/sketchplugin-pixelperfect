@@ -1,4 +1,10 @@
 
+var index = require('../index');
+
+var Component = require('./component');
+var ComponentsFrame = require('./components-frame');
+var Properties = require('./properties');
+
 function Components(layers, parent, items) {
     this._layers = layers || NSArray.new();
 
@@ -13,19 +19,19 @@ Components.prototype = Object.create(Component.prototype);
 
 // Static
 
-Components.new = function(layers, parent, items) {
+Components.init = function(layers, parent, items) {
     return new Components(layers, parent, items);
 };
 
 Components.apply = function(layers, parent) {
-    return Components.new(layers, parent).apply();
+    return Components.init(layers, parent).apply();
 };
 
 Components.sub = function(layer, parent) {
     if (layer.layers) {
-        return Components.new(layer.layers(), parent);
+        return Components.init(layer.layers(), parent);
     } else {
-        return Components.new(NSArray.new(), parent);
+        return Components.init(NSArray.new(), parent);
     }
 };
 
@@ -34,7 +40,7 @@ Components.items = function(items, parent) {
     for (var i = 0; i < items.length; i++) {
         layers.addObject(items[i]._layer);
     }
-    return Components.new(layers, parent, items)
+    return Components.init(layers, parent, items)
 }
 
 // Getter
@@ -48,7 +54,7 @@ Components.prototype.items = function() {
 
 Components.prototype.frame = function() {
     if (this._frame == null) {
-        this._frame = ComponentsFrame.new(this);
+        this._frame = ComponentsFrame.init(this);
     }
     return this._frame;
 };
@@ -77,7 +83,7 @@ Components.prototype.find = function(name) {
 };
 
 Components.prototype.findContainer = function() {
-    return this.find(PROPERTIES_RE_PADDING_CONTAINER_NAME);
+    return this.find(index.const.PROPERTIES_RE_PADDING_CONTAINER_NAME);
 };
 
 Components.prototype.filter = function(callback) {
@@ -96,7 +102,7 @@ Components.prototype.containsName = function(name) {
 };
 
 Components.prototype.containsContainer = function() {
-    return this.containsName(PROPERTIES_RE_PADDING_CONTAINER_NAME);
+    return this.containsName(index.const.PROPERTIES_RE_PADDING_CONTAINER_NAME);
 };
 
 // Action
@@ -139,20 +145,16 @@ Components.prototype._needSetup = function() {
 Components.prototype._setup = function() {
     this._items = [];
     for (var i = 0; i < this._layers.count(); i++) {
-        var item = Component.new(this._layers.objectAtIndex(i));
+        var item = Component.init(this._layers.objectAtIndex(i));
         this._items.push(item);
     }
 };
-
-// -----------------------------------------------------------
-
-global.Components = Components;
 
 // -------------------------------------------------- Override
 
 /* istanbul ignore next */
 Components.prototype.components = function() {
-    return Components.new();
+    return Components.init();
 };
 
 /* istanbul ignore next */
@@ -160,7 +162,7 @@ Components.prototype.properties = function() {
     if (this.hasParent()) {
         return this.parent().properties();
     }
-    return Properties.new(this, []);
+    return Properties.init(this, []);
 };
 
 /* istanbul ignore next */
@@ -237,3 +239,7 @@ Components.prototype.parent = function() {
 Components.prototype.sizeToFit = function() {
     // Do nothing...
 };
+
+// -----------------------------------------------------------
+
+module.exports = Components;

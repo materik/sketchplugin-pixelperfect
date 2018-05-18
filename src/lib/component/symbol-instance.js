@@ -1,4 +1,8 @@
 
+var index = require('../../index');
+
+var Component = index.require.component();
+
 function SymbolInstanceComponent(layer) {
     Component.call(this, layer);
 }
@@ -18,4 +22,4 @@ SymbolInstanceComponent.prototype._sizeToFit = function() {
 
 // -----------------------------------------------------------
 
-global.SymbolInstanceComponent = SymbolInstanceComponent;
+module.exports = SymbolInstanceComponent;

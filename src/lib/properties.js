@@ -1,4 +1,10 @@
 
+var index = require('../index');
+
+var MarginProperty = index.require.property.margin();
+var PaddingProperty = index.require.property.padding();
+var Property = index.require.property();
+
 function Properties(component, items) {
     this._component = component;
 
@@ -11,12 +17,12 @@ function Properties(component, items) {
 
 // Static
 
-Properties.new = function(component, items) {
+Properties.init = function(component, items) {
     return new Properties(component, items);
 };
 
 Properties.items = function(items, component) {
-    return Properties.new(component, items)
+    return Properties.init(component, items)
 }
 
 // Getter
@@ -80,41 +86,41 @@ Properties.prototype.containsType = function(aType) {
 };
 
 Properties.prototype.containsPercentageWidthOrHeight = function() {
-    return this.containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE) || this.containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE);
+    return this.containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE) || this.containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE);
 };
 
 Properties.prototype.containsPadding = function() {
-    return this.containsType(PROPERTY_TYPE_PADDING);
+    return this.containsType(index.const.PROPERTY_TYPE_PADDING);
 };
 
 Properties.prototype.containsPaddingTopOrBottom = function() {
-    return this.containsKey(PROPERTY_KEY_PADDING_TOP) || this.containsKey(PROPERTY_KEY_PADDING_BOTTOM);
+    return this.containsKey(index.const.PROPERTY_KEY_PADDING_TOP) || this.containsKey(index.const.PROPERTY_KEY_PADDING_BOTTOM);
 };
 
 Properties.prototype.containsPaddingRightOrLeft = function() {
-    return this.containsKey(PROPERTY_KEY_PADDING_RIGHT) || this.containsKey(PROPERTY_KEY_PADDING_LEFT);
+    return this.containsKey(index.const.PROPERTY_KEY_PADDING_RIGHT) || this.containsKey(index.const.PROPERTY_KEY_PADDING_LEFT);
 };
 
 Properties.prototype.containsMargin = function() {
-    return this.containsType(PROPERTY_TYPE_MARGIN);
+    return this.containsType(index.const.PROPERTY_TYPE_MARGIN);
 };
 
 Properties.prototype.containsMarginTopOrLeft = function() {
-    return (!this.containsKey(PROPERTY_KEY_MARGIN_RIGHT) && this.containsKey(PROPERTY_KEY_MARGIN_LEFT)) ||
-        (!this.containsKey(PROPERTY_KEY_MARGIN_BOTTOM) && this.containsKey(PROPERTY_KEY_MARGIN_TOP));
+    return (!this.containsKey(index.const.PROPERTY_KEY_MARGIN_RIGHT) && this.containsKey(index.const.PROPERTY_KEY_MARGIN_LEFT)) ||
+        (!this.containsKey(index.const.PROPERTY_KEY_MARGIN_BOTTOM) && this.containsKey(index.const.PROPERTY_KEY_MARGIN_TOP));
 };
 
 Properties.prototype.containsMarginRightOrBottom = function() {
-    return (this.containsKey(PROPERTY_KEY_MARGIN_RIGHT) && !this.containsKey(PROPERTY_KEY_MARGIN_LEFT)) ||
-        (this.containsKey(PROPERTY_KEY_MARGIN_BOTTOM) && !this.containsKey(PROPERTY_KEY_MARGIN_TOP));
+    return (this.containsKey(index.const.PROPERTY_KEY_MARGIN_RIGHT) && !this.containsKey(index.const.PROPERTY_KEY_MARGIN_LEFT)) ||
+        (this.containsKey(index.const.PROPERTY_KEY_MARGIN_BOTTOM) && !this.containsKey(index.const.PROPERTY_KEY_MARGIN_TOP));
 };
 
 Properties.prototype.containsMarginTopOrBottom = function() {
-    return this.containsKey(PROPERTY_KEY_MARGIN_TOP) || this.containsKey(PROPERTY_KEY_MARGIN_BOTTOM);
+    return this.containsKey(index.const.PROPERTY_KEY_MARGIN_TOP) || this.containsKey(index.const.PROPERTY_KEY_MARGIN_BOTTOM);
 };
 
 Properties.prototype.containsMarginRightOrLeft = function() {
-    return this.containsKey(PROPERTY_KEY_MARGIN_RIGHT) || this.containsKey(PROPERTY_KEY_MARGIN_LEFT);
+    return this.containsKey(index.const.PROPERTY_KEY_MARGIN_RIGHT) || this.containsKey(index.const.PROPERTY_KEY_MARGIN_LEFT);
 };
 
 // Action
@@ -151,10 +157,10 @@ Properties.prototype.addProperty = function(property) {
 };
 
 Properties.prototype.addZeroPadding = function() {
-    this.addProperty(Property.new(this.component(), PROPERTY_KEY_PADDING_TOP));
-    this.addProperty(Property.new(this.component(), PROPERTY_KEY_PADDING_RIGHT));
-    this.addProperty(Property.new(this.component(), PROPERTY_KEY_PADDING_BOTTOM));
-    this.addProperty(Property.new(this.component(), PROPERTY_KEY_PADDING_LEFT));
+    this.addProperty(Property.init(this.component(), index.const.PROPERTY_KEY_PADDING_TOP));
+    this.addProperty(Property.init(this.component(), index.const.PROPERTY_KEY_PADDING_RIGHT));
+    this.addProperty(Property.init(this.component(), index.const.PROPERTY_KEY_PADDING_BOTTOM));
+    this.addProperty(Property.init(this.component(), index.const.PROPERTY_KEY_PADDING_LEFT));
     this._sort();
 };
 
@@ -162,14 +168,14 @@ Properties.prototype.addZeroPadding = function() {
 
 Properties.prototype._raw = function() {
     var name = this.component().name();
-    var split = name.split(PROPERTIES_RE);
-    var properties = (split.length == 1 ? split.even() : split.odd()).join(PROPERTIES_SEP);
+    var split = name.split(index.const.PROPERTIES_RE);
+    var properties = (split.length == 1 ? split.even() : split.odd()).join(index.const.PROPERTIES_SEP);
 
     properties = PaddingProperty.modify(properties);
     properties = MarginProperty.modify(properties);
     properties = Property.modify(properties);
 
-    return properties.split(PROPERTIES_SEP);
+    return properties.split(index.const.PROPERTIES_SEP);
 };
 
 Properties.prototype._setup = function() {
@@ -186,15 +192,15 @@ Properties.prototype._setup = function() {
 
 Properties.prototype._sort = function() {
     this._items = this.items().sort(function(a, b) {
-        return PROPERTY_KEY_PRIORITY.indexOf(a.key()) > PROPERTY_KEY_PRIORITY.indexOf(b.key());
+        return index.const.PROPERTY_KEY_PRIORITY.indexOf(a.key()) > index.const.PROPERTY_KEY_PRIORITY.indexOf(b.key());
     });
 
     if (this.containsPadding()) {
         var paddingIsHighPriority = !PaddingProperty.isOuter(this.component());
         this._items = this.items().sort(function(a, b) {
-            if (a.type() == PROPERTY_TYPE_PADDING && b.type() == PROPERTY_TYPE_PADDING) {
+            if (a.type() == index.const.PROPERTY_TYPE_PADDING && b.type() == index.const.PROPERTY_TYPE_PADDING) {
                 return 0;
-            } else if (b.type() == PROPERTY_TYPE_PADDING) {
+            } else if (b.type() == index.const.PROPERTY_TYPE_PADDING) {
                 return paddingIsHighPriority ? 1 : -1;
             }
             return 0;
@@ -204,4 +210,4 @@ Properties.prototype._sort = function() {
 
 // -----------------------------------------------------------
 
-global.Properties = Properties;
+module.exports = Properties;

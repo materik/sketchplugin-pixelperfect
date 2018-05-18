@@ -2,13 +2,16 @@
 var DEFAULT_MIN_TOP = 999999;
 var DEFAULT_MIN_LEFT = 999999;
 
+var index = require('../index');
+
 function ComponentsFrame(components) {
-    this._components = components || Components.new();
+    var Components = index.require.components();
+    this._components = components || Components.init();
 };
 
 // Static
 
-ComponentsFrame.new = function(components) {
+ComponentsFrame.init = function(components) {
     return new ComponentsFrame(components);
 };
 
@@ -50,10 +53,10 @@ ComponentsFrame.prototype.right = function(ignoreMarginRight) {
     var right = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE)) {
+        if (component.properties().containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE)) {
             continue;
         }
-        if (ignoreMarginRight && component.properties().containsKey(PROPERTY_KEY_MARGIN_RIGHT)) {
+        if (ignoreMarginRight && component.properties().containsKey(index.const.PROPERTY_KEY_MARGIN_RIGHT)) {
             continue;
         }
         right = Math.max(right, component.frame().right());
@@ -65,10 +68,10 @@ ComponentsFrame.prototype.bottom = function(ignoreMarginBottom) {
     var bottom = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
+        if (component.properties().containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
             continue;
         }
-        if (ignoreMarginBottom && component.properties().containsKey(PROPERTY_KEY_MARGIN_BOTTOM)) {
+        if (ignoreMarginBottom && component.properties().containsKey(index.const.PROPERTY_KEY_MARGIN_BOTTOM)) {
             continue;
         }
         bottom = Math.max(bottom, component.frame().bottom());
@@ -89,7 +92,7 @@ ComponentsFrame.prototype.maxWidth = function() {
     var width = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE)) {
+        if (component.properties().containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE)) {
             continue;
         }
         width = Math.max(width, component.frame().width());
@@ -101,7 +104,7 @@ ComponentsFrame.prototype.maxHeight = function() {
     var height = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
+        if (component.properties().containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
             continue;
         }
         height = Math.max(height, component.frame().height());
@@ -137,4 +140,4 @@ ComponentsFrame.prototype.setHeight = function() {
 
 // -----------------------------------------------------------
 
-global.ComponentsFrame = ComponentsFrame;
+module.exports = ComponentsFrame;

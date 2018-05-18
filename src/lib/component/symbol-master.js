@@ -1,4 +1,10 @@
 
+var index = require('../../index');
+
+var ArtboardComponent = index.require.component.artboard();
+var Component = index.require.component();
+var SymbolStore = index.require.symbolStore();
+
 function SymbolMasterComponent(layer) {
     ArtboardComponent.call(this, layer);
 }
@@ -26,4 +32,4 @@ SymbolMasterComponent.prototype.shouldApply = function() {
 
 // -----------------------------------------------------------
 
-global.SymbolMasterComponent = SymbolMasterComponent;
+module.exports = SymbolMasterComponent;

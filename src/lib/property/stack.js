@@ -1,4 +1,9 @@
 
+var index = require('../../index');
+
+var Alignment = index.require.alignment()
+var Property = index.require.property();
+
 function StackProperty(component, key, value) {
     Property.call(this, component, key, value);
 }
@@ -9,17 +14,17 @@ StackProperty.prototype = Object.create(Property.prototype);
 
 StackProperty.validKeys = function() {
     return [
-        PROPERTY_KEY_STACK_HORIZONTALLY_TOP,
-        PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE,
-        PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM,
-        PROPERTY_KEY_STACK_VERTICALLY_LEFT,
-        PROPERTY_KEY_STACK_VERTICALLY_CENTER,
-        PROPERTY_KEY_STACK_VERTICALLY_RIGHT,
+        index.const.PROPERTY_KEY_STACK_HORIZONTALLY_TOP,
+        index.const.PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE,
+        index.const.PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM,
+        index.const.PROPERTY_KEY_STACK_VERTICALLY_LEFT,
+        index.const.PROPERTY_KEY_STACK_VERTICALLY_CENTER,
+        index.const.PROPERTY_KEY_STACK_VERTICALLY_RIGHT,
     ];
 };
 
-StackProperty.new = function(component, key, value) {
-    return Property.new(component, key, value);
+StackProperty.init = function(component, key, value) {
+    return Property.init(component, key, value);
 };
 
 // Getter
@@ -31,28 +36,28 @@ StackProperty.prototype.isValid = function() {
 // Action
 
 StackProperty.prototype.type = function() {
-    return PROPERTY_TYPE_STACK;
+    return index.const.PROPERTY_TYPE_STACK;
 };
 
 StackProperty.prototype._apply = function() {
     var frame = this.component().frame();
     switch (this.key()) {
-        case PROPERTY_KEY_STACK_HORIZONTALLY_TOP:
+        case index.const.PROPERTY_KEY_STACK_HORIZONTALLY_TOP:
             this.applyStackHorizontally(Alignment.top());
             break;
-        case PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE:
+        case index.const.PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE:
             this.applyStackHorizontally(Alignment.middle());
             break;
-        case PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM:
+        case index.const.PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM:
             this.applyStackHorizontally(Alignment.bottom());
             break;
-        case PROPERTY_KEY_STACK_VERTICALLY_LEFT:
+        case index.const.PROPERTY_KEY_STACK_VERTICALLY_LEFT:
             this.applyStackVertically(Alignment.left());
             break;
-        case PROPERTY_KEY_STACK_VERTICALLY_CENTER:
+        case index.const.PROPERTY_KEY_STACK_VERTICALLY_CENTER:
             this.applyStackVertically(Alignment.center());
             break;
-        case PROPERTY_KEY_STACK_VERTICALLY_RIGHT:
+        case index.const.PROPERTY_KEY_STACK_VERTICALLY_RIGHT:
             this.applyStackVertically(Alignment.right());
             break;
         /* istanbul ignore next */
@@ -95,4 +100,4 @@ Property.prototype.applyStackVertically = function(alignment) {
 
 // -----------------------------------------------------------
 
-global.StackProperty = StackProperty;
+module.exports = StackProperty;

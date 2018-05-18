@@ -1,5 +1,5 @@
 
-require('../lib');
+var src = require('../src');
 
 describe('utils', function() {
     describe('Math', function() {

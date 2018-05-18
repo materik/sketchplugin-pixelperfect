@@ -1,4 +1,8 @@
 
+var index = require('../../index');
+
+var Component = index.require.component();
+
 function GroupComponent(layer) {
     Component.call(this, layer);
 }
@@ -20,4 +24,4 @@ GroupComponent.prototype._sizeToFit = function() {
 
 // -----------------------------------------------------------
 
-global.GroupComponent = GroupComponent;
+module.exports = GroupComponent;

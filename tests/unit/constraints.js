@@ -1,5 +1,5 @@
 
-require('../lib');
+var src = require('../src');
 
 describe('constraints', function() {
     it('none', function() {
@@ -18,7 +18,7 @@ describe('constraints', function() {
         assert.equal(layer.hasFixedRight(), false);
         assert.equal(layer.hasFixedBottom(), false);
         assert.equal(layer.hasFixedLeft(), false);
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), true);
         assert.equal(layer.hasFixedHeight(), true);
         assert.equal(layer.hasFixedTop(), false);
@@ -30,7 +30,7 @@ describe('constraints', function() {
     it('width', function() {
         var layer = createLayer('w100');
         assert.equal(layer.hasFixedWidth(), false);
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), true);
         assert.equal(layer.hasFixedHeight(), true);
         assert.equal(layer.hasFixedTop(), false);
@@ -42,7 +42,7 @@ describe('constraints', function() {
     it('width-percentage', function() {
         var layer = createLayer('w100%');
         assert.equal(layer.hasFixedWidth(), false);
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), false);
         assert.equal(layer.hasFixedHeight(), true);
         assert.equal(layer.hasFixedTop(), false);
@@ -54,7 +54,7 @@ describe('constraints', function() {
     it('width-percentage-full', function() {
         var layer = createLayer('w100%%');
         assert.equal(layer.hasFixedWidth(), false);
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), false);
         assert.equal(layer.hasFixedHeight(), true);
         assert.equal(layer.hasFixedTop(), false);
@@ -66,7 +66,7 @@ describe('constraints', function() {
     it('height', function() {
         var layer = createLayer('h100');
         assert.equal(layer.hasFixedHeight(), false);
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), true);
         assert.equal(layer.hasFixedHeight(), true);
         assert.equal(layer.hasFixedTop(), false);
@@ -78,7 +78,7 @@ describe('constraints', function() {
     it('height-percentage', function() {
         var layer = createLayer('h100%');
         assert.equal(layer.hasFixedHeight(), false);
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), true);
         assert.equal(layer.hasFixedHeight(), false);
         assert.equal(layer.hasFixedTop(), true);
@@ -90,7 +90,7 @@ describe('constraints', function() {
     it('height-percentage-full', function() {
         var layer = createLayer('h100%%');
         assert.equal(layer.hasFixedHeight(), false);
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), true);
         assert.equal(layer.hasFixedHeight(), false);
         assert.equal(layer.hasFixedTop(), true);
@@ -101,7 +101,7 @@ describe('constraints', function() {
 
     it('margin', function() {
         var layer = createLayer('trbl');
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), false);
         assert.equal(layer.hasFixedHeight(), false);
         assert.equal(layer.hasFixedTop(), true);
@@ -112,7 +112,7 @@ describe('constraints', function() {
 
     it('margin', function() {
         var layer = createLayer('bg');
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), false);
         assert.equal(layer.hasFixedHeight(), false);
         assert.equal(layer.hasFixedTop(), true);
@@ -123,7 +123,7 @@ describe('constraints', function() {
 
     it('margin-top-bottom', function() {
         var layer = createLayer('t:b');
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), true);
         assert.equal(layer.hasFixedHeight(), false);
         assert.equal(layer.hasFixedTop(), true);
@@ -134,7 +134,7 @@ describe('constraints', function() {
 
     it('margin-right-left', function() {
         var layer = createLayer('r:l');
-        Component.apply(layer);
+        src.Component.apply(layer);
         assert.equal(layer.hasFixedWidth(), false);
         assert.equal(layer.hasFixedHeight(), true);
         assert.equal(layer.hasFixedTop(), false);
@@ -146,7 +146,7 @@ describe('constraints', function() {
     it('symbol instance', function() {
         var master = createSymbolMaster();
         var instance = createSymbolInstance(master);
-        Component.apply(instance);
+        src.Component.apply(instance);
         assert.equal(instance.hasFixedWidth(), true);
         assert.equal(instance.hasFixedHeight(), true);
         assert.equal(instance.hasFixedTop(), false);
@@ -163,7 +163,7 @@ describe('constraints', function() {
         layer.setHasFixedRight(false);
         layer.setHasFixedBottom(true);
         layer.setHasFixedLeft(false);
-        var constraints = Constraints.new(layer);
+        var constraints = src.Constraints.init(src.Component.init(layer));
         assert.equal(constraints.isLocked(), false)
         constraints.unlock()
         assert.equal(constraints.isLocked(), false)

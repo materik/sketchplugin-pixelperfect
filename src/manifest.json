@@ -4,7 +4,7 @@
     "authorEmail": "mattias@materikab.com",
     "commands": [
         {
-            "script": "index.js",
+            "script": "commands.js",
             "name": "Make layers pixel perfect",
             "shortcut": "cmd l",
             "handlers": {
@@ -13,7 +13,7 @@
             "identifier": "makePixelPerfect"
         },
         {
-            "script": "index.js",
+            "script": "commands.js",
             "name": "Make every layer pixel perfect",
             "shortcut": "cmd ctrl l",
             "handlers": {

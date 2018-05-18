@@ -1,7 +1,11 @@
 
+var index = require('./index');
+
+var Components = require('./lib/components');
+
 var makePixelPerfect = function(context) {
     var doc = context.document;
-    var layers = selection(context);
+    var layers = _selection(context);
 
     /* istanbul ignore if  */
     if (layers.count() == 0) {
@@ -19,11 +23,11 @@ var makeEverythingPixelPerfect = function(context) {
     var nbrOfPages = 0;
     for (var i = 0; i < pages.count(); i++) {
         var page = pages.objectAtIndex(i);
-        if (!PROPERTIES_RE_IGNORE.test(page.name())) {
+        if (!index.const.PROPERTIES_RE_IGNORE.test(page.name())) {
             doc.setCurrentPage(page);
             page.select_byExpandingSelection(true, false);
 
-            if (IS_DEBUGGING) {
+            if (index.const.IS_DEBUGGING) {
                 print('\nPAGE: ' + page.name() + '\n');
             }
 
@@ -38,5 +42,16 @@ var makeEverythingPixelPerfect = function(context) {
 
 // -----------------------------------------------------------
 
-global.makePixelPerfect = makePixelPerfect;
-global.makeEverythingPixelPerfect = makeEverythingPixelPerfect;
+/* istanbul ignore next */
+var _selection = function(context) {
+    var layers = context.selection;
+    if (layers && layers.count() > 0) {
+        return layers;
+    } else {
+        return context.document.currentPage().layers();
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = { makePixelPerfect, makeEverythingPixelPerfect };

@@ -1,16 +1,16 @@
 
-require('../lib');
+var src = require('../src');
 
 describe('component-frame', function() {
     it('toString', function() {
         var layer = createLayer('', 1, 2, 3, 4);
-        var frame = ComponentFrame.new(layer)
+        var frame = src.ComponentFrame.init(layer)
         assert.equal(frame.toString(), '{1,2,3,4}')
     })
 
     it('getter', function() {
         var layer = createLayer('', 1, 2, 3, 4);
-        var frame = ComponentFrame.new(layer)
+        var frame = src.ComponentFrame.init(layer)
         assert.equal(frame.x(), 1)
         assert.equal(frame.y(), 2)
         assert.equal(frame.width(), 3)
@@ -24,7 +24,7 @@ describe('component-frame', function() {
     describe('setter', function() {
         it('setX', function() {
             var layer = createLayer('', 1, 2, 3, 4);
-            var frame = ComponentFrame.new(layer)
+            var frame = src.ComponentFrame.init(layer)
             assert.equal(layer.frame().x(), 1)
             frame.setX(0)
             assert.equal(layer.frame().x(), 0)
@@ -39,7 +39,7 @@ describe('component-frame', function() {
 
         it('setY', function() {
             var layer = createLayer('', 1, 2, 3, 4);
-            var frame = ComponentFrame.new(layer)
+            var frame = src.ComponentFrame.init(layer)
             assert.equal(layer.frame().y(), 2)
             frame.setY(0)
             assert.equal(layer.frame().y(), 0)
@@ -54,7 +54,7 @@ describe('component-frame', function() {
 
         it('setWidth', function() {
             var layer = createLayer('', 1, 2, 3, 4);
-            var frame = ComponentFrame.new(layer)
+            var frame = src.ComponentFrame.init(layer)
             assert.equal(layer.frame().width(), 3)
             frame.setWidth(0)
             assert.equal(layer.frame().width(), 3)
@@ -69,7 +69,7 @@ describe('component-frame', function() {
 
         it('setHeight', function() {
             var layer = createLayer('', 1, 2, 3, 4);
-            var frame = ComponentFrame.new(layer)
+            var frame = src.ComponentFrame.init(layer)
             assert.equal(layer.frame().height(), 4)
             frame.setHeight(0)
             assert.equal(layer.frame().height(), 4)

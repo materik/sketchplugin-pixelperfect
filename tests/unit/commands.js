@@ -1,5 +1,5 @@
 
-require('../lib');
+var src = require('../src');
 
 describe('index', function() {
     it('makePixelPerfect', function() {
@@ -11,7 +11,7 @@ describe('index', function() {
             document: doc,
             selection,
         };
-        makePixelPerfect(context);
+        src.makePixelPerfect(context);
         assert.equal(layer.frame().x(), 1);
         assert.equal(layer.frame().y(), 2);
         assert.equal(layer.frame().width(), 100);
@@ -27,7 +27,7 @@ describe('index', function() {
         var context = {
             document: doc
         };
-        makePixelPerfect(context);
+        src.makePixelPerfect(context);
         assert.equal(layer1.frame().x(), 1);
         assert.equal(layer1.frame().y(), 2);
         assert.equal(layer1.frame().width(), 100);
@@ -52,7 +52,7 @@ describe('index', function() {
         var context = {
             document: doc
         };
-        makeEverythingPixelPerfect(context);
+        src.makeEverythingPixelPerfect(context);
         assert.equal(layer1.frame().x(), 1);
         assert.equal(layer1.frame().y(), 2);
         assert.equal(layer1.frame().width(), 100);
@@ -77,7 +77,7 @@ describe('index', function() {
         var context = {
             document: doc
         };
-        makeEverythingPixelPerfect(context);
+        src.makeEverythingPixelPerfect(context);
         assert.equal(layer1.frame().x(), 1);
         assert.equal(layer1.frame().y(), 2);
         assert.equal(layer1.frame().width(), 100);

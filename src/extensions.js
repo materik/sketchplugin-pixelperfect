@@ -1,16 +1,4 @@
 
-/* istanbul ignore next */
-var selection = function(context) {
-    var layers = context.selection;
-    if (layers && layers.count() > 0) {
-        return layers;
-    } else {
-        return context.document.currentPage().layers();
-    }
-};
-
-// -----------------------------------------------------------
-
 Array.prototype.first = function() {
     if (this.length > 0) {
         return this[0];
@@ -105,26 +93,3 @@ String.prototype.repeat = function(times) {
     }
     return str;
 };
-
-// -----------------------------------------------------------
-
-/* istanbul ignore next */
-var debug = function(component, msg, addLevel) {
-    if (IS_DEBUGGING) {
-        print('  '.repeat(_debugLevel(component) - 1 + (addLevel || 0)) + msg);
-    }
-};
-
-/* istanbul ignore next */
-var _debugLevel = function(component) {
-    var parent = component.parent();
-    if (parent) {
-        return _debugLevel(parent) + 1;
-    }
-    return 0;
-};
-
-// -----------------------------------------------------------
-
-global.debug = debug;
-global.selection = selection;

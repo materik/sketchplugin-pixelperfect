@@ -1,13 +1,15 @@
 
-function Constraints(layer) {
-    this._layer = layer;
-    this._component = Component.new(this._layer);
+var index = require('../index');
+
+function Constraints(component) {
+    this._component = component;
+    this._layer = component._layer;
 }
 
 // Static
 
-Constraints.new = function(layer) {
-    return new Constraints(layer);
+Constraints.init = function(component) {
+    return new Constraints(component);
 };
 
 // Getter
@@ -88,28 +90,28 @@ Constraints.prototype.apply = function(properties) {
 
     this.reset();
     this.setHasFixedTop(
-        properties.containsKey(PROPERTY_KEY_MARGIN_TOP) ||
-        properties.containsKey(PROPERTY_KEY_PADDING_TOP) ||
-        properties.containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE) ||
-        properties.containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL)
+        properties.containsKey(index.const.PROPERTY_KEY_MARGIN_TOP) ||
+        properties.containsKey(index.const.PROPERTY_KEY_PADDING_TOP) ||
+        properties.containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE) ||
+        properties.containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL)
     );
     this.setHasFixedRight(
-        properties.containsKey(PROPERTY_KEY_MARGIN_RIGHT) ||
-        properties.containsKey(PROPERTY_KEY_PADDING_RIGHT) ||
-        properties.containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE) ||
-        properties.containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE_FULL)
+        properties.containsKey(index.const.PROPERTY_KEY_MARGIN_RIGHT) ||
+        properties.containsKey(index.const.PROPERTY_KEY_PADDING_RIGHT) ||
+        properties.containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE) ||
+        properties.containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE_FULL)
     );
     this.setHasFixedBottom(
-        properties.containsKey(PROPERTY_KEY_MARGIN_BOTTOM) ||
-        properties.containsKey(PROPERTY_KEY_PADDING_BOTTOM) ||
-        properties.containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE) ||
-        properties.containsKey(PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL)
+        properties.containsKey(index.const.PROPERTY_KEY_MARGIN_BOTTOM) ||
+        properties.containsKey(index.const.PROPERTY_KEY_PADDING_BOTTOM) ||
+        properties.containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE) ||
+        properties.containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL)
     );
     this.setHasFixedLeft(
-        properties.containsKey(PROPERTY_KEY_MARGIN_LEFT) ||
-        properties.containsKey(PROPERTY_KEY_PADDING_LEFT) ||
-        properties.containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE) ||
-        properties.containsKey(PROPERTY_KEY_WIDTH_PERCENTAGE_FULL)
+        properties.containsKey(index.const.PROPERTY_KEY_MARGIN_LEFT) ||
+        properties.containsKey(index.const.PROPERTY_KEY_PADDING_LEFT) ||
+        properties.containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE) ||
+        properties.containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE_FULL)
     );
     this.setHasFixedWidth(!(this.hasFixedRight() && this.hasFixedLeft()));
     this.setHasFixedHeight(!(this.hasFixedTop() && this.hasFixedBottom()));
@@ -163,4 +165,4 @@ Constraints.prototype.unlock = function() {
 
 // -----------------------------------------------------------
 
-global.Constraints = Constraints;
+module.exports = Constraints;

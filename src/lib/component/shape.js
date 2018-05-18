@@ -1,4 +1,9 @@
 
+var index = require('../../index');
+
+var Component = index.require.component();
+var Components = index.require.components();
+
 function ShapeComponent(layer) {
     Component.call(this, layer);
 }
@@ -8,7 +13,7 @@ ShapeComponent.prototype = Object.create(Component.prototype);
 // Getter
 
 ShapeComponent.prototype.components = function() {
-    return Components.new();
+    return Components.init();
 };
 
 // Action
@@ -23,4 +28,4 @@ ShapeComponent.prototype._sizeToFit = function() {
 
 // -----------------------------------------------------------
 
-global.ShapeComponent = ShapeComponent;
+module.exports = ShapeComponent;

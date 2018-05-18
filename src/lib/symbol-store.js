@@ -1,4 +1,6 @@
 
+var index = require('../index');
+
 function SymbolStore() {
     this._ids = [];
 }
@@ -44,4 +46,4 @@ SymbolStore.prototype.clean = function() {
 
 // -----------------------------------------------------------
 
-global.SymbolStore = SymbolStore;
+module.exports = SymbolStore;

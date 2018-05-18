@@ -1,11 +1,13 @@
 
+var index = require('../index');
+
 function ComponentFrame(layer) {
     this._layer = layer;
 }
 
 // Static
 
-ComponentFrame.new = function(layer) {
+ComponentFrame.init = function(layer) {
     return new ComponentFrame(layer);
 };
 
@@ -82,4 +84,4 @@ ComponentFrame.prototype.setHeight = function(h) {
 
 // -----------------------------------------------------------
 
-global.ComponentFrame = ComponentFrame;
+module.exports = ComponentFrame;

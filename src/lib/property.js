@@ -1,4 +1,6 @@
 
+var index = require('../index');
+
 function Property(component, key, value) {
     this._component = component;
     this._key = key;
@@ -7,23 +9,28 @@ function Property(component, key, value) {
 
 // Static
 
-Property.new = function(component, key, value) {
+Property.init = function(component, key, value) {
+    var CenterProperty = index.require.property.center();
     var property = new CenterProperty(component, key, value);
     if (property && property.isValid()) {
         return property;
     }
+    var MarginProperty = index.require.property.margin();
     var property = new MarginProperty(component, key, value);
     if (property && property.isValid()) {
         return property;
     }
+    var PaddingProperty = index.require.property.padding();
     var property = new PaddingProperty(component, key, value);
     if (property && property.isValid()) {
         return property;
     }
+    var SizeProperty = index.require.property.size();
     var property = new SizeProperty(component, key, value);
     if (property && property.isValid()) {
         return property;
     }
+    var StackProperty = index.require.property.stack();
     var property = new StackProperty(component, key, value);
     if (property && property.isValid()) {
         return property;
@@ -34,11 +41,11 @@ Property.new = function(component, key, value) {
 Property.parse = function(component, raw) {
     var key = Property._extractKey(raw || component.name());
     var value = Property._extractValue(raw || component.name());
-    return Property.new(component, key, value);
+    return Property.init(component, key, value);
 };
 
 Property.modify = function(str) {
-    return PROPERTY_MODIFY_MAP.replace(str);
+    return index.require.map().PROPERTY_MODIFY_MAP.replace(str);
 }
 
 // Getter
@@ -74,13 +81,13 @@ Property.prototype.apply = function() {
 // Private
 
 Property._extractKey = function(str) {
-    return PROPERTY_KEY_MAP.find(str);
+    return index.require.map().PROPERTY_KEY_MAP.find(str);
 }; 
 
 Property._extractValue = function(str) {
-    return parseInt(PROPERTY_VALUE_MAP.replace(str));
+    return parseInt(index.require.map().PROPERTY_VALUE_MAP.replace(str));
 };
 
 // -----------------------------------------------------------
 
-global.Property = Property;
+module.exports = Property;
