@@ -1,11 +1,11 @@
 
-require('../lib');
+var src = require('../src');
 
 describe('perf', function() {
     this.timeout(10000);
 
     beforeEach(function() {
-        SymbolStore.sharedInstance.clean();
+        src.SymbolStore.sharedInstance.clean();
     })
 
     describe('many symbol masters', function() {
