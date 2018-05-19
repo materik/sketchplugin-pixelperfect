@@ -88,7 +88,7 @@ Padding works either next to a layer named `bg` (case-insensitive), which will b
 
 ### `margin`
 
-Margin properties places the layer certain pixels off the sides relative it's layer group. The property indexes are; `t` for top, `r` for right, `b` for bottom, and `l` for left. If no number is specified it will be regarded as 0. If you want the layer to stretch all sides you can use the shorthand `trbl`.
+Margin properties places the layer certain pixels off the sides relative it's layer group. The property indexes are; `t` for top, `r` for right, `b` for bottom, and `l` for left. If no number is specified it will be regarded as 0.
 
 **Examples:** `t:b:r30`, `b10:l10`, `tbrl`
 
@@ -133,3 +133,7 @@ If you don't want the script to apply to a certain layer, add `[ignore]` to the 
 #### Constraints
 
 Depending on the properties you have given a layer, constraints will be set as see fit. In short, margins and paddings will affect `top`, `right`, `bottom`, and `left` constraints while width and height will affect those constraints.
+
+#### Shorthands
+
+There are some shorthands for `padding` and `margin`, for instance; `tl` places the object to the top left, `tr` to the top right, `br` to the bottom right, and `bl` to the bottom left. For padding their are; `p` for adding padding to all sides, `ptb` for bottom and top, and `prl` for left and right. All these property indices can be followed by a number and are permutable.
