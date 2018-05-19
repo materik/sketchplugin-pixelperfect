@@ -4,9 +4,12 @@ var src = require('../../src');
 describe('property', function() {
     describe('padding', function() {
         describe('modify', function() {
-            it('padding', function() {
+            it('full', function() {
                 assert.equal(src.PaddingProperty.modify('padding'), ':pt:pr:pb:pl:');
                 assert.equal(src.PaddingProperty.modify('p'), ':pt:pr:pb:pl:');
+                assert.equal(src.PaddingProperty.modify('p10'), ':pt10:pr10:pb10:pl10:');
+                assert.equal(src.PaddingProperty.modify('h+100:padding:w+100'), 'h+100:pt:pr:pb:pl:w+100');
+                assert.equal(src.PaddingProperty.modify('h+100:p:w+100'), 'h+100:pt:pr:pb:pl:w+100');
             })
 
             it('numbers', function() {
@@ -14,15 +17,13 @@ describe('property', function() {
                 assert.equal(src.PaddingProperty.modify('1:2'), ':pt1:pr2:pb1:pl2:');
                 assert.equal(src.PaddingProperty.modify('1:2:3'), ':pt1:pr2:pb3:pl2:');
                 assert.equal(src.PaddingProperty.modify('1:2:3:4'), ':pt1:pr2:pb3:pl4:');
-                assert.equal(src.PaddingProperty.modify('h+100:padding:w+100'), 'h+100:pt:pr:pb:pl:w+100');
-                assert.equal(src.PaddingProperty.modify('h+100:p:w+100'), 'h+100:pt:pr:pb:pl:w+100');
                 assert.equal(src.PaddingProperty.modify('h+100:0:w+100'), 'h+100:pt0:pr0:pb0:pl0:w+100');
                 assert.equal(src.PaddingProperty.modify('h+100:1:2:w+100'), 'h+100:pt1:pr2:pb1:pl2:w+100');
                 assert.equal(src.PaddingProperty.modify('h+100:1:2:3:w+100'), 'h+100:pt1:pr2:pb3:pl2:w+100');
                 assert.equal(src.PaddingProperty.modify('h+100:1:2:3:4:w+100'), 'h+100:pt1:pr2:pb3:pl4:w+100');
             });
 
-            it('padding left-right & top-bottom', function() {
+            it('left-right / top-bottom', function() {
                 assert.equal(src.PaddingProperty.modify('plr'), ':pr:pl:')
                 assert.equal(src.PaddingProperty.modify('plr10'), ':pr10:pl10:')
                 assert.equal(src.PaddingProperty.modify('prl'), ':pr:pl:')

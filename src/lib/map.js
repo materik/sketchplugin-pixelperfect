@@ -100,7 +100,11 @@ var generic = RegExpMap.init([
 ])
 
 var margin = RegExpMap.init([
-    RegExpMapEntry.init(/(?:^|:)(m|margin|trbl|bg)(?:$|:)/i, ':b:r:t:l:'),
+    RegExpMapEntry.init(/(?:^|:)(m|margin|bg|trbl)(?:$|:)/i, ':t:r:b:l:'),
+    RegExpMapEntry.init(/(?:^|:)(tl|lt)(\d*)(?:$|:)/i, ':t$2:l$2:'),
+    RegExpMapEntry.init(/(?:^|:)(tr|rt)(\d*)(?:$|:)/i, ':t$2:r$2:'),
+    RegExpMapEntry.init(/(?:^|:)(bl|lb)(\d*)(?:$|:)/i, ':b$2:l$2:'),
+    RegExpMapEntry.init(/(?:^|:)(rb|br)(\d*)(?:$|:)/i, ':r$2:b$2:'),
 ]);
 
 var padding = RegExpMap.init([
@@ -108,7 +112,7 @@ var padding = RegExpMap.init([
     RegExpMapEntry.init(/(?:^|:)(\d+):(\d+):(\d+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$2:'),
     RegExpMapEntry.init(/(?:^|:)(\d+):(\d+)(?:$|:)/, ':pt$1:pr$2:pb$1:pl$2:'),
     RegExpMapEntry.init(/(?:^|:)(\d+)(?:$|:)/, ':pt$1:pr$1:pb$1:pl$1:'),
-    RegExpMapEntry.init(/(?:^|:)(p|padding)(?:$|:)/i, ':pt:pr:pb:pl:'),
+    RegExpMapEntry.init(/(?:^|:)(p|padding)(\d*)(?:$|:)/i, ':pt$2:pr$2:pb$2:pl$2:'),
     RegExpMapEntry.init(/(?:^|:)(prl|plr)(\d*)(?:$|:)/i, ':pr$2:pl$2:'),
     RegExpMapEntry.init(/(?:^|:)(ptb|pbt)(\d*)(?:$|:)/i, ':pt$2:pb$2:'),
 ]);

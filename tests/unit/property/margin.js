@@ -3,6 +3,30 @@ var src = require('../../src');
 
 describe('property', function() {
     describe('margin', function() {
+        describe('modify', function() {
+            it('full', function() {
+                assert.equal(src.MarginProperty.modify('margin'), ':t:r:b:l:');
+                assert.equal(src.MarginProperty.modify('bg'), ':t:r:b:l:');
+                assert.equal(src.MarginProperty.modify('trbl'), ':t:r:b:l:');
+                assert.equal(src.MarginProperty.modify('m'), ':t:r:b:l:');
+            })
+
+            it('top-left / bottom-right', function() {
+                assert.equal(src.MarginProperty.modify('tl'), ':t:l:');
+                assert.equal(src.MarginProperty.modify('lt'), ':t:l:');
+                assert.equal(src.MarginProperty.modify('tl10'), ':t10:l10:');
+                assert.equal(src.MarginProperty.modify('tr'), ':t:r:');
+                assert.equal(src.MarginProperty.modify('rt'), ':t:r:');
+                assert.equal(src.MarginProperty.modify('tr10'), ':t10:r10:');
+                assert.equal(src.MarginProperty.modify('bl'), ':b:l:');
+                assert.equal(src.MarginProperty.modify('lb'), ':b:l:');
+                assert.equal(src.MarginProperty.modify('bl10'), ':b10:l10:');
+                assert.equal(src.MarginProperty.modify('br'), ':r:b:');
+                assert.equal(src.MarginProperty.modify('rb'), ':r:b:');
+                assert.equal(src.MarginProperty.modify('br10'), ':r10:b10:');
+            })
+        });
+
         it('margin-top', function() {
             var property = src.Property.parse(src.Component.init(createLayer('t100')));
             assert.equal(property.isValid(), true);

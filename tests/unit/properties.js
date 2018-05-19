@@ -401,7 +401,7 @@ describe('properties', function() {
         assert.deepEqual(properties._raw(), ['w100', 'h100']);
         var component = src.Component.init(createLayer('bg:w100:h100:xt100'));
         var properties = src.Properties.init(component);
-        assert.deepEqual(properties._raw(), ['b', 'r', 't', 'l', 'w100', 'h100', 'xt100']);
+        assert.deepEqual(properties._raw(), ['t', 'r', 'b', 'l', 'w100', 'h100', 'xt100']);
         var component = src.Component.init(createLayer('Component [w100:h100] [xt100]'));
         var properties = src.Properties.init(component);
         assert.deepEqual(properties._raw(), ['w100', 'h100', 'xt100']);
