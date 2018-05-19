@@ -72,7 +72,6 @@ module.exports = {
         re: {
             include: new RegExp('\\[([^\\]]+)\\]'),
             ignore: /\[ignore\]/i,
-            padding: /^\d+$/,
             containerName: /(bg|container)/i,
         },
         priority,

@@ -109,6 +109,8 @@ var padding = RegExpMap.init([
     RegExpMapEntry.init(/(?:^|:)(\d+):(\d+)(?:$|:)/, ':pt$1:pr$2:pb$1:pl$2:'),
     RegExpMapEntry.init(/(?:^|:)(\d+)(?:$|:)/, ':pt$1:pr$1:pb$1:pl$1:'),
     RegExpMapEntry.init(/(?:^|:)(p|padding)(?:$|:)/i, ':pt:pr:pb:pl:'),
+    RegExpMapEntry.init(/(?:^|:)(prl|plr)(\d*)(?:$|:)/i, ':pr$2:pl$2:'),
+    RegExpMapEntry.init(/(?:^|:)(ptb|pbt)(\d*)(?:$|:)/i, ':pt$2:pb$2:'),
 ]);
 
 // -----------------------------------------------------------
