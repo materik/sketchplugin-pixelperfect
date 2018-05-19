@@ -83,7 +83,7 @@ Components.prototype.find = function(name) {
 };
 
 Components.prototype.findContainer = function() {
-    return this.find(index.const.PROPERTIES_RE_PADDING_CONTAINER_NAME);
+    return this.find(index.const.properties.re.containerName);
 };
 
 Components.prototype.filter = function(callback) {
@@ -102,7 +102,7 @@ Components.prototype.containsName = function(name) {
 };
 
 Components.prototype.containsContainer = function() {
-    return this.containsName(index.const.PROPERTIES_RE_PADDING_CONTAINER_NAME);
+    return this.containsName(index.const.properties.re.containerName);
 };
 
 // Action

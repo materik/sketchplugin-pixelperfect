@@ -18,22 +18,22 @@ function Component(layer) {
 
 Component.init = function(layer) {
     switch (String(layer.class().toString())) {
-        case index.const.CLASS_ARTBOARD:
+        case index.const.class.artboard:
             var ArtboardComponent = index.require.component.artboard();
             return new ArtboardComponent(layer);
-        case index.const.CLASS_GROUP:
+        case index.const.class.group:
             var GroupComponent = index.require.component.group();
             return new GroupComponent(layer);
-        case index.const.CLASS_SHAPE:
+        case index.const.class.shape:
             var ShapeComponent = index.require.component.shape();
             return new ShapeComponent(layer);
-        case index.const.CLASS_SYMBOL_INSTANCE:
+        case index.const.class.symbolInstance:
             var SymbolInstanceComponent = index.require.component.symbolInstance();
             return new SymbolInstanceComponent(layer);
-        case index.const.CLASS_SYMBOL_MASTER:
+        case index.const.class.symbolMaster:
             var SymbolMasterComponent = index.require.component.symbolMaster();
             return new SymbolMasterComponent(layer);
-        case index.const.CLASS_TEXT:
+        case index.const.class.text:
             var TextComponent = index.require.component.text();
             return new TextComponent(layer);
         default:
@@ -92,7 +92,7 @@ Component.prototype.objectID = function() {
 
 Component.prototype.master = function() {
     /* istanbul ignore else */
-    if (this._layer.symbolMaster) {
+    if (this.hasMaster()) {
         return Component.init(this._layer.symbolMaster());
     }
 };
@@ -102,15 +102,15 @@ Component.prototype.isVisible = function() {
 };
 
 Component.prototype.isArtboard = function() {
-    return this.class() == index.const.CLASS_ARTBOARD;
+    return this.class() == index.const.class.artboard;
 };
 
 Component.prototype.isGroup = function() {
-    return this.class() == index.const.CLASS_GROUP;
+    return this.class() == index.const.class.group;
 };
 
 Component.prototype.isSymbolMaster = function() {
-    return this.class() == index.const.CLASS_SYMBOL_MASTER;
+    return this.class() == index.const.class.symbolMaster;
 };
 
 Component.prototype.isArtboardOrSymbolMaster = function() {
@@ -118,7 +118,7 @@ Component.prototype.isArtboardOrSymbolMaster = function() {
 };
 
 Component.prototype.shouldApply = function() {
-    return this.isVisible() && !index.const.PROPERTIES_RE_IGNORE.test(this.name());
+    return this.isVisible() && !index.const.properties.re.ignore.test(this.name());
 };
 
 Component.prototype.hasComponents = function() {
@@ -128,6 +128,10 @@ Component.prototype.hasComponents = function() {
 Component.prototype.hasParent = function() {
     return this._layer.parentGroup() != undefined;
 };
+
+Component.prototype.hasMaster = function() {
+    return this._layer.symbolMaster != undefined
+}
 
 Component.prototype.parent = function() {
     if (this._parent == null) {
@@ -165,7 +169,7 @@ Component.prototype.widthOfParent = function(forceIteration, ignoreSelf) {
         return 0;
     } else if (this.parent().isArtboardOrSymbolMaster()) {
         return this.parent().frame().width();
-    } else if (forceIteration || this.parent().properties().containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE)) {
+    } else if (forceIteration || this.parent().properties().containsKey(index.const.property.key.widthPercentage)) {
         return this.parent().widthOfParent(forceIteration, ignoreSelf) ||
             this.parent().frame().width();
     } else if (ignoreSelf) {
@@ -180,7 +184,7 @@ Component.prototype.heightOfParent = function(forceIteration, ignoreSelf) {
         return 0;
     } else if (this.parent().isArtboardOrSymbolMaster()) {
         return this.parent().frame().height();
-    } else if (forceIteration || this.parent().properties().containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
+    } else if (forceIteration || this.parent().properties().containsKey(index.const.property.key.heightPercentage)) {
         return this.parent().heightOfParent(forceIteration, ignoreSelf) ||
             this.parent().frame().height();
     } else if (ignoreSelf) {

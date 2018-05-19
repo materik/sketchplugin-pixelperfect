@@ -13,8 +13,8 @@ ArtboardComponent.prototype = Object.create(Component.prototype);
 
 ArtboardComponent.prototype._apply = function() {
     this.properties().filter(function(property) {
-        return property.key() == index.const.PROPERTY_KEY_WIDTH_STATIC ||
-            property.key() == index.const.PROPERTY_KEY_HEIGHT_STATIC
+        return property.key() == index.const.property.key.widthStatic ||
+            property.key() == index.const.property.key.heightStatic
     }).apply();
 
     this.components().apply();
@@ -27,17 +27,17 @@ ArtboardComponent.prototype._sizeToFit = function() {
         for (var i = 0; i < this.components().count(); i++) {
             var component = this.components().objectAtIndex(i);
             var properties = component.properties().filter(function(property) {
-                return property.type() == index.const.PROPERTY_TYPE_MARGIN ||
-                    property.type() == index.const.PROPERTY_TYPE_SIZE ||
-                    property.type() == index.const.PROPERTY_TYPE_CENTER;
+                return property.type() == index.const.property.type.margin ||
+                    property.type() == index.const.property.type.size ||
+                    property.type() == index.const.property.type.center;
             });
             properties.apply();
         }
         
         var properties = this.properties().filter(function(property) {
-            return property.type() == index.const.PROPERTY_TYPE_MARGIN ||
-                property.type() == index.const.PROPERTY_TYPE_SIZE ||
-                property.type() == index.const.PROPERTY_TYPE_CENTER;
+            return property.type() == index.const.property.type.margin ||
+                property.type() == index.const.property.type.size ||
+                property.type() == index.const.property.type.center;
         });
         properties.apply();
     }

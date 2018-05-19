@@ -45,7 +45,7 @@ Property.parse = function(component, raw) {
 };
 
 Property.modify = function(str) {
-    return index.require.map().PROPERTY_MODIFY_MAP.replace(str);
+    return index.require.map().property.modify.generic.replace(str);
 }
 
 // Getter
@@ -81,11 +81,11 @@ Property.prototype.apply = function() {
 // Private
 
 Property._extractKey = function(str) {
-    return index.require.map().PROPERTY_KEY_MAP.find(str);
+    return index.require.map().property.keys.find(str);
 }; 
 
 Property._extractValue = function(str) {
-    return parseInt(index.require.map().PROPERTY_VALUE_MAP.replace(str));
+    return parseInt(index.require.map().property.values.replace(str));
 };
 
 // -----------------------------------------------------------

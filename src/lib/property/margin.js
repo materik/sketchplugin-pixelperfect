@@ -13,10 +13,10 @@ MarginProperty.prototype = Object.create(Property.prototype);
 
 MarginProperty.validKeys = function() {
     return [
-        index.const.PROPERTY_KEY_MARGIN_TOP,
-        index.const.PROPERTY_KEY_MARGIN_RIGHT,
-        index.const.PROPERTY_KEY_MARGIN_BOTTOM,
-        index.const.PROPERTY_KEY_MARGIN_LEFT,
+        index.const.property.key.marginTop,
+        index.const.property.key.marginRight,
+        index.const.property.key.marginBottom,
+        index.const.property.key.marginLeft,
     ];
 };
 
@@ -25,29 +25,29 @@ MarginProperty.init = function(component, key, value) {
 };
 
 MarginProperty.top = function(component, value) {
-    return MarginProperty.init(component, index.const.PROPERTY_KEY_MARGIN_TOP, value);
+    return MarginProperty.init(component, index.const.property.key.marginTop, value);
 };
 
 MarginProperty.right = function(component, value) {
-    return MarginProperty.init(component, index.const.PROPERTY_KEY_MARGIN_RIGHT, value);
+    return MarginProperty.init(component, index.const.property.key.marginRight, value);
 };
 
 MarginProperty.bottom = function(component, value) {
-    return MarginProperty.init(component, index.const.PROPERTY_KEY_MARGIN_BOTTOM, value);
+    return MarginProperty.init(component, index.const.property.key.marginBottom, value);
 };
 
 MarginProperty.left = function(component, value) {
-    return MarginProperty.init(component, index.const.PROPERTY_KEY_MARGIN_LEFT, value);
+    return MarginProperty.init(component, index.const.property.key.marginLeft, value);
 };
 
 MarginProperty.modify = function(str) {
-    return index.require.map().PROPERTY_MODIFY_MARGIN_MAP.replace(str, true);
+    return index.require.map().property.modify.margin.replace(str, true);
 };
 
 // Getter
 
 MarginProperty.prototype.type = function() {
-    return index.const.PROPERTY_TYPE_MARGIN;
+    return index.const.property.type.margin;
 };
 
 MarginProperty.prototype.isValid = function() {
@@ -59,20 +59,20 @@ MarginProperty.prototype.isValid = function() {
 MarginProperty.prototype._apply = function() {
     var frame = this.component().frame();
     switch (this.key()) {
-        case index.const.PROPERTY_KEY_MARGIN_TOP:
+        case index.const.property.key.marginTop:
             frame.setY(this.value());
             break;
-        case index.const.PROPERTY_KEY_MARGIN_RIGHT:
+        case index.const.property.key.marginRight:
             var left = this.component().leftInParent(true);
             var widthOfParent = this.component().widthOfParent(false, true);
             frame.setX(left + widthOfParent - frame.width() - this.value());
             break;
-        case index.const.PROPERTY_KEY_MARGIN_BOTTOM:
+        case index.const.property.key.marginBottom:
             var top = this.component().topInParent(true);
             var heightOfParent = this.component().heightOfParent(false, true);
             frame.setY(top + heightOfParent - frame.height() - this.value());
             break;
-        case index.const.PROPERTY_KEY_MARGIN_LEFT:
+        case index.const.property.key.marginLeft:
             frame.setX(this.value());
             break;
         /* istanbul ignore next */

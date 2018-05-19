@@ -60,48 +60,52 @@ RegExpMapEntry.prototype.test = function(str) {
 
 // -----------------------------------------------------------
 
-var PROPERTY_KEY_MAP = RegExpMap.init([
-    RegExpMapEntry.init('(c)(\\+|\\-)?\\d*', index.const.PROPERTY_KEY_CENTER_HORIZONTALLY),
-    RegExpMapEntry.init('(h)', index.const.PROPERTY_KEY_CENTER_HORIZONTALLY),
-    RegExpMapEntry.init('(h)(\\+|\\-)\\d+', index.const.PROPERTY_KEY_HEIGHT_ADDITION),
-    RegExpMapEntry.init('(h)\\>\\d+', index.const.PROPERTY_KEY_HEIGHT_MIN),
-    RegExpMapEntry.init('(h)\\d+', index.const.PROPERTY_KEY_HEIGHT_STATIC),
-    RegExpMapEntry.init('(h)\\d+%', index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE),
-    RegExpMapEntry.init('(h)\\d+%%', index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL),
-    RegExpMapEntry.init('(mb|b)\\-?\\d*', index.const.PROPERTY_KEY_MARGIN_BOTTOM),
-    RegExpMapEntry.init('(ml|l)\\-?\\d*', index.const.PROPERTY_KEY_MARGIN_LEFT),
-    RegExpMapEntry.init('(mr|r)\\-?\\d*', index.const.PROPERTY_KEY_MARGIN_RIGHT),
-    RegExpMapEntry.init('(mt|t)\\-?\\d*', index.const.PROPERTY_KEY_MARGIN_TOP),
-    RegExpMapEntry.init('(pb)\\-?\\d*', index.const.PROPERTY_KEY_PADDING_BOTTOM),
-    RegExpMapEntry.init('(pl)\\-?\\d*', index.const.PROPERTY_KEY_PADDING_LEFT),
-    RegExpMapEntry.init('(pr)\\-?\\d*', index.const.PROPERTY_KEY_PADDING_RIGHT),
-    RegExpMapEntry.init('(pt)\\-?\\d*', index.const.PROPERTY_KEY_PADDING_TOP),
-    RegExpMapEntry.init('(v)', index.const.PROPERTY_KEY_CENTER_VERTICALLY),
-    RegExpMapEntry.init('(v)(\\+|\\-)?\\d*', index.const.PROPERTY_KEY_CENTER_VERTICALLY),
-    RegExpMapEntry.init('(w)(\\+|\\-)\\d+', index.const.PROPERTY_KEY_WIDTH_ADDITION),
-    RegExpMapEntry.init('(w)\\>\\d+', index.const.PROPERTY_KEY_WIDTH_MIN),
-    RegExpMapEntry.init('(w)\\d+', index.const.PROPERTY_KEY_WIDTH_STATIC),
-    RegExpMapEntry.init('(w)\\d+%', index.const.PROPERTY_KEY_WIDTH_PERCENTAGE),
-    RegExpMapEntry.init('(w)\\d+%%', index.const.PROPERTY_KEY_WIDTH_PERCENTAGE_FULL),
-    RegExpMapEntry.init('(x)\\-?\\d*', index.const.PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE),
-    RegExpMapEntry.init('(xb)\\-?\\d*', index.const.PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM),
-    RegExpMapEntry.init('(xt)\\-?\\d*', index.const.PROPERTY_KEY_STACK_HORIZONTALLY_TOP),
-    RegExpMapEntry.init('(y)\\-?\\d*', index.const.PROPERTY_KEY_STACK_VERTICALLY_CENTER),
-    RegExpMapEntry.init('(yl)\\-?\\d*', index.const.PROPERTY_KEY_STACK_VERTICALLY_LEFT),
-    RegExpMapEntry.init('(yr)\\-?\\d*', index.const.PROPERTY_KEY_STACK_VERTICALLY_RIGHT),
+var keys = RegExpMap.init([
+    RegExpMapEntry.init('(c)(\\+|\\-)?\\d*', index.const.property.key.centerHorizontally),
+    RegExpMapEntry.init('(h)', index.const.property.key.centerHorizontally),
+    RegExpMapEntry.init('(h)(\\+|\\-)\\d+', index.const.property.key.heightAddition),
+    RegExpMapEntry.init('(h)\\>\\d+', index.const.property.key.heightMin),
+    RegExpMapEntry.init('(h)\\d+', index.const.property.key.heightStatic),
+    RegExpMapEntry.init('(h)\\d+%', index.const.property.key.heightPercentage),
+    RegExpMapEntry.init('(h)\\d+%%', index.const.property.key.heightPercentageFull),
+    RegExpMapEntry.init('(mb|b)\\-?\\d*', index.const.property.key.marginBottom),
+    RegExpMapEntry.init('(ml|l)\\-?\\d*', index.const.property.key.marginLeft),
+    RegExpMapEntry.init('(mr|r)\\-?\\d*', index.const.property.key.marginRight),
+    RegExpMapEntry.init('(mt|t)\\-?\\d*', index.const.property.key.marginTop),
+    RegExpMapEntry.init('(pb)\\-?\\d*', index.const.property.key.paddingBottom),
+    RegExpMapEntry.init('(pl)\\-?\\d*', index.const.property.key.paddingLeft),
+    RegExpMapEntry.init('(pr)\\-?\\d*', index.const.property.key.paddingRight),
+    RegExpMapEntry.init('(pt)\\-?\\d*', index.const.property.key.paddingTop),
+    RegExpMapEntry.init('(v)', index.const.property.key.centerVertically),
+    RegExpMapEntry.init('(v)(\\+|\\-)?\\d*', index.const.property.key.centerVertically),
+    RegExpMapEntry.init('(w)(\\+|\\-)\\d+', index.const.property.key.widthAddition),
+    RegExpMapEntry.init('(w)\\>\\d+', index.const.property.key.widthMin),
+    RegExpMapEntry.init('(w)\\d+', index.const.property.key.widthStatic),
+    RegExpMapEntry.init('(w)\\d+%', index.const.property.key.widthPercentage),
+    RegExpMapEntry.init('(w)\\d+%%', index.const.property.key.widthPercentageFull),
+    RegExpMapEntry.init('(x)\\-?\\d*', index.const.property.key.stackHorizontallyMiddle),
+    RegExpMapEntry.init('(xb)\\-?\\d*', index.const.property.key.stackHorizontallyBottom),
+    RegExpMapEntry.init('(xt)\\-?\\d*', index.const.property.key.stackHorizontallyTop),
+    RegExpMapEntry.init('(y)\\-?\\d*', index.const.property.key.stackVerticallyCenter),
+    RegExpMapEntry.init('(yl)\\-?\\d*', index.const.property.key.stackVerticallyLeft),
+    RegExpMapEntry.init('(yr)\\-?\\d*', index.const.property.key.stackVerticallyRight),
 ]);
 
-var PROPERTY_VALUE_MAP = RegExpMap.init([
+var values = RegExpMap.init([
     RegExpMapEntry.init(/[^\-\d]/g, ''),
 ])
 
-var PROPERTY_MODIFY_MAP = RegExpMap.init([
+var generic = RegExpMap.init([
     RegExpMapEntry.init(/^:/, ''),
     RegExpMapEntry.init(/:$/, ''),
     RegExpMapEntry.init(/:{2,}/g, ':'),
 ])
 
-var PROPERTY_MODIFY_PADDING_MAP = RegExpMap.init([
+var margin = RegExpMap.init([
+    RegExpMapEntry.init(/(?:^|:)(m|margin|trbl|bg)(?:$|:)/i, ':b:r:t:l:'),
+]);
+
+var padding = RegExpMap.init([
     RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+):([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$4:'),
     RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$2:'),
     RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$1:pl$2:'),
@@ -109,16 +113,16 @@ var PROPERTY_MODIFY_PADDING_MAP = RegExpMap.init([
     RegExpMapEntry.init(/(?:^|:)(p|padding)(?:$|:)/i, ':pt:pr:pb:pl:'),
 ]);
 
-var PROPERTY_MODIFY_MARGIN_MAP = RegExpMap.init([
-    RegExpMapEntry.init(/(?:^|:)(m|margin|trbl|bg)(?:$|:)/i, ':b:r:t:l:'),
-]);
-
 // -----------------------------------------------------------
 
 module.exports = {
-    PROPERTY_KEY_MAP,
-    PROPERTY_VALUE_MAP,
-    PROPERTY_MODIFY_MAP,
-    PROPERTY_MODIFY_PADDING_MAP,
-    PROPERTY_MODIFY_MARGIN_MAP
+    property: {
+        keys,
+        values,
+        modify: {
+            generic,
+            margin,
+            padding,
+        },
+    }
 };

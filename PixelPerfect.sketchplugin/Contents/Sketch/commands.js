@@ -65,7 +65,7 @@ var exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 24);
+/******/ 	return __webpack_require__(__webpack_require__.s = 23);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,21 +73,30 @@ var exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 
-__webpack_require__(25);
+__webpack_require__(24);
 
 var _requireLib = function _requireLib(lib) {
-    return __webpack_require__(26)("./" + lib);
+    if (this[lib] == undefined) {
+        this[lib] = __webpack_require__(25)("./" + lib);
+    }
+    return this[lib];
 };
 
 var _requireComponent = function _requireComponent(component) {
-    return _requireLib('component/' + component);
+    if (this[component] == undefined) {
+        this[component] = _requireLib('component/' + component);
+    }
+    return this[component];
 };
 
 var _requireProperty = function _requireProperty(property) {
-    return _requireLib('property/' + property);
+    if (this[property] == undefined) {
+        this[property] = _requireLib('property/' + property);
+    }
+    return this[property];
 };
 
-var _sub = function _sub(fn, dict) {
+var _requireWithSubs = function _requireWithSubs(fn, dict) {
     for (var key in dict) {
         fn[key] = dict[key];
     }
@@ -97,8 +106,8 @@ var _sub = function _sub(fn, dict) {
 // -----------------------------------------------------------
 
 module.exports = {
-    'const': __webpack_require__(27),
-    debug: __webpack_require__(29),
+    'const': __webpack_require__(26),
+    debug: __webpack_require__(27),
 
     require: {
         alignment: function () {
@@ -158,7 +167,7 @@ module.exports = {
             return symbolStore;
         }(),
 
-        component: _sub(function () {
+        component: _requireWithSubs(function () {
             return _requireLib('component');
         }, {
             artboard: function () {
@@ -212,7 +221,7 @@ module.exports = {
             }()
         }),
 
-        property: _sub(function () {
+        property: _requireWithSubs(function () {
             return _requireLib('property');
         }, {
             center: function () {
@@ -278,22 +287,22 @@ function Component(layer) {
 
 Component.init = function (layer) {
     switch (String(layer['class']().toString())) {
-        case index['const'].CLASS_ARTBOARD:
+        case index['const']['class'].artboard:
             var ArtboardComponent = index.require.component.artboard();
             return new ArtboardComponent(layer);
-        case index['const'].CLASS_GROUP:
+        case index['const']['class'].group:
             var GroupComponent = index.require.component.group();
             return new GroupComponent(layer);
-        case index['const'].CLASS_SHAPE:
+        case index['const']['class'].shape:
             var ShapeComponent = index.require.component.shape();
             return new ShapeComponent(layer);
-        case index['const'].CLASS_SYMBOL_INSTANCE:
+        case index['const']['class'].symbolInstance:
             var SymbolInstanceComponent = index.require.component.symbolInstance();
             return new SymbolInstanceComponent(layer);
-        case index['const'].CLASS_SYMBOL_MASTER:
+        case index['const']['class'].symbolMaster:
             var SymbolMasterComponent = index.require.component.symbolMaster();
             return new SymbolMasterComponent(layer);
-        case index['const'].CLASS_TEXT:
+        case index['const']['class'].text:
             var TextComponent = index.require.component.text();
             return new TextComponent(layer);
         default:
@@ -352,7 +361,7 @@ Component.prototype.objectID = function () {
 
 Component.prototype.master = function () {
     /* istanbul ignore else */
-    if (this._layer.symbolMaster) {
+    if (this.hasMaster()) {
         return Component.init(this._layer.symbolMaster());
     }
 };
@@ -362,15 +371,15 @@ Component.prototype.isVisible = function () {
 };
 
 Component.prototype.isArtboard = function () {
-    return this['class']() == index['const'].CLASS_ARTBOARD;
+    return this['class']() == index['const']['class'].artboard;
 };
 
 Component.prototype.isGroup = function () {
-    return this['class']() == index['const'].CLASS_GROUP;
+    return this['class']() == index['const']['class'].group;
 };
 
 Component.prototype.isSymbolMaster = function () {
-    return this['class']() == index['const'].CLASS_SYMBOL_MASTER;
+    return this['class']() == index['const']['class'].symbolMaster;
 };
 
 Component.prototype.isArtboardOrSymbolMaster = function () {
@@ -378,7 +387,7 @@ Component.prototype.isArtboardOrSymbolMaster = function () {
 };
 
 Component.prototype.shouldApply = function () {
-    return this.isVisible() && !index['const'].PROPERTIES_RE_IGNORE.test(this.name());
+    return this.isVisible() && !index['const'].properties.re.ignore.test(this.name());
 };
 
 Component.prototype.hasComponents = function () {
@@ -387,6 +396,10 @@ Component.prototype.hasComponents = function () {
 
 Component.prototype.hasParent = function () {
     return this._layer.parentGroup() != undefined;
+};
+
+Component.prototype.hasMaster = function () {
+    return this._layer.symbolMaster != undefined;
 };
 
 Component.prototype.parent = function () {
@@ -425,7 +438,7 @@ Component.prototype.widthOfParent = function (forceIteration, ignoreSelf) {
         return 0;
     } else if (this.parent().isArtboardOrSymbolMaster()) {
         return this.parent().frame().width();
-    } else if (forceIteration || this.parent().properties().containsKey(index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE)) {
+    } else if (forceIteration || this.parent().properties().containsKey(index['const'].property.key.widthPercentage)) {
         return this.parent().widthOfParent(forceIteration, ignoreSelf) || this.parent().frame().width();
     } else if (ignoreSelf) {
         return this.parent().components().filterByExcludingID(this.objectID()).frame().maxWidth();
@@ -439,7 +452,7 @@ Component.prototype.heightOfParent = function (forceIteration, ignoreSelf) {
         return 0;
     } else if (this.parent().isArtboardOrSymbolMaster()) {
         return this.parent().frame().height();
-    } else if (forceIteration || this.parent().properties().containsKey(index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
+    } else if (forceIteration || this.parent().properties().containsKey(index['const'].property.key.heightPercentage)) {
         return this.parent().heightOfParent(forceIteration, ignoreSelf) || this.parent().frame().height();
     } else if (ignoreSelf) {
         return this.parent().components().filterByExcludingID(this.objectID()).frame().maxHeight();
@@ -505,16 +518,15 @@ Component.prototype.debug = function (msg) {
 module.exports = Component;
 
 /***/ }),
-/* 2 */,
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 var index = __webpack_require__(0);
 
 var Component = __webpack_require__(1);
-var ComponentsFrame = __webpack_require__(4);
-var Properties = __webpack_require__(5);
+var ComponentsFrame = __webpack_require__(3);
+var Properties = __webpack_require__(4);
 
 function Components(layers, parent, items) {
     this._layers = layers || NSArray['new']();
@@ -594,7 +606,7 @@ Components.prototype.find = function (name) {
 };
 
 Components.prototype.findContainer = function () {
-    return this.find(index['const'].PROPERTIES_RE_PADDING_CONTAINER_NAME);
+    return this.find(index['const'].properties.re.containerName);
 };
 
 Components.prototype.filter = function (callback) {
@@ -613,7 +625,7 @@ Components.prototype.containsName = function (name) {
 };
 
 Components.prototype.containsContainer = function () {
-    return this.containsName(index['const'].PROPERTIES_RE_PADDING_CONTAINER_NAME);
+    return this.containsName(index['const'].properties.re.containerName);
 };
 
 // Action
@@ -756,7 +768,7 @@ Components.prototype.sizeToFit = function () {
 module.exports = Components;
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -811,10 +823,10 @@ ComponentsFrame.prototype.right = function (ignoreMarginRight) {
     var right = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE)) {
+        if (component.properties().containsKey(index['const'].property.key.widthPercentage)) {
             continue;
         }
-        if (ignoreMarginRight && component.properties().containsKey(index['const'].PROPERTY_KEY_MARGIN_RIGHT)) {
+        if (ignoreMarginRight && component.properties().containsKey(index['const'].property.key.marginRight)) {
             continue;
         }
         right = Math.max(right, component.frame().right());
@@ -826,10 +838,10 @@ ComponentsFrame.prototype.bottom = function (ignoreMarginBottom) {
     var bottom = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
+        if (component.properties().containsKey(index['const'].property.key.heightPercentage)) {
             continue;
         }
-        if (ignoreMarginBottom && component.properties().containsKey(index['const'].PROPERTY_KEY_MARGIN_BOTTOM)) {
+        if (ignoreMarginBottom && component.properties().containsKey(index['const'].property.key.marginBottom)) {
             continue;
         }
         bottom = Math.max(bottom, component.frame().bottom());
@@ -850,7 +862,7 @@ ComponentsFrame.prototype.maxWidth = function () {
     var width = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE)) {
+        if (component.properties().containsKey(index['const'].property.key.widthPercentage)) {
             continue;
         }
         width = Math.max(width, component.frame().width());
@@ -862,7 +874,7 @@ ComponentsFrame.prototype.maxHeight = function () {
     var height = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
+        if (component.properties().containsKey(index['const'].property.key.heightPercentage)) {
             continue;
         }
         height = Math.max(height, component.frame().height());
@@ -901,7 +913,7 @@ ComponentsFrame.prototype.setHeight = function () {
 module.exports = ComponentsFrame;
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -992,39 +1004,39 @@ Properties.prototype.containsType = function (aType) {
 };
 
 Properties.prototype.containsPercentageWidthOrHeight = function () {
-    return this.containsKey(index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE) || this.containsKey(index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE);
+    return this.containsKey(index['const'].property.key.widthPercentage) || this.containsKey(index['const'].property.key.heightPercentage);
 };
 
 Properties.prototype.containsPadding = function () {
-    return this.containsType(index['const'].PROPERTY_TYPE_PADDING);
+    return this.containsType(index['const'].property.type.padding);
 };
 
 Properties.prototype.containsPaddingTopOrBottom = function () {
-    return this.containsKey(index['const'].PROPERTY_KEY_PADDING_TOP) || this.containsKey(index['const'].PROPERTY_KEY_PADDING_BOTTOM);
+    return this.containsKey(index['const'].property.key.paddingTop) || this.containsKey(index['const'].property.key.paddingBottom);
 };
 
 Properties.prototype.containsPaddingRightOrLeft = function () {
-    return this.containsKey(index['const'].PROPERTY_KEY_PADDING_RIGHT) || this.containsKey(index['const'].PROPERTY_KEY_PADDING_LEFT);
+    return this.containsKey(index['const'].property.key.paddingRight) || this.containsKey(index['const'].property.key.paddingLeft);
 };
 
 Properties.prototype.containsMargin = function () {
-    return this.containsType(index['const'].PROPERTY_TYPE_MARGIN);
+    return this.containsType(index['const'].property.type.margin);
 };
 
 Properties.prototype.containsMarginTopOrLeft = function () {
-    return !this.containsKey(index['const'].PROPERTY_KEY_MARGIN_RIGHT) && this.containsKey(index['const'].PROPERTY_KEY_MARGIN_LEFT) || !this.containsKey(index['const'].PROPERTY_KEY_MARGIN_BOTTOM) && this.containsKey(index['const'].PROPERTY_KEY_MARGIN_TOP);
+    return !this.containsKey(index['const'].property.key.marginRight) && this.containsKey(index['const'].property.key.marginLeft) || !this.containsKey(index['const'].property.key.marginBottom) && this.containsKey(index['const'].property.key.marginTop);
 };
 
 Properties.prototype.containsMarginRightOrBottom = function () {
-    return this.containsKey(index['const'].PROPERTY_KEY_MARGIN_RIGHT) && !this.containsKey(index['const'].PROPERTY_KEY_MARGIN_LEFT) || this.containsKey(index['const'].PROPERTY_KEY_MARGIN_BOTTOM) && !this.containsKey(index['const'].PROPERTY_KEY_MARGIN_TOP);
+    return this.containsKey(index['const'].property.key.marginRight) && !this.containsKey(index['const'].property.key.marginLeft) || this.containsKey(index['const'].property.key.marginBottom) && !this.containsKey(index['const'].property.key.marginTop);
 };
 
 Properties.prototype.containsMarginTopOrBottom = function () {
-    return this.containsKey(index['const'].PROPERTY_KEY_MARGIN_TOP) || this.containsKey(index['const'].PROPERTY_KEY_MARGIN_BOTTOM);
+    return this.containsKey(index['const'].property.key.marginTop) || this.containsKey(index['const'].property.key.marginBottom);
 };
 
 Properties.prototype.containsMarginRightOrLeft = function () {
-    return this.containsKey(index['const'].PROPERTY_KEY_MARGIN_RIGHT) || this.containsKey(index['const'].PROPERTY_KEY_MARGIN_LEFT);
+    return this.containsKey(index['const'].property.key.marginRight) || this.containsKey(index['const'].property.key.marginLeft);
 };
 
 // Action
@@ -1061,10 +1073,10 @@ Properties.prototype.addProperty = function (property) {
 };
 
 Properties.prototype.addZeroPadding = function () {
-    this.addProperty(Property.init(this.component(), index['const'].PROPERTY_KEY_PADDING_TOP));
-    this.addProperty(Property.init(this.component(), index['const'].PROPERTY_KEY_PADDING_RIGHT));
-    this.addProperty(Property.init(this.component(), index['const'].PROPERTY_KEY_PADDING_BOTTOM));
-    this.addProperty(Property.init(this.component(), index['const'].PROPERTY_KEY_PADDING_LEFT));
+    this.addProperty(Property.init(this.component(), index['const'].property.key.paddingTop));
+    this.addProperty(Property.init(this.component(), index['const'].property.key.paddingRight));
+    this.addProperty(Property.init(this.component(), index['const'].property.key.paddingBottom));
+    this.addProperty(Property.init(this.component(), index['const'].property.key.paddingLeft));
     this._sort();
 };
 
@@ -1072,14 +1084,14 @@ Properties.prototype.addZeroPadding = function () {
 
 Properties.prototype._raw = function () {
     var name = this.component().name();
-    var split = name.split(index['const'].PROPERTIES_RE);
-    var properties = (split.length == 1 ? split.even() : split.odd()).join(index['const'].PROPERTIES_SEP);
+    var split = name.split(index['const'].properties.re.include);
+    var properties = (split.length == 1 ? split.even() : split.odd()).join(index['const'].properties.sep);
 
     properties = PaddingProperty.modify(properties);
     properties = MarginProperty.modify(properties);
     properties = Property.modify(properties);
 
-    return properties.split(index['const'].PROPERTIES_SEP);
+    return properties.split(index['const'].properties.sep);
 };
 
 Properties.prototype._setup = function () {
@@ -1096,15 +1108,15 @@ Properties.prototype._setup = function () {
 
 Properties.prototype._sort = function () {
     this._items = this.items().sort(function (a, b) {
-        return index['const'].PROPERTY_KEY_PRIORITY.indexOf(a.key()) > index['const'].PROPERTY_KEY_PRIORITY.indexOf(b.key());
+        return index['const'].properties.priority.indexOf(a.key()) > index['const'].properties.priority.indexOf(b.key());
     });
 
     if (this.containsPadding()) {
         var paddingIsHighPriority = !PaddingProperty.isOuter(this.component());
         this._items = this.items().sort(function (a, b) {
-            if (a.type() == index['const'].PROPERTY_TYPE_PADDING && b.type() == index['const'].PROPERTY_TYPE_PADDING) {
+            if (a.type() == index['const'].property.type.padding && b.type() == index['const'].property.type.padding) {
                 return 0;
-            } else if (b.type() == index['const'].PROPERTY_TYPE_PADDING) {
+            } else if (b.type() == index['const'].property.type.padding) {
                 return paddingIsHighPriority ? 1 : -1;
             }
             return 0;
@@ -1117,18 +1129,11 @@ Properties.prototype._sort = function () {
 module.exports = Properties;
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 var index = __webpack_require__(0);
-
-var RAW_VALUE_TOP = 'top';
-var RAW_VALUE_MIDDLE = 'middle';
-var RAW_VALUE_BOTTOM = 'bottom';
-var RAW_VALUE_LEFT = 'left';
-var RAW_VALUE_CENTER = 'center';
-var RAW_VALUE_RIGHT = 'right';
 
 function Alignment(rawValue) {
     this._rawValue = rawValue;
@@ -1141,27 +1146,27 @@ Alignment.init = function (rawValue) {
 };
 
 Alignment.top = function () {
-    return Alignment.init(RAW_VALUE_TOP);
+    return Alignment.init(index['const'].alignment.rawValue.top);
 };
 
 Alignment.middle = function () {
-    return Alignment.init(RAW_VALUE_MIDDLE);
+    return Alignment.init(index['const'].alignment.rawValue.middle);
 };
 
 Alignment.bottom = function () {
-    return Alignment.init(RAW_VALUE_BOTTOM);
+    return Alignment.init(index['const'].alignment.rawValue.bottom);
 };
 
 Alignment.left = function () {
-    return Alignment.init(RAW_VALUE_LEFT);
+    return Alignment.init(index['const'].alignment.rawValue.left);
 };
 
 Alignment.center = function () {
-    return Alignment.init(RAW_VALUE_CENTER);
+    return Alignment.init(index['const'].alignment.rawValue.center);
 };
 
 Alignment.right = function () {
-    return Alignment.init(RAW_VALUE_RIGHT);
+    return Alignment.init(index['const'].alignment.rawValue.right);
 };
 
 // Getter
@@ -1175,22 +1180,22 @@ Alignment.prototype.rawValue = function () {
 Alignment.prototype.align = function (component, d) {
     var frame = component.frame();
     switch (this.rawValue()) {
-        case RAW_VALUE_TOP:
+        case index['const'].alignment.rawValue.top:
             frame.setY(0);
             break;
-        case RAW_VALUE_MIDDLE:
+        case index['const'].alignment.rawValue.middle:
             frame.setY((d - frame.height()) / 2);
             break;
-        case RAW_VALUE_BOTTOM:
+        case index['const'].alignment.rawValue.bottom:
             frame.setY(d - frame.height());
             break;
-        case RAW_VALUE_LEFT:
+        case index['const'].alignment.rawValue.left:
             frame.setX(0);
             break;
-        case RAW_VALUE_CENTER:
+        case index['const'].alignment.rawValue.center:
             frame.setX((d - frame.width()) / 2);
             break;
-        case RAW_VALUE_RIGHT:
+        case index['const'].alignment.rawValue.right:
             frame.setX(d - frame.width());
             break;
     }
@@ -1201,7 +1206,7 @@ Alignment.prototype.align = function (component, d) {
 module.exports = Alignment;
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1290,7 +1295,7 @@ ComponentFrame.prototype.setHeight = function (h) {
 module.exports = ComponentFrame;
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1308,7 +1313,7 @@ ArtboardComponent.prototype = Object.create(Component.prototype);
 
 ArtboardComponent.prototype._apply = function () {
     this.properties().filter(function (property) {
-        return property.key() == index['const'].PROPERTY_KEY_WIDTH_STATIC || property.key() == index['const'].PROPERTY_KEY_HEIGHT_STATIC;
+        return property.key() == index['const'].property.key.widthStatic || property.key() == index['const'].property.key.heightStatic;
     }).apply();
 
     this.components().apply();
@@ -1321,13 +1326,13 @@ ArtboardComponent.prototype._sizeToFit = function () {
         for (var i = 0; i < this.components().count(); i++) {
             var component = this.components().objectAtIndex(i);
             var properties = component.properties().filter(function (property) {
-                return property.type() == index['const'].PROPERTY_TYPE_MARGIN || property.type() == index['const'].PROPERTY_TYPE_SIZE || property.type() == index['const'].PROPERTY_TYPE_CENTER;
+                return property.type() == index['const'].property.type.margin || property.type() == index['const'].property.type.size || property.type() == index['const'].property.type.center;
             });
             properties.apply();
         }
 
         var properties = this.properties().filter(function (property) {
-            return property.type() == index['const'].PROPERTY_TYPE_MARGIN || property.type() == index['const'].PROPERTY_TYPE_SIZE || property.type() == index['const'].PROPERTY_TYPE_CENTER;
+            return property.type() == index['const'].property.type.margin || property.type() == index['const'].property.type.size || property.type() == index['const'].property.type.center;
         });
         properties.apply();
     }
@@ -1338,7 +1343,7 @@ ArtboardComponent.prototype._sizeToFit = function () {
 module.exports = ArtboardComponent;
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1370,7 +1375,7 @@ GroupComponent.prototype._sizeToFit = function () {
 module.exports = GroupComponent;
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1399,7 +1404,7 @@ LayerComponent.prototype._sizeToFit = function () {
 module.exports = LayerComponent;
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1435,7 +1440,7 @@ ShapeComponent.prototype._sizeToFit = function () {
 module.exports = ShapeComponent;
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1465,7 +1470,7 @@ SymbolInstanceComponent.prototype._sizeToFit = function () {
 module.exports = SymbolInstanceComponent;
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1504,7 +1509,7 @@ SymbolMasterComponent.prototype.shouldApply = function () {
 module.exports = SymbolMasterComponent;
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1522,7 +1527,7 @@ TextComponent.prototype = Object.create(Component.prototype);
 
 TextComponent.prototype._apply = function () {
     this._layer.setTextBehaviourSegmentIndex(0);
-    this._layer.setTextBehaviourSegmentIndex(this.properties().containsType(index['const'].PROPERTY_TYPE_SIZE));
+    this._layer.setTextBehaviourSegmentIndex(this.properties().containsType(index['const'].property.type.size));
 };
 
 TextComponent.prototype._sizeToFit = function () {
@@ -1530,7 +1535,7 @@ TextComponent.prototype._sizeToFit = function () {
     // * handle that any height set should have vertical alignment.
     //   thinking of adding a method for checking containsSubtype('height')
     //   or something.
-    if (this.properties().containsKey(index['const'].PROPERTY_KEY_HEIGHT_STATIC)) {
+    if (this.properties().containsKey(index['const'].property.key.heightStatic)) {
         this._layer.setVerticalAlignment(1);
     } else {
         this._layer.adjustFrameToFit();
@@ -1542,7 +1547,7 @@ TextComponent.prototype._sizeToFit = function () {
 module.exports = TextComponent;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1632,10 +1637,10 @@ Constraints.prototype.apply = function (properties) {
     }
 
     this.reset();
-    this.setHasFixedTop(properties.containsKey(index['const'].PROPERTY_KEY_MARGIN_TOP) || properties.containsKey(index['const'].PROPERTY_KEY_PADDING_TOP) || properties.containsKey(index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE) || properties.containsKey(index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL));
-    this.setHasFixedRight(properties.containsKey(index['const'].PROPERTY_KEY_MARGIN_RIGHT) || properties.containsKey(index['const'].PROPERTY_KEY_PADDING_RIGHT) || properties.containsKey(index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE) || properties.containsKey(index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE_FULL));
-    this.setHasFixedBottom(properties.containsKey(index['const'].PROPERTY_KEY_MARGIN_BOTTOM) || properties.containsKey(index['const'].PROPERTY_KEY_PADDING_BOTTOM) || properties.containsKey(index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE) || properties.containsKey(index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL));
-    this.setHasFixedLeft(properties.containsKey(index['const'].PROPERTY_KEY_MARGIN_LEFT) || properties.containsKey(index['const'].PROPERTY_KEY_PADDING_LEFT) || properties.containsKey(index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE) || properties.containsKey(index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE_FULL));
+    this.setHasFixedTop(properties.containsKey(index['const'].property.key.marginTop) || properties.containsKey(index['const'].property.key.paddingTop) || properties.containsKey(index['const'].property.key.heightPercentage) || properties.containsKey(index['const'].property.key.heightPercentageFull));
+    this.setHasFixedRight(properties.containsKey(index['const'].property.key.marginRight) || properties.containsKey(index['const'].property.key.paddingRight) || properties.containsKey(index['const'].property.key.widthPercentage) || properties.containsKey(index['const'].property.key.widthPercentageFull));
+    this.setHasFixedBottom(properties.containsKey(index['const'].property.key.marginBottom) || properties.containsKey(index['const'].property.key.paddingBottom) || properties.containsKey(index['const'].property.key.heightPercentage) || properties.containsKey(index['const'].property.key.heightPercentageFull));
+    this.setHasFixedLeft(properties.containsKey(index['const'].property.key.marginLeft) || properties.containsKey(index['const'].property.key.paddingLeft) || properties.containsKey(index['const'].property.key.widthPercentage) || properties.containsKey(index['const'].property.key.widthPercentageFull));
     this.setHasFixedWidth(!(this.hasFixedRight() && this.hasFixedLeft()));
     this.setHasFixedHeight(!(this.hasFixedTop() && this.hasFixedBottom()));
 
@@ -1691,7 +1696,7 @@ Constraints.prototype.unlock = function () {
 module.exports = Constraints;
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1717,8 +1722,8 @@ RegExpMap.prototype.find = function (str) {
 RegExpMap.prototype.replace = function (str, replaceOne) {
     for (var i = 0; i < this._entries.length; i++) {
         var entry = this._entries[i];
-        if (entry.regexp().test(str)) {
-            str = str.replace(entry.regexp(), entry.value());
+        if (entry.test(str)) {
+            str = entry.replace(str);
             if (replaceOne) {
                 return str;
             }
@@ -1746,30 +1751,42 @@ RegExpMapEntry.prototype.value = function () {
     return this._value;
 };
 
+RegExpMapEntry.prototype.replace = function (str) {
+    return str.replace(this.regexp(), this.value());
+};
+
+RegExpMapEntry.prototype.test = function (str) {
+    return this.regexp().test(str);
+};
+
 // -----------------------------------------------------------
 
-var PROPERTY_KEY_MAP = RegExpMap.init([RegExpMapEntry.init('(c)(\\+|\\-)?\\d*', index['const'].PROPERTY_KEY_CENTER_HORIZONTALLY), RegExpMapEntry.init('(h)', index['const'].PROPERTY_KEY_CENTER_HORIZONTALLY), RegExpMapEntry.init('(h)(\\+|\\-)\\d+', index['const'].PROPERTY_KEY_HEIGHT_ADDITION), RegExpMapEntry.init('(h)\\>\\d+', index['const'].PROPERTY_KEY_HEIGHT_MIN), RegExpMapEntry.init('(h)\\d+', index['const'].PROPERTY_KEY_HEIGHT_STATIC), RegExpMapEntry.init('(h)\\d+%', index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE), RegExpMapEntry.init('(h)\\d+%%', index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL), RegExpMapEntry.init('(mb|b)\\-?\\d*', index['const'].PROPERTY_KEY_MARGIN_BOTTOM), RegExpMapEntry.init('(ml|l)\\-?\\d*', index['const'].PROPERTY_KEY_MARGIN_LEFT), RegExpMapEntry.init('(mr|r)\\-?\\d*', index['const'].PROPERTY_KEY_MARGIN_RIGHT), RegExpMapEntry.init('(mt|t)\\-?\\d*', index['const'].PROPERTY_KEY_MARGIN_TOP), RegExpMapEntry.init('(pb)\\-?\\d*', index['const'].PROPERTY_KEY_PADDING_BOTTOM), RegExpMapEntry.init('(pl)\\-?\\d*', index['const'].PROPERTY_KEY_PADDING_LEFT), RegExpMapEntry.init('(pr)\\-?\\d*', index['const'].PROPERTY_KEY_PADDING_RIGHT), RegExpMapEntry.init('(pt)\\-?\\d*', index['const'].PROPERTY_KEY_PADDING_TOP), RegExpMapEntry.init('(v)', index['const'].PROPERTY_KEY_CENTER_VERTICALLY), RegExpMapEntry.init('(v)(\\+|\\-)?\\d*', index['const'].PROPERTY_KEY_CENTER_VERTICALLY), RegExpMapEntry.init('(w)(\\+|\\-)\\d+', index['const'].PROPERTY_KEY_WIDTH_ADDITION), RegExpMapEntry.init('(w)\\>\\d+', index['const'].PROPERTY_KEY_WIDTH_MIN), RegExpMapEntry.init('(w)\\d+', index['const'].PROPERTY_KEY_WIDTH_STATIC), RegExpMapEntry.init('(w)\\d+%', index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE), RegExpMapEntry.init('(w)\\d+%%', index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE_FULL), RegExpMapEntry.init('(x)\\-?\\d*', index['const'].PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE), RegExpMapEntry.init('(xb)\\-?\\d*', index['const'].PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM), RegExpMapEntry.init('(xt)\\-?\\d*', index['const'].PROPERTY_KEY_STACK_HORIZONTALLY_TOP), RegExpMapEntry.init('(y)\\-?\\d*', index['const'].PROPERTY_KEY_STACK_VERTICALLY_CENTER), RegExpMapEntry.init('(yl)\\-?\\d*', index['const'].PROPERTY_KEY_STACK_VERTICALLY_LEFT), RegExpMapEntry.init('(yr)\\-?\\d*', index['const'].PROPERTY_KEY_STACK_VERTICALLY_RIGHT)]);
+var keys = RegExpMap.init([RegExpMapEntry.init('(c)(\\+|\\-)?\\d*', index['const'].property.key.centerHorizontally), RegExpMapEntry.init('(h)', index['const'].property.key.centerHorizontally), RegExpMapEntry.init('(h)(\\+|\\-)\\d+', index['const'].property.key.heightAddition), RegExpMapEntry.init('(h)\\>\\d+', index['const'].property.key.heightMin), RegExpMapEntry.init('(h)\\d+', index['const'].property.key.heightStatic), RegExpMapEntry.init('(h)\\d+%', index['const'].property.key.heightPercentage), RegExpMapEntry.init('(h)\\d+%%', index['const'].property.key.heightPercentageFull), RegExpMapEntry.init('(mb|b)\\-?\\d*', index['const'].property.key.marginBottom), RegExpMapEntry.init('(ml|l)\\-?\\d*', index['const'].property.key.marginLeft), RegExpMapEntry.init('(mr|r)\\-?\\d*', index['const'].property.key.marginRight), RegExpMapEntry.init('(mt|t)\\-?\\d*', index['const'].property.key.marginTop), RegExpMapEntry.init('(pb)\\-?\\d*', index['const'].property.key.paddingBottom), RegExpMapEntry.init('(pl)\\-?\\d*', index['const'].property.key.paddingLeft), RegExpMapEntry.init('(pr)\\-?\\d*', index['const'].property.key.paddingRight), RegExpMapEntry.init('(pt)\\-?\\d*', index['const'].property.key.paddingTop), RegExpMapEntry.init('(v)', index['const'].property.key.centerVertically), RegExpMapEntry.init('(v)(\\+|\\-)?\\d*', index['const'].property.key.centerVertically), RegExpMapEntry.init('(w)(\\+|\\-)\\d+', index['const'].property.key.widthAddition), RegExpMapEntry.init('(w)\\>\\d+', index['const'].property.key.widthMin), RegExpMapEntry.init('(w)\\d+', index['const'].property.key.widthStatic), RegExpMapEntry.init('(w)\\d+%', index['const'].property.key.widthPercentage), RegExpMapEntry.init('(w)\\d+%%', index['const'].property.key.widthPercentageFull), RegExpMapEntry.init('(x)\\-?\\d*', index['const'].property.key.stackHorizontallyMiddle), RegExpMapEntry.init('(xb)\\-?\\d*', index['const'].property.key.stackHorizontallyBottom), RegExpMapEntry.init('(xt)\\-?\\d*', index['const'].property.key.stackHorizontallyTop), RegExpMapEntry.init('(y)\\-?\\d*', index['const'].property.key.stackVerticallyCenter), RegExpMapEntry.init('(yl)\\-?\\d*', index['const'].property.key.stackVerticallyLeft), RegExpMapEntry.init('(yr)\\-?\\d*', index['const'].property.key.stackVerticallyRight)]);
 
-var PROPERTY_VALUE_MAP = RegExpMap.init([RegExpMapEntry.init(/[^\-\d]/g, '')]);
+var values = RegExpMap.init([RegExpMapEntry.init(/[^\-\d]/g, '')]);
 
-var PROPERTY_MODIFY_MAP = RegExpMap.init([RegExpMapEntry.init(/^:/, ''), RegExpMapEntry.init(/:$/, ''), RegExpMapEntry.init(/:{2,}/g, ':')]);
+var generic = RegExpMap.init([RegExpMapEntry.init(/^:/, ''), RegExpMapEntry.init(/:$/, ''), RegExpMapEntry.init(/:{2,}/g, ':')]);
 
-var PROPERTY_MODIFY_PADDING_MAP = RegExpMap.init([RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+):([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$4:'), RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$2:'), RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$1:pl$2:'), RegExpMapEntry.init(/(?:^|:)([\d]+)(?:$|:)/, ':pt$1:pr$1:pb$1:pl$1:'), RegExpMapEntry.init(/(?:^|:)(p|padding)(?:$|:)/i, ':pt:pr:pb:pl:')]);
+var margin = RegExpMap.init([RegExpMapEntry.init(/(?:^|:)(m|margin|trbl|bg)(?:$|:)/i, ':b:r:t:l:')]);
 
-var PROPERTY_MODIFY_MARGIN_MAP = RegExpMap.init([RegExpMapEntry.init(/(?:^|:)(m|margin|trbl|bg)(?:$|:)/i, ':b:r:t:l:')]);
+var padding = RegExpMap.init([RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+):([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$4:'), RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$2:'), RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$1:pl$2:'), RegExpMapEntry.init(/(?:^|:)([\d]+)(?:$|:)/, ':pt$1:pr$1:pb$1:pl$1:'), RegExpMapEntry.init(/(?:^|:)(p|padding)(?:$|:)/i, ':pt:pr:pb:pl:')]);
 
 // -----------------------------------------------------------
 
 module.exports = {
-    PROPERTY_KEY_MAP: PROPERTY_KEY_MAP,
-    PROPERTY_VALUE_MAP: PROPERTY_VALUE_MAP,
-    PROPERTY_MODIFY_MAP: PROPERTY_MODIFY_MAP,
-    PROPERTY_MODIFY_PADDING_MAP: PROPERTY_MODIFY_PADDING_MAP,
-    PROPERTY_MODIFY_MARGIN_MAP: PROPERTY_MODIFY_MARGIN_MAP
+    property: {
+        keys: keys,
+        values: values,
+        modify: {
+            generic: generic,
+            margin: margin,
+            padding: padding
+        }
+    }
 };
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1819,7 +1836,7 @@ Property.parse = function (component, raw) {
 };
 
 Property.modify = function (str) {
-    return index.require.map().PROPERTY_MODIFY_MAP.replace(str);
+    return index.require.map().property.modify.generic.replace(str);
 };
 
 // Getter
@@ -1855,11 +1872,11 @@ Property.prototype.apply = function () {
 // Private
 
 Property._extractKey = function (str) {
-    return index.require.map().PROPERTY_KEY_MAP.find(str);
+    return index.require.map().property.keys.find(str);
 };
 
 Property._extractValue = function (str) {
-    return parseInt(index.require.map().PROPERTY_VALUE_MAP.replace(str));
+    return parseInt(index.require.map().property.values.replace(str));
 };
 
 // -----------------------------------------------------------
@@ -1867,7 +1884,7 @@ Property._extractValue = function (str) {
 module.exports = Property;
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1884,7 +1901,7 @@ CenterProperty.prototype = Object.create(Property.prototype);
 // Static
 
 CenterProperty.validKeys = function () {
-    return [index['const'].PROPERTY_KEY_CENTER_HORIZONTALLY, index['const'].PROPERTY_KEY_CENTER_VERTICALLY];
+    return [index['const'].property.key.centerHorizontally, index['const'].property.key.centerVertically];
 };
 
 CenterProperty.init = function (component, key, value) {
@@ -1892,17 +1909,17 @@ CenterProperty.init = function (component, key, value) {
 };
 
 CenterProperty.horizontally = function (component, value) {
-    return CenterProperty.init(component, index['const'].PROPERTY_KEY_CENTER_HORIZONTALLY, value);
+    return CenterProperty.init(component, index['const'].property.key.centerHorizontally, value);
 };
 
 CenterProperty.vertically = function (component, value) {
-    return CenterProperty.init(component, index['const'].PROPERTY_KEY_CENTER_VERTICALLY, value);
+    return CenterProperty.init(component, index['const'].property.key.centerVertically, value);
 };
 
 // Getter
 
 CenterProperty.prototype.type = function () {
-    return index['const'].PROPERTY_TYPE_CENTER;
+    return index['const'].property.type.center;
 };
 
 CenterProperty.prototype.isValid = function () {
@@ -1914,12 +1931,12 @@ CenterProperty.prototype.isValid = function () {
 CenterProperty.prototype._apply = function () {
     var frame = this.component().frame();
     switch (this.key()) {
-        case index['const'].PROPERTY_KEY_CENTER_HORIZONTALLY:
+        case index['const'].property.key.centerHorizontally:
             var left = this.component().leftInParent(true);
             var widthOfParent = this.component().widthOfParent(false, true);
             frame.setX(left + (widthOfParent - frame.width()) / 2 + (this.value() || 0));
             break;
-        case index['const'].PROPERTY_KEY_CENTER_VERTICALLY:
+        case index['const'].property.key.centerVertically:
             var top = this.component().topInParent(true);
             var heightOfParent = this.component().heightOfParent(false, true);
             frame.setY(top + (heightOfParent - frame.height()) / 2 + (this.value() || 0));
@@ -1935,7 +1952,7 @@ CenterProperty.prototype._apply = function () {
 module.exports = CenterProperty;
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1952,7 +1969,7 @@ MarginProperty.prototype = Object.create(Property.prototype);
 // Static
 
 MarginProperty.validKeys = function () {
-    return [index['const'].PROPERTY_KEY_MARGIN_TOP, index['const'].PROPERTY_KEY_MARGIN_RIGHT, index['const'].PROPERTY_KEY_MARGIN_BOTTOM, index['const'].PROPERTY_KEY_MARGIN_LEFT];
+    return [index['const'].property.key.marginTop, index['const'].property.key.marginRight, index['const'].property.key.marginBottom, index['const'].property.key.marginLeft];
 };
 
 MarginProperty.init = function (component, key, value) {
@@ -1960,29 +1977,29 @@ MarginProperty.init = function (component, key, value) {
 };
 
 MarginProperty.top = function (component, value) {
-    return MarginProperty.init(component, index['const'].PROPERTY_KEY_MARGIN_TOP, value);
+    return MarginProperty.init(component, index['const'].property.key.marginTop, value);
 };
 
 MarginProperty.right = function (component, value) {
-    return MarginProperty.init(component, index['const'].PROPERTY_KEY_MARGIN_RIGHT, value);
+    return MarginProperty.init(component, index['const'].property.key.marginRight, value);
 };
 
 MarginProperty.bottom = function (component, value) {
-    return MarginProperty.init(component, index['const'].PROPERTY_KEY_MARGIN_BOTTOM, value);
+    return MarginProperty.init(component, index['const'].property.key.marginBottom, value);
 };
 
 MarginProperty.left = function (component, value) {
-    return MarginProperty.init(component, index['const'].PROPERTY_KEY_MARGIN_LEFT, value);
+    return MarginProperty.init(component, index['const'].property.key.marginLeft, value);
 };
 
 MarginProperty.modify = function (str) {
-    return index.require.map().PROPERTY_MODIFY_MARGIN_MAP.replace(str, true);
+    return index.require.map().property.modify.margin.replace(str, true);
 };
 
 // Getter
 
 MarginProperty.prototype.type = function () {
-    return index['const'].PROPERTY_TYPE_MARGIN;
+    return index['const'].property.type.margin;
 };
 
 MarginProperty.prototype.isValid = function () {
@@ -1994,20 +2011,20 @@ MarginProperty.prototype.isValid = function () {
 MarginProperty.prototype._apply = function () {
     var frame = this.component().frame();
     switch (this.key()) {
-        case index['const'].PROPERTY_KEY_MARGIN_TOP:
+        case index['const'].property.key.marginTop:
             frame.setY(this.value());
             break;
-        case index['const'].PROPERTY_KEY_MARGIN_RIGHT:
+        case index['const'].property.key.marginRight:
             var left = this.component().leftInParent(true);
             var widthOfParent = this.component().widthOfParent(false, true);
             frame.setX(left + widthOfParent - frame.width() - this.value());
             break;
-        case index['const'].PROPERTY_KEY_MARGIN_BOTTOM:
+        case index['const'].property.key.marginBottom:
             var top = this.component().topInParent(true);
             var heightOfParent = this.component().heightOfParent(false, true);
             frame.setY(top + heightOfParent - frame.height() - this.value());
             break;
-        case index['const'].PROPERTY_KEY_MARGIN_LEFT:
+        case index['const'].property.key.marginLeft:
             frame.setX(this.value());
             break;
         /* istanbul ignore next */
@@ -2021,7 +2038,7 @@ MarginProperty.prototype._apply = function () {
 module.exports = MarginProperty;
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2046,7 +2063,7 @@ PaddingProperty.prototype = Object.create(Property.prototype);
 // Static
 
 PaddingProperty.validKeys = function () {
-    return [index['const'].PROPERTY_KEY_PADDING_TOP, index['const'].PROPERTY_KEY_PADDING_RIGHT, index['const'].PROPERTY_KEY_PADDING_BOTTOM, index['const'].PROPERTY_KEY_PADDING_LEFT];
+    return [index['const'].property.key.paddingTop, index['const'].property.key.paddingRight, index['const'].property.key.paddingBottom, index['const'].property.key.paddingLeft];
 };
 
 PaddingProperty.init = function (component, key, value) {
@@ -2054,23 +2071,23 @@ PaddingProperty.init = function (component, key, value) {
 };
 
 PaddingProperty.top = function (component, value) {
-    return PaddingProperty.init(component, index['const'].PROPERTY_KEY_PADDING_TOP, value);
+    return PaddingProperty.init(component, index['const'].property.key.paddingTop, value);
 };
 
 PaddingProperty.right = function (component, value) {
-    return PaddingProperty.init(component, index['const'].PROPERTY_KEY_PADDING_RIGHT, value);
+    return PaddingProperty.init(component, index['const'].property.key.paddingRight, value);
 };
 
 PaddingProperty.bottom = function (component, value) {
-    return PaddingProperty.init(component, index['const'].PROPERTY_KEY_PADDING_BOTTOM, value);
+    return PaddingProperty.init(component, index['const'].property.key.paddingBottom, value);
 };
 
 PaddingProperty.left = function (component, value) {
-    return PaddingProperty.init(component, index['const'].PROPERTY_KEY_PADDING_LEFT, value);
+    return PaddingProperty.init(component, index['const'].property.key.paddingLeft, value);
 };
 
 PaddingProperty.modify = function (str) {
-    return index.require.map().PROPERTY_MODIFY_PADDING_MAP.replace(str, true);
+    return index.require.map().property.modify.padding.replace(str, true);
 };
 
 PaddingProperty.isOuter = function (component) {
@@ -2084,7 +2101,7 @@ PaddingProperty.isInner = function (component) {
 // Getter
 
 PaddingProperty.prototype.type = function () {
-    return index['const'].PROPERTY_TYPE_PADDING;
+    return index['const'].property.type.padding;
 };
 
 PaddingProperty.prototype.container = function () {
@@ -2146,7 +2163,7 @@ PaddingProperty.prototype._apply = function () {
 
     var frame = this.components().frame();
     switch (this.key()) {
-        case index['const'].PROPERTY_KEY_PADDING_TOP:
+        case index['const'].property.key.paddingTop:
             MarginProperty.top(this.components(), this.value()).apply();
             if (!this.components().properties().containsPaddingRightOrLeft() && !this.components().properties().containsMarginRightOrLeft()) {
                 CenterProperty.horizontally(this.components()).apply();
@@ -2154,8 +2171,8 @@ PaddingProperty.prototype._apply = function () {
                 MarginProperty.top(this.container(), 0).apply();
             }
             break;
-        case index['const'].PROPERTY_KEY_PADDING_RIGHT:
-            var leftProperty = this.components().properties().find(index['const'].PROPERTY_KEY_PADDING_LEFT);
+        case index['const'].property.key.paddingRight:
+            var leftProperty = this.components().properties().find(index['const'].property.key.paddingLeft);
             if (leftProperty) {
                 SizeProperty.width(this.container(), frame.width() + this.value() + leftProperty.value()).apply();
             } else {
@@ -2167,8 +2184,8 @@ PaddingProperty.prototype._apply = function () {
                 MarginProperty.left(this.container(), 0).apply();
             }
             break;
-        case index['const'].PROPERTY_KEY_PADDING_BOTTOM:
-            var topProperty = this.components().properties().find(index['const'].PROPERTY_KEY_PADDING_TOP);
+        case index['const'].property.key.paddingBottom:
+            var topProperty = this.components().properties().find(index['const'].property.key.paddingTop);
             if (topProperty) {
                 SizeProperty.height(this.container(), frame.height() + this.value() + topProperty.value()).apply();
             } else {
@@ -2180,7 +2197,7 @@ PaddingProperty.prototype._apply = function () {
                 MarginProperty.top(this.container(), 0).apply();
             }
             break;
-        case index['const'].PROPERTY_KEY_PADDING_LEFT:
+        case index['const'].property.key.paddingLeft:
             MarginProperty.left(this.components(), this.value()).apply();
             if (!this.components().properties().containsPaddingTopOrBottom() && !this.components().properties().containsMarginTopOrBottom()) {
                 CenterProperty.vertically(this.components()).apply();
@@ -2198,7 +2215,7 @@ PaddingProperty.prototype._apply = function () {
 module.exports = PaddingProperty;
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2215,7 +2232,7 @@ SizeProperty.prototype = Object.create(Property.prototype);
 // Static
 
 SizeProperty.validKeys = function () {
-    return [index['const'].PROPERTY_KEY_WIDTH_STATIC, index['const'].PROPERTY_KEY_WIDTH_ADDITION, index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE, index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE_FULL, index['const'].PROPERTY_KEY_WIDTH_MIN, index['const'].PROPERTY_KEY_HEIGHT_STATIC, index['const'].PROPERTY_KEY_HEIGHT_ADDITION, index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE, index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL, index['const'].PROPERTY_KEY_HEIGHT_MIN];
+    return [index['const'].property.key.widthStatic, index['const'].property.key.widthAddition, index['const'].property.key.widthPercentage, index['const'].property.key.widthPercentageFull, index['const'].property.key.widthMin, index['const'].property.key.heightStatic, index['const'].property.key.heightAddition, index['const'].property.key.heightPercentage, index['const'].property.key.heightPercentageFull, index['const'].property.key.heightMin];
 };
 
 SizeProperty.init = function (component, key, value) {
@@ -2223,17 +2240,17 @@ SizeProperty.init = function (component, key, value) {
 };
 
 SizeProperty.width = function (component, value) {
-    return SizeProperty.init(component, index['const'].PROPERTY_KEY_WIDTH_STATIC, value);
+    return SizeProperty.init(component, index['const'].property.key.widthStatic, value);
 };
 
 SizeProperty.height = function (component, value) {
-    return SizeProperty.init(component, index['const'].PROPERTY_KEY_HEIGHT_STATIC, value);
+    return SizeProperty.init(component, index['const'].property.key.heightStatic, value);
 };
 
 // Getter
 
 SizeProperty.prototype.type = function () {
-    return index['const'].PROPERTY_TYPE_SIZE;
+    return index['const'].property.type.size;
 };
 
 SizeProperty.prototype.isValid = function () {
@@ -2245,34 +2262,34 @@ SizeProperty.prototype.isValid = function () {
 SizeProperty.prototype._apply = function () {
     var frame = this.component().frame();
     switch (this.key()) {
-        case index['const'].PROPERTY_KEY_WIDTH_STATIC:
+        case index['const'].property.key.widthStatic:
             frame.setWidth(this.value());
             break;
-        case index['const'].PROPERTY_KEY_WIDTH_ADDITION:
+        case index['const'].property.key.widthAddition:
             frame.setWidth(frame.width() + this.value());
             break;
-        case index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE:
+        case index['const'].property.key.widthPercentage:
             frame.setWidth(this.value() / 100 * this.component().widthOfParent(false, true));
             break;
-        case index['const'].PROPERTY_KEY_WIDTH_PERCENTAGE_FULL:
+        case index['const'].property.key.widthPercentageFull:
             frame.setWidth(this.value() / 100 * this.component().widthOfParent(true));
             break;
-        case index['const'].PROPERTY_KEY_WIDTH_MIN:
+        case index['const'].property.key.widthMin:
             frame.setWidth(frame.width() < this.value() ? this.value() : frame.width());
             break;
-        case index['const'].PROPERTY_KEY_HEIGHT_STATIC:
+        case index['const'].property.key.heightStatic:
             frame.setHeight(this.value());
             break;
-        case index['const'].PROPERTY_KEY_HEIGHT_ADDITION:
+        case index['const'].property.key.heightAddition:
             frame.setHeight(frame.height() + this.value());
             break;
-        case index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE:
+        case index['const'].property.key.heightPercentage:
             frame.setHeight(this.value() / 100 * this.component().heightOfParent(false, true));
             break;
-        case index['const'].PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL:
+        case index['const'].property.key.heightPercentageFull:
             frame.setHeight(this.value() / 100 * this.component().heightOfParent(true));
             break;
-        case index['const'].PROPERTY_KEY_HEIGHT_MIN:
+        case index['const'].property.key.heightMin:
             frame.setHeight(frame.height() < this.value() ? this.value() : frame.height());
             break;
         /* istanbul ignore next */
@@ -2286,7 +2303,7 @@ SizeProperty.prototype._apply = function () {
 module.exports = SizeProperty;
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2304,7 +2321,7 @@ StackProperty.prototype = Object.create(Property.prototype);
 // Static
 
 StackProperty.validKeys = function () {
-    return [index['const'].PROPERTY_KEY_STACK_HORIZONTALLY_TOP, index['const'].PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE, index['const'].PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM, index['const'].PROPERTY_KEY_STACK_VERTICALLY_LEFT, index['const'].PROPERTY_KEY_STACK_VERTICALLY_CENTER, index['const'].PROPERTY_KEY_STACK_VERTICALLY_RIGHT];
+    return [index['const'].property.key.stackHorizontallyTop, index['const'].property.key.stackHorizontallyMiddle, index['const'].property.key.stackHorizontallyBottom, index['const'].property.key.stackVerticallyLeft, index['const'].property.key.stackVerticallyCenter, index['const'].property.key.stackVerticallyRight];
 };
 
 StackProperty.init = function (component, key, value) {
@@ -2320,28 +2337,28 @@ StackProperty.prototype.isValid = function () {
 // Action
 
 StackProperty.prototype.type = function () {
-    return index['const'].PROPERTY_TYPE_STACK;
+    return index['const'].property.type.stack;
 };
 
 StackProperty.prototype._apply = function () {
     var frame = this.component().frame();
     switch (this.key()) {
-        case index['const'].PROPERTY_KEY_STACK_HORIZONTALLY_TOP:
+        case index['const'].property.key.stackHorizontallyTop:
             this.applyStackHorizontally(Alignment.top());
             break;
-        case index['const'].PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE:
+        case index['const'].property.key.stackHorizontallyMiddle:
             this.applyStackHorizontally(Alignment.middle());
             break;
-        case index['const'].PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM:
+        case index['const'].property.key.stackHorizontallyBottom:
             this.applyStackHorizontally(Alignment.bottom());
             break;
-        case index['const'].PROPERTY_KEY_STACK_VERTICALLY_LEFT:
+        case index['const'].property.key.stackVerticallyLeft:
             this.applyStackVertically(Alignment.left());
             break;
-        case index['const'].PROPERTY_KEY_STACK_VERTICALLY_CENTER:
+        case index['const'].property.key.stackVerticallyCenter:
             this.applyStackVertically(Alignment.center());
             break;
-        case index['const'].PROPERTY_KEY_STACK_VERTICALLY_RIGHT:
+        case index['const'].property.key.stackVerticallyRight:
             this.applyStackVertically(Alignment.right());
             break;
         /* istanbul ignore next */
@@ -2387,7 +2404,7 @@ Property.prototype.applyStackVertically = function (alignment) {
 module.exports = StackProperty;
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2441,13 +2458,13 @@ SymbolStore.prototype.clean = function () {
 module.exports = SymbolStore;
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 var index = __webpack_require__(0);
 
-var Components = __webpack_require__(3);
+var Components = __webpack_require__(2);
 
 var makePixelPerfect = function makePixelPerfect(context) {
     var doc = context.document;
@@ -2469,7 +2486,7 @@ var makeEverythingPixelPerfect = function makeEverythingPixelPerfect(context) {
     var nbrOfPages = 0;
     for (var i = 0; i < pages.count(); i++) {
         var page = pages.objectAtIndex(i);
-        if (!index['const'].PROPERTIES_RE_IGNORE.test(page.name())) {
+        if (!index['const'].properties.re.ignore.test(page.name())) {
             doc.setCurrentPage(page);
             page.select_byExpandingSelection(true, false);
 
@@ -2503,7 +2520,7 @@ var _selection = function _selection(context) {
 module.exports = { makePixelPerfect: makePixelPerfect, makeEverythingPixelPerfect: makeEverythingPixelPerfect };
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports) {
 
 
@@ -2603,54 +2620,54 @@ String.prototype.repeat = function (times) {
 };
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./alignment": 6,
-	"./alignment.js": 6,
+	"./alignment": 5,
+	"./alignment.js": 5,
 	"./component": 1,
-	"./component-frame": 7,
-	"./component-frame.js": 7,
+	"./component-frame": 6,
+	"./component-frame.js": 6,
 	"./component.js": 1,
-	"./component/artboard": 8,
-	"./component/artboard.js": 8,
-	"./component/group": 9,
-	"./component/group.js": 9,
-	"./component/layer": 10,
-	"./component/layer.js": 10,
-	"./component/shape": 11,
-	"./component/shape.js": 11,
-	"./component/symbol-instance": 12,
-	"./component/symbol-instance.js": 12,
-	"./component/symbol-master": 13,
-	"./component/symbol-master.js": 13,
-	"./component/text": 14,
-	"./component/text.js": 14,
-	"./components": 3,
-	"./components-frame": 4,
-	"./components-frame.js": 4,
-	"./components.js": 3,
-	"./constraints": 15,
-	"./constraints.js": 15,
-	"./map": 16,
-	"./map.js": 16,
-	"./properties": 5,
-	"./properties.js": 5,
-	"./property": 17,
-	"./property.js": 17,
-	"./property/center": 18,
-	"./property/center.js": 18,
-	"./property/margin": 19,
-	"./property/margin.js": 19,
-	"./property/padding": 20,
-	"./property/padding.js": 20,
-	"./property/size": 21,
-	"./property/size.js": 21,
-	"./property/stack": 22,
-	"./property/stack.js": 22,
-	"./symbol-store": 23,
-	"./symbol-store.js": 23
+	"./component/artboard": 7,
+	"./component/artboard.js": 7,
+	"./component/group": 8,
+	"./component/group.js": 8,
+	"./component/layer": 9,
+	"./component/layer.js": 9,
+	"./component/shape": 10,
+	"./component/shape.js": 10,
+	"./component/symbol-instance": 11,
+	"./component/symbol-instance.js": 11,
+	"./component/symbol-master": 12,
+	"./component/symbol-master.js": 12,
+	"./component/text": 13,
+	"./component/text.js": 13,
+	"./components": 2,
+	"./components-frame": 3,
+	"./components-frame.js": 3,
+	"./components.js": 2,
+	"./constraints": 14,
+	"./constraints.js": 14,
+	"./map": 15,
+	"./map.js": 15,
+	"./properties": 4,
+	"./properties.js": 4,
+	"./property": 16,
+	"./property.js": 16,
+	"./property/center": 17,
+	"./property/center.js": 17,
+	"./property/margin": 18,
+	"./property/margin.js": 18,
+	"./property/padding": 19,
+	"./property/padding.js": 19,
+	"./property/size": 20,
+	"./property/size.js": 20,
+	"./property/stack": 21,
+	"./property/stack.js": 21,
+	"./symbol-store": 22,
+	"./symbol-store.js": 22
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -2666,116 +2683,114 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 26;
+webpackContext.id = 25;
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports) {
 
 
-var PROPERTIES_RE = new RegExp('\\[([^\\]]+)\\]');
-var PROPERTIES_RE_IGNORE = /\[ignore\]/i;
-var PROPERTIES_RE_PADDING = /^\d+$/;
-var PROPERTIES_RE_PADDING_CONTAINER_NAME = /(bg|container)/i;
-var PROPERTIES_SEP = ':';
+var widthStatic = 'width';
+var widthAddition = 'width-addition';
+var widthPercentage = 'width-percentage';
+var widthPercentageFull = 'width-percentage-full';
+var widthMin = 'width-min';
+var heightStatic = 'height';
+var heightAddition = 'height-addition';
+var heightPercentage = 'height-percentage';
+var heightPercentageFull = 'height-percentage-full';
+var heightMin = 'height-min';
+var paddingTop = 'padding-top';
+var paddingRight = 'padding-right';
+var paddingBottom = 'padding-bottom';
+var paddingLeft = 'padding-left';
+var marginTop = 'margin-top';
+var marginRight = 'margin-right';
+var marginBottom = 'margin-bottom';
+var marginLeft = 'margin-left';
+var stackHorizontallyTop = 'stack-horizontally-top';
+var stackHorizontallyMiddle = 'stack-horizontally-middle';
+var stackHorizontallyBottom = 'stack-horizontally-bottom';
+var stackVerticallyLeft = 'stack-vertically-left';
+var stackVerticallyCenter = 'stack-vertically-center';
+var stackVerticallyRight = 'stack-vertically-right';
+var centerHorizontally = 'center-horizontally';
+var centerVertically = 'center-vertically';
 
-// -----------------------------------------------------------
-
-var PROPERTY_TYPE_CENTER = 'center';
-var PROPERTY_TYPE_MARGIN = 'margin';
-var PROPERTY_TYPE_PADDING = 'padding';
-var PROPERTY_TYPE_SIZE = 'size';
-var PROPERTY_TYPE_STACK = 'stack';
-
-var PROPERTY_KEY_WIDTH_STATIC = 'width';
-var PROPERTY_KEY_WIDTH_ADDITION = 'width-addition';
-var PROPERTY_KEY_WIDTH_PERCENTAGE = 'width-percentage';
-var PROPERTY_KEY_WIDTH_PERCENTAGE_FULL = 'width-percentage-full';
-var PROPERTY_KEY_WIDTH_MIN = 'width-min';
-var PROPERTY_KEY_HEIGHT_STATIC = 'height';
-var PROPERTY_KEY_HEIGHT_ADDITION = 'height-addition';
-var PROPERTY_KEY_HEIGHT_PERCENTAGE = 'height-percentage';
-var PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL = 'height-percentage-full';
-var PROPERTY_KEY_HEIGHT_MIN = 'height-min';
-var PROPERTY_KEY_PADDING_TOP = 'padding-top';
-var PROPERTY_KEY_PADDING_RIGHT = 'padding-right';
-var PROPERTY_KEY_PADDING_BOTTOM = 'padding-bottom';
-var PROPERTY_KEY_PADDING_LEFT = 'padding-left';
-var PROPERTY_KEY_MARGIN_TOP = 'margin-top';
-var PROPERTY_KEY_MARGIN_RIGHT = 'margin-right';
-var PROPERTY_KEY_MARGIN_BOTTOM = 'margin-bottom';
-var PROPERTY_KEY_MARGIN_LEFT = 'margin-left';
-var PROPERTY_KEY_STACK_HORIZONTALLY_TOP = 'stack-horizontally-top';
-var PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE = 'stack-horizontally-middle';
-var PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM = 'stack-horizontally-bottom';
-var PROPERTY_KEY_STACK_VERTICALLY_LEFT = 'stack-vertically-left';
-var PROPERTY_KEY_STACK_VERTICALLY_CENTER = 'stack-vertically-center';
-var PROPERTY_KEY_STACK_VERTICALLY_RIGHT = 'stack-vertically-right';
-var PROPERTY_KEY_CENTER_HORIZONTALLY = 'center-horizontally';
-var PROPERTY_KEY_CENTER_VERTICALLY = 'center-vertically';
-
-var PROPERTY_KEY_PRIORITY = [PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE, PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM, PROPERTY_KEY_STACK_HORIZONTALLY_TOP, PROPERTY_KEY_STACK_VERTICALLY_CENTER, PROPERTY_KEY_STACK_VERTICALLY_LEFT, PROPERTY_KEY_STACK_VERTICALLY_RIGHT, PROPERTY_KEY_WIDTH_STATIC, PROPERTY_KEY_WIDTH_PERCENTAGE, PROPERTY_KEY_WIDTH_PERCENTAGE_FULL, PROPERTY_KEY_WIDTH_ADDITION, PROPERTY_KEY_WIDTH_MIN, PROPERTY_KEY_HEIGHT_STATIC, PROPERTY_KEY_HEIGHT_PERCENTAGE, PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL, PROPERTY_KEY_HEIGHT_ADDITION, PROPERTY_KEY_HEIGHT_MIN, PROPERTY_KEY_CENTER_HORIZONTALLY, PROPERTY_KEY_CENTER_VERTICALLY, PROPERTY_KEY_MARGIN_RIGHT, PROPERTY_KEY_MARGIN_BOTTOM, PROPERTY_KEY_MARGIN_TOP, PROPERTY_KEY_MARGIN_LEFT, PROPERTY_KEY_PADDING_RIGHT, PROPERTY_KEY_PADDING_BOTTOM, PROPERTY_KEY_PADDING_TOP, PROPERTY_KEY_PADDING_LEFT];
-
-// -----------------------------------------------------------
-
-var CLASS_ARTBOARD = 'MSArtboardGroup';
-var CLASS_GROUP = 'MSLayerGroup';
-var CLASS_SHAPE = 'MSShapeGroup';
-var CLASS_SYMBOL_INSTANCE = 'MSSymbolInstance';
-var CLASS_SYMBOL_MASTER = 'MSSymbolMaster';
-var CLASS_TEXT = 'MSTextLayer';
+var priority = [stackHorizontallyMiddle, stackHorizontallyBottom, stackHorizontallyTop, stackVerticallyCenter, stackVerticallyLeft, stackVerticallyRight, widthStatic, widthPercentage, widthPercentageFull, widthAddition, widthMin, heightStatic, heightPercentage, heightPercentageFull, heightAddition, heightMin, centerHorizontally, centerVertically, marginRight, marginBottom, marginTop, marginLeft, paddingRight, paddingBottom, paddingTop, paddingLeft];
 
 // -----------------------------------------------------------
 
 module.exports = {
-    PROPERTIES_RE: PROPERTIES_RE,
-    PROPERTIES_RE_IGNORE: PROPERTIES_RE_IGNORE,
-    PROPERTIES_RE_PADDING: PROPERTIES_RE_PADDING,
-    PROPERTIES_RE_PADDING_CONTAINER_NAME: PROPERTIES_RE_PADDING_CONTAINER_NAME,
-    PROPERTIES_SEP: PROPERTIES_SEP,
-    PROPERTY_TYPE_CENTER: PROPERTY_TYPE_CENTER,
-    PROPERTY_TYPE_MARGIN: PROPERTY_TYPE_MARGIN,
-    PROPERTY_TYPE_PADDING: PROPERTY_TYPE_PADDING,
-    PROPERTY_TYPE_SIZE: PROPERTY_TYPE_SIZE,
-    PROPERTY_TYPE_STACK: PROPERTY_TYPE_STACK,
-    PROPERTY_KEY_WIDTH_STATIC: PROPERTY_KEY_WIDTH_STATIC,
-    PROPERTY_KEY_WIDTH_ADDITION: PROPERTY_KEY_WIDTH_ADDITION,
-    PROPERTY_KEY_WIDTH_PERCENTAGE: PROPERTY_KEY_WIDTH_PERCENTAGE,
-    PROPERTY_KEY_WIDTH_PERCENTAGE_FULL: PROPERTY_KEY_WIDTH_PERCENTAGE_FULL,
-    PROPERTY_KEY_WIDTH_MIN: PROPERTY_KEY_WIDTH_MIN,
-    PROPERTY_KEY_HEIGHT_STATIC: PROPERTY_KEY_HEIGHT_STATIC,
-    PROPERTY_KEY_HEIGHT_ADDITION: PROPERTY_KEY_HEIGHT_ADDITION,
-    PROPERTY_KEY_HEIGHT_PERCENTAGE: PROPERTY_KEY_HEIGHT_PERCENTAGE,
-    PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL: PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL,
-    PROPERTY_KEY_HEIGHT_MIN: PROPERTY_KEY_HEIGHT_MIN,
-    PROPERTY_KEY_PADDING_TOP: PROPERTY_KEY_PADDING_TOP,
-    PROPERTY_KEY_PADDING_RIGHT: PROPERTY_KEY_PADDING_RIGHT,
-    PROPERTY_KEY_PADDING_BOTTOM: PROPERTY_KEY_PADDING_BOTTOM,
-    PROPERTY_KEY_PADDING_LEFT: PROPERTY_KEY_PADDING_LEFT,
-    PROPERTY_KEY_MARGIN_TOP: PROPERTY_KEY_MARGIN_TOP,
-    PROPERTY_KEY_MARGIN_RIGHT: PROPERTY_KEY_MARGIN_RIGHT,
-    PROPERTY_KEY_MARGIN_BOTTOM: PROPERTY_KEY_MARGIN_BOTTOM,
-    PROPERTY_KEY_MARGIN_LEFT: PROPERTY_KEY_MARGIN_LEFT,
-    PROPERTY_KEY_STACK_HORIZONTALLY_TOP: PROPERTY_KEY_STACK_HORIZONTALLY_TOP,
-    PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE: PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE,
-    PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM: PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM,
-    PROPERTY_KEY_STACK_VERTICALLY_LEFT: PROPERTY_KEY_STACK_VERTICALLY_LEFT,
-    PROPERTY_KEY_STACK_VERTICALLY_CENTER: PROPERTY_KEY_STACK_VERTICALLY_CENTER,
-    PROPERTY_KEY_STACK_VERTICALLY_RIGHT: PROPERTY_KEY_STACK_VERTICALLY_RIGHT,
-    PROPERTY_KEY_CENTER_HORIZONTALLY: PROPERTY_KEY_CENTER_HORIZONTALLY,
-    PROPERTY_KEY_CENTER_VERTICALLY: PROPERTY_KEY_CENTER_VERTICALLY,
-    PROPERTY_KEY_PRIORITY: PROPERTY_KEY_PRIORITY,
-    CLASS_ARTBOARD: CLASS_ARTBOARD,
-    CLASS_GROUP: CLASS_GROUP,
-    CLASS_SHAPE: CLASS_SHAPE,
-    CLASS_SYMBOL_INSTANCE: CLASS_SYMBOL_INSTANCE,
-    CLASS_SYMBOL_MASTER: CLASS_SYMBOL_MASTER,
-    CLASS_TEXT: CLASS_TEXT
+    alignment: {
+        rawValue: {
+            top: 'top',
+            middle: 'middle',
+            bottom: 'bottom',
+            left: 'left',
+            center: 'center',
+            right: 'right'
+        }
+    },
+    properties: {
+        re: {
+            include: new RegExp('\\[([^\\]]+)\\]'),
+            ignore: /\[ignore\]/i,
+            padding: /^\d+$/,
+            containerName: /(bg|container)/i
+        },
+        priority: priority,
+        sep: ':'
+    },
+    property: {
+        type: {
+            center: 'center',
+            margin: 'margin',
+            padding: 'padding',
+            size: 'size',
+            stack: 'stack'
+        },
+        key: {
+            widthStatic: widthStatic,
+            widthAddition: widthAddition,
+            widthPercentage: widthPercentage,
+            widthPercentageFull: widthPercentageFull,
+            widthMin: widthMin,
+            heightStatic: heightStatic,
+            heightAddition: heightAddition,
+            heightPercentage: heightPercentage,
+            heightPercentageFull: heightPercentageFull,
+            heightMin: heightMin,
+            paddingTop: paddingTop,
+            paddingRight: paddingRight,
+            paddingBottom: paddingBottom,
+            paddingLeft: paddingLeft,
+            marginTop: marginTop,
+            marginRight: marginRight,
+            marginBottom: marginBottom,
+            marginLeft: marginLeft,
+            stackHorizontallyTop: stackHorizontallyTop,
+            stackHorizontallyMiddle: stackHorizontallyMiddle,
+            stackHorizontallyBottom: stackHorizontallyBottom,
+            stackVerticallyLeft: stackVerticallyLeft,
+            stackVerticallyCenter: stackVerticallyCenter,
+            stackVerticallyRight: stackVerticallyRight,
+            centerHorizontally: centerHorizontally,
+            centerVertically: centerVertically
+        }
+    },
+    'class': {
+        artboard: 'MSArtboardGroup',
+        group: 'MSLayerGroup',
+        shape: 'MSShapeGroup',
+        symbolInstance: 'MSSymbolInstance',
+        symbolMaster: 'MSSymbolMaster',
+        text: 'MSTextLayer'
+    }
 };
 
 /***/ }),
-/* 28 */,
-/* 29 */
+/* 27 */
 /***/ (function(module, exports) {
 
 

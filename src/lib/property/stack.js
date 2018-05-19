@@ -14,12 +14,12 @@ StackProperty.prototype = Object.create(Property.prototype);
 
 StackProperty.validKeys = function() {
     return [
-        index.const.PROPERTY_KEY_STACK_HORIZONTALLY_TOP,
-        index.const.PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE,
-        index.const.PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM,
-        index.const.PROPERTY_KEY_STACK_VERTICALLY_LEFT,
-        index.const.PROPERTY_KEY_STACK_VERTICALLY_CENTER,
-        index.const.PROPERTY_KEY_STACK_VERTICALLY_RIGHT,
+        index.const.property.key.stackHorizontallyTop,
+        index.const.property.key.stackHorizontallyMiddle,
+        index.const.property.key.stackHorizontallyBottom,
+        index.const.property.key.stackVerticallyLeft,
+        index.const.property.key.stackVerticallyCenter,
+        index.const.property.key.stackVerticallyRight,
     ];
 };
 
@@ -36,28 +36,28 @@ StackProperty.prototype.isValid = function() {
 // Action
 
 StackProperty.prototype.type = function() {
-    return index.const.PROPERTY_TYPE_STACK;
+    return index.const.property.type.stack;
 };
 
 StackProperty.prototype._apply = function() {
     var frame = this.component().frame();
     switch (this.key()) {
-        case index.const.PROPERTY_KEY_STACK_HORIZONTALLY_TOP:
+        case index.const.property.key.stackHorizontallyTop:
             this.applyStackHorizontally(Alignment.top());
             break;
-        case index.const.PROPERTY_KEY_STACK_HORIZONTALLY_MIDDLE:
+        case index.const.property.key.stackHorizontallyMiddle:
             this.applyStackHorizontally(Alignment.middle());
             break;
-        case index.const.PROPERTY_KEY_STACK_HORIZONTALLY_BOTTOM:
+        case index.const.property.key.stackHorizontallyBottom:
             this.applyStackHorizontally(Alignment.bottom());
             break;
-        case index.const.PROPERTY_KEY_STACK_VERTICALLY_LEFT:
+        case index.const.property.key.stackVerticallyLeft:
             this.applyStackVertically(Alignment.left());
             break;
-        case index.const.PROPERTY_KEY_STACK_VERTICALLY_CENTER:
+        case index.const.property.key.stackVerticallyCenter:
             this.applyStackVertically(Alignment.center());
             break;
-        case index.const.PROPERTY_KEY_STACK_VERTICALLY_RIGHT:
+        case index.const.property.key.stackVerticallyRight:
             this.applyStackVertically(Alignment.right());
             break;
         /* istanbul ignore next */

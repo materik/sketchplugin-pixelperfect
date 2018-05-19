@@ -53,10 +53,10 @@ ComponentsFrame.prototype.right = function(ignoreMarginRight) {
     var right = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE)) {
+        if (component.properties().containsKey(index.const.property.key.widthPercentage)) {
             continue;
         }
-        if (ignoreMarginRight && component.properties().containsKey(index.const.PROPERTY_KEY_MARGIN_RIGHT)) {
+        if (ignoreMarginRight && component.properties().containsKey(index.const.property.key.marginRight)) {
             continue;
         }
         right = Math.max(right, component.frame().right());
@@ -68,10 +68,10 @@ ComponentsFrame.prototype.bottom = function(ignoreMarginBottom) {
     var bottom = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
+        if (component.properties().containsKey(index.const.property.key.heightPercentage)) {
             continue;
         }
-        if (ignoreMarginBottom && component.properties().containsKey(index.const.PROPERTY_KEY_MARGIN_BOTTOM)) {
+        if (ignoreMarginBottom && component.properties().containsKey(index.const.property.key.marginBottom)) {
             continue;
         }
         bottom = Math.max(bottom, component.frame().bottom());
@@ -92,7 +92,7 @@ ComponentsFrame.prototype.maxWidth = function() {
     var width = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(index.const.PROPERTY_KEY_WIDTH_PERCENTAGE)) {
+        if (component.properties().containsKey(index.const.property.key.widthPercentage)) {
             continue;
         }
         width = Math.max(width, component.frame().width());
@@ -104,7 +104,7 @@ ComponentsFrame.prototype.maxHeight = function() {
     var height = 0;
     for (var i = 0; i < this._components.count(); i++) {
         var component = this._components.objectAtIndex(i);
-        if (component.properties().containsKey(index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE)) {
+        if (component.properties().containsKey(index.const.property.key.heightPercentage)) {
             continue;
         }
         height = Math.max(height, component.frame().height());

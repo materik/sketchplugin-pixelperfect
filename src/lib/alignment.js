@@ -1,13 +1,6 @@
 
 var index = require('../index');
 
-var RAW_VALUE_TOP = 'top';
-var RAW_VALUE_MIDDLE = 'middle';
-var RAW_VALUE_BOTTOM = 'bottom';
-var RAW_VALUE_LEFT = 'left';
-var RAW_VALUE_CENTER = 'center';
-var RAW_VALUE_RIGHT = 'right';
-
 function Alignment(rawValue) {
     this._rawValue = rawValue;
 }
@@ -19,27 +12,27 @@ Alignment.init = function(rawValue) {
 };
 
 Alignment.top = function() {
-    return Alignment.init(RAW_VALUE_TOP);
+    return Alignment.init(index.const.alignment.rawValue.top);
 };
 
 Alignment.middle = function() {
-    return Alignment.init(RAW_VALUE_MIDDLE);
+    return Alignment.init(index.const.alignment.rawValue.middle);
 };
 
 Alignment.bottom = function() {
-    return Alignment.init(RAW_VALUE_BOTTOM);
+    return Alignment.init(index.const.alignment.rawValue.bottom);
 };
 
 Alignment.left = function() {
-    return Alignment.init(RAW_VALUE_LEFT);
+    return Alignment.init(index.const.alignment.rawValue.left);
 };
 
 Alignment.center = function() {
-    return Alignment.init(RAW_VALUE_CENTER);
+    return Alignment.init(index.const.alignment.rawValue.center);
 };
 
 Alignment.right = function() {
-    return Alignment.init(RAW_VALUE_RIGHT);
+    return Alignment.init(index.const.alignment.rawValue.right);
 };
 
 // Getter
@@ -53,22 +46,22 @@ Alignment.prototype.rawValue = function() {
 Alignment.prototype.align = function(component, d) {
     var frame = component.frame();
     switch (this.rawValue()) {
-        case RAW_VALUE_TOP:
+        case index.const.alignment.rawValue.top:
             frame.setY(0);
             break;
-        case RAW_VALUE_MIDDLE:
+        case index.const.alignment.rawValue.middle:
             frame.setY((d - frame.height()) / 2);
             break;
-        case RAW_VALUE_BOTTOM:
+        case index.const.alignment.rawValue.bottom:
             frame.setY(d - frame.height());
             break;
-        case RAW_VALUE_LEFT:
+        case index.const.alignment.rawValue.left:
             frame.setX(0);
             break;
-        case RAW_VALUE_CENTER:
+        case index.const.alignment.rawValue.center:
             frame.setX((d - frame.width()) / 2);
             break;
-        case RAW_VALUE_RIGHT:
+        case index.const.alignment.rawValue.right:
             frame.setX(d - frame.width());
             break;
     }

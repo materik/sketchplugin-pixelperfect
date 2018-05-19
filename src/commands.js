@@ -23,7 +23,7 @@ var makeEverythingPixelPerfect = function(context) {
     var nbrOfPages = 0;
     for (var i = 0; i < pages.count(); i++) {
         var page = pages.objectAtIndex(i);
-        if (!index.const.PROPERTIES_RE_IGNORE.test(page.name())) {
+        if (!index.const.properties.re.ignore.test(page.name())) {
             doc.setCurrentPage(page);
             page.select_byExpandingSelection(true, false);
 

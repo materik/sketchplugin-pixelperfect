@@ -13,16 +13,16 @@ SizeProperty.prototype = Object.create(Property.prototype);
 
 SizeProperty.validKeys = function() {
     return [
-        index.const.PROPERTY_KEY_WIDTH_STATIC,
-        index.const.PROPERTY_KEY_WIDTH_ADDITION,
-        index.const.PROPERTY_KEY_WIDTH_PERCENTAGE,
-        index.const.PROPERTY_KEY_WIDTH_PERCENTAGE_FULL,
-        index.const.PROPERTY_KEY_WIDTH_MIN,
-        index.const.PROPERTY_KEY_HEIGHT_STATIC,
-        index.const.PROPERTY_KEY_HEIGHT_ADDITION,
-        index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE,
-        index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL,
-        index.const.PROPERTY_KEY_HEIGHT_MIN,
+        index.const.property.key.widthStatic,
+        index.const.property.key.widthAddition,
+        index.const.property.key.widthPercentage,
+        index.const.property.key.widthPercentageFull,
+        index.const.property.key.widthMin,
+        index.const.property.key.heightStatic,
+        index.const.property.key.heightAddition,
+        index.const.property.key.heightPercentage,
+        index.const.property.key.heightPercentageFull,
+        index.const.property.key.heightMin,
     ];
 };
 
@@ -31,17 +31,17 @@ SizeProperty.init = function(component, key, value) {
 };
 
 SizeProperty.width = function(component, value) {
-    return SizeProperty.init(component, index.const.PROPERTY_KEY_WIDTH_STATIC, value);
+    return SizeProperty.init(component, index.const.property.key.widthStatic, value);
 };
 
 SizeProperty.height = function(component, value) {
-    return SizeProperty.init(component, index.const.PROPERTY_KEY_HEIGHT_STATIC, value);
+    return SizeProperty.init(component, index.const.property.key.heightStatic, value);
 };
 
 // Getter
 
 SizeProperty.prototype.type = function() {
-    return index.const.PROPERTY_TYPE_SIZE;
+    return index.const.property.type.size;
 };
 
 SizeProperty.prototype.isValid = function() {
@@ -53,34 +53,34 @@ SizeProperty.prototype.isValid = function() {
 SizeProperty.prototype._apply = function() {
     var frame = this.component().frame();
     switch (this.key()) {
-        case index.const.PROPERTY_KEY_WIDTH_STATIC:
+        case index.const.property.key.widthStatic:
             frame.setWidth(this.value());
             break;
-        case index.const.PROPERTY_KEY_WIDTH_ADDITION:
+        case index.const.property.key.widthAddition:
             frame.setWidth(frame.width() + this.value());
             break;
-        case index.const.PROPERTY_KEY_WIDTH_PERCENTAGE:
+        case index.const.property.key.widthPercentage:
             frame.setWidth(this.value() / 100 * this.component().widthOfParent(false, true));
             break;
-        case index.const.PROPERTY_KEY_WIDTH_PERCENTAGE_FULL:
+        case index.const.property.key.widthPercentageFull:
             frame.setWidth(this.value() / 100 * this.component().widthOfParent(true));
             break;
-        case index.const.PROPERTY_KEY_WIDTH_MIN:
+        case index.const.property.key.widthMin:
             frame.setWidth(frame.width() < this.value() ? this.value() : frame.width());
             break;
-        case index.const.PROPERTY_KEY_HEIGHT_STATIC:
+        case index.const.property.key.heightStatic:
             frame.setHeight(this.value());
             break;
-        case index.const.PROPERTY_KEY_HEIGHT_ADDITION:
+        case index.const.property.key.heightAddition:
             frame.setHeight(frame.height() + this.value());
             break;
-        case index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE:
+        case index.const.property.key.heightPercentage:
             frame.setHeight(this.value() / 100 * this.component().heightOfParent(false, true));
             break;
-        case index.const.PROPERTY_KEY_HEIGHT_PERCENTAGE_FULL:
+        case index.const.property.key.heightPercentageFull:
             frame.setHeight(this.value() / 100 * this.component().heightOfParent(true));
             break;
-        case index.const.PROPERTY_KEY_HEIGHT_MIN:
+        case index.const.property.key.heightMin:
             frame.setHeight(frame.height() < this.value() ? this.value() : frame.height());
             break;
         /* istanbul ignore next */
