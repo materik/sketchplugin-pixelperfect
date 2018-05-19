@@ -12,7 +12,7 @@ RegExpMap.init = function(entries) {
 RegExpMap.prototype.find = function(str) {
     for (var i = 0; i < this._entries.length; i++) {
         var entry = this._entries[i]
-        if (entry.regexp().test(str)) {
+        if (entry.test(str)) {
             return entry.value();
         }
     }
@@ -128,5 +128,5 @@ module.exports = {
             margin,
             padding,
         },
-    }
+    },
 };

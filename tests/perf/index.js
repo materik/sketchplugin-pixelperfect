@@ -215,6 +215,20 @@ describe('perf', function() {
                 }
             } , 1)
         });
+
+        it('_raw', function() {
+            var properties = []
+            for (var i = 0; i < 10000; i++) {
+                var component = src.Component.init(createLayer('10:10:r:t:b:l:xt:y:c:h:h100:w20'))
+                properties.push(component.properties())
+            }
+
+            performanceTest( () => {
+                for (var i = 0; i < properties.length; i++) {
+                    properties[i]._raw()
+                }
+            } , 0.1)
+        })
     });
 
     describe('components', function() {
