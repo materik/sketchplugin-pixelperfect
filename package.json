@@ -43,7 +43,7 @@
         "start": "skpm-build --watch --run",
         "test": "nyc npm run unit",
         "unit": "mocha --recursive tests/unit",
-        "update-metadata": "./scripts/update-metadata.js",
+        "update-readme": "./scripts/update-readme.js",
         "watch": "skpm-build --watch"
     },
     "skpm": {
