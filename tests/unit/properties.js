@@ -79,7 +79,7 @@ describe('properties', function() {
         assert.equal(properties.objectAtIndex(0).key(), 'width');
         assert.equal(properties.objectAtIndex(1).isValid(), true);
         assert.equal(properties.objectAtIndex(1).key(), 'height');
-        var group = createLayerGroup('1:2:w100:3:4');
+        var group = createLayerGroup('1:2:3:4:w100');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = src.Component.init(group);
         var properties = src.Properties.init(component);
@@ -154,26 +154,6 @@ describe('properties', function() {
 
     it('padding 4', function() {
         var group = createLayerGroup('[1:2:3:4]');
-        group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var component = src.Component.init(group);
-        var properties = src.Properties.init(component);
-        assert.equal(properties.count(), 4);
-        assert.equal(properties.objectAtIndex(0).isValid(), true);
-        assert.equal(properties.objectAtIndex(0).key(), 'padding-right');
-        assert.equal(properties.objectAtIndex(0).value(), 2);
-        assert.equal(properties.objectAtIndex(1).isValid(), true);
-        assert.equal(properties.objectAtIndex(1).key(), 'padding-bottom');
-        assert.equal(properties.objectAtIndex(1).value(), 3);
-        assert.equal(properties.objectAtIndex(2).isValid(), true);
-        assert.equal(properties.objectAtIndex(2).key(), 'padding-top');
-        assert.equal(properties.objectAtIndex(2).value(), 1);
-        assert.equal(properties.objectAtIndex(3).isValid(), true);
-        assert.equal(properties.objectAtIndex(3).key(), 'padding-left');
-        assert.equal(properties.objectAtIndex(3).value(), 4);
-    });
-
-    it('padding 5', function() {
-        var group = createLayerGroup('[1:2:3:4:5]');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = src.Component.init(group);
         var properties = src.Properties.init(component);

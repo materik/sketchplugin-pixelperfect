@@ -49,7 +49,7 @@ PaddingProperty.left = function(component, value) {
 };
 
 PaddingProperty.modify = function(str) {
-    return index.require.map().property.modify.padding.replace(str, true);
+    return index.require.map().property.modify.padding.replace(str);
 };
 
 PaddingProperty.isOuter = function(component) {

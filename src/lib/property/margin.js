@@ -41,7 +41,7 @@ MarginProperty.left = function(component, value) {
 };
 
 MarginProperty.modify = function(str) {
-    return index.require.map().property.modify.margin.replace(str, true);
+    return index.require.map().property.modify.margin.replace(str);
 };
 
 // Getter

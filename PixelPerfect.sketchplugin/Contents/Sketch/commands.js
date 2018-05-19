@@ -1719,15 +1719,10 @@ RegExpMap.prototype.find = function (str) {
     }
 };
 
-RegExpMap.prototype.replace = function (str, replaceOne) {
+RegExpMap.prototype.replace = function (str) {
     for (var i = 0; i < this._entries.length; i++) {
         var entry = this._entries[i];
-        if (entry.test(str)) {
-            str = entry.replace(str);
-            if (replaceOne) {
-                return str;
-            }
-        }
+        str = entry.replace(str);
     }
     return str;
 };
@@ -1752,7 +1747,10 @@ RegExpMapEntry.prototype.value = function () {
 };
 
 RegExpMapEntry.prototype.replace = function (str) {
-    return str.replace(this.regexp(), this.value());
+    if (this.test(str)) {
+        return str.replace(this.regexp(), this.value());
+    }
+    return str;
 };
 
 RegExpMapEntry.prototype.test = function (str) {
@@ -1769,7 +1767,7 @@ var generic = RegExpMap.init([RegExpMapEntry.init(/^:/, ''), RegExpMapEntry.init
 
 var margin = RegExpMap.init([RegExpMapEntry.init(/(?:^|:)(m|margin|trbl|bg)(?:$|:)/i, ':b:r:t:l:')]);
 
-var padding = RegExpMap.init([RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+):([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$4:'), RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$2:'), RegExpMapEntry.init(/(?:^|:)([\d]+):([\d]+)(?:$|:)/, ':pt$1:pr$2:pb$1:pl$2:'), RegExpMapEntry.init(/(?:^|:)([\d]+)(?:$|:)/, ':pt$1:pr$1:pb$1:pl$1:'), RegExpMapEntry.init(/(?:^|:)(p|padding)(?:$|:)/i, ':pt:pr:pb:pl:')]);
+var padding = RegExpMap.init([RegExpMapEntry.init(/(?:^|:)(\d+):(\d+):(\d+):(\d+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$4:'), RegExpMapEntry.init(/(?:^|:)(\d+):(\d+):(\d+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$2:'), RegExpMapEntry.init(/(?:^|:)(\d+):(\d+)(?:$|:)/, ':pt$1:pr$2:pb$1:pl$2:'), RegExpMapEntry.init(/(?:^|:)(\d+)(?:$|:)/, ':pt$1:pr$1:pb$1:pl$1:'), RegExpMapEntry.init(/(?:^|:)(p|padding)(?:$|:)/i, ':pt:pr:pb:pl:')]);
 
 // -----------------------------------------------------------
 
@@ -1993,7 +1991,7 @@ MarginProperty.left = function (component, value) {
 };
 
 MarginProperty.modify = function (str) {
-    return index.require.map().property.modify.margin.replace(str, true);
+    return index.require.map().property.modify.margin.replace(str);
 };
 
 // Getter
@@ -2087,7 +2085,7 @@ PaddingProperty.left = function (component, value) {
 };
 
 PaddingProperty.modify = function (str) {
-    return index.require.map().property.modify.padding.replace(str, true);
+    return index.require.map().property.modify.padding.replace(str);
 };
 
 PaddingProperty.isOuter = function (component) {

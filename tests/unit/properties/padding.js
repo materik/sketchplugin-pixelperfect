@@ -16,7 +16,10 @@ describe('property', function() {
             assert.equal(src.PaddingProperty.modify('h+100:1:2:w+100'), 'h+100:pt1:pr2:pb1:pl2:w+100');
             assert.equal(src.PaddingProperty.modify('h+100:1:2:3:w+100'), 'h+100:pt1:pr2:pb3:pl2:w+100');
             assert.equal(src.PaddingProperty.modify('h+100:1:2:3:4:w+100'), 'h+100:pt1:pr2:pb3:pl4:w+100');
-            assert.equal(src.PaddingProperty.modify('h+100:1:2:3:4:5:w+100'), 'h+100:pt1:pr2:pb3:pl4:5:w+100');
+            // NOTE(materik):
+            // * I can't keep handling user errors, so these will result in a unexpected behaviour
+            assert.equal(src.PaddingProperty.modify('h+100:1:2:3:4:5:w+100'), 'h+100:pt1:pr2:pb3:pl4:pt5:pr5:pb5:pl5:w+100');
+            assert.equal(src.PaddingProperty.modify('h+100:1:2:w+100:3:4'), 'h+100:pt1:pr2:pb1:pl2:w+100:pt3:pr3:pb3:pl3:4');
         });
 
         describe('outer', function() {
