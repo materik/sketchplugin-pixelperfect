@@ -269,6 +269,21 @@ describe('perf', function() {
             } , 1)
         });
     });
+
+    describe('index', function() {
+        it('require', function() {
+            var requires = Object.keys(index.require)
+
+            performanceTest( () => {
+                for (var i = 0; i < 100000; i++) {
+                    for (var j = 0; j < requires.length; j++) {
+                        var dependecy = index.require[requires[j]]
+                        assert.ok(dependecy())
+                    }
+                }
+            } , 1)
+        })
+    })
 });
 
 var performanceTest = function(test, lessThanSec) {
