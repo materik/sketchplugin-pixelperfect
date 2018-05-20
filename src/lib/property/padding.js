@@ -1,5 +1,5 @@
 
-var index = require('../../index');
+var index = require('../..');
 
 var CenterProperty = index.require.property.center();
 var MarginProperty = index.require.property.margin();

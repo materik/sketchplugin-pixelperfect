@@ -1,5 +1,5 @@
 
-var index = require('../index');
+var index = require('..');
 
 var ComponentFrame = index.require.componentFrame();
 var Constraints = index.require.constraints();

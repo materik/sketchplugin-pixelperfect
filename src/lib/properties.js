@@ -1,5 +1,5 @@
 
-var index = require('../index');
+var index = require('..');
 
 var MarginProperty = index.require.property.margin();
 var PaddingProperty = index.require.property.padding();

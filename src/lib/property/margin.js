@@ -1,5 +1,5 @@
 
-var index = require('../../index');
+var index = require('../..');
 
 var Property = index.require.property();
 

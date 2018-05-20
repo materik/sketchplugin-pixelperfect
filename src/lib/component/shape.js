@@ -1,5 +1,5 @@
 
-var index = require('../../index');
+var index = require('../..');
 
 var Component = index.require.component();
 var Components = index.require.components();

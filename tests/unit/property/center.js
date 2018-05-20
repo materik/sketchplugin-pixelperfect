@@ -1,45 +1,45 @@
 
-var src = require('../../src');
+var index = require('../..');
 
 describe('property', function() {
     describe('center', function() {
         it('center-horizontally', function() {
-            var property = src.Property.parse(src.Component.init(createLayer('c')));
+            var property = index.Property.parse(index.Component.init(createLayer('c')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'center-horizontally');
             assert.equal(property.value(), 0);
         });
 
         it('center-horizontally-addition', function() {
-            var property = src.Property.parse(src.Component.init(createLayer('c+16')));
+            var property = index.Property.parse(index.Component.init(createLayer('c+16')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'center-horizontally');
             assert.equal(property.value(), 16);
         });
 
         it('center-horizontally-subtraction', function() {
-            var property = src.Property.parse(src.Component.init(createLayer('c-16')));
+            var property = index.Property.parse(index.Component.init(createLayer('c-16')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'center-horizontally');
             assert.equal(property.value(), -16);
         });
 
         it('center-vertically', function() {
-            var property = src.Property.parse(src.Component.init(createLayer('v')));
+            var property = index.Property.parse(index.Component.init(createLayer('v')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'center-vertically');
             assert.equal(property.value(), 0);
         });
 
         it('center-vertically-addition', function() {
-            var property = src.Property.parse(src.Component.init(createLayer('v+16')));
+            var property = index.Property.parse(index.Component.init(createLayer('v+16')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'center-vertically');
             assert.equal(property.value(), 16);
         });
 
         it('center-vertically-subtraction', function() {
-            var property = src.Property.parse(src.Component.init(createLayer('v-16')));
+            var property = index.Property.parse(index.Component.init(createLayer('v-16')));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'center-vertically');
             assert.equal(property.value(), -16);
@@ -49,12 +49,12 @@ describe('property', function() {
             it('center-horizontally', function() {
                 var layer1 = createLayer('c', 1, 2, 5, 4);
                 var layer2 = createLayer('bg', 10, 11, 12, 13);
-                var component = src.Component.init(layer1);
-                var background = src.Component.init(layer2);
+                var component = index.Component.init(layer1);
+                var background = index.Component.init(layer2);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                var property = src.Property.parse(component);
+                var property = index.Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().x(), 14);
             });
@@ -62,12 +62,12 @@ describe('property', function() {
             it('center-horizontally-addition', function() {
                 var layer1 = createLayer('c+2', 1, 2, 5, 4);
                 var layer2 = createLayer('bg', 10, 11, 12, 13);
-                var component = src.Component.init(layer1);
-                var background = src.Component.init(layer2);
+                var component = index.Component.init(layer1);
+                var background = index.Component.init(layer2);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                var property = src.Property.parse(component);
+                var property = index.Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().x(), 16);
             });
@@ -75,12 +75,12 @@ describe('property', function() {
             it('center-horizontally-subtraction', function() {
                 var layer1 = createLayer('c-2', 1, 2, 5, 4);
                 var layer2 = createLayer('bg', 10, 11, 12, 13);
-                var component = src.Component.init(layer1);
-                var background = src.Component.init(layer2);
+                var component = index.Component.init(layer1);
+                var background = index.Component.init(layer2);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                var property = src.Property.parse(component);
+                var property = index.Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().x(), 12);
             });
@@ -88,12 +88,12 @@ describe('property', function() {
             it('center-vertically', function() {
                 var layer1 = createLayer('v', 1, 2, 5, 4);
                 var layer2 = createLayer('bg', 10, 11, 12, 13);
-                var component = src.Component.init(layer1);
-                var background = src.Component.init(layer2);
+                var component = index.Component.init(layer1);
+                var background = index.Component.init(layer2);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                var property = src.Property.parse(component);
+                var property = index.Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().y(), 16);
             });
@@ -101,12 +101,12 @@ describe('property', function() {
             it('center-vertically-addition', function() {
                 var layer1 = createLayer('v+2', 1, 2, 5, 4);
                 var layer2 = createLayer('bg', 10, 11, 12, 13);
-                var component = src.Component.init(layer1);
-                var background = src.Component.init(layer2);
+                var component = index.Component.init(layer1);
+                var background = index.Component.init(layer2);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                var property = src.Property.parse(component);
+                var property = index.Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().y(), 18);
             });
@@ -114,12 +114,12 @@ describe('property', function() {
             it('center-vertically-subtraction', function() {
                 var layer1 = createLayer('v-2', 1, 2, 5, 4);
                 var layer2 = createLayer('bg', 10, 11, 12, 13);
-                var component = src.Component.init(layer1);
-                var background = src.Component.init(layer2);
+                var component = index.Component.init(layer1);
+                var background = index.Component.init(layer2);
                 var group = createLayerGroup();
                 group.insertLayer_afterLayerOrAtEnd(layer1);
                 group.insertLayer_afterLayerOrAtEnd(layer2);
-                var property = src.Property.parse(component);
+                var property = index.Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().y(), 14);
             });

@@ -1,11 +1,11 @@
 
-var src = require('../src');
+var index = require('..');
 
 describe('perf', function() {
     this.timeout(10000);
 
     beforeEach(function() {
-        src.SymbolStore.sharedInstance.clean();
+        index.SymbolStore.sharedInstance.clean();
     })
 
     describe('many symbol masters', function() {
@@ -19,7 +19,7 @@ describe('perf', function() {
                 artboard.insertLayer_afterLayerOrAtEnd(instance);
             }
 
-            performanceTest( () => src.Component.apply(artboard) , 1.5)
+            performanceTest( () => index.Component.apply(artboard) , 1.5)
         })
 
         it('many artboards', function() {
@@ -33,7 +33,7 @@ describe('perf', function() {
                 artboards.addObject(artboard)
             }
 
-            performanceTest( () => src.Components.apply(artboards) , 1.5)
+            performanceTest( () => index.Components.apply(artboards) , 1.5)
         })
     })
 
@@ -46,7 +46,7 @@ describe('perf', function() {
                 artboards.addObject(artboard)
             }
 
-            performanceTest( () => src.Components.apply(artboards) , 1)
+            performanceTest( () => index.Components.apply(artboards) , 1)
         });
 
         it('with padding', function() {
@@ -57,7 +57,7 @@ describe('perf', function() {
                 artboards.addObject(artboard)
             }
 
-            performanceTest( () => src.Components.apply(artboards) , 1)
+            performanceTest( () => index.Components.apply(artboards) , 1)
         });
     })
 
@@ -74,7 +74,7 @@ describe('perf', function() {
             artboards.addObject(artboard)
         }
 
-        performanceTest( () => src.Components.apply(artboards) , 1)
+        performanceTest( () => index.Components.apply(artboards) , 1)
 
         assert.equal(layer.frame().width(), 100)
         assert.equal(layer.frame().height(), 200)
@@ -86,7 +86,7 @@ describe('perf', function() {
             artboard.insertLayer_afterLayerOrAtEnd(createLayer('l:r:w100:w+10:h100'));
         }
 
-        performanceTest( () => src.Component.apply(artboard) , 1)
+        performanceTest( () => index.Component.apply(artboard) , 1)
     });
 
     describe('padding', function() {
@@ -101,7 +101,7 @@ describe('perf', function() {
                 groups.addObject(group)
             }
 
-            performanceTest( () => src.Components.apply(groups) , 1.5)
+            performanceTest( () => index.Components.apply(groups) , 1.5)
         });
 
         it('inner', function() {
@@ -113,7 +113,7 @@ describe('perf', function() {
                 groups.addObject(group)
             }
 
-            performanceTest( () => src.Components.apply(groups) , 1.5)
+            performanceTest( () => index.Components.apply(groups) , 1.5)
         });
     });
 
@@ -133,7 +133,7 @@ describe('perf', function() {
         var artboard = createArtboard('', 0, 0, 400, 400);
         artboard.insertLayer_afterLayerOrAtEnd(instance)
 
-        performanceTest( () => src.Component.apply(artboard) , 0.5)
+        performanceTest( () => index.Component.apply(artboard) , 0.5)
 
         assert.equal(layer.frame().width(), 100)
         assert.equal(layer.frame().height(), 200)
@@ -148,8 +148,8 @@ describe('perf', function() {
 
             var top;
             performanceTest( () => {
-                top = src.Component.init(group).components().frame().top()
-                top = src.Component.init(group).components().frame().top()
+                top = index.Component.init(group).components().frame().top()
+                top = index.Component.init(group).components().frame().top()
             } , 0.5)
 
             assert.equal(top, 0);
@@ -163,8 +163,8 @@ describe('perf', function() {
 
             var right;
             performanceTest( () => {
-                right = src.Component.init(group).components().frame().right()
-                right = src.Component.init(group).components().frame().right()
+                right = index.Component.init(group).components().frame().right()
+                right = index.Component.init(group).components().frame().right()
             } , 0.5)
 
             assert.equal(right, 10009);
@@ -178,8 +178,8 @@ describe('perf', function() {
 
             var bottom;
             performanceTest( () => {
-                bottom = src.Component.init(group).components().frame().bottom()
-                bottom = src.Component.init(group).components().frame().bottom()
+                bottom = index.Component.init(group).components().frame().bottom()
+                bottom = index.Component.init(group).components().frame().bottom()
             } , 0.5)
 
             assert.equal(bottom, 10009);
@@ -193,8 +193,8 @@ describe('perf', function() {
 
             var left;
             performanceTest( () => {
-                left = src.Component.init(group).components().frame().left()
-                left = src.Component.init(group).components().frame().left()
+                left = index.Component.init(group).components().frame().left()
+                left = index.Component.init(group).components().frame().left()
             } , 0.5)
 
             assert.equal(left, 0);
@@ -205,7 +205,7 @@ describe('perf', function() {
         it('containsKey', function() {
             var properties = []
             for (var i = 0; i < 10000; i++) {
-                var component = src.Component.init(createLayer('10:10:r:t:b:l:xt:y:c:h:h100:w20'))
+                var component = index.Component.init(createLayer('10:10:r:t:b:l:xt:y:c:h:h100:w20'))
                 properties.push(component.properties())
             }
 
@@ -219,7 +219,7 @@ describe('perf', function() {
         it('_raw', function() {
             var properties = []
             for (var i = 0; i < 10000; i++) {
-                var component = src.Component.init(createLayer('10:10:r:t:b:l:xt:y:c:h:h100:w20'))
+                var component = index.Component.init(createLayer('10:10:r:t:b:l:xt:y:c:h:h100:w20'))
                 properties.push(component.properties())
             }
 
@@ -235,11 +235,11 @@ describe('perf', function() {
         it('containsName', function() {
             var items = []
             for (var i = 0; i < 1500; i++) {
-                var item = src.Component.init(createLayer(String(i)))
+                var item = index.Component.init(createLayer(String(i)))
                 items.push(item)
             }
 
-            var components = src.Components.items(items)
+            var components = index.Components.items(items)
 
             performanceTest( () => {
                 for (var i = 0; i < components.count(); i++) {
@@ -252,11 +252,11 @@ describe('perf', function() {
             var items = []
             for (var i = 0; i < 4000; i++) {
                 var name = i == 2000 ? 'bg' : String(i);
-                var item = src.Component.init(createLayer(name))
+                var item = index.Component.init(createLayer(name))
                 items.push(item)
             }
 
-            var components = src.Components.items(items)
+            var components = index.Components.items(items)
 
             performanceTest( () => {
                 for (var i = 0; i < components.count(); i++) {

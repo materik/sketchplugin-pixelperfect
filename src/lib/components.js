@@ -1,9 +1,9 @@
 
-var index = require('../index');
+var index = require('..');
 
-var Component = require('./component');
-var ComponentsFrame = require('./components-frame');
-var Properties = require('./properties');
+var Component = index.require.component();
+var ComponentsFrame = index.require.componentsFrame();
+var Properties = index.require.properties();
 
 function Components(layers, parent, items) {
     this._layers = layers || NSArray.new();

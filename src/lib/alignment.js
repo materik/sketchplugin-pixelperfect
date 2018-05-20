@@ -1,5 +1,5 @@
 
-var index = require('../index');
+var index = require('..');
 
 function Alignment(rawValue) {
     this._rawValue = rawValue;

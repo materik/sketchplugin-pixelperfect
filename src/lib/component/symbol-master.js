@@ -1,5 +1,5 @@
 
-var index = require('../../index');
+var index = require('../..');
 
 var ArtboardComponent = index.require.component.artboard();
 var Component = index.require.component();

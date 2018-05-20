@@ -1,5 +1,5 @@
 
-var src = require('../src');
+var index = require('..');
 
 describe('utils', function() {
     describe('Math', function() {

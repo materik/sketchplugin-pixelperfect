@@ -1,5 +1,5 @@
 
-var index = require('../index');
+var index = require('..');
 
 function Property(component, key, value) {
     this._component = component;

@@ -1,7 +1,7 @@
 
 global.assert = require('assert');
 
-var PATH_ROOT = '../..';
+var PATH_ROOT = '..';
 var PATH_SRC = PATH_ROOT + '/src';
 var PATH_LIB = PATH_SRC + '/lib';
 var PATH_COMPONENTS = PATH_LIB + '/components';

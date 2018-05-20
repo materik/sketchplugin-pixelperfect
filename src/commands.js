@@ -1,7 +1,7 @@
 
-var index = require('./index');
+var index = require('.');
 
-var Components = require('./lib/components');
+var Components = index.require.components();
 
 var makePixelPerfect = function(context) {
     var doc = context.document;

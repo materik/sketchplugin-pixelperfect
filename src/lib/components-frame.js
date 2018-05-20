@@ -2,7 +2,7 @@
 var DEFAULT_MIN_TOP = 999999;
 var DEFAULT_MIN_LEFT = 999999;
 
-var index = require('../index');
+var index = require('..');
 
 function ComponentsFrame(components) {
     var Components = index.require.components();

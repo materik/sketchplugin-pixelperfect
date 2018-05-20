@@ -1,18 +1,18 @@
 
-var src = require('../src');
+var index = require('..');
 
 describe('property', function() {
     it('invalid', function() {
-        var property = new src.Property(src.Component.init(createLayer('Hej')));
+        var property = new index.Property(index.Component.init(createLayer('Hej')));
         assert.equal(property.isValid(), false);
-        var property = src.Property.parse(src.Component.init(createLayer('Hej')));
+        var property = index.Property.parse(index.Component.init(createLayer('Hej')));
         assert.equal(property);
     });
 
     describe('apply', function() {
         it('multiple', function() {
-            var component = src.Component.init(createLayer('l2:t3:w100:h200'));
-            var properties = src.Properties.init(component);
+            var component = index.Component.init(createLayer('l2:t3:w100:h200'));
+            var properties = index.Properties.init(component);
             properties.apply();
             assert.equal(component.frame().x(), 2);
             assert.equal(component.frame().y(), 3);
