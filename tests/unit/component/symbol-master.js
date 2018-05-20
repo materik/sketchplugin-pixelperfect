@@ -25,15 +25,13 @@ describe('components', function() {
             assert.deepEqual(component.properties().find('padding-right').value(), 0)
             assert.deepEqual(component.properties().find('padding-bottom').value(), 0)
             assert.deepEqual(component.properties().find('padding-left').value(), 0)
-            // TODO(materik):
-            // * this should be set
-            // var master = createSymbolMaster('ptb10')
-            // master.insertLayer_afterLayerOrAtEnd(createLayer())
-            // var component = Component.init(master)
-            // assert.deepEqual(component.properties().find('padding-top').value(), 10)
-            // assert.deepEqual(component.properties().find('padding-right').value(), 0)
-            // assert.deepEqual(component.properties().find('padding-bottom').value(), 10)
-            // assert.deepEqual(component.properties().find('padding-left').value(), 0)
+            var master = createSymbolMaster('ptb10')
+            master.insertLayer_afterLayerOrAtEnd(createLayer())
+            var component = Component.init(master)
+            assert.deepEqual(component.properties().find('padding-top').value(), 10)
+            assert.deepEqual(component.properties().find('padding-right').value(), 0)
+            assert.deepEqual(component.properties().find('padding-bottom').value(), 10)
+            assert.deepEqual(component.properties().find('padding-left').value(), 0)
         })
 
         it('shouldApply', function() {
@@ -54,15 +52,15 @@ describe('components', function() {
             var master = createSymbolMaster('pt:pb:h>100', 0, 0, 200, 300)
             master.insertLayer_afterLayerOrAtEnd(createLayer('h50'))
             Component.apply(master)
-            assert.equal(master.frame().width(), 200)
+            assert.equal(master.frame().width(), 1)
             assert.equal(master.frame().height(), 100)
             var master = createSymbolMaster('pt:pb:w>100', 0, 0, 200, 300)
             var layer = createLayer('w50:h50:h')
             master.insertLayer_afterLayerOrAtEnd(layer)
             Component.apply(master)
-            assert.equal(master.frame().width(), 200)
+            assert.equal(master.frame().width(), 100)
             assert.equal(master.frame().height(), 50)
-            assert.equal(layer.frame().x(), 75)
+            assert.equal(layer.frame().x(), 25)
         });
     });
 });

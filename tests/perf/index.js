@@ -206,6 +206,18 @@ describe('perf', function() {
     })
 
     describe('properties', function() {
+        it('symbol-master', function() {
+            var master = createSymbolMaster('pbt10:w100:h>100')
+            master.insertLayer_afterLayerOrAtEnd(createLayer())
+            var component = Component.init(master)
+
+            performanceTest( () => {
+                for (var i = 0; i < 100000; i++) {
+                    assert.equal(component.properties().count(), 6)
+                }
+            } , 0.1)
+        })
+
         it('containsKey', function() {
             var properties = []
             for (var i = 0; i < 10000; i++) {

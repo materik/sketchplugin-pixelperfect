@@ -156,15 +156,6 @@ Properties.prototype.addProperty = function(property) {
     }
 };
 
-Properties.prototype.addZeroPadding = function() {
-    console.log(PaddingProperty.top(this.component()).isValid())
-    this.addProperty(PaddingProperty.top(this.component()));
-    this.addProperty(PaddingProperty.right(this.component()));
-    this.addProperty(PaddingProperty.bottom(this.component()));
-    this.addProperty(PaddingProperty.left(this.component()));
-    this._sort();
-};
-
 // Private
 
 Properties.prototype._raw = function() {

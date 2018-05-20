@@ -306,21 +306,6 @@ describe('properties', function() {
         assert.equal(properties.containsMarginRightOrLeft(), true);
     });
 
-    it('addZeroPadding', function() {
-        var group = createArtboard();
-        group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var properties = Properties.init(Component.init(group));
-        assert.equal(properties.count(), 0);
-        properties.addZeroPadding();
-        assert.equal(properties.count(), 4);
-        var master = createSymbolMaster();
-        master.insertLayer_afterLayerOrAtEnd(createLayer());
-        var properties = Properties.init(Component.init(master));
-        assert.equal(properties.count(), 0);
-        properties.addZeroPadding();
-        assert.equal(properties.count(), 4);
-    });
-
     describe('apply', function() {
         it('default', function() {
             var layer = createLayer('w100:h200')
