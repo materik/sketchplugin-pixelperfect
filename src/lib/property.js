@@ -12,27 +12,27 @@ function Property(component, key, value) {
 Property.init = function(component, key, value) {
     var CenterProperty = index.require.property.center();
     var property = new CenterProperty(component, key, value);
-    if (property && property.isValid()) {
+    if (property.isValid()) {
         return property;
     }
     var MarginProperty = index.require.property.margin();
     var property = new MarginProperty(component, key, value);
-    if (property && property.isValid()) {
+    if (property.isValid()) {
         return property;
     }
     var PaddingProperty = index.require.property.padding();
     var property = new PaddingProperty(component, key, value);
-    if (property && property.isValid()) {
+    if (property.isValid()) {
         return property;
     }
     var SizeProperty = index.require.property.size();
     var property = new SizeProperty(component, key, value);
-    if (property && property.isValid()) {
+    if (property.isValid()) {
         return property;
     }
     var StackProperty = index.require.property.stack();
     var property = new StackProperty(component, key, value);
-    if (property && property.isValid()) {
+    if (property.isValid()) {
         return property;
     }
     component.debug('~ Property: invalid <' + key + '> <' + value + '>');
@@ -73,10 +73,6 @@ Property.prototype.isValid = function() {
 // Action
 
 Property.prototype.apply = function() {
-    if (!this.isValid()) {
-        return;
-    }
-
     this.component().debugFrame();
     this._apply();
     this.component().debug('~ Property: apply: ' + this.toString());
