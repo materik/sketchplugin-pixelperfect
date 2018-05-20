@@ -10,26 +10,6 @@ describe('component', function() {
         assert.equal(layer.frame().width(), 3);
     });
 
-    it('shouldIgnoreStack', function() {
-        var layer1 = createLayer('1', 1, 2, 3, 4);
-        var layer2 = createLayer('2', 5, 6, 7, 8);
-        layer2.setIsVisible(false);
-        var layer3 = createLayer('3', 9, 10, 11, 12);
-        var group = createLayerGroup('x10');
-        group.insertLayer_afterLayerOrAtEnd(layer1);
-        group.insertLayer_afterLayerOrAtEnd(layer2);
-        group.insertLayer_afterLayerOrAtEnd(layer3);
-        Component.apply(group);
-        assert.equal(layer1.frame().x(), 0);
-        assert.equal(layer2.frame().x(), 4);
-        assert.equal(layer3.frame().x(), 13);
-        group.setName('y10');
-        Component.apply(group);
-        assert.equal(layer1.frame().y(), 0);
-        assert.equal(layer2.frame().y(), 4);
-        assert.equal(layer3.frame().y(), 14);
-    });
-
     it('localSymbol', function() {
         var master = createSymbolMaster('master', 5, 6, 7, 8);
         var layer = createLayer('w1', 1, 2, 3, 4);

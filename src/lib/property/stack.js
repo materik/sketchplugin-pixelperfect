@@ -73,12 +73,11 @@ Property.prototype.applyStackHorizontally = function(alignment) {
     var x = 0;
     for (var k = components.count() - 1; k >= 0; k--) {
         var component = components.objectAtIndex(k);
-        if (component.isVisible()) {
-            alignment.align(component, h);
-            component.frame().setX(x);
 
-            x += component.frame().width() + this.value();
-        }
+        alignment.align(component, h);
+        component.frame().setX(x);
+
+        x += component.frame().width() + this.value();
     }
 };
 
@@ -89,12 +88,11 @@ Property.prototype.applyStackVertically = function(alignment) {
     var y = 0;
     for (var k = components.count() - 1; k >= 0; k--) {
         var component = components.objectAtIndex(k);
-        if (component.isVisible()) {
-            alignment.align(component, w);
-            component.frame().setY(y);
 
-            y += component.frame().height() + this.value();
-        }
+        alignment.align(component, w);
+        component.frame().setY(y);
+
+        y += component.frame().height() + this.value();
     }
 };
 

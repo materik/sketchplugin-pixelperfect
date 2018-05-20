@@ -3,9 +3,19 @@ var index = require('../..');
 
 var Component = index.require.component();
 var Property = index.require.property();
+var StackProperty = index.require.property.stack();
 
 describe('property', function() {
     describe('stack', function() {
+        it('type', function() {
+            var property = StackProperty.init(undefined, 'stack-horizontally-middle')
+            assert.equal(property.type(), 'stack');
+            var property = Property.parse(Component.init(createLayer('xt10')));
+            assert.equal(property.type(), 'stack');
+            var property = Property.parse(Component.init(createLayer('yl10')));
+            assert.equal(property.type(), 'stack');
+        })
+
         it('stack-horizontally-top', function() {
             var property = Property.parse(Component.init(createLayer('xt10')));
             assert.equal(property.isValid(), true);
