@@ -1,7 +1,7 @@
 
 var index = require('..');
 
-describe('utils', function() {
+describe('foundation', function() {
     describe('Math', function() {
         it('roundWithPrecision', function() {
             assert.equal(Math.roundWithPrecision(1.2345), 1);
