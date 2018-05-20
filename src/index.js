@@ -1,25 +1,21 @@
 
 require('./extensions');
 
+var _requireCache = {};
+
 var _requireLib = function(lib) {
-    if (this[lib] == undefined) {
-        this[lib] = require('./lib/' + lib)
+    if (_requireCache[lib] == undefined) {
+        _requireCache[lib] = require('./lib/' + lib)
     }
-    return this[lib]
+    return _requireCache[lib]
 }
 
 var _requireComponent = function(component) {
-    if (this[component] == undefined) {
-        this[component] = _requireLib('component/' + component)
-    }
-    return this[component]
+    return _requireLib('component/' + component);
 }
 
 var _requireProperty = function(property) {
-    if (this[property] == undefined) {
-        this[property] = _requireLib('property/' + property)
-    }
-    return this[property]
+    return _requireLib('property/' + property);
 }
 
 var _requireWithSubs = function(fn, dict) {
@@ -32,6 +28,15 @@ var _requireWithSubs = function(fn, dict) {
 // -----------------------------------------------------------
 
 module.exports = {
+    makePixelPerfect: function(context) {
+        var Context = this.require.context();
+        Context.apply(context);
+    },
+    makeEverythingPixelPerfect: function(context) {
+        var Context = this.require.context();
+        Context.applyToEverything(context);
+    },
+
     const: require('./const'),
     debug: require('./debug'),
 
@@ -50,6 +55,9 @@ module.exports = {
         },
         constraints: function() {
             return _requireLib('constraints');
+        },
+        context: function() {
+            return _requireLib('context');
         },
         map: function() {
             return _requireLib('map')

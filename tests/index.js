@@ -9,13 +9,9 @@ var PATH_PROPERTIES = PATH_LIB + '/properties';
 
 require('./mock');
 
-var commands = require(PATH_SRC + '/commands');
 var index = require(PATH_SRC)
 
 module.exports = {
-    makePixelPerfect: commands.makePixelPerfect,
-    makeEverythingPixelPerfect: commands.makeEverythingPixelPerfect,
-
     Alignment: index.require.alignment(),
     Component: index.require.component(),
     ComponentFrame: index.require.componentFrame(),
