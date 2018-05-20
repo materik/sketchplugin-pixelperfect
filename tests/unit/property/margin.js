@@ -7,6 +7,13 @@ var Property = index.require.property();
 
 describe('property', function() {
     describe('margin', function() {
+        it('type', function() {
+            var property = Property.parse(Component.init(createLayer('t10')));
+            assert.equal(property.type(), 'margin');
+            var property = MarginProperty.bottom()
+            assert.equal(property.type(), 'margin');
+        })
+
         describe('modify', function() {
             it('full', function() {
                 assert.equal(MarginProperty.modify('margin'), ':t:r:b:l:');
@@ -173,5 +180,43 @@ describe('property', function() {
                 assert.equal(component.frame().x(), 4);
             });
         });
+
+        describe('init', function() {
+            it('margin-top', function() {
+                var property = MarginProperty.top()
+                assert.equal(property.key(), 'margin-top')
+                assert.equal(property.value(), 0)
+                var property = MarginProperty.top(undefined, 10)
+                assert.equal(property.key(), 'margin-top')
+                assert.equal(property.value(), 10)
+            })
+
+            it('margin-right', function() {
+                var property = MarginProperty.right()
+                assert.equal(property.key(), 'margin-right')
+                assert.equal(property.value(), 0)
+                var property = MarginProperty.right(undefined, 10)
+                assert.equal(property.key(), 'margin-right')
+                assert.equal(property.value(), 10)
+            })
+
+            it('margin-bottom', function() {
+                var property = MarginProperty.bottom()
+                assert.equal(property.key(), 'margin-bottom')
+                assert.equal(property.value(), 0)
+                var property = MarginProperty.bottom(undefined, 10)
+                assert.equal(property.key(), 'margin-bottom')
+                assert.equal(property.value(), 10)
+            })
+
+            it('margin-left', function() {
+                var property = MarginProperty.left()
+                assert.equal(property.key(), 'margin-left')
+                assert.equal(property.value(), 0)
+                var property = MarginProperty.left(undefined, 10)
+                assert.equal(property.key(), 'margin-left')
+                assert.equal(property.value(), 10)
+            })
+        })
     });
 });
