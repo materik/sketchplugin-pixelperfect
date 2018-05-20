@@ -157,10 +157,11 @@ Properties.prototype.addProperty = function(property) {
 };
 
 Properties.prototype.addZeroPadding = function() {
-    this.addProperty(Property.init(this.component(), index.const.property.key.paddingTop));
-    this.addProperty(Property.init(this.component(), index.const.property.key.paddingRight));
-    this.addProperty(Property.init(this.component(), index.const.property.key.paddingBottom));
-    this.addProperty(Property.init(this.component(), index.const.property.key.paddingLeft));
+    console.log(PaddingProperty.top(this.component()).isValid())
+    this.addProperty(PaddingProperty.top(this.component()));
+    this.addProperty(PaddingProperty.right(this.component()));
+    this.addProperty(PaddingProperty.bottom(this.component()));
+    this.addProperty(PaddingProperty.left(this.component()));
     this._sort();
 };
 
