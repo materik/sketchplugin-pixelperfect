@@ -73,6 +73,10 @@ Property.prototype.isValid = function() {
 // Action
 
 Property.prototype.apply = function() {
+    if (!this.isValid()) {
+        return;
+    }
+
     this.component().debugFrame();
     this._apply();
     this.component().debug('~ Property: apply: ' + this.toString());

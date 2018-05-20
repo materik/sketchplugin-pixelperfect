@@ -57,7 +57,10 @@ PaddingProperty.isOuter = function(component) {
 };
 
 PaddingProperty.isInner = function(component) {
-    return component.hasComponents();
+    return component.hasComponents() && (
+        component.isArtboardOrSymbolMaster() || 
+        component.components().containsContainer()
+    );
 };
 
 // Getter
@@ -68,16 +71,14 @@ PaddingProperty.prototype.type = function() {
 
 PaddingProperty.prototype.container = function() {
     if (this._container == null) {
-        if (this.isOuter()) {
-            var parent = this.component().parent();
-            this._container = parent.components().findContainer();
-        } else if (this.isInner()) {
+        if (this.isInner() && !this.isOuter()) {
             if (this.component().isArtboardOrSymbolMaster()) {
                 this._container = this.component();
             } else {
-                var container = this.component().components().findContainer();
-                this._container = container || this.component();
+                this._container = this.component().components().findContainer();
             }
+        } else {
+            this._container = this.component().parent().components().findContainer();
         }
     }
     return this._container;
@@ -99,7 +100,7 @@ PaddingProperty.prototype.components = function() {
 };
 
 PaddingProperty.prototype.isValid = function() {
-    return PaddingProperty.validKeys().contains(this.key()) && this.container() != null;
+    return PaddingProperty.validKeys().contains(this.key()) && (this.isInner() || this.isOuter());
 };
 
 PaddingProperty.prototype.isOuter = function() {
@@ -175,7 +176,9 @@ PaddingProperty.prototype._apply = function() {
             break;
     }
 
-    this.components().unlockConstraints();
+    if (this.container().isSymbolMaster()) {
+        this.components().unlockConstraints();
+    }
 };
 
 // -----------------------------------------------------------

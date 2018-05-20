@@ -7,6 +7,15 @@ var Property = index.require.property();
 
 describe('property', function() {
     describe('padding', function() {
+        it('type', function() {
+            var artboard = createArtboard()
+            artboard.insertLayer_afterLayerOrAtEnd(createLayer())
+            var property = PaddingProperty.top(Component.init(artboard))
+            assert.equal(property.type(), 'padding');
+            var property = PaddingProperty.bottom(Component.init(artboard))
+            assert.equal(property.type(), 'padding');
+        })
+
         describe('modify', function() {
             it('full', function() {
                 assert.equal(PaddingProperty.modify('padding'), ':pt:pr:pb:pl:');
@@ -560,6 +569,52 @@ describe('property', function() {
                 assert.equal(master.frame().width(), 110);
                 assert.equal(master.frame().height(), 100);
             });
+        });
+
+        describe('init', function() {
+            it('padding-top', function() {
+                var artboard = createArtboard()
+                artboard.insertLayer_afterLayerOrAtEnd(createLayer())
+                var property = PaddingProperty.top(Component.init(artboard))
+                assert.equal(property.key(), 'padding-top')
+                assert.equal(property.value(), 0)
+                var property = PaddingProperty.top(Component.init(artboard), 10)
+                assert.equal(property.key(), 'padding-top')
+                assert.equal(property.value(), 10)
+            })
+
+            it('padding-right', function() {
+                var artboard = createArtboard()
+                artboard.insertLayer_afterLayerOrAtEnd(createLayer())
+                var property = PaddingProperty.right(Component.init(artboard))
+                assert.equal(property.key(), 'padding-right')
+                assert.equal(property.value(), 0)
+                var property = PaddingProperty.right(Component.init(artboard), 10)
+                assert.equal(property.key(), 'padding-right')
+                assert.equal(property.value(), 10)
+            })
+
+            it('padding-bottom', function() {
+                var artboard = createArtboard()
+                artboard.insertLayer_afterLayerOrAtEnd(createLayer())
+                var property = PaddingProperty.bottom(Component.init(artboard))
+                assert.equal(property.key(), 'padding-bottom')
+                assert.equal(property.value(), 0)
+                var property = PaddingProperty.bottom(Component.init(artboard), 10)
+                assert.equal(property.key(), 'padding-bottom')
+                assert.equal(property.value(), 10)
+            })
+
+            it('padding-left', function() {
+                var artboard = createArtboard()
+                artboard.insertLayer_afterLayerOrAtEnd(createLayer())
+                var property = PaddingProperty.left(Component.init(artboard))
+                assert.equal(property.key(), 'padding-left')
+                assert.equal(property.value(), 0)
+                var property = PaddingProperty.left(Component.init(artboard), 10)
+                assert.equal(property.key(), 'padding-left')
+                assert.equal(property.value(), 10)
+            })
         });
     });
 });

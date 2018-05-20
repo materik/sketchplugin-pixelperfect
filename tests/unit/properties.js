@@ -22,7 +22,7 @@ describe('properties', function() {
         assert.equal(properties.toString(), '<>')
         var properties = Properties.init(Component.init(createLayer('mr:h100')));
         assert.equal(properties.toString(), '<height>,<margin-right>')
-        var group = createLayerGroup('1:2')
+        var group = createArtboard('1:2')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
         var properties = Properties.init(Component.init(group));
         assert.equal(properties.toString(), '<padding-right>,<padding-bottom>,<padding-top>,<padding-left>')
@@ -34,7 +34,7 @@ describe('properties', function() {
         assert.deepEqual(properties.keys(), {}) // NOTE(materik): check if it caches
         var properties = Properties.init(Component.init(createLayer('mr:h100')));
         assert.deepEqual(Object.keys(properties.keys()), ['height', 'margin-right'])
-        var group = createLayerGroup('1:2')
+        var group = createArtboard('1:2')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
         var properties = Properties.init(Component.init(group));
         assert.deepEqual(Object.keys(properties.keys()), ['padding-right', 'padding-bottom', 'padding-top', 'padding-left'])
@@ -46,14 +46,14 @@ describe('properties', function() {
         assert.deepEqual(properties.types(), {}) // NOTE(materik): check if it caches
         var properties = Properties.init(Component.init(createLayer('mr:h100')));
         assert.deepEqual(Object.keys(properties.types()), ['size', 'margin'])
-        var group = createLayerGroup('1:2')
+        var group = createArtboard('1:2')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
         var properties = Properties.init(Component.init(group));
         assert.deepEqual(Object.keys(properties.types()), ['padding'])
     })
 
     it('one valid', function() {
-        var group = createLayerGroup('1');
+        var group = createArtboard('1');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = Component.init(group);
         var properties = Properties.init(component);
@@ -82,7 +82,7 @@ describe('properties', function() {
         assert.equal(properties.objectAtIndex(0).key(), 'width');
         assert.equal(properties.objectAtIndex(1).isValid(), true);
         assert.equal(properties.objectAtIndex(1).key(), 'height');
-        var group = createLayerGroup('1:2:3:4:w100');
+        var group = createArtboard('1:2:3:4:w100');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = Component.init(group);
         var properties = Properties.init(component);
@@ -96,7 +96,7 @@ describe('properties', function() {
     });
 
     it('padding 1', function() {
-        var group = createLayerGroup('[1]');
+        var group = createArtboard('[1]');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = Component.init(group);
         var properties = Properties.init(component);
@@ -116,7 +116,7 @@ describe('properties', function() {
     });
 
     it('padding 2', function() {
-        var group = createLayerGroup('[1:2]');
+        var group = createArtboard('[1:2]');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = Component.init(group);
         var properties = Properties.init(component);
@@ -136,7 +136,7 @@ describe('properties', function() {
     });
 
     it('padding 3', function() {
-        var group = createLayerGroup('[1:2:3]');
+        var group = createArtboard('[1:2:3]');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = Component.init(group);
         var properties = Properties.init(component);
@@ -156,7 +156,7 @@ describe('properties', function() {
     });
 
     it('padding 4', function() {
-        var group = createLayerGroup('[1:2:3:4]');
+        var group = createArtboard('[1:2:3:4]');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = Component.init(group);
         var properties = Properties.init(component);
@@ -222,7 +222,7 @@ describe('properties', function() {
     });
 
     it('containsPadding', function() {
-        var group = createLayerGroup('')
+        var group = createArtboard('')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
         var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPadding(), false);
@@ -232,7 +232,7 @@ describe('properties', function() {
     });
 
     it('containsPaddingTopOrBottom', function() {
-        var group = createLayerGroup('pr10:pl20')
+        var group = createArtboard('pr10:pl20')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
         var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPaddingTopOrBottom(), false);
@@ -245,7 +245,7 @@ describe('properties', function() {
     });
 
     it('containsPaddingRightOrLeft', function() {
-        var group = createLayerGroup('pt10:pb20')
+        var group = createArtboard('pt10:pb20')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
         var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPaddingRightOrLeft(), false);
@@ -307,7 +307,7 @@ describe('properties', function() {
     });
 
     it('addZeroPadding', function() {
-        var group = createLayerGroup();
+        var group = createArtboard();
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var properties = Properties.init(Component.init(group));
         assert.equal(properties.count(), 0);
@@ -423,7 +423,7 @@ describe('properties', function() {
         var component = Component.init(createLayer('x10:c:w+10:w100%'));
         var properties = Object.keys(Properties.init(component).keys())
         assert.deepEqual(properties, ['stack-horizontally-middle', 'width-percentage', 'width-addition', 'center-horizontally']);
-        var group = createLayerGroup('t:l:b:r:1:2');
+        var group = createArtboard('t:l:b:r:1:2');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
         var component = Component.init(group);
         var properties = Object.keys(Properties.init(component).keys())
@@ -438,7 +438,7 @@ describe('properties', function() {
             'margin-left',
         ]);
         var group = createLayerGroup();
-        var layer = createLayer('1:2:t:l:b:r');
+        var layer = createArtboard('1:2:t:l:b:r');
         group.insertLayer_afterLayerOrAtEnd(layer);
         group.insertLayer_afterLayerOrAtEnd(createLayer('bg'));
         var component = Component.init(layer);
