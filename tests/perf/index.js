@@ -215,7 +215,7 @@ describe('perf', function() {
 
             performanceTest( () => {
                 for (var i = 0; i < properties.length; i++) {
-                    assert.equal(properties[i].containsKey('stack-horizontally-top'), true)
+                    assert.equal(properties[i].containsKey('height'), true)
                 }
             } , 1)
         });

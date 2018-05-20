@@ -24,7 +24,9 @@ describe('property', function() {
         assert.equal(property.type(), 'padding')
         var property = Property.init(Component.init(createLayer()), 'width');
         assert.equal(property.type(), 'size')
-        var property = Property.init(Component.init(createLayerGroup()), 'stack-vertically-left');
+        var group = createLayerGroup()
+        group.insertLayer_afterLayerOrAtEnd(createLayer())
+        var property = Property.init(Component.init(group), 'stack-vertically-left');
         assert.equal(property.type(), 'stack')
     })
 
@@ -39,7 +41,9 @@ describe('property', function() {
         assert.equal(property.type(), 'padding')
         var property = Property.parse(Component.init(createLayer('w10')));
         assert.equal(property.type(), 'size')
-        var property = Property.parse(Component.init(createLayerGroup('xt10')));
+        var group = createLayerGroup('xt10')
+        group.insertLayer_afterLayerOrAtEnd(createLayer())
+        var property = Property.parse(Component.init(group));
         assert.equal(property.type(), 'stack')
     })
 

@@ -30,7 +30,7 @@ StackProperty.init = function(component, key, value) {
 // Getter
 
 StackProperty.prototype.isValid = function() {
-    return StackProperty.validKeys().contains(this.key());
+    return StackProperty.validKeys().contains(this.key()) && this.component().hasComponents();
 };
 
 // Action

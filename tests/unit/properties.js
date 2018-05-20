@@ -420,7 +420,9 @@ describe('properties', function() {
         var component = Component.init(createLayer('t:w100:b:h100'));
         var properties = Object.keys(Properties.init(component).keys())
         assert.deepEqual(properties, ['width', 'height', 'margin-bottom', 'margin-top']);
-        var component = Component.init(createLayer('x10:c:w+10:w100%'));
+        var group = createLayerGroup('x10:c:w+10:w100%')
+        group.insertLayer_afterLayerOrAtEnd(createLayer())
+        var component = Component.init(group);
         var properties = Object.keys(Properties.init(component).keys())
         assert.deepEqual(properties, ['stack-horizontally-middle', 'width-percentage', 'width-addition', 'center-horizontally']);
         var group = createArtboard('t:l:b:r:1:2');

@@ -8,75 +8,97 @@ var StackProperty = index.require.property.stack();
 describe('property', function() {
     describe('stack', function() {
         it('type', function() {
-            var property = StackProperty.init(undefined, 'stack-horizontally-middle')
+            var group = createLayerGroup()
+            group.insertLayer_afterLayerOrAtEnd(createLayer())
+            var property = StackProperty.init(Component.init(group), 'stack-horizontally-middle')
             assert.equal(property.type(), 'stack');
-            var property = Property.parse(Component.init(createLayer('xt10')));
+            group.setName('xt10')
+            var property = Property.parse(Component.init(group));
             assert.equal(property.type(), 'stack');
-            var property = Property.parse(Component.init(createLayer('yl10')));
+            group.setName('yl10')
+            var property = Property.parse(Component.init(group));
             assert.equal(property.type(), 'stack');
         })
 
         it('stack-horizontally-top', function() {
-            var property = Property.parse(Component.init(createLayer('xt10')));
+            var group = createLayerGroup('xt10')
+            group.insertLayer_afterLayerOrAtEnd(createLayer())
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-horizontally-top');
             assert.equal(property.value(), 10);
-            var property = Property.parse(Component.init(createLayer('xt-10')));
+            group.setName('xt-10')
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-horizontally-top');
             assert.equal(property.value(), -10);
         });
 
         it('stack-horizontally-middle', function() {
-            var property = Property.parse(Component.init(createLayer('x20')));
+            var group = createLayerGroup('x20')
+            group.insertLayer_afterLayerOrAtEnd(createLayer())
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-horizontally-middle');
             assert.equal(property.value(), 20);
-            var property = Property.parse(Component.init(createLayer('x-20')));
+            group.setName('x-20')
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-horizontally-middle');
             assert.equal(property.value(), -20);
         });
 
         it('stack-horizontally-bottom', function() {
-            var property = Property.parse(Component.init(createLayer('xb30')));
+            var group = createLayerGroup('xb30')
+            group.insertLayer_afterLayerOrAtEnd(createLayer())
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-horizontally-bottom');
             assert.equal(property.value(), 30);
-            var property = Property.parse(Component.init(createLayer('xb-30')));
+            group.setName('xb-30')
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-horizontally-bottom');
             assert.equal(property.value(), -30);
         });
 
         it('stack-vertically-left', function() {
-            var property = Property.parse(Component.init(createLayer('yl10')));
+            var group = createLayerGroup('yl10')
+            group.insertLayer_afterLayerOrAtEnd(createLayer())
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-vertically-left');
             assert.equal(property.value(), 10);
-            var property = Property.parse(Component.init(createLayer('yl-10')));
+            group.setName('yl-10')
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-vertically-left');
             assert.equal(property.value(), -10);
         });
 
         it('stack-vertically-center', function() {
-            var property = Property.parse(Component.init(createLayer('y20')));
+            var group = createLayerGroup('y20')
+            group.insertLayer_afterLayerOrAtEnd(createLayer())
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-vertically-center');
             assert.equal(property.value(), 20);
-            var property = Property.parse(Component.init(createLayer('y-20')));
+            group.setName('y-20')
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-vertically-center');
             assert.equal(property.value(), -20);
         });
 
         it('stack-vertically-right', function() {
-            var property = Property.parse(Component.init(createLayer('yr30')));
+            var group = createLayerGroup('yr30')
+            group.insertLayer_afterLayerOrAtEnd(createLayer())
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-vertically-right');
             assert.equal(property.value(), 30);
-            var property = Property.parse(Component.init(createLayer('yr-30')));
+            group.setName('yr-30')
+            var property = Property.parse(Component.init(group));
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'stack-vertically-right');
             assert.equal(property.value(), -30);
@@ -84,14 +106,18 @@ describe('property', function() {
 
         describe('apply', function() {
             it('stack-error', function() {
-                var component = Component.init(createLayer('xt10', 1, 2, 3, 4));
+                var group = createLayerGroup('xt10', 1, 2, 3, 4)
+                group.insertLayer_afterLayerOrAtEnd(createLayer())
+                var component = Component.init(group);
                 var property = Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().x(), 1);
                 assert.equal(component.frame().y(), 2);
                 assert.equal(component.frame().width(), 3);
                 assert.equal(component.frame().height(), 4);
-                var component = Component.init(createLayer('yl10', 1, 2, 3, 4));
+                var group = createLayerGroup('yl10', 1, 2, 3, 4)
+                group.insertLayer_afterLayerOrAtEnd(createLayer())
+                var component = Component.init(group);
                 var property = Property.parse(component);
                 property.apply();
                 assert.equal(component.frame().x(), 1);
