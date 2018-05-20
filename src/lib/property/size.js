@@ -17,11 +17,13 @@ SizeProperty.validKeys = function() {
         index.const.property.key.widthAddition,
         index.const.property.key.widthPercentage,
         index.const.property.key.widthPercentageFull,
+        index.const.property.key.widthMax,
         index.const.property.key.widthMin,
         index.const.property.key.heightStatic,
         index.const.property.key.heightAddition,
         index.const.property.key.heightPercentage,
         index.const.property.key.heightPercentageFull,
+        index.const.property.key.heightMax,
         index.const.property.key.heightMin,
     ];
 };
@@ -65,6 +67,9 @@ SizeProperty.prototype._apply = function() {
         case index.const.property.key.widthPercentageFull:
             frame.setWidth(this.value() / 100 * this.component().widthOfParent(true));
             break;
+        case index.const.property.key.widthMax:
+            frame.setWidth(frame.width() > this.value() ? this.value() : frame.width());
+            break;
         case index.const.property.key.widthMin:
             frame.setWidth(frame.width() < this.value() ? this.value() : frame.width());
             break;
@@ -79,6 +84,9 @@ SizeProperty.prototype._apply = function() {
             break;
         case index.const.property.key.heightPercentageFull:
             frame.setHeight(this.value() / 100 * this.component().heightOfParent(true));
+            break;
+        case index.const.property.key.heightMax:
+            frame.setHeight(frame.height() > this.value() ? this.value() : frame.height());
             break;
         case index.const.property.key.heightMin:
             frame.setHeight(frame.height() < this.value() ? this.value() : frame.height());

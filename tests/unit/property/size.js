@@ -49,6 +49,13 @@ describe('property', function() {
             assert.equal(property.value(), 50);
         });
 
+        it('width-max', function() {
+            var property = Property.parse(Component.init(createLayer('w<200')));
+            assert.equal(property.isValid(), true);
+            assert.equal(property.key(), 'width-max');
+            assert.equal(property.value(), 200);
+        });
+
         it('width-min', function() {
             var property = Property.parse(Component.init(createLayer('w>200')));
             assert.equal(property.isValid(), true);
@@ -89,6 +96,13 @@ describe('property', function() {
             assert.equal(property.isValid(), true);
             assert.equal(property.key(), 'height-percentage-full');
             assert.equal(property.value(), 50);
+        });
+
+        it('height-max', function() {
+            var property = Property.parse(Component.init(createLayer('h<200')));
+            assert.equal(property.isValid(), true);
+            assert.equal(property.key(), 'height-max');
+            assert.equal(property.value(), 200);
         });
 
         it('height-min', function() {
@@ -152,6 +166,16 @@ describe('property', function() {
                 assert.equal(component.frame().width(), 5);
             });
 
+            it('width-max', function() {
+                var component = Component.init(createLayer('w<10', 1, 2, 3, 4));
+                var property = Property.parse(component);
+                property.apply();
+                assert.equal(component.frame().width(), 3);
+                component.frame().setWidth(20);
+                property.apply();
+                assert.equal(component.frame().width(), 10);
+            });
+
             it('width-min', function() {
                 var component = Component.init(createLayer('w>10', 1, 2, 3, 4));
                 var property = Property.parse(component);
@@ -213,6 +237,16 @@ describe('property', function() {
                 group.insertLayer_afterLayerOrAtEnd(otherLayer);
                 property.apply();
                 assert.equal(component.frame().height(), 6);
+            });
+
+            it('height-max', function() {
+                var component = Component.init(createLayer('h<10', 1, 2, 3, 4));
+                var property = Property.parse(component);
+                property.apply();
+                assert.equal(component.frame().height(), 4);
+                component.frame().setHeight(20);
+                property.apply();
+                assert.equal(component.frame().height(), 10);
             });
 
             it('height-min', function() {

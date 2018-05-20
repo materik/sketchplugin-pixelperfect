@@ -3,11 +3,13 @@ const widthStatic = 'width';
 const widthAddition = 'width-addition';
 const widthPercentage = 'width-percentage';
 const widthPercentageFull = 'width-percentage-full';
+const widthMax = 'width-max';
 const widthMin = 'width-min';
 const heightStatic = 'height';
 const heightAddition = 'height-addition';
 const heightPercentage = 'height-percentage';
 const heightPercentageFull = 'height-percentage-full';
+const heightMax = 'height-max';
 const heightMin = 'height-min';
 const paddingTop = 'padding-top';
 const paddingRight = 'padding-right';
@@ -37,11 +39,13 @@ const priority = [
     widthPercentage,
     widthPercentageFull,
     widthAddition,
+    widthMax,
     widthMin,
     heightStatic,
     heightPercentage,
     heightPercentageFull,
     heightAddition,
+    heightMax,
     heightMin,
     centerHorizontally,
     centerVertically,
@@ -90,11 +94,13 @@ module.exports = {
             widthAddition,
             widthPercentage,
             widthPercentageFull,
+            widthMax,
             widthMin,
             heightStatic,
             heightAddition,
             heightPercentage,
             heightPercentageFull,
+            heightMax,
             heightMin,
             paddingTop,
             paddingRight,

@@ -66,11 +66,11 @@ Set width relative the layer group width. If the layer group is also specified w
 
 **Examples:** `w100%`, `w50%%`
 
-#### Min
+#### Min or Max
 
-Defined a minimum width in pixels for a layer group. If the sublayers within the group are less then the width it will increase the group size to the specified value, if greater than that it affects nothing.
+Defined a minimum or maximum width in pixels for a layer group. If the sublayers within the group are less or greater then the width it will resize the group to the specified value, if not it won't affect the layer.
 
-**Examples:** `w>100`
+**Examples:** `w>100`, `w<50`
 
 ### `height`
 
