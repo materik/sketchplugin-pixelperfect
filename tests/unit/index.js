@@ -1,5 +1,5 @@
 
-var index = require('../../src');
+var index = require('..');
 
 describe('index', function() {
     it('makePixelPerfect', function() {

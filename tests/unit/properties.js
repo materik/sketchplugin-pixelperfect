@@ -1,70 +1,73 @@
 
 var index = require('..');
 
+var Component = index.require.component();
+var Properties = index.require.properties();
+
 describe('properties', function() {
     it('invalid', function() {
-        var component = index.Component.init(createLayer('Hej'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('Hej'));
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 0);
-        var component = index.Component.init(createLayer('Hej:hej'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('Hej:hej'));
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 0);
-        var component = index.Component.init(createLayer('Hej [a:d]'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('Hej [a:d]'));
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 0);
     });
 
     it('toString', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('Hej')));
+        var properties = Properties.init(Component.init(createLayer('Hej')));
         assert.equal(properties.toString(), '<>')
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100')));
         assert.equal(properties.toString(), '<height>,<margin-right>')
         var group = createLayerGroup('1:2')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.equal(properties.toString(), '<padding-right>,<padding-bottom>,<padding-top>,<padding-left>')
     });
 
     it('keys', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('Hej')));
+        var properties = Properties.init(Component.init(createLayer('Hej')));
         assert.deepEqual(properties.keys(), {})
         assert.deepEqual(properties.keys(), {}) // NOTE(materik): check if it caches
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100')));
         assert.deepEqual(Object.keys(properties.keys()), ['height', 'margin-right'])
         var group = createLayerGroup('1:2')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.deepEqual(Object.keys(properties.keys()), ['padding-right', 'padding-bottom', 'padding-top', 'padding-left'])
     })
 
     it('types', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('Hej')));
+        var properties = Properties.init(Component.init(createLayer('Hej')));
         assert.deepEqual(properties.types(), {})
         assert.deepEqual(properties.types(), {}) // NOTE(materik): check if it caches
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100')));
         assert.deepEqual(Object.keys(properties.types()), ['size', 'margin'])
         var group = createLayerGroup('1:2')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.deepEqual(Object.keys(properties.types()), ['padding'])
     })
 
     it('one valid', function() {
         var group = createLayerGroup('1');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var component = index.Component.init(group);
-        var properties = index.Properties.init(component);
+        var component = Component.init(group);
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 4);
         assert.equal(properties.objectAtIndex(0).isValid(), true);
         assert.equal(properties.objectAtIndex(0).key(), 'padding-right');
-        var component = index.Component.init(createLayer('Hej:w100'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('Hej:w100'));
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 1);
         assert.equal(properties.objectAtIndex(0).isValid(), true);
         assert.equal(properties.objectAtIndex(0).key(), 'width');
         assert.equal(properties.objectAtIndex(0).value(), 100);
-        var component = index.Component.init(createLayer('Hej [w100]'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('Hej [w100]'));
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 1);
         assert.equal(properties.objectAtIndex(0).isValid(), true);
         assert.equal(properties.objectAtIndex(0).key(), 'width');
@@ -72,8 +75,8 @@ describe('properties', function() {
     });
 
     it('two valid', function() {
-        var component = index.Component.init(createLayer('w100:h100'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('w100:h100'));
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 2);
         assert.equal(properties.objectAtIndex(0).isValid(), true);
         assert.equal(properties.objectAtIndex(0).key(), 'width');
@@ -81,8 +84,8 @@ describe('properties', function() {
         assert.equal(properties.objectAtIndex(1).key(), 'height');
         var group = createLayerGroup('1:2:3:4:w100');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var component = index.Component.init(group);
-        var properties = index.Properties.init(component);
+        var component = Component.init(group);
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 5);
         assert.equal(properties.objectAtIndex(0).isValid(), true);
         assert.equal(properties.objectAtIndex(0).key(), 'padding-right');
@@ -95,8 +98,8 @@ describe('properties', function() {
     it('padding 1', function() {
         var group = createLayerGroup('[1]');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var component = index.Component.init(group);
-        var properties = index.Properties.init(component);
+        var component = Component.init(group);
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 4);
         assert.equal(properties.objectAtIndex(0).isValid(), true);
         assert.equal(properties.objectAtIndex(0).key(), 'padding-right');
@@ -115,8 +118,8 @@ describe('properties', function() {
     it('padding 2', function() {
         var group = createLayerGroup('[1:2]');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var component = index.Component.init(group);
-        var properties = index.Properties.init(component);
+        var component = Component.init(group);
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 4);
         assert.equal(properties.objectAtIndex(0).isValid(), true);
         assert.equal(properties.objectAtIndex(0).key(), 'padding-right');
@@ -135,8 +138,8 @@ describe('properties', function() {
     it('padding 3', function() {
         var group = createLayerGroup('[1:2:3]');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var component = index.Component.init(group);
-        var properties = index.Properties.init(component);
+        var component = Component.init(group);
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 4);
         assert.equal(properties.objectAtIndex(0).isValid(), true);
         assert.equal(properties.objectAtIndex(0).key(), 'padding-right');
@@ -155,8 +158,8 @@ describe('properties', function() {
     it('padding 4', function() {
         var group = createLayerGroup('[1:2:3:4]');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var component = index.Component.init(group);
-        var properties = index.Properties.init(component);
+        var component = Component.init(group);
+        var properties = Properties.init(component);
         assert.equal(properties.count(), 4);
         assert.equal(properties.objectAtIndex(0).isValid(), true);
         assert.equal(properties.objectAtIndex(0).key(), 'padding-right');
@@ -173,14 +176,14 @@ describe('properties', function() {
     });
 
     it('find', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100:w20')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100:w20')));
         assert.equal(properties.find('width-percentage'), undefined);
         assert.equal(properties.find('width').key(), 'width');
         assert.equal(properties.find('margin-right').key(), 'margin-right');
     });
 
     it('filter', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100:w20')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100:w20')));
         var filtered = properties.filter(function(property) {
             return false
         })
@@ -196,123 +199,123 @@ describe('properties', function() {
     });
 
     it('containsKey', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100:w20')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100:w20')));
         assert.equal(properties.containsKey('width-percentage'), false);
         assert.equal(properties.containsKey('width'), true);
         assert.equal(properties.containsKey('margin-right'), true);
     });
 
     it('containsType', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100:w20')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100:w20')));
         assert.equal(properties.containsType('padding'), false);
         assert.equal(properties.containsType('size'), true);
         assert.equal(properties.containsType('margin'), true);
     });
 
     it('containsPercentageWidthOrHeight', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100:w20')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100:w20')));
         assert.equal(properties.containsPercentageWidthOrHeight(), false);
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100%:w20')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100%:w20')));
         assert.equal(properties.containsPercentageWidthOrHeight(), true);
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100:w20%')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100:w20%')));
         assert.equal(properties.containsPercentageWidthOrHeight(), true);
     });
 
     it('containsPadding', function() {
         var group = createLayerGroup('')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPadding(), false);
         group.setName('pb10')
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPadding(), true);
     });
 
     it('containsPaddingTopOrBottom', function() {
         var group = createLayerGroup('pr10:pl20')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPaddingTopOrBottom(), false);
         group.setName('pt10')
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPaddingTopOrBottom(), true);
         group.setName('pb10')
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPaddingTopOrBottom(), true);
     });
 
     it('containsPaddingRightOrLeft', function() {
         var group = createLayerGroup('pt10:pb20')
         group.insertLayer_afterLayerOrAtEnd(createLayer())
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPaddingRightOrLeft(), false);
         group.setName('pr10')
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPaddingRightOrLeft(), true);
         group.setName('pl10')
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.equal(properties.containsPaddingRightOrLeft(), true);
     });
 
     it('containsMargin', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('h100:w20')));
+        var properties = Properties.init(Component.init(createLayer('h100:w20')));
         assert.equal(properties.containsMargin(), false);
-        var properties = index.Properties.init(index.Component.init(createLayer('mr:h100:w20')));
+        var properties = Properties.init(Component.init(createLayer('mr:h100:w20')));
         assert.equal(properties.containsMargin(), true);
-        var properties = index.Properties.init(index.Component.init(createLayer('mb:h100:w20')));
+        var properties = Properties.init(Component.init(createLayer('mb:h100:w20')));
         assert.equal(properties.containsMargin(), true);
     });
 
     it('containsMarginTopOrLeft', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('b:r')));
+        var properties = Properties.init(Component.init(createLayer('b:r')));
         assert.equal(properties.containsMarginTopOrLeft(), false);
-        var properties = index.Properties.init(index.Component.init(createLayer('t')));
+        var properties = Properties.init(Component.init(createLayer('t')));
         assert.equal(properties.containsMarginTopOrLeft(), true);
-        var properties = index.Properties.init(index.Component.init(createLayer('t:b')));
+        var properties = Properties.init(Component.init(createLayer('t:b')));
         assert.equal(properties.containsMarginTopOrLeft(), false);
-        var properties = index.Properties.init(index.Component.init(createLayer('l')));
+        var properties = Properties.init(Component.init(createLayer('l')));
         assert.equal(properties.containsMarginTopOrLeft(), true);
-        var properties = index.Properties.init(index.Component.init(createLayer('l:r')));
+        var properties = Properties.init(Component.init(createLayer('l:r')));
         assert.equal(properties.containsMarginTopOrLeft(), false);
     });
 
     it('containsMarginRightOrBottom', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('t:l')));
+        var properties = Properties.init(Component.init(createLayer('t:l')));
         assert.equal(properties.containsMarginRightOrBottom(), false);
-        var properties = index.Properties.init(index.Component.init(createLayer('r')));
+        var properties = Properties.init(Component.init(createLayer('r')));
         assert.equal(properties.containsMarginRightOrBottom(), true);
-        var properties = index.Properties.init(index.Component.init(createLayer('b')));
+        var properties = Properties.init(Component.init(createLayer('b')));
         assert.equal(properties.containsMarginRightOrBottom(), true);
     });
 
     it('containsMarginTopOrBottom', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('r:l')));
+        var properties = Properties.init(Component.init(createLayer('r:l')));
         assert.equal(properties.containsMarginTopOrBottom(), false);
-        var properties = index.Properties.init(index.Component.init(createLayer('t')));
+        var properties = Properties.init(Component.init(createLayer('t')));
         assert.equal(properties.containsMarginTopOrBottom(), true);
-        var properties = index.Properties.init(index.Component.init(createLayer('b')));
+        var properties = Properties.init(Component.init(createLayer('b')));
         assert.equal(properties.containsMarginTopOrBottom(), true);
     });
 
     it('containsMarginRightOrLeft', function() {
-        var properties = index.Properties.init(index.Component.init(createLayer('t:b')));
+        var properties = Properties.init(Component.init(createLayer('t:b')));
         assert.equal(properties.containsMarginRightOrLeft(), false);
-        var properties = index.Properties.init(index.Component.init(createLayer('l')));
+        var properties = Properties.init(Component.init(createLayer('l')));
         assert.equal(properties.containsMarginRightOrLeft(), true);
-        var properties = index.Properties.init(index.Component.init(createLayer('r')));
+        var properties = Properties.init(Component.init(createLayer('r')));
         assert.equal(properties.containsMarginRightOrLeft(), true);
     });
 
     it('addZeroPadding', function() {
         var group = createLayerGroup();
         group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var properties = index.Properties.init(index.Component.init(group));
+        var properties = Properties.init(Component.init(group));
         assert.equal(properties.count(), 0);
         properties.addZeroPadding();
         assert.equal(properties.count(), 4);
         var master = createSymbolMaster();
         master.insertLayer_afterLayerOrAtEnd(createLayer());
-        var properties = index.Properties.init(index.Component.init(master));
+        var properties = Properties.init(Component.init(master));
         assert.equal(properties.count(), 0);
         properties.addZeroPadding();
         assert.equal(properties.count(), 4);
@@ -323,7 +326,7 @@ describe('properties', function() {
             var layer = createLayer('w100:h200')
             assert.equal(layer.frame().width(), 1);
             assert.equal(layer.frame().height(), 1);
-            var properties = index.Properties.init(index.Component.init(layer));
+            var properties = Properties.init(Component.init(layer));
             properties.apply()
             assert.equal(layer.frame().width(), 100);
             assert.equal(layer.frame().height(), 200);
@@ -331,7 +334,7 @@ describe('properties', function() {
 
         it('empty', function() {
             var layer = createLayer('', 1, 2, 3, 4)
-            var properties = index.Properties.init(index.Component.init(layer));
+            var properties = Properties.init(Component.init(layer));
             properties.apply()
             assert.equal(layer.frame().x(), 1);
             assert.equal(layer.frame().y(), 2);
@@ -341,7 +344,7 @@ describe('properties', function() {
 
         it('dont apply constraints on filter', function() {
             var layer = createLayer('t:b')
-            var properties = index.Properties.init(index.Component.init(layer));
+            var properties = Properties.init(Component.init(layer));
             assert.equal(layer.hasFixedWidth(), false);
             assert.equal(layer.hasFixedHeight(), false);
             assert.equal(layer.hasFixedTop(), false);
@@ -373,7 +376,7 @@ describe('properties', function() {
             var layer2 = createLayer('', 5, 6, 7, 8)
             group.insertLayer_afterLayerOrAtEnd(layer1)
             group.insertLayer_afterLayerOrAtEnd(layer2)
-            var properties = index.Properties.init(index.Component.init(group));
+            var properties = Properties.init(Component.init(group));
             properties.apply()
             assert.equal(group.frame().x(), 0);
             assert.equal(group.frame().y(), 0);
@@ -384,7 +387,7 @@ describe('properties', function() {
 
     it('_isFiltered', function() {
         var layer = createLayer('t:b')
-        var properties = index.Properties.init(index.Component.init(layer));
+        var properties = Properties.init(Component.init(layer));
         assert.equal(properties._isFiltered, false)
         properties = properties.filter(function(property) {
             return property.key() == 'margin-top'
@@ -393,37 +396,37 @@ describe('properties', function() {
     })
 
     it('_raw', function() {
-        var component = index.Component.init(createLayer('Component [1]'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('Component [1]'));
+        var properties = Properties.init(component);
         assert.deepEqual(properties._raw(), ['pt1', 'pr1', 'pb1', 'pl1']);
-        var component = index.Component.init(createLayer('Component [w100:h100]'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('Component [w100:h100]'));
+        var properties = Properties.init(component);
         assert.deepEqual(properties._raw(), ['w100', 'h100']);
-        var component = index.Component.init(createLayer('bg:w100:h100:xt100'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('bg:w100:h100:xt100'));
+        var properties = Properties.init(component);
         assert.deepEqual(properties._raw(), ['t', 'r', 'b', 'l', 'w100', 'h100', 'xt100']);
-        var component = index.Component.init(createLayer('Component [w100:h100] [xt100]'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('Component [w100:h100] [xt100]'));
+        var properties = Properties.init(component);
         assert.deepEqual(properties._raw(), ['w100', 'h100', 'xt100']);
-        var component = index.Component.init(createLayer('h100%:h+90:h+90:w100%'));
-        var properties = index.Properties.init(component);
+        var component = Component.init(createLayer('h100%:h+90:h+90:w100%'));
+        var properties = Properties.init(component);
         assert.deepEqual(properties._raw(), ['h100%', 'h+90', 'h+90', 'w100%']);
     });
 
     it('_sort', function() {
-        var component = index.Component.init(createLayer('trbl'));
-        var properties = Object.keys(index.Properties.init(component).keys())
+        var component = Component.init(createLayer('trbl'));
+        var properties = Object.keys(Properties.init(component).keys())
         assert.deepEqual(properties, ['margin-right', 'margin-bottom', 'margin-top', 'margin-left']);
-        var component = index.Component.init(createLayer('t:w100:b:h100'));
-        var properties = Object.keys(index.Properties.init(component).keys())
+        var component = Component.init(createLayer('t:w100:b:h100'));
+        var properties = Object.keys(Properties.init(component).keys())
         assert.deepEqual(properties, ['width', 'height', 'margin-bottom', 'margin-top']);
-        var component = index.Component.init(createLayer('x10:c:w+10:w100%'));
-        var properties = Object.keys(index.Properties.init(component).keys())
+        var component = Component.init(createLayer('x10:c:w+10:w100%'));
+        var properties = Object.keys(Properties.init(component).keys())
         assert.deepEqual(properties, ['stack-horizontally-middle', 'width-percentage', 'width-addition', 'center-horizontally']);
         var group = createLayerGroup('t:l:b:r:1:2');
         group.insertLayer_afterLayerOrAtEnd(createLayer());
-        var component = index.Component.init(group);
-        var properties = Object.keys(index.Properties.init(component).keys())
+        var component = Component.init(group);
+        var properties = Object.keys(Properties.init(component).keys())
         assert.deepEqual(properties, [
             'padding-right',
             'padding-bottom',
@@ -438,8 +441,8 @@ describe('properties', function() {
         var layer = createLayer('1:2:t:l:b:r');
         group.insertLayer_afterLayerOrAtEnd(layer);
         group.insertLayer_afterLayerOrAtEnd(createLayer('bg'));
-        var component = index.Component.init(layer);
-        var properties = Object.keys(index.Properties.init(component).keys())
+        var component = Component.init(layer);
+        var properties = Object.keys(Properties.init(component).keys())
         assert.deepEqual(properties, [
             'margin-right',
             'margin-bottom',

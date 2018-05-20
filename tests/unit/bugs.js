@@ -1,6 +1,8 @@
 
 var index = require('..');
 
+var Component = index.require.component();
+
 describe('bugs', function() {
     it('cannot set margin right or bottom if that is bigger than the other layers', function() {
         var layer = createLayer('r:v', 1, 2, 28, 13);
@@ -10,7 +12,7 @@ describe('bugs', function() {
         group.insertLayer_afterLayerOrAtEnd(backgroundLayer);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(group);
+            Component.apply(group);
 
             assert.equal(layer.frame().x(), 0);
             assert.equal(layer.frame().y(), 0);
@@ -27,7 +29,7 @@ describe('bugs', function() {
         group.insertLayer_afterLayerOrAtEnd(backgroundLayer);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(group);
+            Component.apply(group);
 
             assert.equal(layer.frame().x(), 9);
             assert.equal(layer.frame().y(), 0);
@@ -55,7 +57,7 @@ describe('bugs', function() {
         group2.insertLayer_afterLayerOrAtEnd(layer4);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(master);
+            Component.apply(master);
 
             assert.equal(master.frame().width(), 300);
             assert.equal(master.frame().height(), 123);
@@ -106,7 +108,7 @@ describe('bugs', function() {
         master.insertLayer_afterLayerOrAtEnd(layer2);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(master);
+            Component.apply(master);
 
             assert.equal(master.frame().width(), 164);
             assert.equal(master.frame().height(), 80);
@@ -130,7 +132,7 @@ describe('bugs', function() {
         artboard.insertLayer_afterLayerOrAtEnd(layer);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(artboard);
+            Component.apply(artboard);
 
             assert.equal(layer.frame().x(), 204);
             assert.equal(layer.frame().y(), 204);
@@ -151,7 +153,7 @@ describe('bugs', function() {
         // * might expect layer1 to have x=0 and layer2 to have x=-13 but due to the
         //   padding set on the artboard this is actually expected. See test below.
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(artboard);
+            Component.apply(artboard);
 
             assert.equal(artboard.frame().width(), 1680);
             assert.equal(artboard.frame().height(), 960);
@@ -177,7 +179,7 @@ describe('bugs', function() {
         artboard.insertLayer_afterLayerOrAtEnd(layer2);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(artboard);
+            Component.apply(artboard);
 
             assert.equal(artboard.frame().width(), 1680);
             assert.equal(artboard.frame().height(), 960);
@@ -209,7 +211,7 @@ describe('bugs', function() {
         group2.insertLayer_afterLayerOrAtEnd(layer2);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(master);
+            Component.apply(master);
 
             assert.equal(master.frame().width(), 196);
             assert.equal(master.frame().height(), 246);
@@ -273,7 +275,7 @@ describe('bugs', function() {
         symbol2.insertLayer_afterLayerOrAtEnd(group2);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(symbol2);
+            Component.apply(symbol2);
 
             assert.equal(symbol1.frame().width(), 145);
             assert.equal(symbol1.frame().height(), 63);
@@ -293,7 +295,7 @@ describe('bugs', function() {
         group.insertLayer_afterLayerOrAtEnd(bg);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(group);
+            Component.apply(group);
 
             assert.equal(group.frame().width(), 500);
             assert.equal(group.frame().height(), 112);
@@ -319,7 +321,7 @@ describe('bugs', function() {
         symbol.insertLayer_afterLayerOrAtEnd(group);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(symbol);
+            Component.apply(symbol);
 
             assert.equal(symbol.frame().width(), 360);
             assert.equal(symbol.frame().height(), 64);
@@ -338,7 +340,7 @@ describe('bugs', function() {
         artboard.insertLayer_afterLayerOrAtEnd(group);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(artboard);
+            Component.apply(artboard);
 
             assert.equal(instance.frame().x(), 0);
             assert.equal(instance.frame().y(), 0);
@@ -364,7 +366,7 @@ describe('bugs', function() {
         artboard.insertLayer_afterLayerOrAtEnd(layer2);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(artboard);
+            Component.apply(artboard);
 
             assert.equal(artboard.frame().width(), 1680);
             assert.equal(artboard.frame().height(), 960);
@@ -373,7 +375,7 @@ describe('bugs', function() {
         layer1.setName('w2000:h960');
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(artboard);
+            Component.apply(artboard);
 
             assert.equal(artboard.frame().width(), 1680);
             assert.equal(artboard.frame().height(), 1024);
@@ -386,12 +388,12 @@ describe('bugs', function() {
         var group = createLayerGroup();
         group.insertLayer_afterLayerOrAtEnd(layer);
         group.insertLayer_afterLayerOrAtEnd(backgroundLayer);
-        index.Component.apply(layer);
+        Component.apply(layer);
         assert.equal(layer.frame().x(), 19);
         assert.equal(layer.frame().y(), 11);
         assert.equal(backgroundLayer.frame().x(), 10);
         assert.equal(backgroundLayer.frame().y(), 11);
-        index.Component.apply(group);
+        Component.apply(group);
         assert.equal(layer.frame().x(), 9);
         assert.equal(layer.frame().y(), 0);
         assert.equal(backgroundLayer.frame().x(), 0);
@@ -411,7 +413,7 @@ describe('bugs', function() {
         padding.insertLayer_afterLayerOrAtEnd(layer);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(master);
+            Component.apply(master);
 
             assert.equal(master.frame().width(), 304);
             assert.equal(master.frame().height(), 200);
@@ -437,7 +439,7 @@ describe('bugs', function() {
         group.insertLayer_afterLayerOrAtEnd(layer1);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(master);
+            Component.apply(master);
 
             assert.equal(master.frame().width(), 496);
             assert.equal(master.frame().height(), 192);
@@ -455,7 +457,7 @@ describe('bugs', function() {
         artboard.insertLayer_afterLayerOrAtEnd(layer3);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(artboard);
+            Component.apply(artboard);
 
             assert.equal(artboard.frame().width(), 1680);
             assert.equal(artboard.frame().height(), 968);
@@ -486,7 +488,7 @@ describe('bugs', function() {
         group.insertLayer_afterLayerOrAtEnd(layer2);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(artboard);
+            Component.apply(artboard);
 
             assert.equal(master.frame().width(), 100);
             assert.equal(master.frame().height(), 100);
@@ -554,7 +556,7 @@ describe('bugs', function() {
         group.insertLayer_afterLayerOrAtEnd(layer2);
 
         for (var i = 0; i < 2; i++) {
-            index.Component.apply(master);
+            Component.apply(master);
 
             assert.equal(master.frame().width(), 100);
             assert.equal(master.frame().height(), 270);
