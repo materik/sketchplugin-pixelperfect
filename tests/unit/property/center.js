@@ -1,11 +1,19 @@
 
 var index = require('../..');
 
+var CenterProperty = index.require.property.center()
 var Component = index.require.component();
 var Property = index.require.property();
 
 describe('property', function() {
     describe('center', function() {
+        it('type', function() {
+            var property = Property.parse(Component.init(createLayer('c')));
+            assert.equal(property.type(), 'center');
+            var property = CenterProperty.horizontally()
+            assert.equal(property.type(), 'center');
+        })
+
         it('center-horizontally', function() {
             var property = Property.parse(Component.init(createLayer('c')));
             assert.equal(property.isValid(), true);
@@ -127,5 +135,25 @@ describe('property', function() {
                 assert.equal(component.frame().y(), 14);
             });
         });
+
+        describe('init', function() {
+            it('horizontally', function() {
+                var property = CenterProperty.horizontally()
+                assert.equal(property.key(), 'center-horizontally')
+                assert.equal(property.value(), 0)
+                var property = CenterProperty.horizontally(undefined, 10)
+                assert.equal(property.key(), 'center-horizontally')
+                assert.equal(property.value(), 10)
+            })
+
+            it('vertically', function() {
+                var property = CenterProperty.vertically()
+                assert.equal(property.key(), 'center-vertically')
+                assert.equal(property.value(), 0)
+                var property = CenterProperty.vertically(undefined, 10)
+                assert.equal(property.key(), 'center-vertically')
+                assert.equal(property.value(), 10)
+            })
+        })
     });
 });
