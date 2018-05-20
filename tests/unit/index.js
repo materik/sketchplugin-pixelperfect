@@ -87,4 +87,39 @@ describe('index', function() {
         assert.equal(layer2.frame().width(), 7);
         assert.equal(layer2.frame().height(), 8);
     });
+
+    describe('require', function() {
+        it('lib', function() {
+            assert.equal(index.require.alignment().name, 'Alignment')
+            assert.equal(index.require.component().name, 'Component')
+            assert.equal(index.require.componentFrame().name, 'ComponentFrame')
+            assert.equal(index.require.components().name, 'Components')
+            assert.equal(index.require.componentsFrame().name, 'ComponentsFrame')
+            assert.equal(index.require.constraints().name, 'Constraints')
+            assert.equal(index.require.context().name, 'Context')
+            assert.ok(index.require.map().RegExpMap)
+            assert.ok(index.require.map().RegExpMapEntry)
+            assert.equal(index.require.properties().name, 'Properties')
+            assert.equal(index.require.property().name, 'Property')
+            assert.equal(index.require.symbolStore().name, 'SymbolStore')
+        })
+
+        it('component', function() {
+            assert.equal(index.require.component.artboard().name, 'ArtboardComponent')
+            assert.equal(index.require.component.group().name, 'GroupComponent')
+            assert.equal(index.require.component.layer().name, 'LayerComponent')
+            assert.equal(index.require.component.shape().name, 'ShapeComponent')
+            assert.equal(index.require.component.symbolInstance().name, 'SymbolInstanceComponent')
+            assert.equal(index.require.component.symbolMaster().name, 'SymbolMasterComponent')
+            assert.equal(index.require.component.text().name, 'TextComponent')
+        })
+
+        it('property', function() {
+            assert.equal(index.require.property.center().name, 'CenterProperty')
+            assert.equal(index.require.property.margin().name, 'MarginProperty')
+            assert.equal(index.require.property.padding().name, 'PaddingProperty')
+            assert.equal(index.require.property.size().name, 'SizeProperty')
+            assert.equal(index.require.property.stack().name, 'StackProperty')
+        })
+    })
 });

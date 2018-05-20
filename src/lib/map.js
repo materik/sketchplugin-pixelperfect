@@ -120,6 +120,9 @@ var padding = RegExpMap.init([
 // -----------------------------------------------------------
 
 module.exports = {
+    RegExpMap,
+    RegExpMapEntry,
+
     property: {
         keys,
         values,
