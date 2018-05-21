@@ -9,16 +9,16 @@ function Context(context) {
 
 // Static
 
-Context.new = function(context) {
+Context.init = function(context) {
     return new Context(context)
 }
 
 Context.apply = function(context) {
-    Context.new(context).apply()
+    Context.init(context).apply()
 }
 
 Context.applyToEverything = function(context) {
-    Context.new(context).applyToEverything()
+    Context.init(context).applyToEverything()
 }
 
 // Getter
@@ -72,6 +72,7 @@ Context.prototype.applyToEverything = function() {
         this.document().setCurrentPage(page);
         this.clearSelection()
 
+        /* istanbul ignore next */
         if (index.debug.isEnabled()) {
             print('\nPAGE: ' + page.name() + '\n');
         }

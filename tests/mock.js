@@ -59,6 +59,8 @@ MSLayer.prototype.select_byExpandingSelection = function(select, expand, _layer)
         } else {
             this._selection = [layer];
         }
+    } else {
+        this._selection = []
     }
 };
 
@@ -411,14 +413,15 @@ MSDocument.prototype.addPage = function(page) {
 
 // -----------------------------------------------------------
 
-function MSPage() {
+function MSPage(name) {
     MSLayerGroup.call(this);
 
     this._selection = [];
+    this.setName(name)
 }
 
-MSPage.new = function() {
-    return new MSPage();
+MSPage.new = function(name) {
+    return new MSPage(name);
 };
 
 MSPage.prototype = Object.create(MSLayerGroup.prototype);
