@@ -90,24 +90,6 @@ describe('component', function() {
         assert.equal(textLayer.frame().height(), 60);
     });
 
-    it('shape', function() {
-        var shape = createShape('', 0, 0, 10, 20);
-        Component.apply(shape);
-        assert.equal(shape.frame().width(), 10);
-        assert.equal(shape.frame().height(), 20);
-        var shape = createShape('w436', 0, 0, 10, 20);
-        Component.apply(shape);
-        assert.equal(shape.frame().width(), 436);
-        assert.equal(shape.frame().height(), 20);
-        var shape = createShape('h60', 0, 0, 10, 20);
-        Component.apply(shape);
-        assert.equal(shape.frame().width(), 10);
-        assert.equal(shape.frame().height(), 60);
-        var component = Component.init(shape)
-        assert.equal(component.components().count(), 0)
-        shape.insertLayer_afterLayerOrAtEnd(createLayer())
-        assert.equal(component.components().count(), 0)
-    });
 
     it('isArtboard', function() {
         var layer = createLayer()
