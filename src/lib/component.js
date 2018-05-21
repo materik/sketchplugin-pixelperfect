@@ -231,12 +231,14 @@ Component.prototype.unlockConstraints = function() {
 
 // Logging
 
+/* istanbul ignore next */
 Component.prototype.debugFrame = function() {
     if (index.debug.isEnabled()) {
         this._debugFrame = this.frame().toString();
     }
 };
 
+/* istanbul ignore next */
 Component.prototype.debug = function(msg) {
     if (index.debug.isEnabled()) {
         var frame = this._debugFrame ? '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>' : '';

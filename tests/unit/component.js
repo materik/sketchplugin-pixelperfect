@@ -75,22 +75,6 @@ describe('component', function() {
         assert.equal(layer.frame()._nbrOfChanges, 5); // 4 (initial) + 1 (size width)
     });
 
-    it('textLayer', function() {
-        var textLayer = createTextLayer('', 231, 48);
-        Component.apply(textLayer);
-        assert.equal(textLayer.frame().width(), 231);
-        assert.equal(textLayer.frame().height(), 48);
-        var textLayer = createTextLayer('w436', 231, 48);
-        Component.apply(textLayer);
-        assert.equal(textLayer.frame().width(), 436);
-        assert.equal(textLayer.frame().height(), 48);
-        var textLayer = createTextLayer('h60', 231, 48);
-        Component.apply(textLayer);
-        assert.equal(textLayer.frame().width(), 231);
-        assert.equal(textLayer.frame().height(), 60);
-    });
-
-
     it('isArtboard', function() {
         var layer = createLayer()
         assert.equal(Component.init(layer).isArtboard(), false)
@@ -98,6 +82,8 @@ describe('component', function() {
         assert.equal(Component.init(artboard).isArtboard(), true)
         var group = createLayerGroup()
         assert.equal(Component.init(group).isArtboard(), false)
+        var shape = createShape()
+        assert.equal(Component.init(shape).isArtboard(), false)
         var master = createSymbolMaster()
         assert.equal(Component.init(master).isArtboard(), false)
         var instance = createSymbolInstance(master)
@@ -113,6 +99,8 @@ describe('component', function() {
         assert.equal(Component.init(artboard).isGroup(), false)
         var group = createLayerGroup()
         assert.equal(Component.init(group).isGroup(), true)
+        var shape = createShape()
+        assert.equal(Component.init(shape).isGroup(), false)
         var master = createSymbolMaster()
         assert.equal(Component.init(master).isGroup(), false)
         var instance = createSymbolInstance(master)
@@ -128,6 +116,8 @@ describe('component', function() {
         assert.equal(Component.init(artboard).isSymbolMaster(), false)
         var group = createLayerGroup()
         assert.equal(Component.init(group).isSymbolMaster(), false)
+        var shape = createShape()
+        assert.equal(Component.init(shape).isSymbolMaster(), false)
         var master = createSymbolMaster()
         assert.equal(Component.init(master).isSymbolMaster(), true)
         var instance = createSymbolInstance(master)
@@ -143,6 +133,8 @@ describe('component', function() {
         assert.equal(Component.init(artboard).isArtboardOrSymbolMaster(), true)
         var group = createLayerGroup()
         assert.equal(Component.init(group).isArtboardOrSymbolMaster(), false)
+        var shape = createShape()
+        assert.equal(Component.init(shape).isArtboardOrSymbolMaster(), false)
         var master = createSymbolMaster()
         assert.equal(Component.init(master).isArtboardOrSymbolMaster(), true)
         var instance = createSymbolInstance(master)
@@ -179,9 +171,12 @@ describe('component', function() {
     it('hasParent', function() {
         var layer = createLayer();
         assert.equal(Component.init(layer).hasParent(), false)
-        var group = createLayerGroup()
+        assert.equal(Component.init(layer).parent(), undefined)
+        var layer = createLayer();
+        var group = createLayerGroup('parent')
         group.insertLayer_afterLayerOrAtEnd(layer)
         assert.equal(Component.init(layer).hasParent(), true)
+        assert.equal(Component.init(layer).parent().name(), 'parent')
     })
 
     it('roundToPixel', function() {
