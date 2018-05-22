@@ -52,6 +52,17 @@ describe('map', function() {
             assert.equal(map.replace('lorem 123'), 'lorem x')
         })
 
+        it('append', function() {
+            var map = RegExpMap.init([
+                RegExpMapEntry.init('lorem', 'ipsum'),
+            ])
+            assert.equal(map.find('lorem'), 'ipsum')
+            assert.equal(map.find('123'), undefined)
+            map.append(RegExpMapEntry.init(/\d+/g, 'x'))
+            assert.equal(map.find('lorem'), 'ipsum')
+            assert.equal(map.find('123'), 'x')
+        })
+
         it('replace', function() {
             var entry = RegExpMapEntry.init('lorem', 'ipsum')
             assert.equal(entry.replace('lorem ipsum'), 'lorem ipsum')

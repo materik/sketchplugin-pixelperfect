@@ -9,6 +9,10 @@ RegExpMap.init = function(entries) {
     return new RegExpMap(entries)
 }
 
+RegExpMap.prototype.append = function(entry) {
+    this._entries.append(entry)
+}
+
 RegExpMap.prototype.find = function(str) {
     for (var i = 0; i < this._entries.length; i++) {
         var entry = this._entries[i]
@@ -19,11 +23,9 @@ RegExpMap.prototype.find = function(str) {
 }
 
 RegExpMap.prototype.replace = function(str) {
-    for (var i = 0; i < this._entries.length; i++) {
-        var entry = this._entries[i]
-        str = entry.replace(str);
-    }
-    return str
+    return this._entries.reduce(function(str, entry) {
+        return entry.replace(str)
+    }, str)
 }
 
 // -----------------------------------------------------------

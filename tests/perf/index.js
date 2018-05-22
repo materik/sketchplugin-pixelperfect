@@ -3,6 +3,8 @@ var index = require('..');
 
 var Component = index.require.component();
 var Components = index.require.components();
+var RegExpMap = index.require.map().RegExpMap;
+var RegExpMapEntry = index.require.map().RegExpMapEntry;
 var SymbolStore = index.require.symbolStore();
 
 describe('perf', function() {
@@ -292,6 +294,34 @@ describe('perf', function() {
                         var dependecy = index.require[requires[j]]
                         assert.ok(dependecy())
                     }
+                }
+            } , 1)
+        })
+    })
+
+    describe('map', function() {
+        it('find', function() {
+            var map = RegExpMap.init()
+            for (var i = 0; i < 3500; i++) {
+                map.append(RegExpMapEntry.init(String(i), 'x' + i))
+            }
+
+            performanceTest( () => {
+                for (var i = 0; i < 3500; i++) {
+                    assert.equal(map.find(String(i)), 'x' + i)
+                }
+            } , 1)
+        })
+
+        it('replace', function() {
+            var map = RegExpMap.init()
+            for (var i = 0; i < 2500; i++) {
+                map.append(RegExpMapEntry.init('(' + String(i) + ')', 'x$1'))
+            }
+
+            performanceTest( () => {
+                for (var i = 0; i < 2500; i++) {
+                    assert.equal(map.replace(String(i)), 'x' + i)
                 }
             } , 1)
         })
