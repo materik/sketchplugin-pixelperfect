@@ -39,7 +39,7 @@
         "perf": "mocha --recursive tests/perf",
         "perfect-coverage": "./scripts/perfect-coverage.js",
         "postinstall": "npm run build && skpm-link",
-        "release": "skpm publish",
+        "release": "./scripts/release.js",
         "start": "skpm-build --watch --run",
         "test": "nyc npm run unit",
         "unit": "mocha --recursive tests/unit",
