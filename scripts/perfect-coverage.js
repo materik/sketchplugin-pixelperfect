@@ -83,11 +83,8 @@ var test = function(srcFile, testFile, callback) {
         var srcFile = files.shift()
         var testFile = srcFile.replace('src/', 'tests/unit/').replace('lib/', '');
         test(srcFile, testFile, (res) => {
-            if (res) {
-                test(files)   
-            } else {
-                console.log('STOP: not 100% covered');
-            }
+            if (!res) { console.log('^ Not 100% covered'); }
+            test(files)
         });
     } else {
         cmd.get('nyc --include="' + srcFile + '" mocha ' + testFile, (err, res) => {

@@ -2,7 +2,7 @@
 var index = require('..');
 
 function RegExpMap(entries) {
-    this._entries = entries;
+    this._entries = entries || [];
 }
 
 RegExpMap.init = function(entries) {
