@@ -567,6 +567,18 @@ describe('property', function() {
         });
 
         describe('init', function() {
+            it('init', function() {
+                var artboard = createArtboard()
+                artboard.insertLayer_afterLayerOrAtEnd(createLayer())
+                var component = Component.init(artboard)
+                var property = PaddingProperty.init()
+                assert.equal(property, undefined)
+                var property = PaddingProperty.init(component, 'x')
+                assert.equal(property, undefined)
+                var property = PaddingProperty.init(component, 'padding-top')
+                assert.notEqual(property, undefined)
+            })
+
             it('padding-top', function() {
                 var artboard = createArtboard()
                 artboard.insertLayer_afterLayerOrAtEnd(createLayer())

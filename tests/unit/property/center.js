@@ -137,6 +137,16 @@ describe('property', function() {
         });
 
         describe('init', function() {
+            it('init', function() {
+                var component = Component.init(createLayer())
+                var property = CenterProperty.init()
+                assert.equal(property, undefined)
+                var property = CenterProperty.init(component, 'x')
+                assert.equal(property, undefined)
+                var property = CenterProperty.init(component, 'center-vertically')
+                assert.notEqual(property, undefined)
+            })
+
             it('horizontally', function() {
                 var property = CenterProperty.horizontally()
                 assert.equal(property.key(), 'center-horizontally')

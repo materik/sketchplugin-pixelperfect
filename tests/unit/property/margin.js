@@ -182,6 +182,16 @@ describe('property', function() {
         });
 
         describe('init', function() {
+            it('init', function() {
+                var component = Component.init(createLayer())
+                var property = MarginProperty.init()
+                assert.equal(property, undefined)
+                var property = MarginProperty.init(component, 'x')
+                assert.equal(property, undefined)
+                var property = MarginProperty.init(component, 'margin-bottom')
+                assert.notEqual(property, undefined)
+            })
+
             it('margin-top', function() {
                 var property = MarginProperty.top()
                 assert.equal(property.key(), 'margin-top')

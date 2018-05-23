@@ -389,6 +389,16 @@ describe('property', function() {
         });
 
         describe('init', function() {
+            it('init', function() {
+                var component = Component.init(createLayer())
+                var property = SizeProperty.init()
+                assert.equal(property, undefined)
+                var property = SizeProperty.init(component, 'x')
+                assert.equal(property, undefined)
+                var property = SizeProperty.init(component, 'height')
+                assert.notEqual(property, undefined)
+            })
+
             it('width', function() {
                 var property = SizeProperty.width()
                 assert.equal(property.key(), 'width')

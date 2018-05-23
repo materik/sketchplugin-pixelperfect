@@ -226,5 +226,19 @@ describe('property', function() {
                 assert.equal(layer2.frame().height(), 20);
             });
         });
+
+        describe('init', function() {
+            it('init', function() {
+                var group = createLayerGroup()
+                group.insertLayer_afterLayerOrAtEnd(createLayer())
+                var component = Component.init(group)
+                var property = StackProperty.init()
+                assert.equal(property, undefined)
+                var property = StackProperty.init(component, 'x')
+                assert.equal(property, undefined)
+                var property = StackProperty.init(component, 'stack-vertically-right')
+                assert.notEqual(property, undefined)
+            })
+        });
     });
 });
