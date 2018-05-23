@@ -60,6 +60,73 @@ RegExpMapEntry.prototype.test = function(str) {
 
 // -----------------------------------------------------------
 
+function StaticMap(entries) {
+    this._entries = entries || [];
+    this._dict = null
+}
+
+StaticMap.init = function(entries) {
+    return new StaticMap(entries)
+}
+
+StaticMap.prototype.dict = function() {
+    if (this._dict == null) {
+        this._dict = {}
+        for (var i = 0; i < this._entries.length; i++) {
+            var entry = this._entries[i]
+            this._dict[entry.key()] = entry.value()
+        }
+    }
+    return this._dict
+}
+
+StaticMap.prototype.append = function(entry) {
+    this._entries.append(entry)
+    this._dict = null
+}
+
+StaticMap.prototype.find = function(str) {
+    return this.dict()[str]
+}
+
+StaticMap.prototype.replace = function(str) {
+    return this._entries.reduce(function(str, entry) {
+        return entry.replace(str)
+    }, str)
+}
+
+// -----------------------------------------------------------
+
+function StaticMapEntry(key, value) {
+    this._key = key;
+    this._value = value;
+}
+
+StaticMapEntry.init = function(key, value) {
+    return new StaticMapEntry(key, value);
+}
+
+StaticMapEntry.prototype.key = function() {
+    return this._key;
+}
+
+StaticMapEntry.prototype.value = function() {
+    return this._value;
+}
+
+StaticMapEntry.prototype.replace = function(str) {
+    if (this.test(str)) {
+        return this.value()
+    }
+    return str
+}
+
+StaticMapEntry.prototype.test = function(str) {
+    return this.key == str
+}
+
+// -----------------------------------------------------------
+
 var keys = RegExpMap.init([
     RegExpMapEntry.init('(c)(\\+|\\-)?\\d*', index.const.property.key.centerHorizontally),
     RegExpMapEntry.init('(h)', index.const.property.key.centerHorizontally),
@@ -97,6 +164,39 @@ var values = RegExpMap.init([
     RegExpMapEntry.init(/[^\-\d]/g, ''),
 ])
 
+var types = StaticMap.init([
+    StaticMapEntry.init(index.const.property.key.centerHorizontally, index.const.property.type.center),
+    StaticMapEntry.init(index.const.property.key.centerHorizontally, index.const.property.type.center),
+    StaticMapEntry.init(index.const.property.key.heightAddition, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.heightMax, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.heightMin, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.heightStatic, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.heightPercentage, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.heightPercentageFull, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.marginBottom, index.const.property.type.margin),
+    StaticMapEntry.init(index.const.property.key.marginLeft, index.const.property.type.margin),
+    StaticMapEntry.init(index.const.property.key.marginRight, index.const.property.type.margin),
+    StaticMapEntry.init(index.const.property.key.marginTop, index.const.property.type.margin),
+    StaticMapEntry.init(index.const.property.key.paddingBottom, index.const.property.type.padding),
+    StaticMapEntry.init(index.const.property.key.paddingLeft, index.const.property.type.padding),
+    StaticMapEntry.init(index.const.property.key.paddingRight, index.const.property.type.padding),
+    StaticMapEntry.init(index.const.property.key.paddingTop, index.const.property.type.padding),
+    StaticMapEntry.init(index.const.property.key.centerVertically, index.const.property.type.center),
+    StaticMapEntry.init(index.const.property.key.centerVertically, index.const.property.type.center),
+    StaticMapEntry.init(index.const.property.key.widthAddition, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.widthMax, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.widthMin, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.widthStatic, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.widthPercentage, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.widthPercentageFull, index.const.property.type.size),
+    StaticMapEntry.init(index.const.property.key.stackHorizontallyMiddle, index.const.property.type.stack),
+    StaticMapEntry.init(index.const.property.key.stackHorizontallyBottom, index.const.property.type.stack),
+    StaticMapEntry.init(index.const.property.key.stackHorizontallyTop, index.const.property.type.stack),
+    StaticMapEntry.init(index.const.property.key.stackVerticallyCenter, index.const.property.type.stack),
+    StaticMapEntry.init(index.const.property.key.stackVerticallyLeft, index.const.property.type.stack),
+    StaticMapEntry.init(index.const.property.key.stackVerticallyRight, index.const.property.type.stack),
+]);
+
 var margin = RegExpMap.init([
     RegExpMapEntry.init(/\b(m|margin|bg|trbl)\b/i, 't:r:b:l'),
     RegExpMapEntry.init(/\b(tl|lt)(\d*)\b/i, 't$2:l$2'),
@@ -124,6 +224,7 @@ module.exports = {
     property: {
         keys,
         values,
+        types,
         modify: {
             margin,
             padding,

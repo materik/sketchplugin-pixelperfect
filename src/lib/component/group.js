@@ -9,6 +9,12 @@ function GroupComponent(layer) {
 
 GroupComponent.prototype = Object.create(Component.prototype);
 
+// Static
+
+GroupComponent.init = function(layer) {
+    return new GroupComponent(layer)
+}
+
 // Action
 
 GroupComponent.prototype._apply = function() {

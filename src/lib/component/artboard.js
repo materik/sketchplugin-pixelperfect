@@ -9,6 +9,12 @@ function ArtboardComponent(layer) {
 
 ArtboardComponent.prototype = Object.create(Component.prototype);
 
+// Static
+
+ArtboardComponent.init = function(layer) {
+    return new ArtboardComponent(layer)
+}
+
 // Action
 
 ArtboardComponent.prototype._apply = function() {

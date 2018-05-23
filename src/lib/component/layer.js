@@ -9,6 +9,12 @@ function LayerComponent(layer) {
 
 LayerComponent.prototype = Object.create(Component.prototype);
 
+// Static
+
+LayerComponent.init = function(layer) {
+    return new LayerComponent(layer)
+}
+
 // Action
 
 LayerComponent.prototype._apply = function() {

@@ -10,6 +10,12 @@ function ShapeComponent(layer) {
 
 ShapeComponent.prototype = Object.create(Component.prototype);
 
+// Static
+
+ShapeComponent.init = function(layer) {
+    return new ShapeComponent(layer)
+}
+
 // Getter
 
 ShapeComponent.prototype.components = function() {

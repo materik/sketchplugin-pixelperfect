@@ -12,6 +12,12 @@ function SymbolMasterComponent(layer) {
 
 SymbolMasterComponent.prototype = Object.create(ArtboardComponent.prototype);
 
+// Static
+
+SymbolMasterComponent.init = function(layer) {
+    return new SymbolMasterComponent(layer)
+}
+
 // Getter
 
 SymbolMasterComponent.prototype.properties = function() {

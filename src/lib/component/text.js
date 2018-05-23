@@ -9,6 +9,12 @@ function TextComponent(layer) {
 
 TextComponent.prototype = Object.create(Component.prototype);
 
+// Static
+
+TextComponent.init = function(layer) {
+    return new TextComponent(layer)
+}
+
 // Action
 
 TextComponent.prototype._apply = function() {

@@ -19,7 +19,10 @@ CenterProperty.validKeys = function() {
 };
 
 CenterProperty.init = function(component, key, value) {
-    return Property.init(component, key, value);
+    var property = new CenterProperty(component, key, value);
+    if (property.isValid()) {
+        return property
+    }
 };
 
 CenterProperty.horizontally = function(component, value) {

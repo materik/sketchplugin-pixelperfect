@@ -21,7 +21,10 @@ MarginProperty.validKeys = function() {
 };
 
 MarginProperty.init = function(component, key, value) {
-    return Property.init(component, key, value);
+    var property = new MarginProperty(component, key, value);
+    if (property.isValid()) {
+        return property
+    }
 };
 
 MarginProperty.top = function(component, value) {

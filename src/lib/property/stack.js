@@ -24,7 +24,10 @@ StackProperty.validKeys = function() {
 };
 
 StackProperty.init = function(component, key, value) {
-    return Property.init(component, key, value);
+    var property = new StackProperty(component, key, value);
+    if (property.isValid()) {
+        return property
+    }
 };
 
 // Getter

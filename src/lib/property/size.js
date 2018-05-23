@@ -29,7 +29,10 @@ SizeProperty.validKeys = function() {
 };
 
 SizeProperty.init = function(component, key, value) {
-    return Property.init(component, key, value);
+    var property = new SizeProperty(component, key, value);
+    if (property.isValid()) {
+        return property
+    }
 };
 
 SizeProperty.width = function(component, value) {

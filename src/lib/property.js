@@ -10,32 +10,21 @@ function Property(component, key, value) {
 // Static
 
 Property.init = function(component, key, value) {
-    var CenterProperty = index.require.property.center();
-    var property = new CenterProperty(component, key, value);
-    if (property.isValid()) {
-        return property;
+    switch (index.require.map().property.types.find(key)) {
+        case index.const.property.type.center:
+            return index.require.property.center().init(component, key, value)
+        case index.const.property.type.margin:
+            return index.require.property.margin().init(component, key, value)
+        case index.const.property.type.padding:
+            return index.require.property.padding().init(component, key, value)
+        case index.const.property.type.size:
+            return index.require.property.size().init(component, key, value)
+        case index.const.property.type.stack:
+            return index.require.property.stack().init(component, key, value)
+        default:
+            component.debug('~ Property: invalid <' + key + '> <' + value + '>');
+            break;
     }
-    var MarginProperty = index.require.property.margin();
-    var property = new MarginProperty(component, key, value);
-    if (property.isValid()) {
-        return property;
-    }
-    var PaddingProperty = index.require.property.padding();
-    var property = new PaddingProperty(component, key, value);
-    if (property.isValid()) {
-        return property;
-    }
-    var SizeProperty = index.require.property.size();
-    var property = new SizeProperty(component, key, value);
-    if (property.isValid()) {
-        return property;
-    }
-    var StackProperty = index.require.property.stack();
-    var property = new StackProperty(component, key, value);
-    if (property.isValid()) {
-        return property;
-    }
-    component.debug('~ Property: invalid <' + key + '> <' + value + '>');
 };
 
 Property.parse = function(component, raw) {

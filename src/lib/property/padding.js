@@ -29,7 +29,10 @@ PaddingProperty.validKeys = function() {
 };
 
 PaddingProperty.init = function(component, key, value) {
-    return Property.init(component, key, value);
+    var property = new PaddingProperty(component, key, value);
+    if (property.isValid()) {
+        return property
+    }
 };
 
 PaddingProperty.top = function(component, value) {

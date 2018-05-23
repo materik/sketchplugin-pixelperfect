@@ -19,26 +19,19 @@ function Component(layer) {
 Component.init = function(layer) {
     switch (String(layer.class().toString())) {
         case index.const.class.artboard:
-            var ArtboardComponent = index.require.component.artboard();
-            return new ArtboardComponent(layer);
+            return index.require.component.artboard().init(layer);
         case index.const.class.group:
-            var GroupComponent = index.require.component.group();
-            return new GroupComponent(layer);
+            return index.require.component.group().init(layer);
         case index.const.class.shape:
-            var ShapeComponent = index.require.component.shape();
-            return new ShapeComponent(layer);
+            return index.require.component.shape().init(layer);
         case index.const.class.symbolInstance:
-            var SymbolInstanceComponent = index.require.component.symbolInstance();
-            return new SymbolInstanceComponent(layer);
+            return index.require.component.symbolInstance().init(layer);
         case index.const.class.symbolMaster:
-            var SymbolMasterComponent = index.require.component.symbolMaster();
-            return new SymbolMasterComponent(layer);
+            return index.require.component.symbolMaster().init(layer);
         case index.const.class.text:
-            var TextComponent = index.require.component.text();
-            return new TextComponent(layer);
+            return index.require.component.text().init(layer);
         default:
-            var LayerComponent = index.require.component.layer();
-            return new LayerComponent(layer);
+            return index.require.component.layer().init(layer);
     }
 };
 

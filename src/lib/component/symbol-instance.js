@@ -9,6 +9,12 @@ function SymbolInstanceComponent(layer) {
 
 SymbolInstanceComponent.prototype = Object.create(Component.prototype);
 
+// Static
+
+SymbolInstanceComponent.init = function(layer) {
+    return new SymbolInstanceComponent(layer)
+}
+
 // Action
 
 SymbolInstanceComponent.prototype._apply = function() {
