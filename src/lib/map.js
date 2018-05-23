@@ -122,7 +122,7 @@ StaticMapEntry.prototype.replace = function(str) {
 }
 
 StaticMapEntry.prototype.test = function(str) {
-    return this.key == str
+    return this.key() == str
 }
 
 // -----------------------------------------------------------
@@ -220,6 +220,8 @@ var padding = RegExpMap.init([
 module.exports = {
     RegExpMap,
     RegExpMapEntry,
+    StaticMap,
+    StaticMapEntry,
 
     property: {
         keys,
