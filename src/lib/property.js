@@ -44,10 +44,6 @@ Property.parse = function(component, raw) {
     return Property.init(component, key, value);
 };
 
-Property.modify = function(str) {
-    return index.require.map().property.modify.generic.replace(str);
-}
-
 // Getter
 
 Property.prototype.component = function() {

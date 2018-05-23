@@ -18,40 +18,35 @@ describe('property', function() {
 
         describe('modify', function() {
             it('full', function() {
-                assert.equal(PaddingProperty.modify('padding'), ':pt:pr:pb:pl:');
-                assert.equal(PaddingProperty.modify('p'), ':pt:pr:pb:pl:');
-                assert.equal(PaddingProperty.modify('p10'), ':pt10:pr10:pb10:pl10:');
+                assert.equal(PaddingProperty.modify('padding'), 'pt:pr:pb:pl');
+                assert.equal(PaddingProperty.modify('p'), 'pt:pr:pb:pl');
+                assert.equal(PaddingProperty.modify('p10'), 'pt10:pr10:pb10:pl10');
                 assert.equal(PaddingProperty.modify('h+100:padding:w+100'), 'h+100:pt:pr:pb:pl:w+100');
                 assert.equal(PaddingProperty.modify('h+100:p:w+100'), 'h+100:pt:pr:pb:pl:w+100');
             })
 
             it('numbers', function() {
-                assert.equal(PaddingProperty.modify('0'), ':pt0:pr0:pb0:pl0:');
-                assert.equal(PaddingProperty.modify('1:2'), ':pt1:pr2:pb1:pl2:');
-                assert.equal(PaddingProperty.modify('1:2:3'), ':pt1:pr2:pb3:pl2:');
-                assert.equal(PaddingProperty.modify('1:2:3:4'), ':pt1:pr2:pb3:pl4:');
+                assert.equal(PaddingProperty.modify('0'), 'pt0:pr0:pb0:pl0');
+                assert.equal(PaddingProperty.modify('1:2'), 'pt1:pb1:pr2:pl2');
+                assert.equal(PaddingProperty.modify('1:2:3'), 'pt1:pr2:pl2:pb3');
+                assert.equal(PaddingProperty.modify('1:2:3:4'), 'pt1:pr2:pb3:pl4');
                 assert.equal(PaddingProperty.modify('h+100:0:w+100'), 'h+100:pt0:pr0:pb0:pl0:w+100');
-                assert.equal(PaddingProperty.modify('h+100:1:2:w+100'), 'h+100:pt1:pr2:pb1:pl2:w+100');
-                assert.equal(PaddingProperty.modify('h+100:1:2:3:w+100'), 'h+100:pt1:pr2:pb3:pl2:w+100');
+                assert.equal(PaddingProperty.modify('h+100:1:2:w+100'), 'h+100:pt1:pb1:pr2:pl2:w+100');
+                assert.equal(PaddingProperty.modify('h+100:1:2:3:w+100'), 'h+100:pt1:pr2:pl2:pb3:w+100');
                 assert.equal(PaddingProperty.modify('h+100:1:2:3:4:w+100'), 'h+100:pt1:pr2:pb3:pl4:w+100');
+                assert.equal(PaddingProperty.modify('h+100:1:2:3:4:5:w+100'), 'h+100:pt1:pr2:pb3:pl4:5:w+100');
+                assert.equal(PaddingProperty.modify('h+100:1:2:w+100:3:4'), 'h+100:pt1:pr2:w+100:pb3:pl4');
             });
 
             it('left-right / top-bottom', function() {
-                assert.equal(PaddingProperty.modify('plr'), ':pr:pl:')
-                assert.equal(PaddingProperty.modify('plr10'), ':pr10:pl10:')
-                assert.equal(PaddingProperty.modify('prl'), ':pr:pl:')
-                assert.equal(PaddingProperty.modify('prl10'), ':pr10:pl10:')
-                assert.equal(PaddingProperty.modify('ptb'), ':pt:pb:')
-                assert.equal(PaddingProperty.modify('ptb10'), ':pt10:pb10:')
-                assert.equal(PaddingProperty.modify('pbt'), ':pt:pb:')
-                assert.equal(PaddingProperty.modify('pbt10'), ':pt10:pb10:')
-            })
-
-            it('user errors', function() {
-                // NOTE(materik):
-                // * I can't keep handling user errors, so these will result in a unexpected behaviour
-                assert.equal(PaddingProperty.modify('h+100:1:2:3:4:5:w+100'), 'h+100:pt1:pr2:pb3:pl4:pt5:pr5:pb5:pl5:w+100');
-                assert.equal(PaddingProperty.modify('h+100:1:2:w+100:3:4'), 'h+100:pt1:pr2:pb1:pl2:w+100:pt3:pr3:pb3:pl3:4');
+                assert.equal(PaddingProperty.modify('plr'), 'pr:pl')
+                assert.equal(PaddingProperty.modify('plr10'), 'pr10:pl10')
+                assert.equal(PaddingProperty.modify('prl'), 'pr:pl')
+                assert.equal(PaddingProperty.modify('prl10'), 'pr10:pl10')
+                assert.equal(PaddingProperty.modify('ptb'), 'pt:pb')
+                assert.equal(PaddingProperty.modify('ptb10'), 'pt10:pb10')
+                assert.equal(PaddingProperty.modify('pbt'), 'pt:pb')
+                assert.equal(PaddingProperty.modify('pbt10'), 'pt10:pb10')
             })
         });
 

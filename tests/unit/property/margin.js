@@ -16,25 +16,25 @@ describe('property', function() {
 
         describe('modify', function() {
             it('full', function() {
-                assert.equal(MarginProperty.modify('margin'), ':t:r:b:l:');
-                assert.equal(MarginProperty.modify('bg'), ':t:r:b:l:');
-                assert.equal(MarginProperty.modify('trbl'), ':t:r:b:l:');
-                assert.equal(MarginProperty.modify('m'), ':t:r:b:l:');
+                assert.equal(MarginProperty.modify('margin'), 't:r:b:l');
+                assert.equal(MarginProperty.modify('bg'), 't:r:b:l');
+                assert.equal(MarginProperty.modify('trbl'), 't:r:b:l');
+                assert.equal(MarginProperty.modify('m'), 't:r:b:l');
             })
 
             it('top-left / bottom-right', function() {
-                assert.equal(MarginProperty.modify('tl'), ':t:l:');
-                assert.equal(MarginProperty.modify('lt'), ':t:l:');
-                assert.equal(MarginProperty.modify('tl10'), ':t10:l10:');
-                assert.equal(MarginProperty.modify('tr'), ':t:r:');
-                assert.equal(MarginProperty.modify('rt'), ':t:r:');
-                assert.equal(MarginProperty.modify('tr10'), ':t10:r10:');
-                assert.equal(MarginProperty.modify('bl'), ':b:l:');
-                assert.equal(MarginProperty.modify('lb'), ':b:l:');
-                assert.equal(MarginProperty.modify('bl10'), ':b10:l10:');
-                assert.equal(MarginProperty.modify('br'), ':r:b:');
-                assert.equal(MarginProperty.modify('rb'), ':r:b:');
-                assert.equal(MarginProperty.modify('br10'), ':r10:b10:');
+                assert.equal(MarginProperty.modify('tl'), 't:l');
+                assert.equal(MarginProperty.modify('lt'), 't:l');
+                assert.equal(MarginProperty.modify('tl10'), 't10:l10');
+                assert.equal(MarginProperty.modify('tr'), 't:r');
+                assert.equal(MarginProperty.modify('rt'), 't:r');
+                assert.equal(MarginProperty.modify('tr10'), 't10:r10');
+                assert.equal(MarginProperty.modify('bl'), 'b:l');
+                assert.equal(MarginProperty.modify('lb'), 'b:l');
+                assert.equal(MarginProperty.modify('bl10'), 'b10:l10');
+                assert.equal(MarginProperty.modify('br'), 'r:b');
+                assert.equal(MarginProperty.modify('rb'), 'r:b');
+                assert.equal(MarginProperty.modify('br10'), 'r10:b10');
             })
         });
 

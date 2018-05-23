@@ -97,28 +97,22 @@ var values = RegExpMap.init([
     RegExpMapEntry.init(/[^\-\d]/g, ''),
 ])
 
-var generic = RegExpMap.init([
-    RegExpMapEntry.init(/^:/, ''),
-    RegExpMapEntry.init(/:$/, ''),
-    RegExpMapEntry.init(/:{2,}/g, ':'),
-])
-
 var margin = RegExpMap.init([
-    RegExpMapEntry.init(/(?:^|:)(m|margin|bg|trbl)(?:$|:)/i, ':t:r:b:l:'),
-    RegExpMapEntry.init(/(?:^|:)(tl|lt)(\d*)(?:$|:)/i, ':t$2:l$2:'),
-    RegExpMapEntry.init(/(?:^|:)(tr|rt)(\d*)(?:$|:)/i, ':t$2:r$2:'),
-    RegExpMapEntry.init(/(?:^|:)(bl|lb)(\d*)(?:$|:)/i, ':b$2:l$2:'),
-    RegExpMapEntry.init(/(?:^|:)(rb|br)(\d*)(?:$|:)/i, ':r$2:b$2:'),
+    RegExpMapEntry.init(/\b(m|margin|bg|trbl)\b/i, 't:r:b:l'),
+    RegExpMapEntry.init(/\b(tl|lt)(\d*)\b/i, 't$2:l$2'),
+    RegExpMapEntry.init(/\b(tr|rt)(\d*)\b/i, 't$2:r$2'),
+    RegExpMapEntry.init(/\b(bl|lb)(\d*)\b/i, 'b$2:l$2'),
+    RegExpMapEntry.init(/\b(rb|br)(\d*)\b/i, 'r$2:b$2'),
 ]);
 
 var padding = RegExpMap.init([
-    RegExpMapEntry.init(/(?:^|:)(\d+):(\d+):(\d+):(\d+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$4:'),
-    RegExpMapEntry.init(/(?:^|:)(\d+):(\d+):(\d+)(?:$|:)/, ':pt$1:pr$2:pb$3:pl$2:'),
-    RegExpMapEntry.init(/(?:^|:)(\d+):(\d+)(?:$|:)/, ':pt$1:pr$2:pb$1:pl$2:'),
-    RegExpMapEntry.init(/(?:^|:)(\d+)(?:$|:)/, ':pt$1:pr$1:pb$1:pl$1:'),
-    RegExpMapEntry.init(/(?:^|:)(p|padding)(\d*)(?:$|:)/i, ':pt$2:pr$2:pb$2:pl$2:'),
-    RegExpMapEntry.init(/(?:^|:)(prl|plr)(\d*)(?:$|:)/i, ':pr$2:pl$2:'),
-    RegExpMapEntry.init(/(?:^|:)(ptb|pbt)(\d*)(?:$|:)/i, ':pt$2:pb$2:'),
+    RegExpMapEntry.init(/(^|:)(\d+)/, '$1p$2'),
+    RegExpMapEntry.init(/p(\d+)((?:(?!:\d).)*):(\d+)/, 'ptb$1$2:prl$3'),
+    RegExpMapEntry.init(/ptb(\d+)((?:(?!:\d).)*):(\d+)/, 'pt$1$2:pb$3'),
+    RegExpMapEntry.init(/prl(\d+)((?:(?!:\d).)*):(\d+)/, 'pr$1$2:pl$3'),
+    RegExpMapEntry.init(/\b(p|padding)(\d*)\b/i, 'pt$2:pr$2:pb$2:pl$2'),
+    RegExpMapEntry.init(/\b(prl|plr)(\d*)\b/i, 'pr$2:pl$2'),
+    RegExpMapEntry.init(/(ptb|pbt)(\d*)\b/i, 'pt$2:pb$2'),
 ]);
 
 // -----------------------------------------------------------
@@ -131,7 +125,6 @@ module.exports = {
         keys,
         values,
         modify: {
-            generic,
             margin,
             padding,
         },

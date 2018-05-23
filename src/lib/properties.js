@@ -165,7 +165,6 @@ Properties.prototype._raw = function() {
 
     properties = PaddingProperty.modify(properties);
     properties = MarginProperty.modify(properties);
-    properties = Property.modify(properties);
 
     return properties.split(index.const.properties.sep);
 };
