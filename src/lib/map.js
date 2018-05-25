@@ -212,7 +212,7 @@ const padding = RegExpMap.init([
     RegExpMapEntry.init(/prl(\d+)((?:(?!:\d).)*):(\d+)/, 'pr$1$2:pl$3'),
     RegExpMapEntry.init(/\b(p|padding)(\d*)\b/i, 'pt$2:pr$2:pb$2:pl$2'),
     RegExpMapEntry.init(/\b(prl|plr)(\d*)\b/i, 'pr$2:pl$2'),
-    RegExpMapEntry.init(/(ptb|pbt)(\d*)\b/i, 'pt$2:pb$2'),
+    RegExpMapEntry.init(/\b(ptb|pbt)(\d*)\b/i, 'pt$2:pb$2'),
 ]);
 
 // -----------------------------------------------------------
