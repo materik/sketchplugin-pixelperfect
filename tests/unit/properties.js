@@ -306,6 +306,60 @@ describe('properties', function() {
         assert.equal(properties.containsMarginRightOrLeft(), true);
     });
 
+    it('containsWidth', function() {
+        var properties = Properties.init(Component.init(createLayer('w10')));
+        assert.equal(properties.containsWidth(), true);
+        var properties = Properties.init(Component.init(createLayer('h10')));
+        assert.equal(properties.containsWidth(), false);
+        var properties = Properties.init(Component.init(createLayer('w+10')));
+        assert.equal(properties.containsWidth(), true);
+        var properties = Properties.init(Component.init(createLayer('h+10')));
+        assert.equal(properties.containsWidth(), false);
+        var properties = Properties.init(Component.init(createLayer('w10%')));
+        assert.equal(properties.containsWidth(), true);
+        var properties = Properties.init(Component.init(createLayer('h10%')));
+        assert.equal(properties.containsWidth(), false);
+        var properties = Properties.init(Component.init(createLayer('w10%%')));
+        assert.equal(properties.containsWidth(), true);
+        var properties = Properties.init(Component.init(createLayer('h10%%')));
+        assert.equal(properties.containsWidth(), false);
+        var properties = Properties.init(Component.init(createLayer('w>10')));
+        assert.equal(properties.containsWidth(), true);
+        var properties = Properties.init(Component.init(createLayer('h>10')));
+        assert.equal(properties.containsWidth(), false);
+        var properties = Properties.init(Component.init(createLayer('w<10')));
+        assert.equal(properties.containsWidth(), true);
+        var properties = Properties.init(Component.init(createLayer('h<10')));
+        assert.equal(properties.containsWidth(), false);
+    })
+
+    it('containsHeight', function() {
+        var properties = Properties.init(Component.init(createLayer('w10')));
+        assert.equal(properties.containsHeight(), false);
+        var properties = Properties.init(Component.init(createLayer('h10')));
+        assert.equal(properties.containsHeight(), true);
+        var properties = Properties.init(Component.init(createLayer('w+10')));
+        assert.equal(properties.containsHeight(), false);
+        var properties = Properties.init(Component.init(createLayer('h+10')));
+        assert.equal(properties.containsHeight(), true);
+        var properties = Properties.init(Component.init(createLayer('w10%')));
+        assert.equal(properties.containsHeight(), false);
+        var properties = Properties.init(Component.init(createLayer('h10%')));
+        assert.equal(properties.containsHeight(), true);
+        var properties = Properties.init(Component.init(createLayer('w10%%')));
+        assert.equal(properties.containsHeight(), false);
+        var properties = Properties.init(Component.init(createLayer('h10%%')));
+        assert.equal(properties.containsHeight(), true);
+        var properties = Properties.init(Component.init(createLayer('w>10')));
+        assert.equal(properties.containsHeight(), false);
+        var properties = Properties.init(Component.init(createLayer('h>10')));
+        assert.equal(properties.containsHeight(), true);
+        var properties = Properties.init(Component.init(createLayer('w<10')));
+        assert.equal(properties.containsHeight(), false);
+        var properties = Properties.init(Component.init(createLayer('h<10')));
+        assert.equal(properties.containsHeight(), true);
+    })
+
     describe('apply', function() {
         it('default', function() {
             var layer = createLayer('w100:h200')

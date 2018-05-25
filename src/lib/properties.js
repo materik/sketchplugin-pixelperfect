@@ -123,6 +123,18 @@ Properties.prototype.containsMarginRightOrLeft = function() {
     return this.containsKey(index.const.property.key.marginRight) || this.containsKey(index.const.property.key.marginLeft);
 };
 
+Properties.prototype.containsWidth = function() {
+    return this.containsKey(index.const.property.key.widthStatic) || this.containsKey(index.const.property.key.widthAddition) ||
+        this.containsKey(index.const.property.key.widthPercentage) || this.containsKey(index.const.property.key.widthPercentageFull) ||
+        this.containsKey(index.const.property.key.widthMax) || this.containsKey(index.const.property.key.widthMin)
+}
+
+Properties.prototype.containsHeight = function() {
+    return this.containsKey(index.const.property.key.heightStatic) || this.containsKey(index.const.property.key.heightAddition) ||
+        this.containsKey(index.const.property.key.heightPercentage) || this.containsKey(index.const.property.key.heightPercentageFull) ||
+        this.containsKey(index.const.property.key.heightMax) || this.containsKey(index.const.property.key.heightMin)
+}
+
 // Action
 
 Properties.prototype.apply = function() {

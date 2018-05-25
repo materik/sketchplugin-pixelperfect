@@ -23,11 +23,7 @@ TextComponent.prototype._apply = function() {
 };
 
 TextComponent.prototype._sizeToFit = function() {
-    // TODO(materik):
-    // * handle that any height set should have vertical alignment.
-    //   thinking of adding a method for checking containsSubtype('height')
-    //   or something.
-    if (this.properties().containsKey(index.const.property.key.heightStatic)) {
+    if (this.properties().containsHeight()) {
         this._layer.setVerticalAlignment(1);
     } else {
         this._layer.adjustFrameToFit();
