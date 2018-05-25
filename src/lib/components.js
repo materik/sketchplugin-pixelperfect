@@ -136,6 +136,10 @@ Components.prototype.unlockConstraints = function() {
     }
 };
 
+Components.prototype.reduce = function(callback, initialValue) {
+    return this.items().reduce(callback, initialValue);
+}
+
 // Private
 
 Components.prototype._needSetup = function() {
