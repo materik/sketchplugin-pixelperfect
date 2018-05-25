@@ -1,5 +1,5 @@
 
-var index = require('..');
+const index = require('..');
 
 function Alignment(rawValue) {
     this._rawValue = rawValue;
@@ -44,7 +44,7 @@ Alignment.prototype.rawValue = function() {
 // Action
 
 Alignment.prototype.align = function(component, d) {
-    var frame = component.frame();
+    const frame = component.frame();
     switch (this.rawValue()) {
         case index.const.alignment.rawValue.top:
             frame.setY(0);

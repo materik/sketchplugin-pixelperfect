@@ -12,7 +12,7 @@ Array.prototype.last = function() {
 };
 
 Array.prototype.even = function() {
-    var even = [];
+    const even = [];
     for (var i = 0; i < this.length; i += 2) {
         even.push(this[i]);
     }
@@ -20,7 +20,7 @@ Array.prototype.even = function() {
 };
 
 Array.prototype.odd = function() {
-    var odd = [];
+    const odd = [];
     for (var i = 1; i < this.length; i += 2) {
         odd.push(this[i]);
     }
@@ -40,7 +40,7 @@ Array.prototype.contains = function(str) {
 };
 
 Array.prototype.map = function(callback) {
-    var map = [];
+    const map = [];
     for (var i = 0; i < this.length; i++) {
         map.push(callback(this[i]));
     }
@@ -48,10 +48,10 @@ Array.prototype.map = function(callback) {
 };
 
 Array.prototype.mapToDictionary = function(callback) {
-    var map = {};
+    const map = {};
     for (var i = 0; i < this.length; i++) {
-        var value = this[i]
-        var key = callback(value)
+        const value = this[i]
+        const key = callback(value)
         map[key] = value;
     }
     return map;
@@ -70,7 +70,7 @@ Array.prototype.toLowerCase = function() {
 }
 
 Math.roundWithPrecision = function(value, precision) {
-    var factor = this.pow(10, precision || 0);
+    const factor = this.pow(10, precision || 0);
     return this.round(value * factor) / factor;
 };
 

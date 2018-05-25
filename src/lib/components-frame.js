@@ -1,11 +1,11 @@
 
-var DEFAULT_MIN_TOP = 999999;
-var DEFAULT_MIN_LEFT = 999999;
+const DEFAULT_MIN_TOP = 999999;
+const DEFAULT_MIN_LEFT = 999999;
 
-var index = require('..');
+const index = require('..');
 
 function ComponentsFrame(components) {
-    var Components = index.require.components();
+    const Components = index.require.components();
     this._components = components || Components.init();
 };
 
@@ -43,7 +43,7 @@ ComponentsFrame.prototype.height = function(ignoreMarginBottom) {
 ComponentsFrame.prototype.top = function() {
     var top = DEFAULT_MIN_TOP;
     for (var i = 0; i < this._components.count(); i++) {
-        var component = this._components.objectAtIndex(i);
+        const component = this._components.objectAtIndex(i);
         top = Math.min(top, component.frame().top());
     }
     return top == DEFAULT_MIN_TOP ? 0 : top;
@@ -52,7 +52,7 @@ ComponentsFrame.prototype.top = function() {
 ComponentsFrame.prototype.right = function(ignoreMarginRight) {
     var right = 0;
     for (var i = 0; i < this._components.count(); i++) {
-        var component = this._components.objectAtIndex(i);
+        const component = this._components.objectAtIndex(i);
         if (component.properties().containsKey(index.const.property.key.widthPercentage)) {
             continue;
         }
@@ -67,7 +67,7 @@ ComponentsFrame.prototype.right = function(ignoreMarginRight) {
 ComponentsFrame.prototype.bottom = function(ignoreMarginBottom) {
     var bottom = 0;
     for (var i = 0; i < this._components.count(); i++) {
-        var component = this._components.objectAtIndex(i);
+        const component = this._components.objectAtIndex(i);
         if (component.properties().containsKey(index.const.property.key.heightPercentage)) {
             continue;
         }
@@ -82,7 +82,7 @@ ComponentsFrame.prototype.bottom = function(ignoreMarginBottom) {
 ComponentsFrame.prototype.left = function() {
     var left = DEFAULT_MIN_LEFT;
     for (var i = 0; i < this._components.count(); i++) {
-        var component = this._components.objectAtIndex(i);
+        const component = this._components.objectAtIndex(i);
         left = Math.min(left, component.frame().left());
     }
     return left == DEFAULT_MIN_LEFT ? 0 : left;
@@ -91,7 +91,7 @@ ComponentsFrame.prototype.left = function() {
 ComponentsFrame.prototype.maxWidth = function() {
     var width = 0;
     for (var i = 0; i < this._components.count(); i++) {
-        var component = this._components.objectAtIndex(i);
+        const component = this._components.objectAtIndex(i);
         if (component.properties().containsKey(index.const.property.key.widthPercentage)) {
             continue;
         }
@@ -103,7 +103,7 @@ ComponentsFrame.prototype.maxWidth = function() {
 ComponentsFrame.prototype.maxHeight = function() {
     var height = 0;
     for (var i = 0; i < this._components.count(); i++) {
-        var component = this._components.objectAtIndex(i);
+        const component = this._components.objectAtIndex(i);
         if (component.properties().containsKey(index.const.property.key.heightPercentage)) {
             continue;
         }
@@ -115,17 +115,17 @@ ComponentsFrame.prototype.maxHeight = function() {
 // Setter
 
 ComponentsFrame.prototype.setX = function(x) {
-    var left = this.left();
+    const left = this.left();
     for (var i = 0; i < this._components.count(); i++) {
-        var component = this._components.objectAtIndex(i);
+        const component = this._components.objectAtIndex(i);
         component.frame().setX(component.frame().x() - left + x);
     }
 };
 
 ComponentsFrame.prototype.setY = function(y) {
-    var top = this.top();
+    const top = this.top();
     for (var i = 0; i < this._components.count(); i++) {
-        var component = this._components.objectAtIndex(i);
+        const component = this._components.objectAtIndex(i);
         component.frame().setY(component.frame().y() - top + y);
     }
 };

@@ -1,8 +1,8 @@
 
-var index = require('../..');
+const index = require('../..');
 
-var Component = index.require.component();
-var Components = index.require.components();
+const Component = index.require.component();
+const Components = index.require.components();
 
 function ShapeComponent(layer) {
     Component.call(this, layer);

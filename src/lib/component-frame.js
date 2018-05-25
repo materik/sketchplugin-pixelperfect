@@ -1,5 +1,5 @@
 
-var index = require('..');
+const index = require('..');
 
 function ComponentFrame(layer) {
     this._layer = layer;

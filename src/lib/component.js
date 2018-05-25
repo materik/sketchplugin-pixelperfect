@@ -1,9 +1,9 @@
 
-var index = require('..');
+const index = require('..');
 
-var ComponentFrame = index.require.componentFrame();
-var Constraints = index.require.constraints();
-var Properties = index.require.properties();
+const ComponentFrame = index.require.componentFrame();
+const Constraints = index.require.constraints();
+const Properties = index.require.properties();
 
 function Component(layer) {
     this._layer = layer;
@@ -43,7 +43,7 @@ Component.apply = function(layer) {
 
 Component.prototype.components = function() {
     if (this._components == null) {
-        var Components = index.require.components();
+        const Components = index.require.components();
         this._components = Components.sub(this._layer, this);
     }
     return this._components;
@@ -234,8 +234,8 @@ Component.prototype.debugFrame = function() {
 /* istanbul ignore next */
 Component.prototype.debug = function(msg) {
     if (index.debug.isEnabled()) {
-        var frame = this._debugFrame ? '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>' : '';
-        var name = '<' + this.name() + '> <' + this.class() + '>';
+        const frame = this._debugFrame ? '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>' : '';
+        const name = '<' + this.name() + '> <' + this.class() + '>';
         index.debug(this, [msg, frame, name].join(' '));
         this._debugFrame = undefined;
     }

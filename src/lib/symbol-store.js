@@ -1,5 +1,5 @@
 
-var index = require('..');
+const index = require('..');
 
 function SymbolStore() {
     this._ids = [];

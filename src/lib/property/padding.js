@@ -1,10 +1,10 @@
 
-var index = require('../..');
+const index = require('../..');
 
-var CenterProperty = index.require.property.center();
-var MarginProperty = index.require.property.margin();
-var Property = index.require.property();
-var SizeProperty = index.require.property.size();
+const CenterProperty = index.require.property.center();
+const MarginProperty = index.require.property.margin();
+const Property = index.require.property();
+const SizeProperty = index.require.property.size();
 
 function PaddingProperty(component, key, value) {
     Property.call(this, component, key, value);
@@ -29,7 +29,7 @@ PaddingProperty.validKeys = function() {
 };
 
 PaddingProperty.init = function(component, key, value) {
-    var property = new PaddingProperty(component, key, value);
+    const property = new PaddingProperty(component, key, value);
     if (property.isValid()) {
         return property
     }
@@ -129,7 +129,7 @@ PaddingProperty.prototype._apply = function() {
         this.components().lockConstraints();
     }
 
-    var frame = this.components().frame();
+    const frame = this.components().frame();
     switch (this.key()) {
         case index.const.property.key.paddingTop:
             MarginProperty.top(this.components(), this.value()).apply();
@@ -141,7 +141,7 @@ PaddingProperty.prototype._apply = function() {
             }
             break;
         case index.const.property.key.paddingRight:
-            var leftProperty = this.components().properties().find(index.const.property.key.paddingLeft);
+            const leftProperty = this.components().properties().find(index.const.property.key.paddingLeft);
             if (leftProperty) {
                 SizeProperty.width(this.container(), frame.width() + this.value() + leftProperty.value()).apply();
             } else {
@@ -155,7 +155,7 @@ PaddingProperty.prototype._apply = function() {
             }
             break;
         case index.const.property.key.paddingBottom:
-            var topProperty = this.components().properties().find(index.const.property.key.paddingTop);
+            const topProperty = this.components().properties().find(index.const.property.key.paddingTop);
             if (topProperty) {
                 SizeProperty.height(this.container(), frame.height() + this.value() + topProperty.value()).apply();
             } else {

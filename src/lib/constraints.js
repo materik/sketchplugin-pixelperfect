@@ -1,5 +1,5 @@
 
-var index = require('..');
+const index = require('..');
 
 function Constraints(component) {
     this._component = component;

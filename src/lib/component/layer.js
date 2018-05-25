@@ -1,7 +1,7 @@
 
-var index = require('../..');
+const index = require('../..');
 
-var Component = index.require.component();
+const Component = index.require.component();
 
 function LayerComponent(layer) {
     Component.call(this, layer);

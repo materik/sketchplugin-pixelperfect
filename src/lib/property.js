@@ -1,5 +1,5 @@
 
-var index = require('..');
+const index = require('..');
 
 function Property(component, key, value) {
     this._component = component;
@@ -28,8 +28,8 @@ Property.init = function(component, key, value) {
 };
 
 Property.parse = function(component, raw) {
-    var key = Property._extractKey(raw || component.name());
-    var value = Property._extractValue(raw || component.name());
+    const key = Property._extractKey(raw || component.name());
+    const value = Property._extractValue(raw || component.name());
     return Property.init(component, key, value);
 };
 

@@ -1,7 +1,7 @@
 
-var index = require('../..');
+const index = require('../..');
 
-var Property = index.require.property();
+const Property = index.require.property();
 
 function MarginProperty(component, key, value) {
     Property.call(this, component, key, value);
@@ -21,7 +21,7 @@ MarginProperty.validKeys = function() {
 };
 
 MarginProperty.init = function(component, key, value) {
-    var property = new MarginProperty(component, key, value);
+    const property = new MarginProperty(component, key, value);
     if (property.isValid()) {
         return property
     }
@@ -60,19 +60,19 @@ MarginProperty.prototype.isValid = function() {
 // Action
 
 MarginProperty.prototype._apply = function() {
-    var frame = this.component().frame();
+    const frame = this.component().frame();
     switch (this.key()) {
         case index.const.property.key.marginTop:
             frame.setY(this.value());
             break;
         case index.const.property.key.marginRight:
-            var left = this.component().leftInParent(true);
-            var widthOfParent = this.component().widthOfParent(false, true);
+            const left = this.component().leftInParent(true);
+            const widthOfParent = this.component().widthOfParent(false, true);
             frame.setX(left + widthOfParent - frame.width() - this.value());
             break;
         case index.const.property.key.marginBottom:
-            var top = this.component().topInParent(true);
-            var heightOfParent = this.component().heightOfParent(false, true);
+            const top = this.component().topInParent(true);
+            const heightOfParent = this.component().heightOfParent(false, true);
             frame.setY(top + heightOfParent - frame.height() - this.value());
             break;
         case index.const.property.key.marginLeft:

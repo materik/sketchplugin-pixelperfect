@@ -1,9 +1,9 @@
 
-var index = require('..');
+const index = require('..');
 
-var Component = index.require.component();
-var ComponentsFrame = index.require.componentsFrame();
-var Properties = index.require.properties();
+const Component = index.require.component();
+const ComponentsFrame = index.require.componentsFrame();
+const Properties = index.require.properties();
 
 function Components(layers, parent, items) {
     this._layers = layers || NSArray.new();
@@ -36,7 +36,7 @@ Components.sub = function(layer, parent) {
 };
 
 Components.items = function(items, parent) {
-    var layers = NSMutableArray.new()
+    const layers = NSMutableArray.new()
     for (var i = 0; i < items.length; i++) {
         layers.addObject(items[i]._layer);
     }
@@ -75,7 +75,7 @@ Components.prototype.objectAtIndex = function(index) {
 
 Components.prototype.find = function(name) {
     for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i)
+        const component = this.objectAtIndex(i)
         if (name.regexp().test(component.name())) {
             return component
         }
@@ -87,7 +87,7 @@ Components.prototype.findContainer = function() {
 };
 
 Components.prototype.filter = function(callback) {
-    var items = this.items().filter(callback);
+    const items = this.items().filter(callback);
     return Components.items(items, this.parent());
 };
 
@@ -119,7 +119,7 @@ Components.prototype.apply = function() {
 
 Components.prototype._apply = function() {
     for (var i = 0; i < this.count(); i++) {
-        var component = this.objectAtIndex(i);
+        const component = this.objectAtIndex(i);
         component.apply();
     }
 };
@@ -145,7 +145,7 @@ Components.prototype._needSetup = function() {
 Components.prototype._setup = function() {
     this._items = [];
     for (var i = 0; i < this._layers.count(); i++) {
-        var item = Component.init(this._layers.objectAtIndex(i));
+        const item = Component.init(this._layers.objectAtIndex(i));
         this._items.push(item);
     }
 };

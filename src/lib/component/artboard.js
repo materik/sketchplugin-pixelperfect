@@ -1,7 +1,7 @@
 
-var index = require('../..');
+const index = require('../..');
 
-var Component = index.require.component();
+const Component = index.require.component();
 
 function ArtboardComponent(layer) {
     Component.call(this, layer);
@@ -31,8 +31,8 @@ ArtboardComponent.prototype._sizeToFit = function() {
     // * figure out what exactly here is needed and make it more efficiant
     if (this.properties().containsPadding()) {
         for (var i = 0; i < this.components().count(); i++) {
-            var component = this.components().objectAtIndex(i);
-            var properties = component.properties().filter(function(property) {
+            const component = this.components().objectAtIndex(i);
+            const properties = component.properties().filter(function(property) {
                 return property.type() == index.const.property.type.margin ||
                     property.type() == index.const.property.type.size ||
                     property.type() == index.const.property.type.center;
@@ -40,7 +40,7 @@ ArtboardComponent.prototype._sizeToFit = function() {
             properties.apply();
         }
         
-        var properties = this.properties().filter(function(property) {
+        const properties = this.properties().filter(function(property) {
             return property.type() == index.const.property.type.margin ||
                 property.type() == index.const.property.type.size ||
                 property.type() == index.const.property.type.center;

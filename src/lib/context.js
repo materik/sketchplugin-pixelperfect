@@ -1,7 +1,7 @@
 
-var index = require('..')
+const index = require('..')
 
-var Components = index.require.components()
+const Components = index.require.components()
 
 function Context(context) {
     this._context = context
@@ -40,7 +40,7 @@ Context.prototype.shouldApplyPage = function(page) {
 }
 
 Context.prototype.selection = function() {
-    var layers = this._context.selection;
+    const layers = this._context.selection;
     if (layers && layers.count() > 0) {
         return layers;
     } else {
@@ -51,7 +51,7 @@ Context.prototype.selection = function() {
 // Action
 
 Context.prototype.apply = function() {
-    var layers = this.selection()
+    const layers = this.selection()
     if (layers.count() == 0) {
         this.document().showMessage('✋ There are no layers in this page');
     } else {
@@ -64,7 +64,7 @@ Context.prototype.applyToEverything = function() {
     var nbrOfPages = 0;
 
     for (var i = 0; i < this.pages().count(); i++) {
-        var page = this.pages().objectAtIndex(i)
+        const page = this.pages().objectAtIndex(i)
         if (!this.shouldApplyPage(page)) {
             continue;
         }

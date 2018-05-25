@@ -1,8 +1,8 @@
 
-var index = require('../..');
+const index = require('../..');
 
-var Alignment = index.require.alignment()
-var Property = index.require.property();
+const Alignment = index.require.alignment()
+const Property = index.require.property();
 
 function StackProperty(component, key, value) {
     Property.call(this, component, key, value);
@@ -24,7 +24,7 @@ StackProperty.validKeys = function() {
 };
 
 StackProperty.init = function(component, key, value) {
-    var property = new StackProperty(component, key, value);
+    const property = new StackProperty(component, key, value);
     if (property.isValid()) {
         return property
     }
@@ -43,7 +43,7 @@ StackProperty.prototype.type = function() {
 };
 
 StackProperty.prototype._apply = function() {
-    var frame = this.component().frame();
+    const frame = this.component().frame();
     switch (this.key()) {
         case index.const.property.key.stackHorizontallyTop:
             this.applyStackHorizontally(Alignment.top());
@@ -70,12 +70,12 @@ StackProperty.prototype._apply = function() {
 };
 
 Property.prototype.applyStackHorizontally = function(alignment) {
-    var components = this.component().components();
-    var h = components.frame().maxHeight();
+    const components = this.component().components();
+    const h = components.frame().maxHeight();
 
     var x = 0;
     for (var k = components.count() - 1; k >= 0; k--) {
-        var component = components.objectAtIndex(k);
+        const component = components.objectAtIndex(k);
 
         alignment.align(component, h);
         component.frame().setX(x);
@@ -85,12 +85,12 @@ Property.prototype.applyStackHorizontally = function(alignment) {
 };
 
 Property.prototype.applyStackVertically = function(alignment) {
-    var components = this.component().components();
-    var w = components.frame().maxWidth();
+    const components = this.component().components();
+    const w = components.frame().maxWidth();
 
     var y = 0;
     for (var k = components.count() - 1; k >= 0; k--) {
-        var component = components.objectAtIndex(k);
+        const component = components.objectAtIndex(k);
 
         alignment.align(component, w);
         component.frame().setY(y);

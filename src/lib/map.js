@@ -1,5 +1,5 @@
 
-var index = require('..');
+const index = require('..');
 
 function RegExpMap(entries) {
     this._entries = entries || [];
@@ -15,7 +15,7 @@ RegExpMap.prototype.append = function(entry) {
 
 RegExpMap.prototype.find = function(str) {
     for (var i = 0; i < this._entries.length; i++) {
-        var entry = this._entries[i]
+        const entry = this._entries[i]
         if (entry.test(str)) {
             return entry.value();
         }
@@ -73,7 +73,7 @@ StaticMap.prototype.dict = function() {
     if (this._dict == null) {
         this._dict = {}
         for (var i = 0; i < this._entries.length; i++) {
-            var entry = this._entries[i]
+            const entry = this._entries[i]
             this._dict[entry.key()] = entry.value()
         }
     }
@@ -127,7 +127,7 @@ StaticMapEntry.prototype.test = function(str) {
 
 // -----------------------------------------------------------
 
-var keys = RegExpMap.init([
+const keys = RegExpMap.init([
     RegExpMapEntry.init('(c)(\\+|\\-)?\\d*', index.const.property.key.centerHorizontally),
     RegExpMapEntry.init('(h)', index.const.property.key.centerHorizontally),
     RegExpMapEntry.init('(h)(\\+|\\-)\\d+', index.const.property.key.heightAddition),
@@ -160,11 +160,11 @@ var keys = RegExpMap.init([
     RegExpMapEntry.init('(yr)\\-?\\d*', index.const.property.key.stackVerticallyRight),
 ]);
 
-var values = RegExpMap.init([
+const values = RegExpMap.init([
     RegExpMapEntry.init(/[^\-\d]/g, ''),
 ])
 
-var types = StaticMap.init([
+const types = StaticMap.init([
     StaticMapEntry.init(index.const.property.key.centerHorizontally, index.const.property.type.center),
     StaticMapEntry.init(index.const.property.key.centerHorizontally, index.const.property.type.center),
     StaticMapEntry.init(index.const.property.key.heightAddition, index.const.property.type.size),
@@ -197,7 +197,7 @@ var types = StaticMap.init([
     StaticMapEntry.init(index.const.property.key.stackVerticallyRight, index.const.property.type.stack),
 ]);
 
-var margin = RegExpMap.init([
+const margin = RegExpMap.init([
     RegExpMapEntry.init(/\b(m|margin|bg|trbl)\b/i, 't:r:b:l'),
     RegExpMapEntry.init(/\b(tl|lt)(\d*)\b/i, 't$2:l$2'),
     RegExpMapEntry.init(/\b(tr|rt)(\d*)\b/i, 't$2:r$2'),
@@ -205,7 +205,7 @@ var margin = RegExpMap.init([
     RegExpMapEntry.init(/\b(rb|br)(\d*)\b/i, 'r$2:b$2'),
 ]);
 
-var padding = RegExpMap.init([
+const padding = RegExpMap.init([
     RegExpMapEntry.init(/(^|:)(\d+)/, '$1p$2'),
     RegExpMapEntry.init(/p(\d+)((?:(?!:\d).)*):(\d+)/, 'ptb$1$2:prl$3'),
     RegExpMapEntry.init(/ptb(\d+)((?:(?!:\d).)*):(\d+)/, 'pt$1$2:pb$3'),

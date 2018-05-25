@@ -1,9 +1,9 @@
 
-var index = require('..');
+const index = require('..');
 
-var MarginProperty = index.require.property.margin();
-var PaddingProperty = index.require.property.padding();
-var Property = index.require.property();
+const MarginProperty = index.require.property.margin();
+const PaddingProperty = index.require.property.padding();
+const Property = index.require.property();
 
 function Properties(component, items) {
     this._component = component;
@@ -73,7 +73,7 @@ Properties.prototype.find = function(key) {
 };
 
 Properties.prototype.filter = function(callback) {
-    var items = this.items().filter(callback)
+    const items = this.items().filter(callback)
     return Properties.items(items, this.component());
 };
 
@@ -145,7 +145,7 @@ Properties.prototype.apply = function() {
     if (this.count() > 0) {
         this.component().debug('~ Properties: apply: ' + this.toString());
         for (var i = 0; i < this.count(); i++) {
-            var property = this.objectAtIndex(i);
+            const property = this.objectAtIndex(i);
             property.apply();
 
             if (this.component().isGroup()) {
@@ -156,7 +156,7 @@ Properties.prototype.apply = function() {
 };
 
 Properties.prototype.parseAndAddProperty = function(raw) {
-    var property = Property.parse(this.component(), raw);
+    const property = Property.parse(this.component(), raw);
     this.addProperty(property);
 };
 
@@ -171,10 +171,10 @@ Properties.prototype.addProperty = function(property) {
 // Private
 
 Properties.prototype._raw = function() {
-    var name = this.component().name();
-    var split = name.split(index.const.properties.re.include);
+    const name = this.component().name();
+    const split = name.split(index.const.properties.re.include);
+    
     var properties = (split.length == 1 ? split.even() : split.odd()).join(index.const.properties.sep);
-
     properties = PaddingProperty.modify(properties);
     properties = MarginProperty.modify(properties);
 
@@ -184,9 +184,9 @@ Properties.prototype._raw = function() {
 Properties.prototype._setup = function() {
     this._items = [];
 
-    var raw = this._raw();
+    const raw = this._raw();
     for (var i = 0; i < raw.length; i++) {
-        var key = raw[i];
+        const key = raw[i];
         this.parseAndAddProperty(key);
     }
 
@@ -199,7 +199,7 @@ Properties.prototype._sort = function() {
     });
 
     if (this.containsPadding()) {
-        var paddingIsHighPriority = !PaddingProperty.isOuter(this.component());
+        const paddingIsHighPriority = !PaddingProperty.isOuter(this.component());
         this._items = this.items().sort(function(a, b) {
             if (a.type() == index.const.property.type.padding && b.type() == index.const.property.type.padding) {
                 return 0;

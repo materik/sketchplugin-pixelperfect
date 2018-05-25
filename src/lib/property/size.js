@@ -1,7 +1,7 @@
 
-var index = require('../..');
+const index = require('../..');
 
-var Property = index.require.property();
+const Property = index.require.property();
 
 function SizeProperty(component, key, value) {
     Property.call(this, component, key, value);
@@ -29,7 +29,7 @@ SizeProperty.validKeys = function() {
 };
 
 SizeProperty.init = function(component, key, value) {
-    var property = new SizeProperty(component, key, value);
+    const property = new SizeProperty(component, key, value);
     if (property.isValid()) {
         return property
     }
@@ -56,7 +56,7 @@ SizeProperty.prototype.isValid = function() {
 // Action
 
 SizeProperty.prototype._apply = function() {
-    var frame = this.component().frame();
+    const frame = this.component().frame();
     switch (this.key()) {
         case index.const.property.key.widthStatic:
             frame.setWidth(this.value());

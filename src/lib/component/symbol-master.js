@@ -1,10 +1,10 @@
 
-var index = require('../..');
+const index = require('../..');
 
-var ArtboardComponent = index.require.component.artboard();
-var Component = index.require.component();
-var PaddingProperty = index.require.property.padding()
-var SymbolStore = index.require.symbolStore();
+const ArtboardComponent = index.require.component.artboard();
+const Component = index.require.component();
+const PaddingProperty = index.require.property.padding()
+const SymbolStore = index.require.symbolStore();
 
 function SymbolMasterComponent(layer) {
     ArtboardComponent.call(this, layer);
@@ -22,7 +22,7 @@ SymbolMasterComponent.init = function(layer) {
 
 SymbolMasterComponent.prototype.properties = function() {
     if (this._properties == null) {
-        var properties = ArtboardComponent.prototype.properties.call(this);
+        const properties = ArtboardComponent.prototype.properties.call(this);
         if (!properties.containsKey(index.const.property.key.paddingTop)) {
             properties.addProperty(PaddingProperty.top(this));
         }

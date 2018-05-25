@@ -1,24 +1,24 @@
 
 require('./foundation');
 
-var _requireCache = {};
+const _requireCache = {};
 
-var _requireLib = function(lib) {
+const _requireLib = function(lib) {
     if (_requireCache[lib] == undefined) {
         _requireCache[lib] = require('./lib/' + lib)
     }
     return _requireCache[lib]
 }
 
-var _requireComponent = function(component) {
+const _requireComponent = function(component) {
     return _requireLib('component/' + component);
 }
 
-var _requireProperty = function(property) {
+const _requireProperty = function(property) {
     return _requireLib('property/' + property);
 }
 
-var _requireWithSubs = function(fn, dict) {
+const _requireWithSubs = function(fn, dict) {
     for (var key in dict) {
         fn[key] = dict[key]
     }
@@ -29,11 +29,11 @@ var _requireWithSubs = function(fn, dict) {
 
 module.exports = {
     makePixelPerfect: function(context) {
-        var Context = this.require.context();
+        const Context = this.require.context();
         Context.apply(context);
     },
     makeEverythingPixelPerfect: function(context) {
-        var Context = this.require.context();
+        const Context = this.require.context();
         Context.applyToEverything(context);
     },
 

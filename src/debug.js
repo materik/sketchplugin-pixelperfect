@@ -1,6 +1,6 @@
 
 /* istanbul ignore next */
-var debug = function(component, msg, addLevel) {
+const debug = function(component, msg, addLevel) {
     if (debug.isEnabled()) {
         print('  '.repeat(_debugLevel(component) - 1 + (addLevel || 0)) + msg);
     }
@@ -11,8 +11,8 @@ debug.isEnabled = function() {
 }
 
 /* istanbul ignore next */
-var _debugLevel = function(component) {
-    var parent = component.parent();
+const _debugLevel = function(component) {
+    const parent = component.parent();
     if (parent) {
         return _debugLevel(parent) + 1;
     }
