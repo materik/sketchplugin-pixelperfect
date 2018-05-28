@@ -27,25 +27,18 @@ ArtboardComponent.prototype._apply = function() {
 };
 
 ArtboardComponent.prototype._sizeToFit = function() {
-    // TODO(materik):
-    // * figure out what exactly here is needed and make it more efficiant
     if (this.properties().containsPadding()) {
         for (var i = 0; i < this.components().count(); i++) {
-            const component = this.components().objectAtIndex(i);
-            const properties = component.properties().filter(function(property) {
+            this.components().objectAtIndex(i).properties().filter(function(property) {
                 return property.type() == index.const.property.type.margin ||
                     property.type() == index.const.property.type.size ||
                     property.type() == index.const.property.type.center;
-            });
-            properties.apply();
+            }).apply();
         }
         
-        const properties = this.properties().filter(function(property) {
-            return property.type() == index.const.property.type.margin ||
-                property.type() == index.const.property.type.size ||
-                property.type() == index.const.property.type.center;
-        });
-        properties.apply();
+        this.properties().filter(function(property) {
+            return property.type() == index.const.property.type.size;
+        }).apply();
     }
 };
 
