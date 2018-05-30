@@ -172,9 +172,9 @@ Properties.prototype.addProperty = function(property) {
 
 Properties.prototype._raw = function() {
     const name = this.component().name();
-    const split = name.split(index.const.properties.re.include);
-    
-    var properties = (split.length == 1 ? split.even() : split.odd()).join(index.const.properties.sep);
+    const match = name.match(index.const.properties.re.include);
+
+    var properties = match ? match.last() : name
     properties = PaddingProperty.modify(properties);
     properties = MarginProperty.modify(properties);
 
