@@ -1,5 +1,5 @@
 
-var IS_DEBUGGING = false;
+var IS_DEBUGGING = process.argv.includes('--verbose');
 
 function MSLayer() {
     this._name = '';

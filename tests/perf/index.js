@@ -1,5 +1,6 @@
 
 var index = require('..');
+var json = require('edit-json-file');
 
 var Component = index.require.component();
 var Components = index.require.components();
@@ -7,8 +8,29 @@ var RegExpMap = index.require.map().RegExpMap;
 var RegExpMapEntry = index.require.map().RegExpMapEntry;
 var SymbolStore = index.require.symbolStore();
 
+var perfFile = json('./tests/perf/last-run.json')
+var perfData = {};
+
 describe('perf', function() {
     this.timeout(10000);
+
+    after(function() {
+        console.log('\n');
+
+        var save = process.argv.includes('--save')
+        var maxLen = Object.keys(perfData).maxLength()
+
+        console.logRunHeader(maxLen)
+        for (var key in perfData) {
+            const run = perfData[key]
+            console.logRun(key, run, maxLen)
+            if (save) {
+                perfFile.set(key, run)
+            }
+        }
+
+        perfFile.save()
+    })
 
     beforeEach(function() {
         SymbolStore.sharedInstance.clean();
@@ -25,7 +47,7 @@ describe('perf', function() {
                 artboard.insertLayer_afterLayerOrAtEnd(instance);
             }
 
-            performanceTest( () => Component.apply(artboard) , 1.5)
+            performanceTest(this, () => Component.apply(artboard) , 1500)
         })
 
         it('many artboards', function() {
@@ -39,7 +61,7 @@ describe('perf', function() {
                 artboards.addObject(artboard)
             }
 
-            performanceTest( () => Components.apply(artboards) , 1.5)
+            performanceTest(this, () => Components.apply(artboards) , 1500)
         })
     })
 
@@ -52,7 +74,7 @@ describe('perf', function() {
                 artboards.addObject(artboard)
             }
 
-            performanceTest( () => Components.apply(artboards) , 1)
+            performanceTest(this, () => Components.apply(artboards) , 1000)
         });
 
         it('with padding', function() {
@@ -63,7 +85,7 @@ describe('perf', function() {
                 artboards.addObject(artboard)
             }
 
-            performanceTest( () => Components.apply(artboards) , 1)
+            performanceTest(this, () => Components.apply(artboards) , 1000)
         });
     })
 
@@ -80,7 +102,7 @@ describe('perf', function() {
             artboards.addObject(artboard)
         }
 
-        performanceTest( () => Components.apply(artboards) , 1)
+        performanceTest(this, () => Components.apply(artboards) , 1000)
 
         assert.equal(layer.frame().width(), 100)
         assert.equal(layer.frame().height(), 200)
@@ -92,7 +114,7 @@ describe('perf', function() {
             artboard.insertLayer_afterLayerOrAtEnd(createLayer('l:r:w100:w+10:h100'));
         }
 
-        performanceTest( () => Component.apply(artboard) , 1)
+        performanceTest(this, () => Component.apply(artboard) , 1000)
     });
 
     describe('padding', function() {
@@ -107,7 +129,7 @@ describe('perf', function() {
                 groups.addObject(group)
             }
 
-            performanceTest( () => Components.apply(groups) , 1.5)
+            performanceTest(this, () => Components.apply(groups) , 1500)
         });
 
         it('inner', function() {
@@ -119,7 +141,7 @@ describe('perf', function() {
                 groups.addObject(group)
             }
 
-            performanceTest( () => Components.apply(groups) , 1.5)
+            performanceTest(this, () => Components.apply(groups) , 1500)
         });
     });
 
@@ -139,7 +161,7 @@ describe('perf', function() {
         var artboard = createArtboard('', 0, 0, 400, 400);
         artboard.insertLayer_afterLayerOrAtEnd(instance)
 
-        performanceTest( () => Component.apply(artboard) , 0.5)
+        performanceTest(this, () => Component.apply(artboard) , 500)
 
         assert.equal(layer.frame().width(), 100)
         assert.equal(layer.frame().height(), 200)
@@ -153,10 +175,10 @@ describe('perf', function() {
             }
 
             var top;
-            performanceTest( () => {
+            performanceTest(this, () => {
                 top = Component.init(group).components().frame().top()
                 top = Component.init(group).components().frame().top()
-            } , 0.5)
+            } , 500)
 
             assert.equal(top, 0);
         })
@@ -168,10 +190,10 @@ describe('perf', function() {
             }
 
             var right;
-            performanceTest( () => {
+            performanceTest(this, () => {
                 right = Component.init(group).components().frame().right()
                 right = Component.init(group).components().frame().right()
-            } , 0.5)
+            } , 500)
 
             assert.equal(right, 10009);
         })
@@ -183,10 +205,10 @@ describe('perf', function() {
             }
 
             var bottom;
-            performanceTest( () => {
+            performanceTest(this, () => {
                 bottom = Component.init(group).components().frame().bottom()
                 bottom = Component.init(group).components().frame().bottom()
-            } , 0.5)
+            } , 500)
 
             assert.equal(bottom, 10009);
         })
@@ -198,10 +220,10 @@ describe('perf', function() {
             }
 
             var left;
-            performanceTest( () => {
+            performanceTest(this, () => {
                 left = Component.init(group).components().frame().left()
                 left = Component.init(group).components().frame().left()
-            } , 0.5)
+            } , 500)
 
             assert.equal(left, 0);
         })
@@ -213,11 +235,11 @@ describe('perf', function() {
             master.insertLayer_afterLayerOrAtEnd(createLayer())
             var component = Component.init(master)
 
-            performanceTest( () => {
+            performanceTest(this, () => {
                 for (var i = 0; i < 100000; i++) {
                     assert.equal(component.properties().count(), 6)
                 }
-            } , 0.1)
+            } , 100)
         })
 
         it('containsKey', function() {
@@ -227,11 +249,11 @@ describe('perf', function() {
                 properties.push(component.properties())
             }
 
-            performanceTest( () => {
+            performanceTest(this, () => {
                 for (var i = 0; i < properties.length; i++) {
                     assert.equal(properties[i].containsKey('height'), true)
                 }
-            } , 1)
+            } , 1000)
         });
 
         it('_raw', function() {
@@ -241,11 +263,11 @@ describe('perf', function() {
                 properties.push(component.properties())
             }
 
-            performanceTest( () => {
+            performanceTest(this, () => {
                 for (var i = 0; i < properties.length; i++) {
                     properties[i]._raw()
                 }
-            } , 0.1)
+            } , 100)
         })
     });
 
@@ -259,11 +281,11 @@ describe('perf', function() {
 
             var components = Components.items(items)
 
-            performanceTest( () => {
+            performanceTest(this, () => {
                 for (var i = 0; i < components.count(); i++) {
                     assert.equal(components.containsName(String(i)), true)
                 }
-            } , 1)
+            } , 1000)
         });
 
         it('containsContainer', function() {
@@ -276,11 +298,11 @@ describe('perf', function() {
 
             var components = Components.items(items)
 
-            performanceTest( () => {
+            performanceTest(this, () => {
                 for (var i = 0; i < components.count(); i++) {
                     assert.equal(components.containsContainer(), true)
                 }
-            } , 1)
+            } , 1000)
         });
     });
 
@@ -288,14 +310,14 @@ describe('perf', function() {
         it('require', function() {
             var requires = Object.keys(index.require)
 
-            performanceTest( () => {
+            performanceTest(this, () => {
                 for (var i = 0; i < 100000; i++) {
                     for (var j = 0; j < requires.length; j++) {
                         var dependecy = index.require[requires[j]]
                         assert.ok(dependecy())
                     }
                 }
-            } , 1)
+            } , 1000)
         })
     })
 
@@ -306,11 +328,11 @@ describe('perf', function() {
                 map.append(RegExpMapEntry.init(String(i), 'x' + i))
             }
 
-            performanceTest( () => {
+            performanceTest(this, () => {
                 for (var i = 0; i < 3500; i++) {
                     assert.equal(map.find(String(i)), 'x' + i)
                 }
-            } , 1)
+            } , 1000)
         })
 
         it('replace', function() {
@@ -319,24 +341,70 @@ describe('perf', function() {
                 map.append(RegExpMapEntry.init('(' + String(i) + ')', 'x$1'))
             }
 
-            performanceTest( () => {
+            performanceTest(this, () => {
                 for (var i = 0; i < 2500; i++) {
                     assert.equal(map.replace(String(i)), 'x' + i)
                 }
-            } , 1)
+            } , 1000)
         })
     })
 });
 
-var performanceTest = function(test, lessThanSec) {
+// -----------------------------------------------------------
+
+var performanceTest = function(it, test, limit) {
     var before = Date.now()
     test()
     var after = Date.now()
+
     var time = after - before
+    var ok = time < limit
+    var key = it.test.fullTitle().replace(/ /g, '.')
 
-    assert.ok(time < lessThanSec * 1000, "expected less than " + lessThanSec + "s, took " + time / 1000 + "s");
+    perfData[key] = { ok: ok, time: time, limit: limit }
+    assert.ok(ok, time + " > " + limit);
+}
 
-    setTimeout( () => {
-        console.log("took " + time / 1000 + "s, which was less than expected: " + lessThanSec + "s");
-    });
+var initArrayWithLength = function(len, val) {
+    const arr = []
+    for (var i = 0; i < len; i++) {
+        arr.push(val || '')
+    }
+    return arr
+}
+
+var isDiffing = function(a, b) {
+    var diff = Math.abs(a - b)
+    return diff > 100 ? (a > b ? '+' : '-') + diff : ''
+}
+
+Array.prototype.maxLength = function() {
+    return this.reduce( (len, str) => {
+        return Math.max(len, str.length)
+    }, 0)
+}
+
+String.prototype.withMinLength = function(minLen, char) {
+    var len = this.length
+    return initArrayWithLength(minLen - len, char || ' ').reduce( (str, space) => {
+        return str + space
+    }, this)
+}
+
+console.logRunHeader = function(maxLen) {
+    var header = [' ' + 'Name'.withMinLength(maxLen || 0), 'Res  ', 'Now  ', 'Last ', 'Diffing'].join(" | ")
+    this.log(header)
+    this.log('-'.withMinLength(header.length, '-'))
+}
+
+console.logRun = function(key, thisRun, maxLen) {
+    const title = ' ' + key.withMinLength(maxLen || 0)
+
+    var thisRunOk = String(thisRun.ok).withMinLength(5)
+    var thisRunTime = String(thisRun.time).withMinLength(5)
+    var lastRun = perfFile.get(key)
+    var lastRunTime = lastRun ? String(lastRun.time).withMinLength(5) : '-    '
+    var diffing = lastRun ? isDiffing(thisRun.time, lastRun.time) : '' 
+
+    this.log([title, thisRunOk, thisRunTime, lastRunTime, diffing].join(" | "))
 }

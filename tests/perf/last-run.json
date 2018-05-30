@@ -1,0 +1,139 @@
+{
+  "perf": {
+    "many": {
+      "symbol": {
+        "instances": {
+          "ok": true,
+          "time": 664,
+          "limit": 1000
+        },
+        "masters": {
+          "one": {
+            "artboard": {
+              "ok": false,
+              "time": 1625,
+              "limit": 1500
+            }
+          },
+          "many": {
+            "artboards": {
+              "ok": true,
+              "time": 993,
+              "limit": 1500
+            }
+          }
+        }
+      },
+      "layers": {
+        "ok": true,
+        "time": 363,
+        "limit": 1000
+      },
+      "artboards": {
+        "without": {
+          "padding": {
+            "ok": true,
+            "time": 322,
+            "limit": 1000
+          }
+        },
+        "with": {
+          "padding": {
+            "ok": true,
+            "time": 930,
+            "limit": 1000
+          }
+        }
+      }
+    },
+    "master": {
+      "inception": {
+        "ok": true,
+        "time": 243,
+        "limit": 500
+      }
+    },
+    "padding": {
+      "outer": {
+        "ok": true,
+        "time": 1203,
+        "limit": 1500
+      },
+      "inner": {
+        "ok": true,
+        "time": 524,
+        "limit": 1500
+      }
+    },
+    "components": {
+      "frame": {
+        "top": {
+          "ok": true,
+          "time": 6,
+          "limit": 500
+        },
+        "right": {
+          "ok": true,
+          "time": 198,
+          "limit": 500
+        },
+        "bottom": {
+          "ok": true,
+          "time": 188,
+          "limit": 500
+        },
+        "left": {
+          "ok": true,
+          "time": 7,
+          "limit": 500
+        }
+      },
+      "containsName": {
+        "ok": true,
+        "time": 442,
+        "limit": 1000
+      },
+      "containsContainer": {
+        "ok": true,
+        "time": 767,
+        "limit": 1000
+      }
+    },
+    "properties": {
+      "symbol-master": {
+        "ok": true,
+        "time": 7,
+        "limit": 100
+      },
+      "containsKey": {
+        "ok": true,
+        "time": 775,
+        "limit": 1000
+      },
+      "_raw": {
+        "ok": false,
+        "time": 113,
+        "limit": 100
+      }
+    },
+    "index": {
+      "require": {
+        "ok": true,
+        "time": 35,
+        "limit": 1000
+      }
+    },
+    "map": {
+      "find": {
+        "ok": true,
+        "time": 783,
+        "limit": 1000
+      },
+      "replace": {
+        "ok": true,
+        "time": 844,
+        "limit": 1000
+      }
+    }
+  }
+}
