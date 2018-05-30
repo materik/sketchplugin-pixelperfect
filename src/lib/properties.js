@@ -161,7 +161,7 @@ Properties.prototype.parseAndAddProperty = function(raw) {
 };
 
 Properties.prototype.addProperty = function(property) {
-    if (property && property.isValid()) {
+    if (property) {
         this._keys = null;
         this._types = null;
         this.items().push(property);
