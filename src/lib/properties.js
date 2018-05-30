@@ -195,7 +195,7 @@ Properties.prototype._setup = function() {
 
 Properties.prototype._sort = function() {
     this._items = this.items().sort(function(a, b) {
-        return index.const.properties.priority.indexOf(a.key()) > index.const.properties.priority.indexOf(b.key());
+        return index.const.properties.priority.indexOf(a.key()) - index.const.properties.priority.indexOf(b.key());
     });
 
     if (this.containsPadding()) {
