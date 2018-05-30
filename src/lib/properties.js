@@ -37,7 +37,15 @@ Properties.prototype.component = function() {
 
 Properties.prototype.items = function() {
     if (this._items == null) {
-        this._setup();
+        this._items = [];
+
+        const raw = this._raw();
+        for (var i = 0; i < raw.length; i++) {
+            const key = raw[i];
+            this.parseAndAddProperty(key);
+        }
+
+        this._sort();
     }
     return this._items
 }
@@ -179,18 +187,6 @@ Properties.prototype._raw = function() {
     properties = MarginProperty.modify(properties);
 
     return properties.split(index.const.properties.sep);
-};
-
-Properties.prototype._setup = function() {
-    this._items = [];
-
-    const raw = this._raw();
-    for (var i = 0; i < raw.length; i++) {
-        const key = raw[i];
-        this.parseAndAddProperty(key);
-    }
-
-    this._sort();
 };
 
 Properties.prototype._sort = function() {
