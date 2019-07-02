@@ -18,8 +18,8 @@ TextComponent.init = function(layer) {
 // Action
 
 TextComponent.prototype._apply = function() {
-    this._layer.setTextBehaviourSegmentIndex(0);
-    this._layer.setTextBehaviourSegmentIndex(this.properties().containsType(index.const.property.type.size));
+    this._layer.setTextBehaviour(0);
+    this._layer.setTextBehaviour(this.properties().containsType(index.const.property.type.size));
 };
 
 TextComponent.prototype._sizeToFit = function() {

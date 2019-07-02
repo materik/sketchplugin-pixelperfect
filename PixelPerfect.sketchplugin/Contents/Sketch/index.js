@@ -1,1 +1,2994 @@
-var that=this;function __skpm_run(t,e){that.context=e;var n=function(t){var e={};function n(r){if(e[r])return e[r].exports;var i=e[r]={i:r,l:!1,exports:{}};return t[r].call(i.exports,i,i.exports,n),i.l=!0,i.exports}return n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{configurable:!1,enumerable:!0,get:r})},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=0)}([function(t,e,n){n(24);var r={},i=function(t){return void 0==r[t]&&(r[t]=n(25)("./"+t)),r[t]},o=function(t){return i("component/"+t)},p=function(t){return i("property/"+t)},s=function(t,e){for(var n in e)t[n]=e[n];return t};t.exports={makePixelPerfect:function(){return function(t){this.require.context().apply(t)}}(),makeEverythingPixelPerfect:function(){return function(t){this.require.context().applyToEverything(t)}}(),const:n(26),debug:n(27),require:{alignment:function(){return function(){return i("alignment")}}(),componentFrame:function(){return function(){return i("component-frame")}}(),components:function(){return function(){return i("components")}}(),componentsFrame:function(){return function(){return i("components-frame")}}(),constraints:function(){return function(){return i("constraints")}}(),context:function(){return function(){return i("context")}}(),map:function(){return function(){return i("map")}}(),properties:function(){return function(){return i("properties")}}(),symbolStore:function(){return function(){return i("symbol-store")}}(),component:s(function(){return i("component")},{artboard:function(){return function(){return o("artboard")}}(),group:function(){return function(){return o("group")}}(),layer:function(){return function(){return o("layer")}}(),shape:function(){return function(){return o("shape")}}(),symbolInstance:function(){return function(){return o("symbol-instance")}}(),symbolMaster:function(){return function(){return o("symbol-master")}}(),text:function(){return function(){return o("text")}}()}),property:s(function(){return i("property")},{center:function(){return function(){return p("center")}}(),margin:function(){return function(){return p("margin")}}(),padding:function(){return function(){return p("padding")}}(),size:function(){return function(){return p("size")}}(),stack:function(){return function(){return p("stack")}}()})}}},function(t,e,n){var r=n(0);function i(t){this._rawValue=t}i.init=function(t){return new i(t)},i.top=function(){return i.init(r.const.alignment.rawValue.top)},i.middle=function(){return i.init(r.const.alignment.rawValue.middle)},i.bottom=function(){return i.init(r.const.alignment.rawValue.bottom)},i.left=function(){return i.init(r.const.alignment.rawValue.left)},i.center=function(){return i.init(r.const.alignment.rawValue.center)},i.right=function(){return i.init(r.const.alignment.rawValue.right)},i.prototype.rawValue=function(){return this._rawValue},i.prototype.align=function(t,e){var n=t.frame();switch(this.rawValue()){case r.const.alignment.rawValue.top:n.setY(0);break;case r.const.alignment.rawValue.middle:n.setY((e-n.height())/2);break;case r.const.alignment.rawValue.bottom:n.setY(e-n.height());break;case r.const.alignment.rawValue.left:n.setX(0);break;case r.const.alignment.rawValue.center:n.setX((e-n.width())/2);break;case r.const.alignment.rawValue.right:n.setX(e-n.width())}},t.exports=i},function(t,e,n){var r=n(0),i=r.require.componentFrame(),o=r.require.constraints(),p=r.require.properties();function s(t){this._layer=t,this._frame=i.init(t),this._components=null,this._properties=null,this._constraints=null,this._parent=null}s.init=function(t){switch(String(t.class().toString())){case r.const.class.artboard:return r.require.component.artboard().init(t);case r.const.class.group:return r.require.component.group().init(t);case r.const.class.shape:return r.require.component.shape().init(t);case r.const.class.symbolInstance:return r.require.component.symbolInstance().init(t);case r.const.class.symbolMaster:return r.require.component.symbolMaster().init(t);case r.const.class.text:return r.require.component.text().init(t);default:return r.require.component.layer().init(t)}},s.apply=function(t){return s.init(t).apply()},s.prototype.components=function(){if(null==this._components){var t=r.require.components();this._components=t.sub(this._layer,this)}return this._components},s.prototype.properties=function(){return null==this._properties&&(this._properties=p.init(this)),this._properties},s.prototype.constraints=function(){return null==this._constraints&&(this._constraints=o.init(this)),this._constraints},s.prototype.name=function(){return this._layer.name()},s.prototype.frame=function(){return this._frame},s.prototype.class=function(){return String(this._layer.class().toString())},s.prototype.page=function(){return this._layer.parentPage()},s.prototype.objectID=function(){return this._layer.objectID()},s.prototype.master=function(){if(this.hasMaster())return s.init(this._layer.symbolMaster())},s.prototype.isVisible=function(){return this._layer.isVisible()},s.prototype.isArtboard=function(){return this.class()==r.const.class.artboard},s.prototype.isGroup=function(){return this.class()==r.const.class.group},s.prototype.isSymbolMaster=function(){return this.class()==r.const.class.symbolMaster},s.prototype.isArtboardOrSymbolMaster=function(){return this.isArtboard()||this.isSymbolMaster()},s.prototype.shouldApply=function(){return this.isVisible()&&!r.const.properties.re.ignore.test(this.name())},s.prototype.hasComponents=function(){return this.components().count()>0},s.prototype.hasParent=function(){return void 0!=this._layer.parentGroup()},s.prototype.hasMaster=function(){return void 0!=this._layer.symbolMaster},s.prototype.parent=function(){return null==this._parent&&(this._parent=this.hasParent()?s.init(this._layer.parentGroup()):void 0),this._parent},s.prototype.leftInParent=function(t){return this.hasParent()?this.parent().isArtboardOrSymbolMaster()?0:t?this.parent().components().filterByExcludingID(this.objectID()).frame().left():this.parent().components().frame().left():0},s.prototype.topInParent=function(t){return this.hasParent()?this.parent().isArtboardOrSymbolMaster()?0:t?this.parent().components().filterByExcludingID(this.objectID()).frame().top():this.parent().components().frame().top():0},s.prototype.widthOfParent=function(t,e){return this.hasParent()?this.parent().isArtboardOrSymbolMaster()?this.parent().frame().width():t||this.parent().properties().containsKey(r.const.property.key.widthPercentage)?this.parent().widthOfParent(t,e)||this.parent().frame().width():e?this.parent().components().filterByExcludingID(this.objectID()).frame().maxWidth():this.parent().components().frame().maxWidth():0},s.prototype.heightOfParent=function(t,e){return this.hasParent()?this.parent().isArtboardOrSymbolMaster()?this.parent().frame().height():t||this.parent().properties().containsKey(r.const.property.key.heightPercentage)?this.parent().heightOfParent(t,e)||this.parent().frame().height():e?this.parent().components().filterByExcludingID(this.objectID()).frame().maxHeight():this.parent().components().frame().maxHeight():0},s.prototype.apply=function(){this.shouldApply()&&(this.debug("Component: apply:"),this.roundToPixel(),this._apply(),this.properties().apply(),this.sizeToFit())},s.prototype.sizeToFit=function(){this._sizeToFit()},s.prototype.roundToPixel=function(){this.frame().setX(this.frame().x()),this.frame().setY(this.frame().y()),this.frame().setWidth(this.frame().width()),this.frame().setHeight(this.frame().height())},s.prototype.lockConstraints=function(){this.constraints().lock()},s.prototype.unlockConstraints=function(){this.constraints().unlock()},s.prototype.debugFrame=function(){r.debug.isEnabled()&&(this._debugFrame=this.frame().toString())},s.prototype.debug=function(t){if(r.debug.isEnabled()){var e=this._debugFrame?"<"+this._debugFrame+"> -> <"+this.frame().toString()+">":"",n="<"+this.name()+"> <"+this.class()+">";r.debug(this,[t,e,n].join(" ")),this._debugFrame=void 0}},t.exports=s},function(t,e,n){n(0);function r(t){this._layer=t}r.init=function(t){return new r(t)},r.prototype.toString=function(){return"{"+this.x()+","+this.y()+","+this.width()+","+this.height()+"}"},r.prototype.x=function(){return this._layer.frame().x()},r.prototype.y=function(){return this._layer.frame().y()},r.prototype.width=function(){return this._layer.frame().width()},r.prototype.height=function(){return this._layer.frame().height()},r.prototype.top=function(){return this.y()},r.prototype.right=function(){return this.x()+this.width()},r.prototype.bottom=function(){return this.y()+this.height()},r.prototype.left=function(){return this.x()},r.prototype.setX=function(t){t=Math.round(t),this.x()!=t&&this._layer.frame().setX(t)},r.prototype.setY=function(t){t=Math.round(t),this.y()!=t&&this._layer.frame().setY(t)},r.prototype.setWidth=function(t){t=Math.round(t),this.width()!=t&&this._layer.frame().setWidth(t)},r.prototype.setHeight=function(t){t=Math.round(t),this.height()!=t&&this._layer.frame().setHeight(t)},t.exports=r},function(t,e,n){var r=n(0),i=r.require.component();function o(t){i.call(this,t)}o.prototype=Object.create(i.prototype),o.init=function(t){return new o(t)},o.prototype._apply=function(){this.properties().filter(function(t){return t.key()==r.const.property.key.widthStatic||t.key()==r.const.property.key.heightStatic}).apply(),this.components().apply()},o.prototype._sizeToFit=function(){if(this.properties().containsPadding()){for(var t=0;t<this.components().count();t++)this.components().objectAtIndex(t).properties().filter(function(t){return t.type()==r.const.property.type.margin||t.type()==r.const.property.type.size||t.type()==r.const.property.type.center}).apply();this.properties().filter(function(t){return t.type()==r.const.property.type.size}).apply()}},t.exports=o},function(t,e,n){var r=n(0).require.component();function i(t){r.call(this,t)}i.prototype=Object.create(r.prototype),i.init=function(t){return new i(t)},i.prototype._apply=function(){this.components().apply(),this._sizeToFit()},i.prototype._sizeToFit=function(){this.debugFrame(),this._layer.resizeToFitChildrenWithOption(1),this.debug("$ GroupComponent: sizeToFit:")},t.exports=i},function(t,e,n){var r=n(0).require.component();function i(t){r.call(this,t)}i.prototype=Object.create(r.prototype),i.init=function(t){return new i(t)},i.prototype._apply=function(){},i.prototype._sizeToFit=function(){},t.exports=i},function(t,e,n){var r=n(0),i=r.require.component(),o=r.require.components();function p(t){i.call(this,t)}p.prototype=Object.create(i.prototype),p.init=function(t){return new p(t)},p.prototype.components=function(){return o.init()},p.prototype._apply=function(){},p.prototype._sizeToFit=function(){},t.exports=p},function(t,e,n){var r=n(0).require.component();function i(t){r.call(this,t)}i.prototype=Object.create(r.prototype),i.init=function(t){return new i(t)},i.prototype._apply=function(){this.master().apply(),this._layer.resetSizeToMaster()},i.prototype._sizeToFit=function(){},t.exports=i},function(t,e,n){var r=n(0),i=r.require.component.artboard(),o=(r.require.component(),r.require.property.padding()),p=r.require.symbolStore();function s(t){i.call(this,t)}s.prototype=Object.create(i.prototype),s.init=function(t){return new s(t)},s.prototype.properties=function(){if(null==this._properties){var t=i.prototype.properties.call(this);t.containsKey(r.const.property.key.paddingTop)||t.addProperty(o.top(this)),t.containsKey(r.const.property.key.paddingRight)||t.addProperty(o.right(this)),t.containsKey(r.const.property.key.paddingBottom)||t.addProperty(o.bottom(this)),t.containsKey(r.const.property.key.paddingLeft)||t.addProperty(o.left(this)),t._sort(),this._properties=t}return this._properties},s.prototype.objectID=function(){return this._layer.symbolID()},s.prototype.shouldApply=function(){return i.prototype.shouldApply.call(this)&&p.sharedInstance.shouldApply(this)},t.exports=s},function(t,e,n){var r=n(0),i=r.require.component();function o(t){i.call(this,t)}o.prototype=Object.create(i.prototype),o.init=function(t){return new o(t)},o.prototype._apply=function(){this._layer.setTextBehaviourSegmentIndex(0),this._layer.setTextBehaviourSegmentIndex(this.properties().containsType(r.const.property.type.size))},o.prototype._sizeToFit=function(){this.properties().containsHeight()?this._layer.setVerticalAlignment(1):this._layer.adjustFrameToFit()},t.exports=o},function(t,e,n){var r=n(0),i=r.require.component(),o=r.require.componentsFrame(),p=r.require.properties();function s(t,e,n){this._layers=t||NSArray.new(),this._items=n||null,this._frame=null,this._parent=e,this._isFiltered=void 0!=n}s.prototype=Object.create(i.prototype),s.init=function(t,e,n){return new s(t,e,n)},s.apply=function(t,e){return s.init(t,e).apply()},s.sub=function(t,e){return t.layers?s.init(t.layers(),e):s.init(NSArray.new(),e)},s.items=function(t,e){for(var n=NSMutableArray.new(),r=0;r<t.length;r++)n.addObject(t[r]._layer);return s.init(n,e,t)},s.prototype.items=function(){return this._needSetup()&&this._setup(),this._items},s.prototype.frame=function(){return null==this._frame&&(this._frame=o.init(this)),this._frame},s.prototype.count=function(){return this._needSetup()&&this._setup(),this.items().length},s.prototype.objectAtIndex=function(t){return this._needSetup()&&this._setup(),this.items()[t]},s.prototype.find=function(t){for(var e=0;e<this.count();e++){var n=this.objectAtIndex(e);if(t.regexp().test(n.name()))return n}},s.prototype.findContainer=function(){return this.find(r.const.properties.re.containerName)},s.prototype.filter=function(t){var e=this.items().filter(t);return s.items(e,this.parent())},s.prototype.filterByExcludingID=function(t){return this.filter(function(e){return e.objectID()!=t})},s.prototype.containsName=function(t){return void 0!=this.find(t)},s.prototype.containsContainer=function(){return this.containsName(r.const.properties.re.containerName)},s.prototype.apply=function(){this.filter(function(t){return!t.properties().containsPercentageWidthOrHeight()})._apply(),this.filter(function(t){return t.properties().containsPercentageWidthOrHeight()})._apply()},s.prototype._apply=function(){for(var t=0;t<this.count();t++){this.objectAtIndex(t).apply()}},s.prototype.lockConstraints=function(){for(var t=0;t<this.count();t++)this.objectAtIndex(t).lockConstraints()},s.prototype.unlockConstraints=function(){for(var t=0;t<this.count();t++)this.objectAtIndex(t).unlockConstraints()},s.prototype.reduce=function(t,e){return this.items().reduce(t,e)},s.prototype._needSetup=function(){return null==this._items||this._layers.count()!=this._items.length},s.prototype._setup=function(){this._items=[];for(var t=0;t<this._layers.count();t++){var e=i.init(this._layers.objectAtIndex(t));this._items.push(e)}},s.prototype.components=function(){return s.init()},s.prototype.properties=function(){return this.hasParent()?this.parent().properties():p.init(this,[])},s.prototype.constraints=function(){return null},s.prototype.name=function(){return null},s.prototype.class=function(){return"Components"},s.prototype.page=function(){return null},s.prototype.objectID=function(){return null},s.prototype.master=function(){return null},s.prototype.isVisible=function(){return!0},s.prototype.isArtboard=function(){return!1},s.prototype.isGroup=function(){return!1},s.prototype.isSymbolMaster=function(){return!1},s.prototype.shouldApply=function(){return!0},s.prototype.hasComponents=function(){return!1},s.prototype.hasParent=function(){return void 0!=this.parent()},s.prototype.parent=function(){return this._parent},s.prototype.sizeToFit=function(){},t.exports=s},function(t,e,n){var r=n(0);function i(t){var e=r.require.components();this._components=t||e.init()}i.init=function(t){return new i(t)},i.prototype.toString=function(){return"{"+this.x()+","+this.y()+","+this.width()+","+this.height()+"}"},i.prototype.x=function(){return this.left()},i.prototype.y=function(){return this.top()},i.prototype.width=function(t){return this.right(t)-this.left()},i.prototype.height=function(t){return this.bottom(t)-this.top()},i.prototype.top=function(){var t=this._components.reduce(function(t,e){return Math.min(t,e.frame().top())},999999);return 999999==t?0:t},i.prototype.right=function(t){return this._components.reduce(function(e,n){return n.properties().containsKey(r.const.property.key.widthPercentage)?e:t&&n.properties().containsKey(r.const.property.key.marginRight)?e:Math.max(e,n.frame().right())},0)},i.prototype.bottom=function(t){return this._components.reduce(function(e,n){return n.properties().containsKey(r.const.property.key.heightPercentage)?e:t&&n.properties().containsKey(r.const.property.key.marginBottom)?e:Math.max(e,n.frame().bottom())},0)},i.prototype.left=function(){var t=this._components.reduce(function(t,e){return Math.min(t,e.frame().left())},999999);return 999999==t?0:t},i.prototype.maxWidth=function(){return this._components.reduce(function(t,e){return e.properties().containsKey(r.const.property.key.widthPercentage)?t:Math.max(t,e.frame().width())},0)},i.prototype.maxHeight=function(){return this._components.reduce(function(t,e){return e.properties().containsKey(r.const.property.key.heightPercentage)?t:Math.max(t,e.frame().height())},0)},i.prototype.setX=function(t){for(var e=this.left(),n=0;n<this._components.count();n++){var r=this._components.objectAtIndex(n);r.frame().setX(r.frame().x()-e+t)}},i.prototype.setY=function(t){for(var e=this.top(),n=0;n<this._components.count();n++){var r=this._components.objectAtIndex(n);r.frame().setY(r.frame().y()-e+t)}},i.prototype.setWidth=function(){},i.prototype.setHeight=function(){},t.exports=i},function(t,e,n){var r=n(0);function i(t){this._component=t,this._layer=t._layer}i.init=function(t){return new i(t)},i.prototype.component=function(){return this._component},i.prototype.hasFixedWidth=function(){return this._layer.hasFixedWidth()},i.prototype.hasFixedHeight=function(){return this._layer.hasFixedHeight()},i.prototype.hasFixedTop=function(){return this._layer.hasFixedTop()},i.prototype.hasFixedRight=function(){return this._layer.hasFixedRight()},i.prototype.hasFixedBottom=function(){return this._layer.hasFixedBottom()},i.prototype.hasFixedLeft=function(){return this._layer.hasFixedLeft()},i.prototype.toString=function(){return"<{"+this.hasFixedWidth()+","+this.hasFixedHeight()+","+this.hasFixedTop()+","+this.hasFixedRight()+","+this.hasFixedBottom()+","+this.hasFixedLeft()+"}>"},i.prototype.isLocked=function(){return void 0!=this._lockedHasFixedWidth},i.prototype.setHasFixedWidth=function(t){this._layer.setHasFixedWidth(t)},i.prototype.setHasFixedHeight=function(t){this._layer.setHasFixedHeight(t)},i.prototype.setHasFixedTop=function(t){this._layer.setHasFixedTop(t)},i.prototype.setHasFixedRight=function(t){this._layer.setHasFixedRight(t)},i.prototype.setHasFixedBottom=function(t){this._layer.setHasFixedBottom(t)},i.prototype.setHasFixedLeft=function(t){this._layer.setHasFixedLeft(t)},i.prototype.apply=function(t){t&&(this.reset(),this.setHasFixedTop(t.containsKey(r.const.property.key.marginTop)||t.containsKey(r.const.property.key.paddingTop)||t.containsKey(r.const.property.key.heightPercentage)||t.containsKey(r.const.property.key.heightPercentageFull)),this.setHasFixedRight(t.containsKey(r.const.property.key.marginRight)||t.containsKey(r.const.property.key.paddingRight)||t.containsKey(r.const.property.key.widthPercentage)||t.containsKey(r.const.property.key.widthPercentageFull)),this.setHasFixedBottom(t.containsKey(r.const.property.key.marginBottom)||t.containsKey(r.const.property.key.paddingBottom)||t.containsKey(r.const.property.key.heightPercentage)||t.containsKey(r.const.property.key.heightPercentageFull)),this.setHasFixedLeft(t.containsKey(r.const.property.key.marginLeft)||t.containsKey(r.const.property.key.paddingLeft)||t.containsKey(r.const.property.key.widthPercentage)||t.containsKey(r.const.property.key.widthPercentageFull)),this.setHasFixedWidth(!(this.hasFixedRight()&&this.hasFixedLeft())),this.setHasFixedHeight(!(this.hasFixedTop()&&this.hasFixedBottom())),this.component().debug("^ Constraints: apply: "+this.toString()))},i.prototype.reset=function(){this._layer.resetConstraints()},i.prototype.lock=function(){this._lockedHasFixedWidth=this.hasFixedWidth(),this._lockedHasFixedHeight=this.hasFixedHeight(),this._lockedHasFixedTop=this.hasFixedTop(),this._lockedHasFixedRight=this.hasFixedRight(),this._lockedHasFixedBottom=this.hasFixedBottom(),this._lockedHasFixedLeft=this.hasFixedLeft(),this.reset(),this.setHasFixedWidth(!0),this.setHasFixedHeight(!0),this.setHasFixedTop(!0),this.setHasFixedLeft(!0),this.component().debug("^ Constraints: lock: "+this.toString())},i.prototype.unlock=function(){this.isLocked()&&(this.reset(),this.setHasFixedWidth(this._lockedHasFixedWidth),this.setHasFixedHeight(this._lockedHasFixedHeight),this.setHasFixedTop(this._lockedHasFixedTop),this.setHasFixedRight(this._lockedHasFixedRight),this.setHasFixedBottom(this._lockedHasFixedBottom),this.setHasFixedLeft(this._lockedHasFixedLeft),this._lockedHasFixedWidth=void 0,this._lockedHasFixedHeight=void 0,this._lockedHasFixedTop=void 0,this._lockedHasFixedRight=void 0,this._lockedHasFixedBottom=void 0,this._lockedHasFixedLeft=void 0,this.component().debug("^ Constraints: unlock: "+this.toString()))},t.exports=i},function(t,e,n){var r=n(0),i=r.require.components();function o(t){this._context=t}o.init=function(t){return new o(t)},o.apply=function(t){o.init(t).apply()},o.applyToEverything=function(t){o.init(t).applyToEverything()},o.prototype.document=function(){return this._context.document},o.prototype.currentPage=function(){return this.document().currentPage()},o.prototype.pages=function(){return this.document().pages()},o.prototype.shouldApplyPage=function(t){return!r.const.properties.re.ignore.test(t.name())},o.prototype.selection=function(){var t=this._context.selection;return t&&t.count()>0?t:this.currentPage().layers()},o.prototype.apply=function(){var t=this.selection();0==t.count()?this.document().showMessage("✋ There are no layers in this page"):(i.apply(t),this.document().showMessage("👾 Your design is now pixel perfect"))},o.prototype.applyToEverything=function(){for(var t=0,e=0;e<this.pages().count();e++){var n=this.pages().objectAtIndex(e);this.shouldApplyPage(n)&&(this.document().setCurrentPage(n),this.clearSelection(),r.debug.isEnabled()&&print("\nPAGE: "+n.name()+"\n"),this.apply(),t+=1)}this.document().showMessage("👾 "+t+" pages of your design is now pixel perfect")},o.prototype.clearSelection=function(){this.currentPage().select_byExpandingSelection(!0,!1)},t.exports=o},function(t,e,n){var r=n(0);function i(t){this._entries=t||[]}function o(t,e){this._regexp=t.regexp("i"),this._value=e}function p(t){this._entries=t||[],this._dict=null}function s(t,e){this._key=t,this._value=e}i.init=function(t){return new i(t)},i.prototype.append=function(t){this._entries.append(t)},i.prototype.find=function(t){for(var e=0;e<this._entries.length;e++){var n=this._entries[e];if(n.test(t))return n.value()}},i.prototype.replace=function(t){return this._entries.reduce(function(t,e){return e.replace(t)},t)},o.init=function(t,e){return new o(t,e)},o.prototype.regexp=function(){return this._regexp},o.prototype.value=function(){return this._value},o.prototype.replace=function(t){return this.test(t)?t.replace(this.regexp(),this.value()):t},o.prototype.test=function(t){return this.regexp().test(t)},p.init=function(t){return new p(t)},p.prototype.dict=function(){if(null==this._dict){this._dict={};for(var t=0;t<this._entries.length;t++){var e=this._entries[t];this._dict[e.key()]=e.value()}}return this._dict},p.prototype.append=function(t){this._entries.append(t),this._dict=null},p.prototype.find=function(t){return this.dict()[t]},p.prototype.replace=function(t){return this._entries.reduce(function(t,e){return e.replace(t)},t)},s.init=function(t,e){return new s(t,e)},s.prototype.key=function(){return this._key},s.prototype.value=function(){return this._value},s.prototype.replace=function(t){return this.test(t)?this.value():t},s.prototype.test=function(t){return this.key()==t};var a=i.init([o.init("(c)(\\+|\\-)?\\d*",r.const.property.key.centerHorizontally),o.init("(h)",r.const.property.key.centerHorizontally),o.init("(h)(\\+|\\-)\\d+",r.const.property.key.heightAddition),o.init("(h)\\<\\d+",r.const.property.key.heightMax),o.init("(h)\\>\\d+",r.const.property.key.heightMin),o.init("(h)\\d+",r.const.property.key.heightStatic),o.init("(h)\\d+%",r.const.property.key.heightPercentage),o.init("(h)\\d+%%",r.const.property.key.heightPercentageFull),o.init("(mb|b)\\-?\\d*",r.const.property.key.marginBottom),o.init("(ml|l)\\-?\\d*",r.const.property.key.marginLeft),o.init("(mr|r)\\-?\\d*",r.const.property.key.marginRight),o.init("(mt|t)\\-?\\d*",r.const.property.key.marginTop),o.init("(pb)\\-?\\d*",r.const.property.key.paddingBottom),o.init("(pl)\\-?\\d*",r.const.property.key.paddingLeft),o.init("(pr)\\-?\\d*",r.const.property.key.paddingRight),o.init("(pt)\\-?\\d*",r.const.property.key.paddingTop),o.init("(v)",r.const.property.key.centerVertically),o.init("(v)(\\+|\\-)?\\d*",r.const.property.key.centerVertically),o.init("(w)(\\+|\\-)\\d+",r.const.property.key.widthAddition),o.init("(w)\\<\\d+",r.const.property.key.widthMax),o.init("(w)\\>\\d+",r.const.property.key.widthMin),o.init("(w)\\d+",r.const.property.key.widthStatic),o.init("(w)\\d+%",r.const.property.key.widthPercentage),o.init("(w)\\d+%%",r.const.property.key.widthPercentageFull),o.init("(x)\\-?\\d*",r.const.property.key.stackHorizontallyMiddle),o.init("(xb)\\-?\\d*",r.const.property.key.stackHorizontallyBottom),o.init("(xt)\\-?\\d*",r.const.property.key.stackHorizontallyTop),o.init("(y)\\-?\\d*",r.const.property.key.stackVerticallyCenter),o.init("(yl)\\-?\\d*",r.const.property.key.stackVerticallyLeft),o.init("(yr)\\-?\\d*",r.const.property.key.stackVerticallyRight)]),c=i.init([o.init(/[^\-\d]/g,"")]),y=p.init([s.init(r.const.property.key.centerHorizontally,r.const.property.type.center),s.init(r.const.property.key.centerHorizontally,r.const.property.type.center),s.init(r.const.property.key.heightAddition,r.const.property.type.size),s.init(r.const.property.key.heightMax,r.const.property.type.size),s.init(r.const.property.key.heightMin,r.const.property.type.size),s.init(r.const.property.key.heightStatic,r.const.property.type.size),s.init(r.const.property.key.heightPercentage,r.const.property.type.size),s.init(r.const.property.key.heightPercentageFull,r.const.property.type.size),s.init(r.const.property.key.marginBottom,r.const.property.type.margin),s.init(r.const.property.key.marginLeft,r.const.property.type.margin),s.init(r.const.property.key.marginRight,r.const.property.type.margin),s.init(r.const.property.key.marginTop,r.const.property.type.margin),s.init(r.const.property.key.paddingBottom,r.const.property.type.padding),s.init(r.const.property.key.paddingLeft,r.const.property.type.padding),s.init(r.const.property.key.paddingRight,r.const.property.type.padding),s.init(r.const.property.key.paddingTop,r.const.property.type.padding),s.init(r.const.property.key.centerVertically,r.const.property.type.center),s.init(r.const.property.key.centerVertically,r.const.property.type.center),s.init(r.const.property.key.widthAddition,r.const.property.type.size),s.init(r.const.property.key.widthMax,r.const.property.type.size),s.init(r.const.property.key.widthMin,r.const.property.type.size),s.init(r.const.property.key.widthStatic,r.const.property.type.size),s.init(r.const.property.key.widthPercentage,r.const.property.type.size),s.init(r.const.property.key.widthPercentageFull,r.const.property.type.size),s.init(r.const.property.key.stackHorizontallyMiddle,r.const.property.type.stack),s.init(r.const.property.key.stackHorizontallyBottom,r.const.property.type.stack),s.init(r.const.property.key.stackHorizontallyTop,r.const.property.type.stack),s.init(r.const.property.key.stackVerticallyCenter,r.const.property.type.stack),s.init(r.const.property.key.stackVerticallyLeft,r.const.property.type.stack),s.init(r.const.property.key.stackVerticallyRight,r.const.property.type.stack)]),h=i.init([o.init(/\b(m|margin|bg|trbl)\b/i,"t:r:b:l"),o.init(/\b(tl|lt)(\d*)\b/i,"t$2:l$2"),o.init(/\b(tr|rt)(\d*)\b/i,"t$2:r$2"),o.init(/\b(bl|lb)(\d*)\b/i,"b$2:l$2"),o.init(/\b(rb|br)(\d*)\b/i,"r$2:b$2")]),u=i.init([o.init(/(^|:)(\d+)/,"$1p$2"),o.init(/p(\d+)((?:(?!:\d).)*):(\d+)/,"ptb$1$2:prl$3"),o.init(/ptb(\d+)((?:(?!:\d).)*):(\d+)/,"pt$1$2:pb$3"),o.init(/prl(\d+)((?:(?!:\d).)*):(\d+)/,"pr$1$2:pl$3"),o.init(/\b(p|padding)(\d*)\b/i,"pt$2:pr$2:pb$2:pl$2"),o.init(/\b(prl|plr)(\d*)\b/i,"pr$2:pl$2"),o.init(/\b(ptb|pbt)(\d*)\b/i,"pt$2:pb$2")]);t.exports={RegExpMap:i,RegExpMapEntry:o,StaticMap:p,StaticMapEntry:s,property:{keys:a,values:c,types:y,modify:{margin:h,padding:u}}}},function(t,e,n){var r=n(0),i=r.require.property.margin(),o=r.require.property.padding(),p=r.require.property();function s(t,e){this._component=t,this._items=e||null,this._keys=null,this._types=null,this._isFiltered=void 0!=e}s.init=function(t,e){return new s(t,e)},s.items=function(t,e){return s.init(e,t)},s.prototype.toString=function(){return"<"+Object.keys(this.keys()).join(">,<")+">"},s.prototype.component=function(){return this._component},s.prototype.items=function(){if(null==this._items){this._items=[];for(var t=this._raw(),e=0;e<t.length;e++){var n=t[e];this.parseAndAddProperty(n)}this._sort()}return this._items},s.prototype.keys=function(){return null==this._keys&&(this._keys=this.items().mapToDictionary(function(t){return t.key()})),this._keys},s.prototype.types=function(){return null==this._types&&(this._types=this.items().mapToDictionary(function(t){return t.type()})),this._types},s.prototype.count=function(){return this.items().length},s.prototype.objectAtIndex=function(t){return this.items()[t]},s.prototype.find=function(t){return this.keys()[t]},s.prototype.filter=function(t){var e=this.items().filter(t);return s.items(e,this.component())},s.prototype.containsKey=function(t){return t in this.keys()},s.prototype.containsType=function(t){return t in this.types()},s.prototype.containsPercentageWidthOrHeight=function(){return this.containsKey(r.const.property.key.widthPercentage)||this.containsKey(r.const.property.key.heightPercentage)},s.prototype.containsPadding=function(){return this.containsType(r.const.property.type.padding)},s.prototype.containsPaddingTopOrBottom=function(){return this.containsKey(r.const.property.key.paddingTop)||this.containsKey(r.const.property.key.paddingBottom)},s.prototype.containsPaddingRightOrLeft=function(){return this.containsKey(r.const.property.key.paddingRight)||this.containsKey(r.const.property.key.paddingLeft)},s.prototype.containsMargin=function(){return this.containsType(r.const.property.type.margin)},s.prototype.containsMarginTopOrLeft=function(){return!this.containsKey(r.const.property.key.marginRight)&&this.containsKey(r.const.property.key.marginLeft)||!this.containsKey(r.const.property.key.marginBottom)&&this.containsKey(r.const.property.key.marginTop)},s.prototype.containsMarginRightOrBottom=function(){return this.containsKey(r.const.property.key.marginRight)&&!this.containsKey(r.const.property.key.marginLeft)||this.containsKey(r.const.property.key.marginBottom)&&!this.containsKey(r.const.property.key.marginTop)},s.prototype.containsMarginTopOrBottom=function(){return this.containsKey(r.const.property.key.marginTop)||this.containsKey(r.const.property.key.marginBottom)},s.prototype.containsMarginRightOrLeft=function(){return this.containsKey(r.const.property.key.marginRight)||this.containsKey(r.const.property.key.marginLeft)},s.prototype.containsWidth=function(){return this.containsKey(r.const.property.key.widthStatic)||this.containsKey(r.const.property.key.widthAddition)||this.containsKey(r.const.property.key.widthPercentage)||this.containsKey(r.const.property.key.widthPercentageFull)||this.containsKey(r.const.property.key.widthMax)||this.containsKey(r.const.property.key.widthMin)},s.prototype.containsHeight=function(){return this.containsKey(r.const.property.key.heightStatic)||this.containsKey(r.const.property.key.heightAddition)||this.containsKey(r.const.property.key.heightPercentage)||this.containsKey(r.const.property.key.heightPercentageFull)||this.containsKey(r.const.property.key.heightMax)||this.containsKey(r.const.property.key.heightMin)},s.prototype.apply=function(){if(this._isFiltered||this.component().constraints().apply(this),this.count()>0){this.component().debug("~ Properties: apply: "+this.toString());for(var t=0;t<this.count();t++){this.objectAtIndex(t).apply(),this.component().isGroup()&&this.component().sizeToFit()}}},s.prototype.parseAndAddProperty=function(t){var e=p.parse(this.component(),t);this.addProperty(e)},s.prototype.addProperty=function(t){t&&(this._keys=null,this._types=null,this.items().push(t))},s.prototype._raw=function(){var t=this.component().name(),e=t.match(r.const.properties.re.include),n=e?e.last():t;return n=o.modify(n),(n=i.modify(n)).split(r.const.properties.sep)},s.prototype._sort=function(){if(this._items=this.items().sort(function(t,e){return r.const.properties.priority.indexOf(t.key())-r.const.properties.priority.indexOf(e.key())}),this.containsPadding()){var t=!o.isOuter(this.component());this._items=this.items().sort(function(e,n){return e.type()==r.const.property.type.padding&&n.type()==r.const.property.type.padding?0:n.type()==r.const.property.type.padding?t?1:-1:0})}},t.exports=s},function(t,e,n){var r=n(0);function i(t,e,n){this._component=t,this._key=e,this._value=n||0}i.init=function(t,e,n){switch(r.require.map().property.types.find(e)){case r.const.property.type.center:return r.require.property.center().init(t,e,n);case r.const.property.type.margin:return r.require.property.margin().init(t,e,n);case r.const.property.type.padding:return r.require.property.padding().init(t,e,n);case r.const.property.type.size:return r.require.property.size().init(t,e,n);case r.const.property.type.stack:return r.require.property.stack().init(t,e,n);default:t.debug("~ Property: invalid <"+e+"> <"+n+">")}},i.parse=function(t,e){var n=i._extractKey(e||t.name()),r=i._extractValue(e||t.name());return i.init(t,n,r)},i.prototype.component=function(){return this._component},i.prototype.key=function(){return this._key},i.prototype.value=function(){return this._value},i.prototype.toString=function(){return"<"+this.key()+">:<"+this.value().toString()+">"},i.prototype.isValid=function(){return!1},i.prototype.apply=function(){this.component().debugFrame(),this._apply(),this.component().debug("~ Property: apply: "+this.toString())},i._extractKey=function(t){return r.require.map().property.keys.find(t)},i._extractValue=function(t){return parseInt(r.require.map().property.values.replace(t))},t.exports=i},function(t,e,n){var r=n(0),i=r.require.property();function o(t,e,n){i.call(this,t,e,n)}o.prototype=Object.create(i.prototype),o.validKeys=function(){return[r.const.property.key.centerHorizontally,r.const.property.key.centerVertically]},o.init=function(t,e,n){var r=new o(t,e,n);if(r.isValid())return r},o.horizontally=function(t,e){return o.init(t,r.const.property.key.centerHorizontally,e)},o.vertically=function(t,e){return o.init(t,r.const.property.key.centerVertically,e)},o.prototype.type=function(){return r.const.property.type.center},o.prototype.isValid=function(){return o.validKeys().contains(this.key())},o.prototype._apply=function(){var t=this.component().frame();switch(this.key()){case r.const.property.key.centerHorizontally:var e=this.component().leftInParent(!0),n=this.component().widthOfParent(!1,!0);t.setX(e+(n-t.width())/2+(this.value()||0));break;case r.const.property.key.centerVertically:var i=this.component().topInParent(!0),o=this.component().heightOfParent(!1,!0);t.setY(i+(o-t.height())/2+(this.value()||0));break;default:return}},t.exports=o},function(t,e,n){var r=n(0),i=r.require.property();function o(t,e,n){i.call(this,t,e,n)}o.prototype=Object.create(i.prototype),o.validKeys=function(){return[r.const.property.key.marginTop,r.const.property.key.marginRight,r.const.property.key.marginBottom,r.const.property.key.marginLeft]},o.init=function(t,e,n){var r=new o(t,e,n);if(r.isValid())return r},o.top=function(t,e){return o.init(t,r.const.property.key.marginTop,e)},o.right=function(t,e){return o.init(t,r.const.property.key.marginRight,e)},o.bottom=function(t,e){return o.init(t,r.const.property.key.marginBottom,e)},o.left=function(t,e){return o.init(t,r.const.property.key.marginLeft,e)},o.modify=function(t){return r.require.map().property.modify.margin.replace(t)},o.prototype.type=function(){return r.const.property.type.margin},o.prototype.isValid=function(){return o.validKeys().contains(this.key())},o.prototype._apply=function(){var t=this.component().frame();switch(this.key()){case r.const.property.key.marginTop:t.setY(this.value());break;case r.const.property.key.marginRight:var e=this.component().leftInParent(!0),n=this.component().widthOfParent(!1,!0);t.setX(e+n-t.width()-this.value());break;case r.const.property.key.marginBottom:var i=this.component().topInParent(!0),o=this.component().heightOfParent(!1,!0);t.setY(i+o-t.height()-this.value());break;case r.const.property.key.marginLeft:t.setX(this.value());break;default:return}},t.exports=o},function(t,e,n){var r=n(0),i=r.require.property.center(),o=r.require.property.margin(),p=r.require.property(),s=r.require.property.size();function a(t,e,n){p.call(this,t,e,n),this._isOuter=null,this._isInner=null,this._container=null,this._components=null}a.prototype=Object.create(p.prototype),a.validKeys=function(){return[r.const.property.key.paddingTop,r.const.property.key.paddingRight,r.const.property.key.paddingBottom,r.const.property.key.paddingLeft]},a.init=function(t,e,n){var r=new a(t,e,n);if(r.isValid())return r},a.top=function(t,e){return a.init(t,r.const.property.key.paddingTop,e)},a.right=function(t,e){return a.init(t,r.const.property.key.paddingRight,e)},a.bottom=function(t,e){return a.init(t,r.const.property.key.paddingBottom,e)},a.left=function(t,e){return a.init(t,r.const.property.key.paddingLeft,e)},a.modify=function(t){return r.require.map().property.modify.padding.replace(t)},a.isOuter=function(t){return t.hasParent()&&t.parent().components().containsContainer()},a.isInner=function(t){return t.hasComponents()&&(t.isArtboardOrSymbolMaster()||t.components().containsContainer())},a.prototype.type=function(){return r.const.property.type.padding},a.prototype.container=function(){return null==this._container&&(this.isInner()&&!this.isOuter()?this.component().isArtboardOrSymbolMaster()?this._container=this.component():this._container=this.component().components().findContainer():this._container=this.component().parent().components().findContainer()),this._container},a.prototype.components=function(){return null==this._components&&(this.isInner()&&!this.isOuter()?this._components=this.component().components().filterByExcludingID(this.container().objectID()).filter(function(t){return!t.properties().containsMarginRightOrBottom()}):this._components=this.component()),this._components},a.prototype.isValid=function(){return a.validKeys().contains(this.key())&&(this.isInner()||this.isOuter())},a.prototype.isOuter=function(){return null==this._isOuter&&(this._isOuter=a.isOuter(this.component())),this._isOuter},a.prototype.isInner=function(){return null==this._isInner&&(this._isInner=a.isInner(this.component())),this._isInner},a.prototype._apply=function(){this.components().debug("~ PaddingProperty: apply "+(this.isOuter()?"outer":"inner")+":"),this.container().isSymbolMaster()&&this.components().lockConstraints();var t=this.components().frame();switch(this.key()){case r.const.property.key.paddingTop:o.top(this.components(),this.value()).apply(),this.components().properties().containsPaddingRightOrLeft()||this.components().properties().containsMarginRightOrLeft()?this.container().isArtboardOrSymbolMaster()||o.top(this.container(),0).apply():i.horizontally(this.components()).apply();break;case r.const.property.key.paddingRight:var e=this.components().properties().find(r.const.property.key.paddingLeft);e?s.width(this.container(),t.width()+this.value()+e.value()).apply():o.right(this.components(),this.value()).apply(),this.components().properties().containsPaddingTopOrBottom()||this.components().properties().containsMarginTopOrBottom()?this.container().isArtboardOrSymbolMaster()||o.left(this.container(),0).apply():i.vertically(this.components()).apply();break;case r.const.property.key.paddingBottom:var n=this.components().properties().find(r.const.property.key.paddingTop);n?s.height(this.container(),t.height()+this.value()+n.value()).apply():o.bottom(this.components(),this.value()).apply(),this.components().properties().containsPaddingRightOrLeft()||this.components().properties().containsMarginRightOrLeft()?this.container().isArtboardOrSymbolMaster()||o.top(this.container(),0).apply():i.horizontally(this.components()).apply();break;case r.const.property.key.paddingLeft:o.left(this.components(),this.value()).apply(),this.components().properties().containsPaddingTopOrBottom()||this.components().properties().containsMarginTopOrBottom()?this.container().isArtboardOrSymbolMaster()||o.left(this.container(),0).apply():i.vertically(this.components()).apply()}this.container().isSymbolMaster()&&this.components().unlockConstraints()},t.exports=a},function(t,e,n){var r=n(0),i=r.require.property();function o(t,e,n){i.call(this,t,e,n)}o.prototype=Object.create(i.prototype),o.validKeys=function(){return[r.const.property.key.widthStatic,r.const.property.key.widthAddition,r.const.property.key.widthPercentage,r.const.property.key.widthPercentageFull,r.const.property.key.widthMax,r.const.property.key.widthMin,r.const.property.key.heightStatic,r.const.property.key.heightAddition,r.const.property.key.heightPercentage,r.const.property.key.heightPercentageFull,r.const.property.key.heightMax,r.const.property.key.heightMin]},o.init=function(t,e,n){var r=new o(t,e,n);if(r.isValid())return r},o.width=function(t,e){return o.init(t,r.const.property.key.widthStatic,e)},o.height=function(t,e){return o.init(t,r.const.property.key.heightStatic,e)},o.prototype.type=function(){return r.const.property.type.size},o.prototype.isValid=function(){return o.validKeys().contains(this.key())},o.prototype._apply=function(){var t=this.component().frame();switch(this.key()){case r.const.property.key.widthStatic:t.setWidth(this.value());break;case r.const.property.key.widthAddition:t.setWidth(t.width()+this.value());break;case r.const.property.key.widthPercentage:t.setWidth(this.value()/100*this.component().widthOfParent(!1,!0));break;case r.const.property.key.widthPercentageFull:t.setWidth(this.value()/100*this.component().widthOfParent(!0));break;case r.const.property.key.widthMax:t.setWidth(t.width()>this.value()?this.value():t.width());break;case r.const.property.key.widthMin:t.setWidth(t.width()<this.value()?this.value():t.width());break;case r.const.property.key.heightStatic:t.setHeight(this.value());break;case r.const.property.key.heightAddition:t.setHeight(t.height()+this.value());break;case r.const.property.key.heightPercentage:t.setHeight(this.value()/100*this.component().heightOfParent(!1,!0));break;case r.const.property.key.heightPercentageFull:t.setHeight(this.value()/100*this.component().heightOfParent(!0));break;case r.const.property.key.heightMax:t.setHeight(t.height()>this.value()?this.value():t.height());break;case r.const.property.key.heightMin:t.setHeight(t.height()<this.value()?this.value():t.height());break;default:return}},t.exports=o},function(t,e,n){var r=n(0),i=r.require.alignment(),o=r.require.property();function p(t,e,n){o.call(this,t,e,n)}p.prototype=Object.create(o.prototype),p.validKeys=function(){return[r.const.property.key.stackHorizontallyTop,r.const.property.key.stackHorizontallyMiddle,r.const.property.key.stackHorizontallyBottom,r.const.property.key.stackVerticallyLeft,r.const.property.key.stackVerticallyCenter,r.const.property.key.stackVerticallyRight]},p.init=function(t,e,n){var r=new p(t,e,n);if(r.isValid())return r},p.prototype.isValid=function(){return p.validKeys().contains(this.key())&&this.component().hasComponents()},p.prototype.type=function(){return r.const.property.type.stack},p.prototype._apply=function(){this.component().frame();switch(this.key()){case r.const.property.key.stackHorizontallyTop:this.applyStackHorizontally(i.top());break;case r.const.property.key.stackHorizontallyMiddle:this.applyStackHorizontally(i.middle());break;case r.const.property.key.stackHorizontallyBottom:this.applyStackHorizontally(i.bottom());break;case r.const.property.key.stackVerticallyLeft:this.applyStackVertically(i.left());break;case r.const.property.key.stackVerticallyCenter:this.applyStackVertically(i.center());break;case r.const.property.key.stackVerticallyRight:this.applyStackVertically(i.right());break;default:return}},o.prototype.applyStackHorizontally=function(t){for(var e=this.component().components(),n=e.frame().maxHeight(),r=0,i=e.count()-1;i>=0;i--){var o=e.objectAtIndex(i);t.align(o,n),o.frame().setX(r),r+=o.frame().width()+this.value()}},o.prototype.applyStackVertically=function(t){for(var e=this.component().components(),n=e.frame().maxWidth(),r=0,i=e.count()-1;i>=0;i--){var o=e.objectAtIndex(i);t.align(o,n),o.frame().setY(r),r+=o.frame().height()+this.value()}},t.exports=p},function(t,e,n){n(0);function r(){this._ids=[]}r.sharedInstance=new r,r.prototype.ids=function(){return this._ids},r.prototype.containsComponent=function(t){return this.ids().includes(t.objectID())},r.prototype.shouldApply=function(t){return!t.isSymbolMaster()||(null==t.page()?(t.debug("/ SymbolStore: master is not local"),!1):this.containsComponent(t)?(t.debug("/ SymbolStore: master already applied"),!1):(this.add(t),!0))},r.prototype.add=function(t){this.ids().push(t.objectID())},r.prototype.clean=function(){this._ids=[]},t.exports=r},function(t,e){Array.prototype.first=function(){if(this.length>0)return this[0]},Array.prototype.last=function(){if(this.length>0)return this[this.length-1]},Array.prototype.even=function(){for(var t=[],e=0;e<this.length;e+=2)t.push(this[e]);return t},Array.prototype.odd=function(){for(var t=[],e=1;e<this.length;e+=2)t.push(this[e]);return t},Array.prototype.prepend=function(t){this.unshift(t)},Array.prototype.append=function(t){this.push(t)},Array.prototype.contains=function(t){return this.includes(t)},Array.prototype.map=function(t){for(var e=[],n=0;n<this.length;n++)e.push(t(this[n]));return e},Array.prototype.mapToDictionary=function(t){for(var e={},n=0;n<this.length;n++){var r=this[n];e[t(r)]=r}return e},Array.prototype.unique=function(){return this.filter(function(t,e,n){return n.indexOf(t)===e})},Array.prototype.toLowerCase=function(){return this.map(function(t){return void 0==t.toLowerCase?t:t.toLowerCase()})},Math.roundWithPrecision=function(t,e){var n=this.pow(10,e||0);return this.round(t*n)/n},RegExp.prototype.regexp=function(){return this},String.prototype.contains=function(t){return this.indexOf(t)>=0},String.prototype.regexp=function(t){return new RegExp("^"+this+"$",t)},String.prototype.repeat=function(t){for(var e="",n=0;n<(void 0==t?2:t);n++)e+=this;return e}},function(t,e,n){var r={"./alignment":1,"./alignment.js":1,"./component":2,"./component-frame":3,"./component-frame.js":3,"./component.js":2,"./component/artboard":4,"./component/artboard.js":4,"./component/group":5,"./component/group.js":5,"./component/layer":6,"./component/layer.js":6,"./component/shape":7,"./component/shape.js":7,"./component/symbol-instance":8,"./component/symbol-instance.js":8,"./component/symbol-master":9,"./component/symbol-master.js":9,"./component/text":10,"./component/text.js":10,"./components":11,"./components-frame":12,"./components-frame.js":12,"./components.js":11,"./constraints":13,"./constraints.js":13,"./context":14,"./context.js":14,"./map":15,"./map.js":15,"./properties":16,"./properties.js":16,"./property":17,"./property.js":17,"./property/center":18,"./property/center.js":18,"./property/margin":19,"./property/margin.js":19,"./property/padding":20,"./property/padding.js":20,"./property/size":21,"./property/size.js":21,"./property/stack":22,"./property/stack.js":22,"./symbol-store":23,"./symbol-store.js":23};function i(t){return n(o(t))}function o(t){var e=r[t];if(!(e+1))throw new Error("Cannot find module '"+t+"'.");return e}i.keys=function(){return Object.keys(r)},i.resolve=o,t.exports=i,i.id=25},function(t,e){var n=["stack-horizontally-middle","stack-horizontally-bottom","stack-horizontally-top","stack-vertically-center","stack-vertically-left","stack-vertically-right","width","width-percentage","width-percentage-full","width-addition","width-max","width-min","height","height-percentage","height-percentage-full","height-addition","height-max","height-min","center-horizontally","center-vertically","margin-right","margin-bottom","margin-top","margin-left","padding-right","padding-bottom","padding-top","padding-left"];t.exports={alignment:{rawValue:{top:"top",middle:"middle",bottom:"bottom",left:"left",center:"center",right:"right"}},properties:{re:{include:new RegExp("\\[([^\\]]+)\\]"),ignore:/\[ignore\]/i,containerName:/(bg|container)/i},priority:n,sep:":"},property:{type:{center:"center",margin:"margin",padding:"padding",size:"size",stack:"stack"},key:{widthStatic:"width",widthAddition:"width-addition",widthPercentage:"width-percentage",widthPercentageFull:"width-percentage-full",widthMax:"width-max",widthMin:"width-min",heightStatic:"height",heightAddition:"height-addition",heightPercentage:"height-percentage",heightPercentageFull:"height-percentage-full",heightMax:"height-max",heightMin:"height-min",paddingTop:"padding-top",paddingRight:"padding-right",paddingBottom:"padding-bottom",paddingLeft:"padding-left",marginTop:"margin-top",marginRight:"margin-right",marginBottom:"margin-bottom",marginLeft:"margin-left",stackHorizontallyTop:"stack-horizontally-top",stackHorizontallyMiddle:"stack-horizontally-middle",stackHorizontallyBottom:"stack-horizontally-bottom",stackVerticallyLeft:"stack-vertically-left",stackVerticallyCenter:"stack-vertically-center",stackVerticallyRight:"stack-vertically-right",centerHorizontally:"center-horizontally",centerVertically:"center-vertically"}},class:{artboard:"MSArtboardGroup",group:"MSLayerGroup",shape:"MSShapeGroup",symbolInstance:"MSSymbolInstance",symbolMaster:"MSSymbolMaster",text:"MSTextLayer"}}},function(t,e){var n=function t(e,n,i){t.isEnabled()&&print("  ".repeat(r(e)-1+(i||0))+n)};n.isEnabled=function(){return void 0!=print};var r=function t(e){var n=e.parent();return n?t(n)+1:0};t.exports=n}]);"default"===t&&"function"==typeof n?n(e):n[t](e)}that.makePixelPerfect=__skpm_run.bind(this,"makePixelPerfect"),that.onRun=__skpm_run.bind(this,"default"),that.makeEverythingPixelPerfect=__skpm_run.bind(this,"makeEverythingPixelPerfect");
+var that = this;
+function __skpm_run (key, context) {
+  that.context = context;
+
+var exports =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+__webpack_require__(24);
+
+var _requireCache = {};
+
+var _requireLib = function _requireLib(lib) {
+    if (_requireCache[lib] == undefined) {
+        _requireCache[lib] = __webpack_require__(25)("./" + lib);
+    }
+    return _requireCache[lib];
+};
+
+var _requireComponent = function _requireComponent(component) {
+    return _requireLib('component/' + component);
+};
+
+var _requireProperty = function _requireProperty(property) {
+    return _requireLib('property/' + property);
+};
+
+var _requireWithSubs = function _requireWithSubs(fn, dict) {
+    for (var key in dict) {
+        fn[key] = dict[key];
+    }
+    return fn;
+};
+
+// -----------------------------------------------------------
+
+module.exports = {
+    makePixelPerfect: function () {
+        function makePixelPerfect(context) {
+            var Context = this.require.context();
+            Context.apply(context);
+        }
+
+        return makePixelPerfect;
+    }(),
+    makeEverythingPixelPerfect: function () {
+        function makeEverythingPixelPerfect(context) {
+            var Context = this.require.context();
+            Context.applyToEverything(context);
+        }
+
+        return makeEverythingPixelPerfect;
+    }(),
+
+    'const': __webpack_require__(26),
+    debug: __webpack_require__(27),
+
+    require: {
+        alignment: function () {
+            function alignment() {
+                return _requireLib('alignment');
+            }
+
+            return alignment;
+        }(),
+        componentFrame: function () {
+            function componentFrame() {
+                return _requireLib('component-frame');
+            }
+
+            return componentFrame;
+        }(),
+        components: function () {
+            function components() {
+                return _requireLib('components');
+            }
+
+            return components;
+        }(),
+        componentsFrame: function () {
+            function componentsFrame() {
+                return _requireLib('components-frame');
+            }
+
+            return componentsFrame;
+        }(),
+        constraints: function () {
+            function constraints() {
+                return _requireLib('constraints');
+            }
+
+            return constraints;
+        }(),
+        context: function () {
+            function context() {
+                return _requireLib('context');
+            }
+
+            return context;
+        }(),
+        map: function () {
+            function map() {
+                return _requireLib('map');
+            }
+
+            return map;
+        }(),
+        properties: function () {
+            function properties() {
+                return _requireLib('properties');
+            }
+
+            return properties;
+        }(),
+        symbolStore: function () {
+            function symbolStore() {
+                return _requireLib('symbol-store');
+            }
+
+            return symbolStore;
+        }(),
+
+        component: _requireWithSubs(function () {
+            return _requireLib('component');
+        }, {
+            artboard: function () {
+                function artboard() {
+                    return _requireComponent('artboard');
+                }
+
+                return artboard;
+            }(),
+            group: function () {
+                function group() {
+                    return _requireComponent('group');
+                }
+
+                return group;
+            }(),
+            layer: function () {
+                function layer() {
+                    return _requireComponent('layer');
+                }
+
+                return layer;
+            }(),
+            shape: function () {
+                function shape() {
+                    return _requireComponent('shape');
+                }
+
+                return shape;
+            }(),
+            symbolInstance: function () {
+                function symbolInstance() {
+                    return _requireComponent('symbol-instance');
+                }
+
+                return symbolInstance;
+            }(),
+            symbolMaster: function () {
+                function symbolMaster() {
+                    return _requireComponent('symbol-master');
+                }
+
+                return symbolMaster;
+            }(),
+            text: function () {
+                function text() {
+                    return _requireComponent('text');
+                }
+
+                return text;
+            }()
+        }),
+
+        property: _requireWithSubs(function () {
+            return _requireLib('property');
+        }, {
+            center: function () {
+                function center() {
+                    return _requireProperty('center');
+                }
+
+                return center;
+            }(),
+            margin: function () {
+                function margin() {
+                    return _requireProperty('margin');
+                }
+
+                return margin;
+            }(),
+            padding: function () {
+                function padding() {
+                    return _requireProperty('padding');
+                }
+
+                return padding;
+            }(),
+            size: function () {
+                function size() {
+                    return _requireProperty('size');
+                }
+
+                return size;
+            }(),
+            stack: function () {
+                function stack() {
+                    return _requireProperty('stack');
+                }
+
+                return stack;
+            }()
+        })
+    }
+};
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+function Alignment(rawValue) {
+    this._rawValue = rawValue;
+}
+
+// Static
+
+Alignment.init = function (rawValue) {
+    return new Alignment(rawValue);
+};
+
+Alignment.top = function () {
+    return Alignment.init(index['const'].alignment.rawValue.top);
+};
+
+Alignment.middle = function () {
+    return Alignment.init(index['const'].alignment.rawValue.middle);
+};
+
+Alignment.bottom = function () {
+    return Alignment.init(index['const'].alignment.rawValue.bottom);
+};
+
+Alignment.left = function () {
+    return Alignment.init(index['const'].alignment.rawValue.left);
+};
+
+Alignment.center = function () {
+    return Alignment.init(index['const'].alignment.rawValue.center);
+};
+
+Alignment.right = function () {
+    return Alignment.init(index['const'].alignment.rawValue.right);
+};
+
+// Getter
+
+Alignment.prototype.rawValue = function () {
+    return this._rawValue;
+};
+
+// Action
+
+Alignment.prototype.align = function (component, d) {
+    var frame = component.frame();
+    switch (this.rawValue()) {
+        case index['const'].alignment.rawValue.top:
+            frame.setY(0);
+            break;
+        case index['const'].alignment.rawValue.middle:
+            frame.setY((d - frame.height()) / 2);
+            break;
+        case index['const'].alignment.rawValue.bottom:
+            frame.setY(d - frame.height());
+            break;
+        case index['const'].alignment.rawValue.left:
+            frame.setX(0);
+            break;
+        case index['const'].alignment.rawValue.center:
+            frame.setX((d - frame.width()) / 2);
+            break;
+        case index['const'].alignment.rawValue.right:
+            frame.setX(d - frame.width());
+            break;
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = Alignment;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var ComponentFrame = index.require.componentFrame();
+var Constraints = index.require.constraints();
+var Properties = index.require.properties();
+
+function Component(layer) {
+    this._layer = layer;
+    this._frame = ComponentFrame.init(layer);
+    this._components = null;
+    this._properties = null;
+    this._constraints = null;
+    this._parent = null;
+}
+
+// Static
+
+Component.init = function (layer) {
+    switch (String(layer['class']().toString())) {
+        case index['const']['class'].artboard:
+            return index.require.component.artboard().init(layer);
+        case index['const']['class'].group:
+            return index.require.component.group().init(layer);
+        case index['const']['class'].shape:
+            return index.require.component.shape().init(layer);
+        case index['const']['class'].symbolInstance:
+            return index.require.component.symbolInstance().init(layer);
+        case index['const']['class'].symbolMaster:
+            return index.require.component.symbolMaster().init(layer);
+        case index['const']['class'].text:
+            return index.require.component.text().init(layer);
+        default:
+            return index.require.component.layer().init(layer);
+    }
+};
+
+Component.apply = function (layer) {
+    return Component.init(layer).apply();
+};
+
+// Getter
+
+Component.prototype.components = function () {
+    if (this._components == null) {
+        var Components = index.require.components();
+        this._components = Components.sub(this._layer, this);
+    }
+    return this._components;
+};
+
+Component.prototype.properties = function () {
+    if (this._properties == null) {
+        this._properties = Properties.init(this);
+    }
+    return this._properties;
+};
+
+Component.prototype.constraints = function () {
+    if (this._constraints == null) {
+        this._constraints = Constraints.init(this);
+    }
+    return this._constraints;
+};
+
+Component.prototype.name = function () {
+    return this._layer.name();
+};
+
+Component.prototype.frame = function () {
+    return this._frame;
+};
+
+Component.prototype['class'] = function () {
+    return String(this._layer['class']().toString());
+};
+
+Component.prototype.page = function () {
+    return this._layer.parentPage();
+};
+
+Component.prototype.objectID = function () {
+    return this._layer.objectID();
+};
+
+Component.prototype.master = function () {
+    /* istanbul ignore else */
+    if (this.hasMaster()) {
+        return Component.init(this._layer.symbolMaster());
+    }
+};
+
+Component.prototype.isVisible = function () {
+    return this._layer.isVisible();
+};
+
+Component.prototype.isArtboard = function () {
+    return this['class']() == index['const']['class'].artboard;
+};
+
+Component.prototype.isGroup = function () {
+    return this['class']() == index['const']['class'].group;
+};
+
+Component.prototype.isSymbolMaster = function () {
+    return this['class']() == index['const']['class'].symbolMaster;
+};
+
+Component.prototype.isArtboardOrSymbolMaster = function () {
+    return this.isArtboard() || this.isSymbolMaster();
+};
+
+Component.prototype.shouldApply = function () {
+    return this.isVisible() && !index['const'].properties.re.ignore.test(this.name());
+};
+
+Component.prototype.hasComponents = function () {
+    return this.components().count() > 0;
+};
+
+Component.prototype.hasParent = function () {
+    return this._layer.parentGroup() != undefined;
+};
+
+Component.prototype.hasMaster = function () {
+    return this._layer.symbolMaster != undefined;
+};
+
+Component.prototype.parent = function () {
+    if (this._parent == null) {
+        this._parent = this.hasParent() ? Component.init(this._layer.parentGroup()) : undefined;
+    }
+    return this._parent;
+};
+
+Component.prototype.leftInParent = function (ignoreSelf) {
+    if (!this.hasParent()) {
+        return 0;
+    } else if (this.parent().isArtboardOrSymbolMaster()) {
+        return 0;
+    } else if (ignoreSelf) {
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().left();
+    } else {
+        return this.parent().components().frame().left();
+    }
+};
+
+Component.prototype.topInParent = function (ignoreSelf) {
+    if (!this.hasParent()) {
+        return 0;
+    } else if (this.parent().isArtboardOrSymbolMaster()) {
+        return 0;
+    } else if (ignoreSelf) {
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().top();
+    } else {
+        return this.parent().components().frame().top();
+    }
+};
+
+Component.prototype.widthOfParent = function (forceIteration, ignoreSelf) {
+    if (!this.hasParent()) {
+        return 0;
+    } else if (this.parent().isArtboardOrSymbolMaster()) {
+        return this.parent().frame().width();
+    } else if (forceIteration || this.parent().properties().containsKey(index['const'].property.key.widthPercentage)) {
+        return this.parent().widthOfParent(forceIteration, ignoreSelf) || this.parent().frame().width();
+    } else if (ignoreSelf) {
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().maxWidth();
+    } else {
+        return this.parent().components().frame().maxWidth();
+    }
+};
+
+Component.prototype.heightOfParent = function (forceIteration, ignoreSelf) {
+    if (!this.hasParent()) {
+        return 0;
+    } else if (this.parent().isArtboardOrSymbolMaster()) {
+        return this.parent().frame().height();
+    } else if (forceIteration || this.parent().properties().containsKey(index['const'].property.key.heightPercentage)) {
+        return this.parent().heightOfParent(forceIteration, ignoreSelf) || this.parent().frame().height();
+    } else if (ignoreSelf) {
+        return this.parent().components().filterByExcludingID(this.objectID()).frame().maxHeight();
+    } else {
+        return this.parent().components().frame().maxHeight();
+    }
+};
+
+// Action
+
+Component.prototype.apply = function () {
+    if (!this.shouldApply()) {
+        return;
+    }
+
+    this.debug('Component: apply:');
+    this.roundToPixel();
+
+    this._apply();
+
+    this.properties().apply();
+    this.sizeToFit();
+};
+
+Component.prototype.sizeToFit = function () {
+    this._sizeToFit();
+};
+
+Component.prototype.roundToPixel = function () {
+    this.frame().setX(this.frame().x());
+    this.frame().setY(this.frame().y());
+    this.frame().setWidth(this.frame().width());
+    this.frame().setHeight(this.frame().height());
+};
+
+Component.prototype.lockConstraints = function () {
+    this.constraints().lock();
+};
+
+Component.prototype.unlockConstraints = function () {
+    this.constraints().unlock();
+};
+
+// Logging
+
+/* istanbul ignore next */
+Component.prototype.debugFrame = function () {
+    if (index.debug.isEnabled()) {
+        this._debugFrame = this.frame().toString();
+    }
+};
+
+/* istanbul ignore next */
+Component.prototype.debug = function (msg) {
+    if (index.debug.isEnabled()) {
+        var frame = this._debugFrame ? '<' + this._debugFrame + '> -> <' + this.frame().toString() + '>' : '';
+        var name = '<' + this.name() + '> <' + this['class']() + '>';
+        index.debug(this, [msg, frame, name].join(' '));
+        this._debugFrame = undefined;
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = Component;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+function ComponentFrame(layer) {
+    this._layer = layer;
+}
+
+// Static
+
+ComponentFrame.init = function (layer) {
+    return new ComponentFrame(layer);
+};
+
+// Getter
+
+ComponentFrame.prototype.toString = function () {
+    return '{' + this.x() + ',' + this.y() + ',' + this.width() + ',' + this.height() + '}';
+};
+
+ComponentFrame.prototype.x = function () {
+    return this._layer.frame().x();
+};
+
+ComponentFrame.prototype.y = function () {
+    return this._layer.frame().y();
+};
+
+ComponentFrame.prototype.width = function () {
+    return this._layer.frame().width();
+};
+
+ComponentFrame.prototype.height = function () {
+    return this._layer.frame().height();
+};
+
+ComponentFrame.prototype.top = function () {
+    return this.y();
+};
+
+ComponentFrame.prototype.right = function () {
+    return this.x() + this.width();
+};
+
+ComponentFrame.prototype.bottom = function () {
+    return this.y() + this.height();
+};
+
+ComponentFrame.prototype.left = function () {
+    return this.x();
+};
+
+// Setter
+
+ComponentFrame.prototype.setX = function (x) {
+    x = Math.round(x);
+    if (this.x() != x) {
+        this._layer.frame().setX(x);
+    }
+};
+
+ComponentFrame.prototype.setY = function (y) {
+    y = Math.round(y);
+    if (this.y() != y) {
+        this._layer.frame().setY(y);
+    }
+};
+
+ComponentFrame.prototype.setWidth = function (w) {
+    w = Math.round(w);
+    if (this.width() != w) {
+        this._layer.frame().setWidth(w);
+    }
+};
+
+ComponentFrame.prototype.setHeight = function (h) {
+    h = Math.round(h);
+    if (this.height() != h) {
+        this._layer.frame().setHeight(h);
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = ComponentFrame;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Component = index.require.component();
+
+function ArtboardComponent(layer) {
+    Component.call(this, layer);
+}
+
+ArtboardComponent.prototype = Object.create(Component.prototype);
+
+// Static
+
+ArtboardComponent.init = function (layer) {
+    return new ArtboardComponent(layer);
+};
+
+// Action
+
+ArtboardComponent.prototype._apply = function () {
+    this.properties().filter(function (property) {
+        return property.key() == index['const'].property.key.widthStatic || property.key() == index['const'].property.key.heightStatic;
+    }).apply();
+
+    this.components().apply();
+};
+
+ArtboardComponent.prototype._sizeToFit = function () {
+    if (this.properties().containsPadding()) {
+        for (var i = 0; i < this.components().count(); i++) {
+            this.components().objectAtIndex(i).properties().filter(function (property) {
+                return property.type() == index['const'].property.type.margin || property.type() == index['const'].property.type.size || property.type() == index['const'].property.type.center;
+            }).apply();
+        }
+
+        this.properties().filter(function (property) {
+            return property.type() == index['const'].property.type.size;
+        }).apply();
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = ArtboardComponent;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Component = index.require.component();
+
+function GroupComponent(layer) {
+    Component.call(this, layer);
+}
+
+GroupComponent.prototype = Object.create(Component.prototype);
+
+// Static
+
+GroupComponent.init = function (layer) {
+    return new GroupComponent(layer);
+};
+
+// Action
+
+GroupComponent.prototype._apply = function () {
+    this.components().apply();
+    this._sizeToFit();
+};
+
+GroupComponent.prototype._sizeToFit = function () {
+    this.debugFrame();
+    this._layer.fixGeometryWithOptions(1);
+    this.debug('$ GroupComponent: sizeToFit:');
+};
+
+// -----------------------------------------------------------
+
+module.exports = GroupComponent;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Component = index.require.component();
+
+function LayerComponent(layer) {
+    Component.call(this, layer);
+}
+
+LayerComponent.prototype = Object.create(Component.prototype);
+
+// Static
+
+LayerComponent.init = function (layer) {
+    return new LayerComponent(layer);
+};
+
+// Action
+
+LayerComponent.prototype._apply = function () {
+    // Do nothing...
+};
+
+LayerComponent.prototype._sizeToFit = function () {
+    // Do nothing...
+};
+
+// -----------------------------------------------------------
+
+module.exports = LayerComponent;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Component = index.require.component();
+var Components = index.require.components();
+
+function ShapeComponent(layer) {
+    Component.call(this, layer);
+}
+
+ShapeComponent.prototype = Object.create(Component.prototype);
+
+// Static
+
+ShapeComponent.init = function (layer) {
+    return new ShapeComponent(layer);
+};
+
+// Getter
+
+ShapeComponent.prototype.components = function () {
+    return Components.init();
+};
+
+// Action
+
+ShapeComponent.prototype._apply = function () {
+    // Do nothing...
+};
+
+ShapeComponent.prototype._sizeToFit = function () {
+    // Do nothing...
+};
+
+// -----------------------------------------------------------
+
+module.exports = ShapeComponent;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Component = index.require.component();
+
+function SymbolInstanceComponent(layer) {
+    Component.call(this, layer);
+}
+
+SymbolInstanceComponent.prototype = Object.create(Component.prototype);
+
+// Static
+
+SymbolInstanceComponent.init = function (layer) {
+    return new SymbolInstanceComponent(layer);
+};
+
+// Action
+
+SymbolInstanceComponent.prototype._apply = function () {
+    this.master().apply();
+    this._layer.resetSizeToMaster();
+};
+
+SymbolInstanceComponent.prototype._sizeToFit = function () {
+    // Do nothing...
+};
+
+// -----------------------------------------------------------
+
+module.exports = SymbolInstanceComponent;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var ArtboardComponent = index.require.component.artboard();
+var Component = index.require.component();
+var PaddingProperty = index.require.property.padding();
+var SymbolStore = index.require.symbolStore();
+
+function SymbolMasterComponent(layer) {
+    ArtboardComponent.call(this, layer);
+}
+
+SymbolMasterComponent.prototype = Object.create(ArtboardComponent.prototype);
+
+// Static
+
+SymbolMasterComponent.init = function (layer) {
+    return new SymbolMasterComponent(layer);
+};
+
+// Getter
+
+SymbolMasterComponent.prototype.properties = function () {
+    if (this._properties == null) {
+        var properties = ArtboardComponent.prototype.properties.call(this);
+        if (!properties.containsKey(index['const'].property.key.paddingTop)) {
+            properties.addProperty(PaddingProperty.top(this));
+        }
+        if (!properties.containsKey(index['const'].property.key.paddingRight)) {
+            properties.addProperty(PaddingProperty.right(this));
+        }
+        if (!properties.containsKey(index['const'].property.key.paddingBottom)) {
+            properties.addProperty(PaddingProperty.bottom(this));
+        }
+        if (!properties.containsKey(index['const'].property.key.paddingLeft)) {
+            properties.addProperty(PaddingProperty.left(this));
+        }
+        properties._sort();
+
+        this._properties = properties;
+    }
+    return this._properties;
+};
+
+SymbolMasterComponent.prototype.objectID = function () {
+    return this._layer.symbolID();
+};
+
+SymbolMasterComponent.prototype.shouldApply = function () {
+    return ArtboardComponent.prototype.shouldApply.call(this) && SymbolStore.sharedInstance.shouldApply(this);
+};
+
+// -----------------------------------------------------------
+
+module.exports = SymbolMasterComponent;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Component = index.require.component();
+
+function TextComponent(layer) {
+    Component.call(this, layer);
+}
+
+TextComponent.prototype = Object.create(Component.prototype);
+
+// Static
+
+TextComponent.init = function (layer) {
+    return new TextComponent(layer);
+};
+
+// Action
+
+TextComponent.prototype._apply = function () {
+    this._layer.setTextBehaviour(0);
+    this._layer.setTextBehaviour(this.properties().containsType(index['const'].property.type.size));
+};
+
+TextComponent.prototype._sizeToFit = function () {
+    if (this.properties().containsHeight()) {
+        this._layer.setVerticalAlignment(1);
+    } else {
+        this._layer.adjustFrameToFit();
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = TextComponent;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Component = index.require.component();
+var ComponentsFrame = index.require.componentsFrame();
+var Properties = index.require.properties();
+
+function Components(layers, parent, items) {
+    this._layers = layers || NSArray['new']();
+
+    this._items = items || null;
+    this._frame = null;
+    this._parent = parent;
+
+    this._isFiltered = items != undefined;
+}
+
+Components.prototype = Object.create(Component.prototype);
+
+// Static
+
+Components.init = function (layers, parent, items) {
+    return new Components(layers, parent, items);
+};
+
+Components.apply = function (layers, parent) {
+    return Components.init(layers, parent).apply();
+};
+
+Components.sub = function (layer, parent) {
+    if (layer.layers) {
+        return Components.init(layer.layers(), parent);
+    } else {
+        return Components.init(NSArray['new'](), parent);
+    }
+};
+
+Components.items = function (items, parent) {
+    var layers = NSMutableArray['new']();
+    for (var i = 0; i < items.length; i++) {
+        layers.addObject(items[i]._layer);
+    }
+    return Components.init(layers, parent, items);
+};
+
+// Getter
+
+Components.prototype.items = function () {
+    if (this._needSetup()) {
+        this._setup();
+    }
+    return this._items;
+};
+
+Components.prototype.frame = function () {
+    if (this._frame == null) {
+        this._frame = ComponentsFrame.init(this);
+    }
+    return this._frame;
+};
+
+Components.prototype.count = function () {
+    if (this._needSetup()) {
+        this._setup();
+    }
+    return this.items().length;
+};
+
+Components.prototype.objectAtIndex = function (index) {
+    if (this._needSetup()) {
+        this._setup();
+    }
+    return this.items()[index];
+};
+
+Components.prototype.find = function (name) {
+    for (var i = 0; i < this.count(); i++) {
+        var component = this.objectAtIndex(i);
+        if (name.regexp().test(component.name())) {
+            return component;
+        }
+    }
+};
+
+Components.prototype.findContainer = function () {
+    return this.find(index['const'].properties.re.containerName);
+};
+
+Components.prototype.filter = function (callback) {
+    var items = this.items().filter(callback);
+    return Components.items(items, this.parent());
+};
+
+Components.prototype.filterByExcludingID = function (objectID) {
+    return this.filter(function (component) {
+        return component.objectID() != objectID;
+    });
+};
+
+Components.prototype.containsName = function (name) {
+    return this.find(name) != undefined;
+};
+
+Components.prototype.containsContainer = function () {
+    return this.containsName(index['const'].properties.re.containerName);
+};
+
+// Action
+
+Components.prototype.apply = function () {
+    this.filter(function (component) {
+        return !component.properties().containsPercentageWidthOrHeight();
+    })._apply();
+
+    this.filter(function (component) {
+        return component.properties().containsPercentageWidthOrHeight();
+    })._apply();
+};
+
+Components.prototype._apply = function () {
+    for (var i = 0; i < this.count(); i++) {
+        var component = this.objectAtIndex(i);
+        component.apply();
+    }
+};
+
+Components.prototype.lockConstraints = function () {
+    for (var i = 0; i < this.count(); i++) {
+        this.objectAtIndex(i).lockConstraints();
+    }
+};
+
+Components.prototype.unlockConstraints = function () {
+    for (var i = 0; i < this.count(); i++) {
+        this.objectAtIndex(i).unlockConstraints();
+    }
+};
+
+Components.prototype.reduce = function (callback, initialValue) {
+    return this.items().reduce(callback, initialValue);
+};
+
+// Private
+
+Components.prototype._needSetup = function () {
+    return this._items == null || this._layers.count() != this._items.length;
+};
+
+Components.prototype._setup = function () {
+    this._items = [];
+    for (var i = 0; i < this._layers.count(); i++) {
+        var item = Component.init(this._layers.objectAtIndex(i));
+        this._items.push(item);
+    }
+};
+
+// -------------------------------------------------- Override
+
+/* istanbul ignore next */
+Components.prototype.components = function () {
+    return Components.init();
+};
+
+/* istanbul ignore next */
+Components.prototype.properties = function () {
+    if (this.hasParent()) {
+        return this.parent().properties();
+    }
+    return Properties.init(this, []);
+};
+
+/* istanbul ignore next */
+Components.prototype.constraints = function () {
+    return null;
+};
+
+/* istanbul ignore next */
+Components.prototype.name = function () {
+    return null;
+};
+
+/* istanbul ignore next */
+Components.prototype['class'] = function () {
+    return 'Components';
+};
+
+/* istanbul ignore next */
+Components.prototype.page = function () {
+    return null;
+};
+
+/* istanbul ignore next */
+Components.prototype.objectID = function () {
+    return null;
+};
+
+/* istanbul ignore next */
+Components.prototype.master = function () {
+    return null;
+};
+
+/* istanbul ignore next */
+Components.prototype.isVisible = function () {
+    return true;
+};
+
+/* istanbul ignore next */
+Components.prototype.isArtboard = function () {
+    return false;
+};
+
+/* istanbul ignore next */
+Components.prototype.isGroup = function () {
+    return false;
+};
+
+/* istanbul ignore next */
+Components.prototype.isSymbolMaster = function () {
+    return false;
+};
+
+/* istanbul ignore next */
+Components.prototype.shouldApply = function () {
+    return true;
+};
+
+/* istanbul ignore next */
+Components.prototype.hasComponents = function () {
+    return false;
+};
+
+/* istanbul ignore next */
+Components.prototype.hasParent = function () {
+    return this.parent() != undefined;
+};
+
+/* istanbul ignore next */
+Components.prototype.parent = function () {
+    return this._parent;
+};
+
+/* istanbul ignore next */
+Components.prototype.sizeToFit = function () {
+    // Do nothing...
+};
+
+// -----------------------------------------------------------
+
+module.exports = Components;
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var DEFAULT_MIN = 999999;
+
+var index = __webpack_require__(0);
+
+function ComponentsFrame(components) {
+    var Components = index.require.components();
+    this._components = components || Components.init();
+};
+
+// Static
+
+ComponentsFrame.init = function (components) {
+    return new ComponentsFrame(components);
+};
+
+// Getter
+
+ComponentsFrame.prototype.toString = function () {
+    return '{' + this.x() + ',' + this.y() + ',' + this.width() + ',' + this.height() + '}';
+};
+
+ComponentsFrame.prototype.x = function () {
+    return this.left();
+};
+
+ComponentsFrame.prototype.y = function () {
+    return this.top();
+};
+
+ComponentsFrame.prototype.width = function (ignoreMarginRight) {
+    return this.right(ignoreMarginRight) - this.left();
+};
+
+ComponentsFrame.prototype.height = function (ignoreMarginBottom) {
+    return this.bottom(ignoreMarginBottom) - this.top();
+};
+
+ComponentsFrame.prototype.top = function () {
+    var top = this._components.reduce(function (top, component) {
+        return Math.min(top, component.frame().top());
+    }, DEFAULT_MIN);
+    return top == DEFAULT_MIN ? 0 : top;
+};
+
+ComponentsFrame.prototype.right = function (ignoreMarginRight) {
+    return this._components.reduce(function (right, component) {
+        if (component.properties().containsKey(index['const'].property.key.widthPercentage)) {
+            return right;
+        }
+        if (ignoreMarginRight && component.properties().containsKey(index['const'].property.key.marginRight)) {
+            return right;
+        }
+        return Math.max(right, component.frame().right());
+    }, 0);
+};
+
+ComponentsFrame.prototype.bottom = function (ignoreMarginBottom) {
+    return this._components.reduce(function (bottom, component) {
+        if (component.properties().containsKey(index['const'].property.key.heightPercentage)) {
+            return bottom;
+        }
+        if (ignoreMarginBottom && component.properties().containsKey(index['const'].property.key.marginBottom)) {
+            return bottom;
+        }
+        return Math.max(bottom, component.frame().bottom());
+    }, 0);
+};
+
+ComponentsFrame.prototype.left = function () {
+    var left = this._components.reduce(function (left, component) {
+        return Math.min(left, component.frame().left());
+    }, DEFAULT_MIN);
+    return left == DEFAULT_MIN ? 0 : left;
+};
+
+ComponentsFrame.prototype.maxWidth = function () {
+    return this._components.reduce(function (width, component) {
+        if (component.properties().containsKey(index['const'].property.key.widthPercentage)) {
+            return width;
+        }
+        return Math.max(width, component.frame().width());
+    }, 0);
+};
+
+ComponentsFrame.prototype.maxHeight = function () {
+    return this._components.reduce(function (height, component) {
+        if (component.properties().containsKey(index['const'].property.key.heightPercentage)) {
+            return height;
+        }
+        return Math.max(height, component.frame().height());
+    }, 0);
+};
+
+// Setter
+
+ComponentsFrame.prototype.setX = function (x) {
+    var left = this.left();
+    for (var i = 0; i < this._components.count(); i++) {
+        var component = this._components.objectAtIndex(i);
+        component.frame().setX(component.frame().x() - left + x);
+    }
+};
+
+ComponentsFrame.prototype.setY = function (y) {
+    var top = this.top();
+    for (var i = 0; i < this._components.count(); i++) {
+        var component = this._components.objectAtIndex(i);
+        component.frame().setY(component.frame().y() - top + y);
+    }
+};
+
+ComponentsFrame.prototype.setWidth = function () {
+    // Do nothing...
+};
+
+ComponentsFrame.prototype.setHeight = function () {
+    // Do nothing...
+};
+
+// -----------------------------------------------------------
+
+module.exports = ComponentsFrame;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+function Constraints(component) {
+    this._component = component;
+    this._layer = component._layer;
+}
+
+// Static
+
+Constraints.init = function (component) {
+    return new Constraints(component);
+};
+
+// Getter
+
+Constraints.prototype.component = function () {
+    return this._component;
+};
+
+Constraints.prototype.hasFixedWidth = function () {
+    return this._layer.hasFixedWidth();
+};
+
+Constraints.prototype.hasFixedHeight = function () {
+    return this._layer.hasFixedHeight();
+};
+
+Constraints.prototype.hasFixedTop = function () {
+    return this._layer.hasFixedTop();
+};
+
+Constraints.prototype.hasFixedRight = function () {
+    return this._layer.hasFixedRight();
+};
+
+Constraints.prototype.hasFixedBottom = function () {
+    return this._layer.hasFixedBottom();
+};
+
+Constraints.prototype.hasFixedLeft = function () {
+    return this._layer.hasFixedLeft();
+};
+
+Constraints.prototype.toString = function () {
+    return '<{' + this.hasFixedWidth() + ',' + this.hasFixedHeight() + ',' + this.hasFixedTop() + ',' + this.hasFixedRight() + ',' + this.hasFixedBottom() + ',' + this.hasFixedLeft() + '}>';
+};
+
+Constraints.prototype.isLocked = function () {
+    return this._lockedHasFixedWidth != undefined;
+};
+
+// Setter
+
+Constraints.prototype.setHasFixedWidth = function (hasFixed) {
+    this._layer.setHasFixedWidth(hasFixed);
+};
+
+Constraints.prototype.setHasFixedHeight = function (hasFixed) {
+    this._layer.setHasFixedHeight(hasFixed);
+};
+
+Constraints.prototype.setHasFixedTop = function (hasFixed) {
+    this._layer.setHasFixedTop(hasFixed);
+};
+
+Constraints.prototype.setHasFixedRight = function (hasFixed) {
+    this._layer.setHasFixedRight(hasFixed);
+};
+
+Constraints.prototype.setHasFixedBottom = function (hasFixed) {
+    this._layer.setHasFixedBottom(hasFixed);
+};
+
+Constraints.prototype.setHasFixedLeft = function (hasFixed) {
+    this._layer.setHasFixedLeft(hasFixed);
+};
+
+// Action
+
+Constraints.prototype.apply = function (properties) {
+    /* istanbul ignore if  */
+    if (!properties) {
+        return;
+    }
+
+    this.reset();
+    this.setHasFixedTop(properties.containsKey(index['const'].property.key.marginTop) || properties.containsKey(index['const'].property.key.paddingTop) || properties.containsKey(index['const'].property.key.heightPercentage) || properties.containsKey(index['const'].property.key.heightPercentageFull));
+    this.setHasFixedRight(properties.containsKey(index['const'].property.key.marginRight) || properties.containsKey(index['const'].property.key.paddingRight) || properties.containsKey(index['const'].property.key.widthPercentage) || properties.containsKey(index['const'].property.key.widthPercentageFull));
+    this.setHasFixedBottom(properties.containsKey(index['const'].property.key.marginBottom) || properties.containsKey(index['const'].property.key.paddingBottom) || properties.containsKey(index['const'].property.key.heightPercentage) || properties.containsKey(index['const'].property.key.heightPercentageFull));
+    this.setHasFixedLeft(properties.containsKey(index['const'].property.key.marginLeft) || properties.containsKey(index['const'].property.key.paddingLeft) || properties.containsKey(index['const'].property.key.widthPercentage) || properties.containsKey(index['const'].property.key.widthPercentageFull));
+    this.setHasFixedWidth(!(this.hasFixedRight() && this.hasFixedLeft()));
+    this.setHasFixedHeight(!(this.hasFixedTop() && this.hasFixedBottom()));
+
+    this.component().debug('^ Constraints: apply: ' + this.toString());
+};
+
+Constraints.prototype.reset = function () {
+    this._layer.resetConstraints();
+};
+
+Constraints.prototype.lock = function () {
+    this._lockedHasFixedWidth = this.hasFixedWidth();
+    this._lockedHasFixedHeight = this.hasFixedHeight();
+    this._lockedHasFixedTop = this.hasFixedTop();
+    this._lockedHasFixedRight = this.hasFixedRight();
+    this._lockedHasFixedBottom = this.hasFixedBottom();
+    this._lockedHasFixedLeft = this.hasFixedLeft();
+
+    this.reset();
+    this.setHasFixedWidth(true);
+    this.setHasFixedHeight(true);
+    this.setHasFixedTop(true);
+    this.setHasFixedLeft(true);
+
+    this.component().debug('^ Constraints: lock: ' + this.toString());
+};
+
+Constraints.prototype.unlock = function () {
+    if (!this.isLocked()) {
+        return;
+    }
+
+    this.reset();
+    this.setHasFixedWidth(this._lockedHasFixedWidth);
+    this.setHasFixedHeight(this._lockedHasFixedHeight);
+    this.setHasFixedTop(this._lockedHasFixedTop);
+    this.setHasFixedRight(this._lockedHasFixedRight);
+    this.setHasFixedBottom(this._lockedHasFixedBottom);
+    this.setHasFixedLeft(this._lockedHasFixedLeft);
+
+    this._lockedHasFixedWidth = undefined;
+    this._lockedHasFixedHeight = undefined;
+    this._lockedHasFixedTop = undefined;
+    this._lockedHasFixedRight = undefined;
+    this._lockedHasFixedBottom = undefined;
+    this._lockedHasFixedLeft = undefined;
+
+    this.component().debug('^ Constraints: unlock: ' + this.toString());
+};
+
+// -----------------------------------------------------------
+
+module.exports = Constraints;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Components = index.require.components();
+
+function Context(context) {
+    this._context = context;
+}
+
+// Static
+
+Context.init = function (context) {
+    return new Context(context);
+};
+
+Context.apply = function (context) {
+    Context.init(context).apply();
+};
+
+Context.applyToEverything = function (context) {
+    Context.init(context).applyToEverything();
+};
+
+// Getter
+
+Context.prototype.document = function () {
+    return this._context.document;
+};
+
+Context.prototype.currentPage = function () {
+    return this.document().currentPage();
+};
+
+Context.prototype.pages = function () {
+    return this.document().pages();
+};
+
+Context.prototype.shouldApplyPage = function (page) {
+    return !index['const'].properties.re.ignore.test(page.name());
+};
+
+Context.prototype.selection = function () {
+    var layers = this._context.selection;
+    if (layers && layers.count() > 0) {
+        return layers;
+    } else {
+        return this.currentPage().layers();
+    }
+};
+
+// Action
+
+Context.prototype.apply = function () {
+    var layers = this.selection();
+    if (layers.count() == 0) {
+        this.document().showMessage('✋ There are no layers in this page');
+    } else {
+        Components.apply(layers);
+        this.document().showMessage('👾 Your design is now pixel perfect');
+    }
+};
+
+Context.prototype.applyToEverything = function () {
+    var nbrOfPages = 0;
+
+    for (var i = 0; i < this.pages().count(); i++) {
+        var page = this.pages().objectAtIndex(i);
+        if (!this.shouldApplyPage(page)) {
+            continue;
+        }
+
+        this.document().setCurrentPage(page);
+        this.clearSelection();
+
+        /* istanbul ignore next */
+        if (index.debug.isEnabled()) {
+            print('\nPAGE: ' + page.name() + '\n');
+        }
+
+        this.apply();
+
+        nbrOfPages += 1;
+    }
+
+    this.document().showMessage('👾 ' + nbrOfPages + ' pages of your design is now pixel perfect');
+};
+
+Context.prototype.clearSelection = function () {
+    this.currentPage().select_byExpandingSelection(true, false);
+};
+
+// -----------------------------------------------------------
+
+module.exports = Context;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+function RegExpMap(entries) {
+    this._entries = entries || [];
+}
+
+RegExpMap.init = function (entries) {
+    return new RegExpMap(entries);
+};
+
+RegExpMap.prototype.append = function (entry) {
+    this._entries.append(entry);
+};
+
+RegExpMap.prototype.find = function (str) {
+    for (var i = 0; i < this._entries.length; i++) {
+        var entry = this._entries[i];
+        if (entry.test(str)) {
+            return entry.value();
+        }
+    }
+};
+
+RegExpMap.prototype.replace = function (str) {
+    return this._entries.reduce(function (str, entry) {
+        return entry.replace(str);
+    }, str);
+};
+
+// -----------------------------------------------------------
+
+function RegExpMapEntry(regexp, value) {
+    this._regexp = regexp.regexp('i');
+    this._value = value;
+}
+
+RegExpMapEntry.init = function (regexp, value) {
+    return new RegExpMapEntry(regexp, value);
+};
+
+RegExpMapEntry.prototype.regexp = function () {
+    return this._regexp;
+};
+
+RegExpMapEntry.prototype.value = function () {
+    return this._value;
+};
+
+RegExpMapEntry.prototype.replace = function (str) {
+    if (this.test(str)) {
+        return str.replace(this.regexp(), this.value());
+    }
+    return str;
+};
+
+RegExpMapEntry.prototype.test = function (str) {
+    return this.regexp().test(str);
+};
+
+// -----------------------------------------------------------
+
+function StaticMap(entries) {
+    this._entries = entries || [];
+    this._dict = null;
+}
+
+StaticMap.init = function (entries) {
+    return new StaticMap(entries);
+};
+
+StaticMap.prototype.dict = function () {
+    if (this._dict == null) {
+        this._dict = {};
+        for (var i = 0; i < this._entries.length; i++) {
+            var entry = this._entries[i];
+            this._dict[entry.key()] = entry.value();
+        }
+    }
+    return this._dict;
+};
+
+StaticMap.prototype.append = function (entry) {
+    this._entries.append(entry);
+    this._dict = null;
+};
+
+StaticMap.prototype.find = function (str) {
+    return this.dict()[str];
+};
+
+StaticMap.prototype.replace = function (str) {
+    return this._entries.reduce(function (str, entry) {
+        return entry.replace(str);
+    }, str);
+};
+
+// -----------------------------------------------------------
+
+function StaticMapEntry(key, value) {
+    this._key = key;
+    this._value = value;
+}
+
+StaticMapEntry.init = function (key, value) {
+    return new StaticMapEntry(key, value);
+};
+
+StaticMapEntry.prototype.key = function () {
+    return this._key;
+};
+
+StaticMapEntry.prototype.value = function () {
+    return this._value;
+};
+
+StaticMapEntry.prototype.replace = function (str) {
+    if (this.test(str)) {
+        return this.value();
+    }
+    return str;
+};
+
+StaticMapEntry.prototype.test = function (str) {
+    return this.key() == str;
+};
+
+// -----------------------------------------------------------
+
+var keys = RegExpMap.init([RegExpMapEntry.init('(c)(\\+|\\-)?\\d*', index['const'].property.key.centerHorizontally), RegExpMapEntry.init('(h)', index['const'].property.key.centerHorizontally), RegExpMapEntry.init('(h)(\\+|\\-)\\d+', index['const'].property.key.heightAddition), RegExpMapEntry.init('(h)\\<\\d+', index['const'].property.key.heightMax), RegExpMapEntry.init('(h)\\>\\d+', index['const'].property.key.heightMin), RegExpMapEntry.init('(h)\\d+', index['const'].property.key.heightStatic), RegExpMapEntry.init('(h)\\d+%', index['const'].property.key.heightPercentage), RegExpMapEntry.init('(h)\\d+%%', index['const'].property.key.heightPercentageFull), RegExpMapEntry.init('(mb|b)\\-?\\d*', index['const'].property.key.marginBottom), RegExpMapEntry.init('(ml|l)\\-?\\d*', index['const'].property.key.marginLeft), RegExpMapEntry.init('(mr|r)\\-?\\d*', index['const'].property.key.marginRight), RegExpMapEntry.init('(mt|t)\\-?\\d*', index['const'].property.key.marginTop), RegExpMapEntry.init('(pb)\\-?\\d*', index['const'].property.key.paddingBottom), RegExpMapEntry.init('(pl)\\-?\\d*', index['const'].property.key.paddingLeft), RegExpMapEntry.init('(pr)\\-?\\d*', index['const'].property.key.paddingRight), RegExpMapEntry.init('(pt)\\-?\\d*', index['const'].property.key.paddingTop), RegExpMapEntry.init('(v)', index['const'].property.key.centerVertically), RegExpMapEntry.init('(v)(\\+|\\-)?\\d*', index['const'].property.key.centerVertically), RegExpMapEntry.init('(w)(\\+|\\-)\\d+', index['const'].property.key.widthAddition), RegExpMapEntry.init('(w)\\<\\d+', index['const'].property.key.widthMax), RegExpMapEntry.init('(w)\\>\\d+', index['const'].property.key.widthMin), RegExpMapEntry.init('(w)\\d+', index['const'].property.key.widthStatic), RegExpMapEntry.init('(w)\\d+%', index['const'].property.key.widthPercentage), RegExpMapEntry.init('(w)\\d+%%', index['const'].property.key.widthPercentageFull), RegExpMapEntry.init('(x)\\-?\\d*', index['const'].property.key.stackHorizontallyMiddle), RegExpMapEntry.init('(xb)\\-?\\d*', index['const'].property.key.stackHorizontallyBottom), RegExpMapEntry.init('(xt)\\-?\\d*', index['const'].property.key.stackHorizontallyTop), RegExpMapEntry.init('(y)\\-?\\d*', index['const'].property.key.stackVerticallyCenter), RegExpMapEntry.init('(yl)\\-?\\d*', index['const'].property.key.stackVerticallyLeft), RegExpMapEntry.init('(yr)\\-?\\d*', index['const'].property.key.stackVerticallyRight)]);
+
+var values = RegExpMap.init([RegExpMapEntry.init(/[^\-\d]/g, '')]);
+
+var types = StaticMap.init([StaticMapEntry.init(index['const'].property.key.centerHorizontally, index['const'].property.type.center), StaticMapEntry.init(index['const'].property.key.centerHorizontally, index['const'].property.type.center), StaticMapEntry.init(index['const'].property.key.heightAddition, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.heightMax, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.heightMin, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.heightStatic, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.heightPercentage, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.heightPercentageFull, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.marginBottom, index['const'].property.type.margin), StaticMapEntry.init(index['const'].property.key.marginLeft, index['const'].property.type.margin), StaticMapEntry.init(index['const'].property.key.marginRight, index['const'].property.type.margin), StaticMapEntry.init(index['const'].property.key.marginTop, index['const'].property.type.margin), StaticMapEntry.init(index['const'].property.key.paddingBottom, index['const'].property.type.padding), StaticMapEntry.init(index['const'].property.key.paddingLeft, index['const'].property.type.padding), StaticMapEntry.init(index['const'].property.key.paddingRight, index['const'].property.type.padding), StaticMapEntry.init(index['const'].property.key.paddingTop, index['const'].property.type.padding), StaticMapEntry.init(index['const'].property.key.centerVertically, index['const'].property.type.center), StaticMapEntry.init(index['const'].property.key.centerVertically, index['const'].property.type.center), StaticMapEntry.init(index['const'].property.key.widthAddition, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.widthMax, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.widthMin, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.widthStatic, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.widthPercentage, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.widthPercentageFull, index['const'].property.type.size), StaticMapEntry.init(index['const'].property.key.stackHorizontallyMiddle, index['const'].property.type.stack), StaticMapEntry.init(index['const'].property.key.stackHorizontallyBottom, index['const'].property.type.stack), StaticMapEntry.init(index['const'].property.key.stackHorizontallyTop, index['const'].property.type.stack), StaticMapEntry.init(index['const'].property.key.stackVerticallyCenter, index['const'].property.type.stack), StaticMapEntry.init(index['const'].property.key.stackVerticallyLeft, index['const'].property.type.stack), StaticMapEntry.init(index['const'].property.key.stackVerticallyRight, index['const'].property.type.stack)]);
+
+var margin = RegExpMap.init([RegExpMapEntry.init(/\b(m|margin|bg|trbl)\b/i, 't:r:b:l'), RegExpMapEntry.init(/\b(tl|lt)(\d*)\b/i, 't$2:l$2'), RegExpMapEntry.init(/\b(tr|rt)(\d*)\b/i, 't$2:r$2'), RegExpMapEntry.init(/\b(bl|lb)(\d*)\b/i, 'b$2:l$2'), RegExpMapEntry.init(/\b(rb|br)(\d*)\b/i, 'r$2:b$2')]);
+
+var padding = RegExpMap.init([RegExpMapEntry.init(/(^|:)(\d+)/, '$1p$2'), RegExpMapEntry.init(/p(\d+)((?:(?!:\d).)*):(\d+)/, 'ptb$1$2:prl$3'), RegExpMapEntry.init(/ptb(\d+)((?:(?!:\d).)*):(\d+)/, 'pt$1$2:pb$3'), RegExpMapEntry.init(/prl(\d+)((?:(?!:\d).)*):(\d+)/, 'pr$1$2:pl$3'), RegExpMapEntry.init(/\b(p|padding)(\d*)\b/i, 'pt$2:pr$2:pb$2:pl$2'), RegExpMapEntry.init(/\b(prl|plr)(\d*)\b/i, 'pr$2:pl$2'), RegExpMapEntry.init(/\b(ptb|pbt)(\d*)\b/i, 'pt$2:pb$2')]);
+
+// -----------------------------------------------------------
+
+module.exports = {
+    RegExpMap: RegExpMap,
+    RegExpMapEntry: RegExpMapEntry,
+    StaticMap: StaticMap,
+    StaticMapEntry: StaticMapEntry,
+
+    property: {
+        keys: keys,
+        values: values,
+        types: types,
+        modify: {
+            margin: margin,
+            padding: padding
+        }
+    }
+};
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var MarginProperty = index.require.property.margin();
+var PaddingProperty = index.require.property.padding();
+var Property = index.require.property();
+
+function Properties(component, items) {
+    this._component = component;
+
+    this._items = items || null;
+    this._keys = null;
+    this._types = null;
+
+    this._isFiltered = items != undefined;
+}
+
+// Static
+
+Properties.init = function (component, items) {
+    return new Properties(component, items);
+};
+
+Properties.items = function (items, component) {
+    return Properties.init(component, items);
+};
+
+// Getter
+
+Properties.prototype.toString = function () {
+    return '<' + Object.keys(this.keys()).join('>,<') + '>';
+};
+
+Properties.prototype.component = function () {
+    return this._component;
+};
+
+Properties.prototype.items = function () {
+    if (this._items == null) {
+        this._items = [];
+
+        var raw = this._raw();
+        for (var i = 0; i < raw.length; i++) {
+            var key = raw[i];
+            this.parseAndAddProperty(key);
+        }
+
+        this._sort();
+    }
+    return this._items;
+};
+
+Properties.prototype.keys = function () {
+    if (this._keys == null) {
+        this._keys = this.items().mapToDictionary(function (item) {
+            return item.key();
+        });
+    }
+    return this._keys;
+};
+
+Properties.prototype.types = function () {
+    if (this._types == null) {
+        this._types = this.items().mapToDictionary(function (item) {
+            return item.type();
+        });
+    }
+    return this._types;
+};
+
+Properties.prototype.count = function () {
+    return this.items().length;
+};
+
+Properties.prototype.objectAtIndex = function (index) {
+    return this.items()[index];
+};
+
+Properties.prototype.find = function (key) {
+    return this.keys()[key];
+};
+
+Properties.prototype.filter = function (callback) {
+    var items = this.items().filter(callback);
+    return Properties.items(items, this.component());
+};
+
+Properties.prototype.containsKey = function (aKey) {
+    return aKey in this.keys();
+};
+
+Properties.prototype.containsType = function (aType) {
+    return aType in this.types();
+};
+
+Properties.prototype.containsPercentageWidthOrHeight = function () {
+    return this.containsKey(index['const'].property.key.widthPercentage) || this.containsKey(index['const'].property.key.heightPercentage);
+};
+
+Properties.prototype.containsPadding = function () {
+    return this.containsType(index['const'].property.type.padding);
+};
+
+Properties.prototype.containsPaddingTopOrBottom = function () {
+    return this.containsKey(index['const'].property.key.paddingTop) || this.containsKey(index['const'].property.key.paddingBottom);
+};
+
+Properties.prototype.containsPaddingRightOrLeft = function () {
+    return this.containsKey(index['const'].property.key.paddingRight) || this.containsKey(index['const'].property.key.paddingLeft);
+};
+
+Properties.prototype.containsMargin = function () {
+    return this.containsType(index['const'].property.type.margin);
+};
+
+Properties.prototype.containsMarginTopOrLeft = function () {
+    return !this.containsKey(index['const'].property.key.marginRight) && this.containsKey(index['const'].property.key.marginLeft) || !this.containsKey(index['const'].property.key.marginBottom) && this.containsKey(index['const'].property.key.marginTop);
+};
+
+Properties.prototype.containsMarginRightOrBottom = function () {
+    return this.containsKey(index['const'].property.key.marginRight) && !this.containsKey(index['const'].property.key.marginLeft) || this.containsKey(index['const'].property.key.marginBottom) && !this.containsKey(index['const'].property.key.marginTop);
+};
+
+Properties.prototype.containsMarginTopOrBottom = function () {
+    return this.containsKey(index['const'].property.key.marginTop) || this.containsKey(index['const'].property.key.marginBottom);
+};
+
+Properties.prototype.containsMarginRightOrLeft = function () {
+    return this.containsKey(index['const'].property.key.marginRight) || this.containsKey(index['const'].property.key.marginLeft);
+};
+
+Properties.prototype.containsWidth = function () {
+    return this.containsKey(index['const'].property.key.widthStatic) || this.containsKey(index['const'].property.key.widthAddition) || this.containsKey(index['const'].property.key.widthPercentage) || this.containsKey(index['const'].property.key.widthPercentageFull) || this.containsKey(index['const'].property.key.widthMax) || this.containsKey(index['const'].property.key.widthMin);
+};
+
+Properties.prototype.containsHeight = function () {
+    return this.containsKey(index['const'].property.key.heightStatic) || this.containsKey(index['const'].property.key.heightAddition) || this.containsKey(index['const'].property.key.heightPercentage) || this.containsKey(index['const'].property.key.heightPercentageFull) || this.containsKey(index['const'].property.key.heightMax) || this.containsKey(index['const'].property.key.heightMin);
+};
+
+// Action
+
+Properties.prototype.apply = function () {
+    if (!this._isFiltered) {
+        this.component().constraints().apply(this);
+    }
+
+    if (this.count() > 0) {
+        this.component().debug('~ Properties: apply: ' + this.toString());
+        for (var i = 0; i < this.count(); i++) {
+            var property = this.objectAtIndex(i);
+            property.apply();
+
+            if (this.component().isGroup()) {
+                this.component().sizeToFit();
+            }
+        }
+    }
+};
+
+Properties.prototype.parseAndAddProperty = function (raw) {
+    var property = Property.parse(this.component(), raw);
+    this.addProperty(property);
+};
+
+Properties.prototype.addProperty = function (property) {
+    if (property) {
+        this._keys = null;
+        this._types = null;
+        this.items().push(property);
+    }
+};
+
+// Private
+
+Properties.prototype._raw = function () {
+    var name = this.component().name();
+    var match = name.match(index['const'].properties.re.include);
+
+    var properties = match ? match.last() : name;
+    properties = PaddingProperty.modify(properties);
+    properties = MarginProperty.modify(properties);
+
+    return properties.split(index['const'].properties.sep);
+};
+
+Properties.prototype._sort = function () {
+    this._items = this.items().sort(function (a, b) {
+        return index['const'].properties.priority.indexOf(a.key()) - index['const'].properties.priority.indexOf(b.key());
+    });
+
+    if (this.containsPadding()) {
+        var paddingIsHighPriority = !PaddingProperty.isOuter(this.component());
+        this._items = this.items().sort(function (a, b) {
+            if (a.type() == index['const'].property.type.padding && b.type() == index['const'].property.type.padding) {
+                return 0;
+            } else if (b.type() == index['const'].property.type.padding) {
+                return paddingIsHighPriority ? 1 : -1;
+            }
+            return 0;
+        });
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = Properties;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+function Property(component, key, value) {
+    this._component = component;
+    this._key = key;
+    this._value = value || 0;
+}
+
+// Static
+
+Property.init = function (component, key, value) {
+    switch (index.require.map().property.types.find(key)) {
+        case index['const'].property.type.center:
+            return index.require.property.center().init(component, key, value);
+        case index['const'].property.type.margin:
+            return index.require.property.margin().init(component, key, value);
+        case index['const'].property.type.padding:
+            return index.require.property.padding().init(component, key, value);
+        case index['const'].property.type.size:
+            return index.require.property.size().init(component, key, value);
+        case index['const'].property.type.stack:
+            return index.require.property.stack().init(component, key, value);
+        default:
+            component.debug('~ Property: invalid <' + key + '> <' + value + '>');
+            break;
+    }
+};
+
+Property.parse = function (component, raw) {
+    var key = Property._extractKey(raw || component.name());
+    var value = Property._extractValue(raw || component.name());
+    return Property.init(component, key, value);
+};
+
+// Getter
+
+Property.prototype.component = function () {
+    return this._component;
+};
+
+Property.prototype.key = function () {
+    return this._key;
+};
+
+Property.prototype.value = function () {
+    return this._value;
+};
+
+Property.prototype.toString = function () {
+    return '<' + this.key() + '>:<' + this.value().toString() + '>';
+};
+
+Property.prototype.isValid = function () {
+    return false;
+};
+
+// Action
+
+Property.prototype.apply = function () {
+    this.component().debugFrame();
+    this._apply();
+    this.component().debug('~ Property: apply: ' + this.toString());
+};
+
+// Private
+
+Property._extractKey = function (str) {
+    return index.require.map().property.keys.find(str);
+};
+
+Property._extractValue = function (str) {
+    return parseInt(index.require.map().property.values.replace(str));
+};
+
+// -----------------------------------------------------------
+
+module.exports = Property;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Property = index.require.property();
+
+function CenterProperty(component, key, value) {
+    Property.call(this, component, key, value);
+}
+
+CenterProperty.prototype = Object.create(Property.prototype);
+
+// Static
+
+CenterProperty.validKeys = function () {
+    return [index['const'].property.key.centerHorizontally, index['const'].property.key.centerVertically];
+};
+
+CenterProperty.init = function (component, key, value) {
+    var property = new CenterProperty(component, key, value);
+    if (property.isValid()) {
+        return property;
+    }
+};
+
+CenterProperty.horizontally = function (component, value) {
+    return CenterProperty.init(component, index['const'].property.key.centerHorizontally, value);
+};
+
+CenterProperty.vertically = function (component, value) {
+    return CenterProperty.init(component, index['const'].property.key.centerVertically, value);
+};
+
+// Getter
+
+CenterProperty.prototype.type = function () {
+    return index['const'].property.type.center;
+};
+
+CenterProperty.prototype.isValid = function () {
+    return CenterProperty.validKeys().contains(this.key());
+};
+
+// Action
+
+CenterProperty.prototype._apply = function () {
+    var frame = this.component().frame();
+    switch (this.key()) {
+        case index['const'].property.key.centerHorizontally:
+            var left = this.component().leftInParent(true);
+            var widthOfParent = this.component().widthOfParent(false, true);
+            frame.setX(left + (widthOfParent - frame.width()) / 2 + (this.value() || 0));
+            break;
+        case index['const'].property.key.centerVertically:
+            var top = this.component().topInParent(true);
+            var heightOfParent = this.component().heightOfParent(false, true);
+            frame.setY(top + (heightOfParent - frame.height()) / 2 + (this.value() || 0));
+            break;
+        /* istanbul ignore next */
+        default:
+            return;
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = CenterProperty;
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Property = index.require.property();
+
+function MarginProperty(component, key, value) {
+    Property.call(this, component, key, value);
+}
+
+MarginProperty.prototype = Object.create(Property.prototype);
+
+// Static
+
+MarginProperty.validKeys = function () {
+    return [index['const'].property.key.marginTop, index['const'].property.key.marginRight, index['const'].property.key.marginBottom, index['const'].property.key.marginLeft];
+};
+
+MarginProperty.init = function (component, key, value) {
+    var property = new MarginProperty(component, key, value);
+    if (property.isValid()) {
+        return property;
+    }
+};
+
+MarginProperty.top = function (component, value) {
+    return MarginProperty.init(component, index['const'].property.key.marginTop, value);
+};
+
+MarginProperty.right = function (component, value) {
+    return MarginProperty.init(component, index['const'].property.key.marginRight, value);
+};
+
+MarginProperty.bottom = function (component, value) {
+    return MarginProperty.init(component, index['const'].property.key.marginBottom, value);
+};
+
+MarginProperty.left = function (component, value) {
+    return MarginProperty.init(component, index['const'].property.key.marginLeft, value);
+};
+
+MarginProperty.modify = function (str) {
+    return index.require.map().property.modify.margin.replace(str);
+};
+
+// Getter
+
+MarginProperty.prototype.type = function () {
+    return index['const'].property.type.margin;
+};
+
+MarginProperty.prototype.isValid = function () {
+    return MarginProperty.validKeys().contains(this.key());
+};
+
+// Action
+
+MarginProperty.prototype._apply = function () {
+    var frame = this.component().frame();
+    switch (this.key()) {
+        case index['const'].property.key.marginTop:
+            frame.setY(this.value());
+            break;
+        case index['const'].property.key.marginRight:
+            var left = this.component().leftInParent(true);
+            var widthOfParent = this.component().widthOfParent(false, true);
+            frame.setX(left + widthOfParent - frame.width() - this.value());
+            break;
+        case index['const'].property.key.marginBottom:
+            var top = this.component().topInParent(true);
+            var heightOfParent = this.component().heightOfParent(false, true);
+            frame.setY(top + heightOfParent - frame.height() - this.value());
+            break;
+        case index['const'].property.key.marginLeft:
+            frame.setX(this.value());
+            break;
+        /* istanbul ignore next */
+        default:
+            return;
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = MarginProperty;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var CenterProperty = index.require.property.center();
+var MarginProperty = index.require.property.margin();
+var Property = index.require.property();
+var SizeProperty = index.require.property.size();
+
+function PaddingProperty(component, key, value) {
+    Property.call(this, component, key, value);
+
+    this._isOuter = null;
+    this._isInner = null;
+    this._container = null;
+    this._components = null;
+}
+
+PaddingProperty.prototype = Object.create(Property.prototype);
+
+// Static
+
+PaddingProperty.validKeys = function () {
+    return [index['const'].property.key.paddingTop, index['const'].property.key.paddingRight, index['const'].property.key.paddingBottom, index['const'].property.key.paddingLeft];
+};
+
+PaddingProperty.init = function (component, key, value) {
+    var property = new PaddingProperty(component, key, value);
+    if (property.isValid()) {
+        return property;
+    }
+};
+
+PaddingProperty.top = function (component, value) {
+    return PaddingProperty.init(component, index['const'].property.key.paddingTop, value);
+};
+
+PaddingProperty.right = function (component, value) {
+    return PaddingProperty.init(component, index['const'].property.key.paddingRight, value);
+};
+
+PaddingProperty.bottom = function (component, value) {
+    return PaddingProperty.init(component, index['const'].property.key.paddingBottom, value);
+};
+
+PaddingProperty.left = function (component, value) {
+    return PaddingProperty.init(component, index['const'].property.key.paddingLeft, value);
+};
+
+PaddingProperty.modify = function (str) {
+    return index.require.map().property.modify.padding.replace(str);
+};
+
+PaddingProperty.isOuter = function (component) {
+    return component.hasParent() && component.parent().components().containsContainer();
+};
+
+PaddingProperty.isInner = function (component) {
+    return component.hasComponents() && (component.isArtboardOrSymbolMaster() || component.components().containsContainer());
+};
+
+// Getter
+
+PaddingProperty.prototype.type = function () {
+    return index['const'].property.type.padding;
+};
+
+PaddingProperty.prototype.container = function () {
+    if (this._container == null) {
+        if (this.isInner() && !this.isOuter()) {
+            if (this.component().isArtboardOrSymbolMaster()) {
+                this._container = this.component();
+            } else {
+                this._container = this.component().components().findContainer();
+            }
+        } else {
+            this._container = this.component().parent().components().findContainer();
+        }
+    }
+    return this._container;
+};
+
+PaddingProperty.prototype.components = function () {
+    if (this._components == null) {
+        if (this.isInner() && !this.isOuter()) {
+            this._components = this.component().components().filterByExcludingID(this.container().objectID()).filter(function (component) {
+                return !component.properties().containsMarginRightOrBottom();
+            });
+        } else {
+            this._components = this.component();
+        }
+    }
+    return this._components;
+};
+
+PaddingProperty.prototype.isValid = function () {
+    return PaddingProperty.validKeys().contains(this.key()) && (this.isInner() || this.isOuter());
+};
+
+PaddingProperty.prototype.isOuter = function () {
+    if (this._isOuter == null) {
+        this._isOuter = PaddingProperty.isOuter(this.component());
+    }
+    return this._isOuter;
+};
+
+PaddingProperty.prototype.isInner = function () {
+    if (this._isInner == null) {
+        this._isInner = PaddingProperty.isInner(this.component());
+    }
+    return this._isInner;
+};
+
+// Action
+
+PaddingProperty.prototype._apply = function () {
+    this.components().debug('~ PaddingProperty: apply ' + (this.isOuter() ? 'outer' : 'inner') + ':');
+
+    if (this.container().isSymbolMaster()) {
+        this.components().lockConstraints();
+    }
+
+    var frame = this.components().frame();
+    switch (this.key()) {
+        case index['const'].property.key.paddingTop:
+            MarginProperty.top(this.components(), this.value()).apply();
+            if (!this.components().properties().containsPaddingRightOrLeft() && !this.components().properties().containsMarginRightOrLeft()) {
+                CenterProperty.horizontally(this.components()).apply();
+            } else if (!this.container().isArtboardOrSymbolMaster()) {
+                MarginProperty.top(this.container(), 0).apply();
+            }
+            break;
+        case index['const'].property.key.paddingRight:
+            var leftProperty = this.components().properties().find(index['const'].property.key.paddingLeft);
+            if (leftProperty) {
+                SizeProperty.width(this.container(), frame.width() + this.value() + leftProperty.value()).apply();
+            } else {
+                MarginProperty.right(this.components(), this.value()).apply();
+            }
+            if (!this.components().properties().containsPaddingTopOrBottom() && !this.components().properties().containsMarginTopOrBottom()) {
+                CenterProperty.vertically(this.components()).apply();
+            } else if (!this.container().isArtboardOrSymbolMaster()) {
+                MarginProperty.left(this.container(), 0).apply();
+            }
+            break;
+        case index['const'].property.key.paddingBottom:
+            var topProperty = this.components().properties().find(index['const'].property.key.paddingTop);
+            if (topProperty) {
+                SizeProperty.height(this.container(), frame.height() + this.value() + topProperty.value()).apply();
+            } else {
+                MarginProperty.bottom(this.components(), this.value()).apply();
+            }
+            if (!this.components().properties().containsPaddingRightOrLeft() && !this.components().properties().containsMarginRightOrLeft()) {
+                CenterProperty.horizontally(this.components()).apply();
+            } else if (!this.container().isArtboardOrSymbolMaster()) {
+                MarginProperty.top(this.container(), 0).apply();
+            }
+            break;
+        case index['const'].property.key.paddingLeft:
+            MarginProperty.left(this.components(), this.value()).apply();
+            if (!this.components().properties().containsPaddingTopOrBottom() && !this.components().properties().containsMarginTopOrBottom()) {
+                CenterProperty.vertically(this.components()).apply();
+            } else if (!this.container().isArtboardOrSymbolMaster()) {
+                MarginProperty.left(this.container(), 0).apply();
+            }
+            break;
+    }
+
+    if (this.container().isSymbolMaster()) {
+        this.components().unlockConstraints();
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = PaddingProperty;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Property = index.require.property();
+
+function SizeProperty(component, key, value) {
+    Property.call(this, component, key, value);
+}
+
+SizeProperty.prototype = Object.create(Property.prototype);
+
+// Static
+
+SizeProperty.validKeys = function () {
+    return [index['const'].property.key.widthStatic, index['const'].property.key.widthAddition, index['const'].property.key.widthPercentage, index['const'].property.key.widthPercentageFull, index['const'].property.key.widthMax, index['const'].property.key.widthMin, index['const'].property.key.heightStatic, index['const'].property.key.heightAddition, index['const'].property.key.heightPercentage, index['const'].property.key.heightPercentageFull, index['const'].property.key.heightMax, index['const'].property.key.heightMin];
+};
+
+SizeProperty.init = function (component, key, value) {
+    var property = new SizeProperty(component, key, value);
+    if (property.isValid()) {
+        return property;
+    }
+};
+
+SizeProperty.width = function (component, value) {
+    return SizeProperty.init(component, index['const'].property.key.widthStatic, value);
+};
+
+SizeProperty.height = function (component, value) {
+    return SizeProperty.init(component, index['const'].property.key.heightStatic, value);
+};
+
+// Getter
+
+SizeProperty.prototype.type = function () {
+    return index['const'].property.type.size;
+};
+
+SizeProperty.prototype.isValid = function () {
+    return SizeProperty.validKeys().contains(this.key());
+};
+
+// Action
+
+SizeProperty.prototype._apply = function () {
+    var frame = this.component().frame();
+    switch (this.key()) {
+        case index['const'].property.key.widthStatic:
+            frame.setWidth(this.value());
+            break;
+        case index['const'].property.key.widthAddition:
+            frame.setWidth(frame.width() + this.value());
+            break;
+        case index['const'].property.key.widthPercentage:
+            frame.setWidth(this.value() / 100 * this.component().widthOfParent(false, true));
+            break;
+        case index['const'].property.key.widthPercentageFull:
+            frame.setWidth(this.value() / 100 * this.component().widthOfParent(true));
+            break;
+        case index['const'].property.key.widthMax:
+            frame.setWidth(frame.width() > this.value() ? this.value() : frame.width());
+            break;
+        case index['const'].property.key.widthMin:
+            frame.setWidth(frame.width() < this.value() ? this.value() : frame.width());
+            break;
+        case index['const'].property.key.heightStatic:
+            frame.setHeight(this.value());
+            break;
+        case index['const'].property.key.heightAddition:
+            frame.setHeight(frame.height() + this.value());
+            break;
+        case index['const'].property.key.heightPercentage:
+            frame.setHeight(this.value() / 100 * this.component().heightOfParent(false, true));
+            break;
+        case index['const'].property.key.heightPercentageFull:
+            frame.setHeight(this.value() / 100 * this.component().heightOfParent(true));
+            break;
+        case index['const'].property.key.heightMax:
+            frame.setHeight(frame.height() > this.value() ? this.value() : frame.height());
+            break;
+        case index['const'].property.key.heightMin:
+            frame.setHeight(frame.height() < this.value() ? this.value() : frame.height());
+            break;
+        /* istanbul ignore next */
+        default:
+            return;
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = SizeProperty;
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+var Alignment = index.require.alignment();
+var Property = index.require.property();
+
+function StackProperty(component, key, value) {
+    Property.call(this, component, key, value);
+}
+
+StackProperty.prototype = Object.create(Property.prototype);
+
+// Static
+
+StackProperty.validKeys = function () {
+    return [index['const'].property.key.stackHorizontallyTop, index['const'].property.key.stackHorizontallyMiddle, index['const'].property.key.stackHorizontallyBottom, index['const'].property.key.stackVerticallyLeft, index['const'].property.key.stackVerticallyCenter, index['const'].property.key.stackVerticallyRight];
+};
+
+StackProperty.init = function (component, key, value) {
+    var property = new StackProperty(component, key, value);
+    if (property.isValid()) {
+        return property;
+    }
+};
+
+// Getter
+
+StackProperty.prototype.isValid = function () {
+    return StackProperty.validKeys().contains(this.key()) && this.component().hasComponents();
+};
+
+// Action
+
+StackProperty.prototype.type = function () {
+    return index['const'].property.type.stack;
+};
+
+StackProperty.prototype._apply = function () {
+    var frame = this.component().frame();
+    switch (this.key()) {
+        case index['const'].property.key.stackHorizontallyTop:
+            this.applyStackHorizontally(Alignment.top());
+            break;
+        case index['const'].property.key.stackHorizontallyMiddle:
+            this.applyStackHorizontally(Alignment.middle());
+            break;
+        case index['const'].property.key.stackHorizontallyBottom:
+            this.applyStackHorizontally(Alignment.bottom());
+            break;
+        case index['const'].property.key.stackVerticallyLeft:
+            this.applyStackVertically(Alignment.left());
+            break;
+        case index['const'].property.key.stackVerticallyCenter:
+            this.applyStackVertically(Alignment.center());
+            break;
+        case index['const'].property.key.stackVerticallyRight:
+            this.applyStackVertically(Alignment.right());
+            break;
+        /* istanbul ignore next */
+        default:
+            return;
+    }
+};
+
+Property.prototype.applyStackHorizontally = function (alignment) {
+    var components = this.component().components();
+    var h = components.frame().maxHeight();
+
+    var x = 0;
+    for (var k = components.count() - 1; k >= 0; k--) {
+        var component = components.objectAtIndex(k);
+
+        alignment.align(component, h);
+        component.frame().setX(x);
+
+        x += component.frame().width() + this.value();
+    }
+};
+
+Property.prototype.applyStackVertically = function (alignment) {
+    var components = this.component().components();
+    var w = components.frame().maxWidth();
+
+    var y = 0;
+    for (var k = components.count() - 1; k >= 0; k--) {
+        var component = components.objectAtIndex(k);
+
+        alignment.align(component, w);
+        component.frame().setY(y);
+
+        y += component.frame().height() + this.value();
+    }
+};
+
+// -----------------------------------------------------------
+
+module.exports = StackProperty;
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var index = __webpack_require__(0);
+
+function SymbolStore() {
+    this._ids = [];
+}
+
+// Static
+
+SymbolStore.sharedInstance = new SymbolStore();
+
+// Getter
+
+SymbolStore.prototype.ids = function () {
+    return this._ids;
+};
+
+SymbolStore.prototype.containsComponent = function (component) {
+    return this.ids().includes(component.objectID());
+};
+
+SymbolStore.prototype.shouldApply = function (component) {
+    if (!component.isSymbolMaster()) {
+        return true;
+    } else if (component.page() == null) {
+        component.debug('/ SymbolStore: master is not local');
+        return false;
+    } else if (this.containsComponent(component)) {
+        component.debug('/ SymbolStore: master already applied');
+        return false;
+    } else {
+        this.add(component);
+        return true;
+    }
+};
+
+// Action
+
+SymbolStore.prototype.add = function (component) {
+    this.ids().push(component.objectID());
+};
+
+SymbolStore.prototype.clean = function () {
+    this._ids = [];
+};
+
+// -----------------------------------------------------------
+
+module.exports = SymbolStore;
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports) {
+
+
+Array.prototype.first = function () {
+    if (this.length > 0) {
+        return this[0];
+    }
+};
+
+Array.prototype.last = function () {
+    if (this.length > 0) {
+        return this[this.length - 1];
+    }
+};
+
+Array.prototype.even = function () {
+    var even = [];
+    for (var i = 0; i < this.length; i += 2) {
+        even.push(this[i]);
+    }
+    return even;
+};
+
+Array.prototype.odd = function () {
+    var odd = [];
+    for (var i = 1; i < this.length; i += 2) {
+        odd.push(this[i]);
+    }
+    return odd;
+};
+
+Array.prototype.prepend = function (item) {
+    this.unshift(item);
+};
+
+Array.prototype.append = function (item) {
+    this.push(item);
+};
+
+Array.prototype.contains = function (str) {
+    return this.includes(str);
+};
+
+Array.prototype.map = function (callback) {
+    var map = [];
+    for (var i = 0; i < this.length; i++) {
+        map.push(callback(this[i]));
+    }
+    return map;
+};
+
+Array.prototype.mapToDictionary = function (callback) {
+    var map = {};
+    for (var i = 0; i < this.length; i++) {
+        var value = this[i];
+        var key = callback(value);
+        map[key] = value;
+    }
+    return map;
+};
+
+Array.prototype.unique = function () {
+    return this.filter(function (value, index, self) {
+        return self.indexOf(value) === index;
+    });
+};
+
+Array.prototype.toLowerCase = function () {
+    return this.map(function (object) {
+        return object.toLowerCase == undefined ? object : object.toLowerCase();
+    });
+};
+
+Math.roundWithPrecision = function (value, precision) {
+    var factor = this.pow(10, precision || 0);
+    return this.round(value * factor) / factor;
+};
+
+RegExp.prototype.regexp = function () {
+    return this;
+};
+
+String.prototype.contains = function (str) {
+    return this.indexOf(str) >= 0;
+};
+
+String.prototype.regexp = function (flags) {
+    return new RegExp('^' + this + '$', flags);
+};
+
+String.prototype.repeat = function (times) {
+    var str = '';
+    for (var i = 0; i < (times == undefined ? 2 : times); i++) {
+        str += this;
+    }
+    return str;
+};
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var map = {
+	"./alignment": 1,
+	"./alignment.js": 1,
+	"./component": 2,
+	"./component-frame": 3,
+	"./component-frame.js": 3,
+	"./component.js": 2,
+	"./component/artboard": 4,
+	"./component/artboard.js": 4,
+	"./component/group": 5,
+	"./component/group.js": 5,
+	"./component/layer": 6,
+	"./component/layer.js": 6,
+	"./component/shape": 7,
+	"./component/shape.js": 7,
+	"./component/symbol-instance": 8,
+	"./component/symbol-instance.js": 8,
+	"./component/symbol-master": 9,
+	"./component/symbol-master.js": 9,
+	"./component/text": 10,
+	"./component/text.js": 10,
+	"./components": 11,
+	"./components-frame": 12,
+	"./components-frame.js": 12,
+	"./components.js": 11,
+	"./constraints": 13,
+	"./constraints.js": 13,
+	"./context": 14,
+	"./context.js": 14,
+	"./map": 15,
+	"./map.js": 15,
+	"./properties": 16,
+	"./properties.js": 16,
+	"./property": 17,
+	"./property.js": 17,
+	"./property/center": 18,
+	"./property/center.js": 18,
+	"./property/margin": 19,
+	"./property/margin.js": 19,
+	"./property/padding": 20,
+	"./property/padding.js": 20,
+	"./property/size": 21,
+	"./property/size.js": 21,
+	"./property/stack": 22,
+	"./property/stack.js": 22,
+	"./symbol-store": 23,
+	"./symbol-store.js": 23
+};
+function webpackContext(req) {
+	return __webpack_require__(webpackContextResolve(req));
+};
+function webpackContextResolve(req) {
+	var id = map[req];
+	if(!(id + 1)) // check for number or string
+		throw new Error("Cannot find module '" + req + "'.");
+	return id;
+};
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 25;
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+
+var widthStatic = 'width';
+var widthAddition = 'width-addition';
+var widthPercentage = 'width-percentage';
+var widthPercentageFull = 'width-percentage-full';
+var widthMax = 'width-max';
+var widthMin = 'width-min';
+var heightStatic = 'height';
+var heightAddition = 'height-addition';
+var heightPercentage = 'height-percentage';
+var heightPercentageFull = 'height-percentage-full';
+var heightMax = 'height-max';
+var heightMin = 'height-min';
+var paddingTop = 'padding-top';
+var paddingRight = 'padding-right';
+var paddingBottom = 'padding-bottom';
+var paddingLeft = 'padding-left';
+var marginTop = 'margin-top';
+var marginRight = 'margin-right';
+var marginBottom = 'margin-bottom';
+var marginLeft = 'margin-left';
+var stackHorizontallyTop = 'stack-horizontally-top';
+var stackHorizontallyMiddle = 'stack-horizontally-middle';
+var stackHorizontallyBottom = 'stack-horizontally-bottom';
+var stackVerticallyLeft = 'stack-vertically-left';
+var stackVerticallyCenter = 'stack-vertically-center';
+var stackVerticallyRight = 'stack-vertically-right';
+var centerHorizontally = 'center-horizontally';
+var centerVertically = 'center-vertically';
+
+var priority = [stackHorizontallyMiddle, stackHorizontallyBottom, stackHorizontallyTop, stackVerticallyCenter, stackVerticallyLeft, stackVerticallyRight, widthStatic, widthPercentage, widthPercentageFull, widthAddition, widthMax, widthMin, heightStatic, heightPercentage, heightPercentageFull, heightAddition, heightMax, heightMin, centerHorizontally, centerVertically, marginRight, marginBottom, marginTop, marginLeft, paddingRight, paddingBottom, paddingTop, paddingLeft];
+
+// -----------------------------------------------------------
+
+module.exports = {
+    alignment: {
+        rawValue: {
+            top: 'top',
+            middle: 'middle',
+            bottom: 'bottom',
+            left: 'left',
+            center: 'center',
+            right: 'right'
+        }
+    },
+    properties: {
+        re: {
+            include: new RegExp('\\[([^\\]]+)\\]'),
+            ignore: /\[ignore\]/i,
+            containerName: /(bg|container)/i
+        },
+        priority: priority,
+        sep: ':'
+    },
+    property: {
+        type: {
+            center: 'center',
+            margin: 'margin',
+            padding: 'padding',
+            size: 'size',
+            stack: 'stack'
+        },
+        key: {
+            widthStatic: widthStatic,
+            widthAddition: widthAddition,
+            widthPercentage: widthPercentage,
+            widthPercentageFull: widthPercentageFull,
+            widthMax: widthMax,
+            widthMin: widthMin,
+            heightStatic: heightStatic,
+            heightAddition: heightAddition,
+            heightPercentage: heightPercentage,
+            heightPercentageFull: heightPercentageFull,
+            heightMax: heightMax,
+            heightMin: heightMin,
+            paddingTop: paddingTop,
+            paddingRight: paddingRight,
+            paddingBottom: paddingBottom,
+            paddingLeft: paddingLeft,
+            marginTop: marginTop,
+            marginRight: marginRight,
+            marginBottom: marginBottom,
+            marginLeft: marginLeft,
+            stackHorizontallyTop: stackHorizontallyTop,
+            stackHorizontallyMiddle: stackHorizontallyMiddle,
+            stackHorizontallyBottom: stackHorizontallyBottom,
+            stackVerticallyLeft: stackVerticallyLeft,
+            stackVerticallyCenter: stackVerticallyCenter,
+            stackVerticallyRight: stackVerticallyRight,
+            centerHorizontally: centerHorizontally,
+            centerVertically: centerVertically
+        }
+    },
+    'class': {
+        artboard: 'MSArtboardGroup',
+        group: 'MSLayerGroup',
+        shape: 'MSShapeGroup',
+        symbolInstance: 'MSSymbolInstance',
+        symbolMaster: 'MSSymbolMaster',
+        text: 'MSTextLayer'
+    }
+};
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports) {
+
+
+/* istanbul ignore next */
+var debug = function debug(component, msg, addLevel) {
+    if (debug.isEnabled()) {
+        print('  '.repeat(_debugLevel(component) - 1 + (addLevel || 0)) + msg);
+    }
+};
+
+debug.isEnabled = function () {
+    return print != undefined;
+};
+
+/* istanbul ignore next */
+var _debugLevel = function _debugLevel(component) {
+    var parent = component.parent();
+    if (parent) {
+        return _debugLevel(parent) + 1;
+    }
+    return 0;
+};
+
+// -----------------------------------------------------------
+
+module.exports = debug;
+
+/***/ })
+/******/ ]);
+  if (key === 'default' && typeof exports === 'function') {
+    exports(context);
+  } else {
+    exports[key](context);
+  }
+}
+that['makePixelPerfect'] = __skpm_run.bind(this, 'makePixelPerfect');
+that['onRun'] = __skpm_run.bind(this, 'default');
+that['makeEverythingPixelPerfect'] = __skpm_run.bind(this, 'makeEverythingPixelPerfect')

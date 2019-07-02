@@ -148,7 +148,7 @@ MSTextLayer.prototype.adjustFrameToFit = function() {
     this.frame().setHeight(this._autoFrame.height());
 };
 
-MSTextLayer.prototype.setTextBehaviourSegmentIndex = function() {
+MSTextLayer.prototype.setTextBehaviour = function() {
     this.frame().setWidth(this._autoFrame.width());
     this.frame().setHeight(this._autoFrame.height());
 };
@@ -344,7 +344,7 @@ MSLayerGroup.prototype.layers = function() {
     return this._layers;
 };
 
-MSLayerGroup.prototype.resizeToFitChildrenWithOption = function() {
+MSLayerGroup.prototype.fixGeometryWithOptions = function() {
     if (this.class().toString().isEqualTo('MSArtboardGroup') || this.layers().count() == 0) {
         return;
     }

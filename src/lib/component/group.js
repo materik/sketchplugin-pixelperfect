@@ -24,7 +24,7 @@ GroupComponent.prototype._apply = function() {
 
 GroupComponent.prototype._sizeToFit = function() {
     this.debugFrame();
-    this._layer.resizeToFitChildrenWithOption(1);
+    this._layer.fixGeometryWithOptions(1);
     this.debug('$ GroupComponent: sizeToFit:');
 };
 
