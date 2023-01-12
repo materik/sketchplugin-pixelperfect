@@ -10,7 +10,7 @@
         "edit-json-file": "^1.0.8",
         "jscs": "^3.0.7",
         "jshint": "^2.9.5",
-        "mocha": "^3.x",
+        "mocha": "^10.x",
         "node-cmd": "^3.0.0",
         "nyc": "^11.9.0"
     },
